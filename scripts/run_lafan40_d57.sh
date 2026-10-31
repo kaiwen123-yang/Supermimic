@@ -10,8 +10,6 @@ trap 'status=$?; printf "%s\n" "$status" > "outputs/campaigns/${tag}.exit"; pyth
 for method in supermimic ppo_sim; do
   run="${tag}-${method}"
   python -u scripts/train.py --method "$method" --config configs/lafan40.json --run "$run"
-  for checkpoint in "outputs/runs/${run}"/checkpoint_[0-9]*.pt; do
-    python -u scripts/evaluate.py "$checkpoint"
-  done
+  python -u scripts/evaluate_retained.py "outputs/runs/${run}"
   python scripts/collect_results.py --tag "$tag"
 done

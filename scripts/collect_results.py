@@ -38,15 +38,17 @@ def main():
         summary = {"method": config["method"], "run": directory.name, "config_name": config["name"],
                    "relative_results": str(target.relative_to(ROOT)), "execution_directory": str(directory),
                    "last_metrics": rows[-1] if rows else None}
+        evaluation = None
         if (directory / "evaluation.json").exists():
             evaluation = json.loads((directory / "evaluation.json").read_text())
-            summary.update(status="evaluated", failed_motions=evaluation["failed_motions"],
+            summary.update(evaluation_iteration=evaluation["iteration"], failed_motions=evaluation["failed_motions"],
                            motions=evaluation["motions"], mean_normalized_return=evaluation["mean_normalized_return"],
                            mean_completion_fraction=evaluation["mean_completion_fraction"])
-        elif (directory / "failure.json").exists():
+        if (directory / "failure.json").exists():
             summary.update(status="failed", failure=json.loads((directory / "failure.json").read_text())["exception"])
         elif (directory / "status.json").exists():
-            summary["status"] = "training_budget_complete_evaluation_pending"
+            status = json.loads((directory / "status.json").read_text())
+            summary["status"] = "evaluated" if evaluation and evaluation["iteration"] == status["iteration"] else "training_budget_complete_evaluation_pending"
         else:
             summary["status"] = "running"
         runs.append(summary)

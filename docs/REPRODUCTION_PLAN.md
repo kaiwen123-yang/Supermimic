@@ -38,7 +38,7 @@
 
 ## 训练和对照
 
-初始正式学习预算：每种方法单卡 3 h、seed 0，每 1000 轮保存检查点，记录仿真、模型、Actor/Critic 分项耗时。SuperMimic 使用 4096 环境、H=32、imagination batch=4096、world batch=2048×10。PPO-Sim 使用 8192 环境、24 步 rollout、5 epochs×4 minibatches、clip=0.2、entropy=0.005、gamma=0.99、lambda=0.95、初始 lr=0.001 和 KL 自适应。
+初始正式学习预算：每种方法单卡 3 h、seed 0，记录仿真、模型、Actor/Critic 分项耗时。用户要求每轮保存、每 1000 轮推送：每轮原子写完整检查点并记录写盘耗时，保留最近 20 轮和所有 1000 轮节点；每 1000 轮在独立 tmux 中完成评估、Git 紧凑结果推送和 Release 权重上传/校验。SuperMimic 使用 4096 环境、H=32、imagination batch=4096、world batch=2048×10。PPO-Sim 使用 8192 环境、24 步 rollout、5 epochs×4 minibatches、clip=0.2、entropy=0.005、gamma=0.99、lambda=0.95、初始 lr=0.001 和 KL 自适应。
 
 两者使用相同动作、观测、奖励、终止、随机化、Actor/Critic 隐藏结构与评估。固定缩放替代 BeyondMimic running empirical normalization，属于明确差异。先判断 seed 0 是否学习，再决定扩充 3 seeds 和 H/Critic 对照。
 

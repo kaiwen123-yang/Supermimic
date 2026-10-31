@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 import os
+import re
+import shlex
 import subprocess
 import sys
 import time
@@ -16,6 +18,7 @@ import torch
 from supermimic.motion import MotionLibrary
 from supermimic.environment import TrackingEnvironment
 from supermimic.learning import SuperMimic, PPOSim
+from supermimic.checkpointing import save_checkpoint
 
 
 def save(learner, cfg, directory, iteration, elapsed, dataset_hash, actor_updates):
@@ -24,17 +27,21 @@ def save(learner, cfg, directory, iteration, elapsed, dataset_hash, actor_update
                       dataset_manifest_sha256=dataset_hash, elapsed_seconds=elapsed,
                       sampler_returns=learner.env.sampler.returns, sampler_memory=learner.env.sampler.memory,
                       torch_rng=torch.get_rng_state(), cuda_rng=torch.cuda.get_rng_state_all())
-    temp = directory / "checkpoint.tmp"
-    torch.save(checkpoint, temp)
-    target = directory / f"checkpoint_{iteration:07d}.pt"
-    temp.replace(target)
-    # Retain real intermediate checkpoints for full-clip learning curves. The
-    # latest alias is a symlink, not a second large copy of the checkpoint.
-    alias = directory / "checkpoint-link.tmp"
-    if alias.exists() or alias.is_symlink():
-        alias.unlink()
-    alias.symlink_to(target.name)
-    alias.replace(directory / "checkpoint_latest.pt")
+    return save_checkpoint(checkpoint, directory, cfg.get("keep_recent_checkpoints", 20),
+                           cfg.get("publish_every_iterations", 1000))
+
+
+def request_publication(directory, iteration, cfg):
+    every = cfg.get("publish_every_iterations", 0)
+    if every <= 0 or iteration <= 0 or iteration % every:
+        return
+    session = f"sm-pub-{hashlib.sha256(directory.name.encode()).hexdigest()[:8]}-{iteration:07d}"
+    if subprocess.run(["tmux", "has-session", "-t", session], capture_output=True).returncode == 0:
+        return
+    command = shlex.join([str(ROOT / "scripts/publish_checkpoint_d57.sh"), directory.name, str(iteration)])
+    subprocess.run(["tmux", "new-session", "-d", "-s", session, "bash " + command], check=True)
+    subprocess.run(["tmux", "set-option", "-t", session, "remain-on-exit", "on"], check=True)
+    print("PUBLICATION_QUEUED", iteration, session, flush=True)
 
 
 def main():
@@ -43,12 +50,31 @@ def main():
     parser.add_argument("--config", type=Path, default=ROOT / "configs/lafan40.json")
     parser.add_argument("--run", required=True)
     parser.add_argument("--resume", type=Path)
+    parser.add_argument("--resume-in-place", action="store_true")
     args = parser.parse_args()
     cfg = json.loads(args.config.read_text())
     cfg["method"] = args.method
     cfg["num_envs"] = cfg["supermimic_num_envs"] if args.method == "supermimic" else cfg["ppo_num_envs"]
+    if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run):
+        raise ValueError("Unsafe run name")
     directory = ROOT / "outputs/runs" / args.run
-    directory.mkdir(parents=True, exist_ok=False)
+    if args.resume_in_place:
+        if not args.resume or args.resume.resolve().parent != directory.resolve():
+            raise ValueError("In-place resume requires a checkpoint from this run")
+        resume_number = int(re.fullmatch(r"checkpoint_(\d+)\.pt", args.resume.resolve().name).group(1))
+        existing_numbers = [int(m.group(1)) for p in directory.glob("checkpoint_*.pt")
+                            if (m := re.fullmatch(r"checkpoint_(\d+)\.pt", p.name))]
+        if max(existing_numbers) != resume_number:
+            raise ValueError("In-place continuation requires the newest checkpoint; use a new run name for rollback")
+    else:
+        directory.mkdir(parents=True, exist_ok=False)
+    attempt = str(int(time.time()))
+    if args.resume_in_place:
+        history_dir = directory / "resume_history" / attempt
+        history_dir.mkdir(parents=True)
+        for name in ("config.json", "runtime.json", "status.json", "failure.json"):
+            if (directory / name).exists():
+                (directory / name).replace(history_dir / name)
     (directory / "config.json").write_text(json.dumps(cfg, indent=2) + "\n")
     started = time.monotonic()
     torch.set_num_threads(2)
@@ -69,6 +95,8 @@ def main():
     learner = None
     iteration = 0
     actor_updates = 0
+    elapsed_offset = 0.0
+    elapsed = lambda: elapsed_offset + time.monotonic() - started
     try:
         motions = MotionLibrary(ROOT / "data/processed/lafan1_g1_50hz", "cuda:0")
         env = TrackingEnvironment(motions, cfg["num_envs"], cfg["max_episode_steps"])
@@ -96,17 +124,38 @@ def main():
             learner.env.sampler.memory.copy_(previous["sampler_memory"])
             learner.collected_steps = previous["collected_steps"]
             first_iteration = previous["iteration"]
+            iteration = first_iteration
             actor_updates = previous["actor_updates"]
+            elapsed_offset = float(previous["elapsed_seconds"])
             torch.set_rng_state(previous["torch_rng"].cpu())
             torch.cuda.set_rng_state_all([value.cpu() for value in previous["cuda_rng"]])
-        save(learner, cfg, directory, first_iteration, time.monotonic() - started, motions.manifest_hash, actor_updates)
+            if args.resume_in_place and (directory / "metrics.jsonl").exists():
+                old_lines = (directory / "metrics.jsonl").read_text().splitlines(keepends=True)
+                keep, superseded = [], []
+                for line in old_lines:
+                    if not line.endswith("\n") or json.loads(line)["iteration"] > first_iteration:
+                        superseded.append(line)
+                    else:
+                        keep.append(line)
+                if superseded:
+                    (history_dir / "superseded_after_checkpoint.jsonl").write_text("".join(superseded))
+                    temp = directory / "metrics-resume.tmp"
+                    temp.write_text("".join(keep))
+                    temp.replace(directory / "metrics.jsonl")
+            metadata.update(resumed_from=str(args.resume), resume_iteration=first_iteration,
+                            previous_elapsed_seconds=elapsed_offset, replay_rebuilt=True,
+                            optimizer_state_restored=True, previous_simulator_state_restored=False)
+            (directory / "runtime.json").write_text(json.dumps(metadata, indent=2) + "\n")
+        if not args.resume_in_place:
+            save(learner, cfg, directory, first_iteration, elapsed(), motions.manifest_hash, actor_updates)
+        request_publication(directory, first_iteration, cfg)
         if args.method == "supermimic":
             print("REPLAY_WARMUP", cfg["replay_warmup_steps"], flush=True)
             learner.collect(cfg["replay_warmup_steps"])
         print("LEARNING_STARTED", args.method, cfg["num_envs"], flush=True)
         with (directory / "metrics.jsonl").open("a", buffering=1) as log:
             for iteration in range(first_iteration + 1, cfg["max_iterations"] + 1):
-                if time.monotonic() - started >= cfg["max_hours"] * 3600:
+                if elapsed() >= cfg["max_hours"] * 3600:
                     iteration -= 1
                     break
                 start = time.monotonic()
@@ -132,17 +181,19 @@ def main():
                     actor_updates += 1
                     torch.cuda.synchronize()
                     metrics.update(collection_seconds=after_collect-start, policy_critic_seconds=time.monotonic()-after_collect)
-                metrics.update(iteration=iteration, actor_updates=actor_updates, elapsed_seconds=time.monotonic()-started,
+                if iteration % cfg["checkpoint_every_iterations"] == 0:
+                    metrics["checkpoint_write_seconds"] = save(learner, cfg, directory, iteration, elapsed(), motions.manifest_hash, actor_updates)
+                    request_publication(directory, iteration, cfg)
+                metrics.update(iteration=iteration, actor_updates=actor_updates, elapsed_seconds=elapsed(),
                                collected_sim_transitions=learner.collected_steps,
                                torch_peak_allocated_mib=torch.cuda.max_memory_allocated()/1024**2)
                 log.write(json.dumps(metrics, allow_nan=False) + "\n")
                 if iteration % cfg["log_every_iterations"] == 0:
                     print(json.dumps(metrics, allow_nan=False), flush=True)
-                if iteration % cfg["checkpoint_every_iterations"] == 0:
-                    save(learner, cfg, directory, iteration, time.monotonic()-started, motions.manifest_hash, actor_updates)
-        save(learner, cfg, directory, iteration, time.monotonic()-started, motions.manifest_hash, actor_updates)
+        if not (directory / f"checkpoint_{iteration:07d}.pt").exists():
+            save(learner, cfg, directory, iteration, elapsed(), motions.manifest_hash, actor_updates)
         status = {"status": "budget_completed", "method": args.method, "iteration": iteration, "actor_updates": actor_updates,
-                  "sim_transitions": learner.collected_steps, "wall_seconds": time.monotonic()-started,
+                  "sim_transitions": learner.collected_steps, "wall_seconds": elapsed(),
                   "full_clip_evaluation_done": False, "qualification_pass": False}
         (directory / "status.json").write_text(json.dumps(status, indent=2) + "\n")
         print("TRAINING_BUDGET_COMPLETE", json.dumps(status), flush=True)

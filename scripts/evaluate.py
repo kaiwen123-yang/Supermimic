@@ -1,8 +1,10 @@
 """Deterministic complete-motion evaluation, shared by both learned methods."""
 from pathlib import Path
 import argparse
+import fcntl
 import hashlib
 import json
+import os
 import sys
 import time
 
@@ -14,16 +16,15 @@ from supermimic.simulator import G1Simulator
 from supermimic.kinematics import ForwardKinematics
 from supermimic.networks import Actor
 from supermimic.task import observation, reward_and_termination
+from supermimic.checkpointing import pin_checkpoint
 
 
 @torch.no_grad()
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("checkpoint", type=Path)
-    args = parser.parse_args()
+def evaluate(checkpoint_path, output_dir):
     torch.set_num_threads(2)
     torch.set_float32_matmul_precision("high")
-    checkpoint = torch.load(args.checkpoint, map_location="cuda", weights_only=False)
+    checkpoint = torch.load(checkpoint_path, map_location="cuda", weights_only=False)
+    checkpoint_hash = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
     motions = MotionLibrary(ROOT / "data/processed/lafan1_g1_50hz", "cuda")
     if checkpoint["dataset_manifest_sha256"] != motions.manifest_hash:
         raise ValueError("Evaluation dataset changed after training")
@@ -77,7 +78,7 @@ def main():
     result = {"status": "evaluated", "method": checkpoint["config"]["method"],
               "iteration": checkpoint["iteration"], "actor_updates": checkpoint["actor_updates"],
               "dataset_manifest_sha256": motions.manifest_hash,
-              "checkpoint_sha256": hashlib.sha256(args.checkpoint.read_bytes()).hexdigest(),
+              "checkpoint_sha256": checkpoint_hash,
               "motions": 40, "failed_motions": sum(r["failed"] for r in records),
               "mean_normalized_return": sum(r["normalized_return"] for r in records)/40,
               "mean_completion_fraction": sum(r["completion_fraction"] for r in records)/40,
@@ -87,10 +88,31 @@ def main():
                            "failure": "root height error > 0.25 m OR gravity-z difference > 0.8 OR nonfinite",
                            "normalization": "0.1 * full reference transitions; unexecuted failed tail contributes zero",
                            "scope": "training-motion coverage; not unseen-motion generalization"}}
-    target = args.checkpoint.parent / "evaluation.json"
-    target.write_text(json.dumps(result, indent=2) + "\n")
-    (args.checkpoint.parent / f"evaluation_{checkpoint['iteration']:07d}.json").write_text(json.dumps(result, indent=2) + "\n")
+    text = json.dumps(result, indent=2) + "\n"
+    with (output_dir / ".evaluation.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        target = output_dir / f"evaluation_{checkpoint['iteration']:07d}.json"
+        temp = target.with_suffix(f".{os.getpid()}.tmp")
+        temp.write_text(text)
+        temp.replace(target)
+        latest = output_dir / "evaluation.json"
+        previous_iteration = json.loads(latest.read_text())["iteration"] if latest.exists() else -1
+        if checkpoint["iteration"] >= previous_iteration:
+            temp = latest.with_suffix(f".{os.getpid()}.tmp")
+            temp.write_text(text)
+            temp.replace(latest)
     print("FULL_EVALUATION_COMPLETE", json.dumps({k:v for k,v in result.items() if k not in ("clips", "protocol")}), flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("checkpoint", type=Path)
+    args = parser.parse_args()
+    output_dir = args.checkpoint.absolute().parent
+    # Pin the exact version once. A moving latest symlink must never make the
+    # evaluated policy and its recorded checksum refer to different iterations.
+    with pin_checkpoint(args.checkpoint) as stable:
+        evaluate(stable, output_dir)
 
 
 if __name__ == "__main__":
