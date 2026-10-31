@@ -1,0 +1,119 @@
+# Reference values from arXiv:2610.28480v1; not an executable training config.
+[reference]
+paper = "https://arxiv.org/abs/2610.28480v1"
+status = "independent_implementation_not_started"
+hardware_in_paper = "NVIDIA H100 80GB SXM5"
+source = "Sections 3-4; Appendix A-F; Algorithm A.1; Tables A.1-A.5"
+
+[simulation]
+robot = "Unitree G1 29 DoF"
+engine = "MuJoCo Warp"
+control_hz = 50
+physics_timestep_seconds = 0.005
+physics_substeps_per_control_step = 4
+robot_asset_commit = "unresolved"
+author_simulator_version = "unresolved"
+
+[observations]
+source = "Table A.1"
+history_frames = 10
+per_frame_dim = 93 # 29 + 29 + 3 + 3 + 29
+joint_position_noise = [-0.01, 0.01]
+joint_velocity_noise = [-0.5, 0.5]
+base_angular_velocity_noise = [-0.2, 0.2]
+projected_gravity_noise = [-0.05, 0.05]
+previous_action_dim = 29
+
+[world_model]
+source = "Section 3.2; Tables A.4-A.5"
+hidden_sizes = [2048, 2048, 2048]
+autoregressive_window_steps = 8
+optimizer = "Adam"
+learning_rate_single_gpu = 0.0002
+batches_per_update = 10
+windows_per_batch = 2048
+global_gradient_clip = 1.0
+state_representation = "unresolved"
+head_implementation = "unresolved: paper allows analytic or learned heads"
+
+[policy]
+source = "Section 3.3; Tables A.4-A.5"
+future_reference_frames = 10
+goal_encoder_hidden_sizes = [2048, 1024, 512, 256]
+decoder_hidden_sizes = [2048, 1024, 512, 256]
+latent_dim = 32
+latent_activation = "tanh"
+imagination_horizon_steps = 32
+imagined_rollouts_per_update = 4096
+optimizer = "Adam"
+betas = [0.9, 0.95]
+learning_rate_single_gpu = 0.0002
+global_gradient_clip = 1.0
+elementwise_gradient_clip_after_global = 0.1
+discount = 0.99
+goal_representation = "unresolved"
+action_scale_default_pose_pd_gains = "resolve from the matched BeyondMimic/G1 setup"
+
+[critic]
+hidden_sizes = [256, 128]
+gae_lambda = 0.95
+optimizer = "Adam"
+learning_rate_single_gpu = 0.0002
+global_gradient_clip = 1.0
+epochs_per_update = 5
+shuffled_minibatches_per_epoch = 4
+
+[collection]
+simulator_environments_per_gpu = 4096
+action_noise_gaussian_std = 0.1
+replay_steps_per_environment = 1000
+update_to_data_ratio_as_reported = 0.4
+policy_updates_per_world_model_update = 1
+
+[reset_sampling]
+source = "Appendix D.1"
+bin_seconds = 1.0
+uniform_fraction = 0.5
+current_softmax_fraction = 0.4
+historical_weight_fraction = 0.1
+softmax_negative_return_scale = 25.0
+
+[schedule]
+training_iterations = 320000
+cosine_decay_iterations = 250000
+final_lr_multiplier = 0.03
+
+[motion_tracking_reward_weights]
+source = "Table A.2"
+body_position = 1.0
+body_orientation = 1.0
+body_linear_velocity = 1.0
+body_angular_velocity = 1.0
+root_position = 0.5
+root_orientation = 0.5
+action_smoothness = -0.1
+joint_limit = -2.0
+self_collision_penalty = 0.0
+
+[motion_tracking_termination]
+source = "Appendix A"
+root_height_error_metres = 0.25
+tilt_error_threshold = 0.8
+tilt_error_definition = "absolute difference of reference and robot gravity-direction z components; not an angle in radians"
+
+[domain_randomization]
+source = "Table A.3"
+friction = [0.3, 1.2]
+joint_calibration_offset_radians = [-0.01, 0.01]
+torso_com_x_metres = [-0.025, 0.025]
+torso_com_y_metres = [-0.05, 0.05]
+torso_com_z_metres = [-0.05, 0.05]
+
+[evaluation]
+source = "Appendix F.1"
+start_from_first_frame = true
+foot_friction = 1.0
+domain_randomization = false
+observation_noise = false
+motion_failure = "SuperMimic training termination"
+benchmark_interpretation = "coverage of training motions, not unseen-motion generalization"

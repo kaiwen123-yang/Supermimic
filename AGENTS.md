@@ -1,0 +1,23 @@
+# SuperMimic 执行约定
+
+本仓库是用户的独立论文复现项目，远端为 https://github.com/kaiwen123-yang/Supermimic 。
+
+## 位置与隔离
+- 计算使用 autodl-d57，目录 /root/autodl-tmp/robot-repro/supermimic，先 source activate.sh。
+- 使用本项目 .venv / pip / uv.lock，不修改 Conda base、MPC-RL、π0、π0.5 的环境或源码。
+- 先读取 README.md、docs/REPRODUCTION_PLAN.md、configs/paper_reference.toml 和当前实际产物。准备状态不能写成训练成功。
+- 启动计算前检查用户其他 GPU 作业；不擅自停止、暂停或改动它们。本次初始化未授权训练。
+
+## 复现范围
+- 先独立实现论文核心采样 → 世界模型 → Actor/Critic 循环，G1 / MuJoCo Warp / LAFAN1。
+- 不默认采用社区实现；需要第三方机器人资产或数据时记录来源、版本与许可。
+- 不凭空补齐未说明的 state/goal/head/执行器定义；把实际选择记录到同一配置与计划中。
+- 保持观测、动作语义、奖励、终止、数据筛选和评估一致，不能为了好看改分母、换指标或丢弃失败。
+- 没有实现或跑过的配置不得标记已验证。模型预测损失下降不等于真实仿真策略改进。
+
+## 工作方式与交付
+- 不新建单元/mock/冒烟/导入/形状测试套件、通用 fallback、无限重试或监控框架。
+- 用真实完整运动任务、机制对照、失败归因和耗时推进；不增加无关报告或 CURRENT_STATE.md 流水。
+- 维护现有 README、计划、实际配置和一个运行索引；原始记录保留。
+- Git 保存源码、配置、紧凑结果；大数据、权重、轨迹和视频使用明确的外部数据来源或 GitHub Release。
+- 凭据、SSH 私钥和代理节点配置不入 Git。大产物从执行端发布，不在用户电脑另行镜像或归档。
