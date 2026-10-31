@@ -40,8 +40,15 @@ def sha256(path):
     return result.hexdigest()
 
 
-def api(endpoint):
-    return json.loads(call(["gh", "api", f"repos/{REPO}/{endpoint}"]))
+def release_by_tag(tag):
+    # GitHub's by-tag endpoint omits drafts. The authenticated release listing
+    # includes them and their asset digests, which are needed before publication.
+    pages = json.loads(call(["gh", "api", f"repos/{REPO}/releases?per_page=100", "--paginate", "--slurp"]))
+    for page in pages:
+        for release in page:
+            if release["tag_name"] == tag:
+                return release
+    raise LookupError(f"Release not found in authenticated listing: {tag}")
 
 
 def main():
@@ -60,6 +67,11 @@ def main():
     if state_path.exists() and json.loads(state_path.read_text()).get("status") == "verified":
         print("ALREADY_PUBLISHED", tag, flush=True)
         return
+    if state_path.exists():
+        previous = json.loads(state_path.read_text())
+        attempts = publication_dir / "attempts"
+        attempts.mkdir(exist_ok=True)
+        shutil.copy2(state_path, attempts / f"{int(previous['started_unix'])}-{previous['status']}.json")
     status = {"tag": tag, "run": args.run, "iteration": args.iteration,
               "status": "preparing", "started_unix": time.time()}
     state_path.write_text(json.dumps(status, indent=2) + "\n")
@@ -137,7 +149,7 @@ def main():
             if existing.returncode == 0:
                 release = json.loads(existing.stdout)
                 if not release["isDraft"]:
-                    remote = api(f"releases/tags/{tag}")
+                    remote = release_by_tag(tag)
                     asset = next((a for a in remote["assets"] if a["name"] == checkpoint_path.name), None)
                     if not asset or asset.get("digest") != "sha256:" + checkpoint_hash:
                         raise RuntimeError("Published milestone differs; refusing to overwrite its evidence")
@@ -152,10 +164,15 @@ def main():
             if (result_dir / "model_diagnostics.json").exists():
                 asset_names.append("model_diagnostics.json")
             assets = [checkpoint_path, *(result_dir / name for name in asset_names)]
+            existing_assets = {a["name"]: a for a in release_by_tag(tag)["assets"]}
             for path in assets:
+                old = existing_assets.get(path.name)
+                if old and old.get("digest") == "sha256:" + sha256(path) and old["size"] == path.stat().st_size:
+                    print("ASSET_ALREADY_VERIFIED", path.name, flush=True)
+                    continue
                 call(["gh", "release", "upload", tag, str(path), "--repo", REPO, "--clobber"])
                 print("ASSET_UPLOADED", path.name, flush=True)
-            remote = api(f"releases/tags/{tag}")
+            remote = release_by_tag(tag)
             verified = []
             for path in assets:
                 asset = next((a for a in remote["assets"] if a["name"] == path.name), None)
@@ -188,7 +205,7 @@ def main():
             with notes.open("a") as text:
                 text.write(f"\nCompact evidence commit: `{results_commit}`. All attached asset SHA256 digests matched GitHub.\n")
             call(["gh", "release", "edit", tag, "--repo", REPO, "--notes-file", str(notes), "--draft=false", "--latest=false"])
-            published = api(f"releases/tags/{tag}")
+            published = release_by_tag(tag)
             if published["draft"]:
                 raise RuntimeError("Release is still a draft")
             status.update(status="verified", release_url=published["html_url"], results_commit=results_commit,
