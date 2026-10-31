@@ -44,6 +44,14 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
+2026-10-31：40 条动作准备完成，两轮短程开发训练和完整动作评估已经执行。首轮持续学习在 D57 的 `sm-g1-lafan40` tmux 会话中运行，tag 为 `20261031-learning-s0`；先 SuperMimic 3 h，离线评估保留的检查点，再 PPO-Sim 3 h 和完整评估。Git 中的运行索引是标注时间的快照，最新日志位于服务器 `outputs/campaigns/20261031-learning-s0.log`。任务结束后自动在 D57 生成紧凑结果，尚未产生的结果不预先发布。
+
+```bash
+ssh autodl-d57
+tmux attach -t sm-g1-lafan40
+# 退出查看而保留任务：Ctrl-b，然后 d
+```
+
 ```bash
 # 数据准备（下载只发生在 D57；保存原始动作，不静默剔除困难片段）
 bash scripts/prepare_d57.sh
