@@ -117,6 +117,12 @@ def main():
                         subprocess.run([sys.executable, "-u", str(ROOT / "scripts/diagnose_checkpoint.py"), str(checkpoint_path)],
                                        cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
                 shutil.copy2(diagnostic_path, result_dir / "model_diagnostics.json")
+                boundary_path = run / f"termination_boundary_{args.iteration:07d}.json"
+                if not boundary_path.exists() or json.loads(boundary_path.read_text())["checkpoint_sha256"] != checkpoint_hash:
+                    with (publication_dir / "termination-boundary.log").open("w") as log:
+                        subprocess.run([sys.executable, "-u", str(ROOT / "scripts/inspect_termination_boundary.py"), str(checkpoint_path)],
+                                       cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
+                shutil.copy2(boundary_path, result_dir / "termination_boundary.json")
             (result_dir / "config.json").write_text(json.dumps(cfg, indent=2) + "\n")
             (result_dir / "runtime.json").write_text(json.dumps(runtime, indent=2) + "\n")
             rows = []
@@ -163,6 +169,8 @@ def main():
             asset_names = ["config.json", "runtime.json", "evaluation.json", "checkpoint_manifest.json", "metrics.jsonl"]
             if (result_dir / "model_diagnostics.json").exists():
                 asset_names.append("model_diagnostics.json")
+            if (result_dir / "termination_boundary.json").exists():
+                asset_names.append("termination_boundary.json")
             assets = [checkpoint_path, *(result_dir / name for name in asset_names)]
             existing_assets = {a["name"]: a for a in release_by_tag(tag)["assets"]}
             for path in assets:
