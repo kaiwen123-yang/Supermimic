@@ -41,7 +41,7 @@ def errors(prediction, truth, mask):
 
 
 @torch.no_grad()
-def diagnose(checkpoint_path, output_dir):
+def diagnose(checkpoint_path, output_dir, output_path=None):
     torch.set_num_threads(1)
     started = time.monotonic()
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
@@ -70,6 +70,7 @@ def diagnose(checkpoint_path, output_dir):
     horizon_records = []
     safe_sum = terminal_sum = brier_sum = 0.0
     safe_count = terminal_count = 0
+    first_failure_pairs = []
     for step in range(1, 33):
         goal = motions.goal(clip, frame + step - 1)
         action = actor(real_history, goal)
@@ -81,16 +82,26 @@ def diagnose(checkpoint_path, output_dir):
         ref = motions.get(clip, frame + step)["qpos"]
         done = hard_failure(real, ref)
         actual_probability = torch.sigmoid(world.termination_logits(real, ref))
+        open_probability = torch.sigmoid(world.termination_logits(open_prediction, ref))
+        closed_probability = torch.sigmoid(world.termination_logits(closed_prediction, ref))
         safe, first_terminal = alive & ~done, alive & done
         safe_sum += float(actual_probability[safe].sum())
         terminal_sum += float(actual_probability[first_terminal].sum())
         brier_sum += float((actual_probability[alive] - done[alive].float()).square().sum())
         safe_count += int(safe.sum())
         terminal_count += int(first_terminal.sum())
+        for sample in torch.nonzero(first_terminal).flatten().tolist():
+            first_failure_pairs.append({"motion": motions.names[int(clip[sample])], "start_fraction": float(fractions[sample]),
+                "step": step, "real_height_error_m": float((real[sample, 2] - ref[sample, 2]).abs()),
+                "open_model_height_error_m": float((open_prediction[sample, 2] - ref[sample, 2]).abs()),
+                "closed_model_height_error_m": float((closed_prediction[sample, 2] - ref[sample, 2]).abs()),
+                "probability_on_real_state": float(actual_probability[sample]),
+                "probability_on_open_model_state": float(open_probability[sample]),
+                "probability_on_closed_model_state": float(closed_probability[sample])})
         valid = alive.clone()
         alive &= ~done
-        open_survival *= 1 - torch.sigmoid(world.termination_logits(open_prediction, ref))
-        closed_survival *= 1 - torch.sigmoid(world.termination_logits(closed_prediction, ref))
+        open_survival *= 1 - open_probability
+        closed_survival *= 1 - closed_probability
         real_obs = observation(qpos, qvel, action, sim.q0, sim.context[:, 1:30])
         closed_obs = observation(closed_prediction[:, :36], closed_prediction[:, 36:71], closed_action, sim.q0, sim.context[:, 1:30])
         real_history = torch.cat((real_history[:, 1:], real_obs[:, None]), 1)
@@ -115,9 +126,11 @@ def diagnose(checkpoint_path, output_dir):
             "mean_probability_on_safe_states": safe_sum/max(safe_count, 1),
             "mean_probability_on_first_terminal_states": terminal_sum/terminal_count if terminal_count else None,
             "brier_score": brier_sum/max(safe_count+terminal_count, 1)},
-        "horizons": horizon_records, "wall_seconds": time.monotonic()-started,
+        "horizons": horizon_records, "first_failure_pairs": first_failure_pairs,
+        "analysis_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "wall_seconds": time.monotonic()-started,
         "scope": "Matched short-horizon mechanism diagnostic; complete-motion success is evaluated separately"}
-    target = output_dir / f"diagnostics_{checkpoint['iteration']:07d}.json"
+    target = output_path or output_dir / f"diagnostics_{checkpoint['iteration']:07d}.json"
     target.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print("MODEL_DIAGNOSTIC_COMPLETE", json.dumps(result, allow_nan=False), flush=True)
 
@@ -125,9 +138,10 @@ def diagnose(checkpoint_path, output_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("checkpoint", type=Path)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     with pin_checkpoint(args.checkpoint) as pinned:
-        diagnose(pinned, args.checkpoint.absolute().parent)
+        diagnose(pinned, args.checkpoint.absolute().parent, args.output)
 
 
 if __name__ == "__main__":
