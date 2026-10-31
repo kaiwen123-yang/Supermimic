@@ -6,7 +6,8 @@
 - 计算使用 autodl-d57，目录 /root/autodl-tmp/robot-repro/supermimic，先 source activate.sh。
 - 使用本项目 .venv / pip / uv.lock，不修改 Conda base、MPC-RL、π0、π0.5 的环境或源码。
 - 先读取 README.md、docs/REPRODUCTION_PLAN.md、configs/paper_reference.toml 和当前实际产物。准备状态不能写成训练成功。
-- 启动计算前检查用户其他 GPU 作业；不擅自停止、暂停或改动它们。本次初始化未授权训练。
+- 用户在 2026-10-31 已授权 G1 / LAFAN1 40 条动作、完整评估和 PPO-Sim 对比，当前先完成前期内容。长任务使用独立 tmux 会话。
+- 用户明确要求直接使用剩余 GPU 显存并行，接受一定计算速度下降；原 MPC/RL 以 CPU 解算为主。不另设保守的 12 GiB 预算，不以独占 GPU 为启动条件。保持环境隔离，不停止、暂停或改动其他任务；记录共享条件下的实际耗时。
 
 ## 复现范围
 - 先独立实现论文核心采样 → 世界模型 → Actor/Critic 循环，G1 / MuJoCo Warp / LAFAN1。

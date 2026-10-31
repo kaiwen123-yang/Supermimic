@@ -1,56 +1,62 @@
-# 实施准备
+# G1 / LAFAN1 学习型复现
 
-## 当前范围
+## 目标和范围
 
-独立实现 SuperMimic 的完整仿真学习循环，并以可核查的动作跟踪结果评价。当前只完成环境与仓库准备，训练、数据下载和算法实现均未执行。论文固定为 arXiv:2610.28480v1（2026-10-20），现有提取参数见 configs/paper_reference.toml。
+先理解 G1 的多动作跟踪，再决定扩展方向。用户已授权按论文实现核心训练器、使用 LAFAN1 40 条完整动作训练、完整评估和 PPO-Sim 对比；随后要求先做好前期内容，并明确允许直接使用 D57 剩余 GPU 显存，与主要使用 CPU 的 MPC/RL 并行。长任务放在本项目独立 tmux 中。
 
-## 第一阶段问题与证据
+第一阶段回答三个问题：参考动画为何不能直接变成控制命令；世界模型误差下降是否带来真实仿真控制改善；与同任务 PPO-Sim 相比，BPTT 的收益和成本在哪里。保留原始失败，区分开发运行与正式学习结果。
 
-研究问题：在相同 G1 仿真、动作数据和评估条件下，通过学习到的可微动力学更新策略，能否提高真实仿真中的动作跟踪表现与学习效率？
+## 来源和数据
 
-第一阶段目标是对齐论文 LAFAN1 实验（40 clips / 2.45 h），但需先确认具体动作名单和 G1 重定向版本。原始 LAFAN1 含更多 BVH 序列，不能任取 40 条后声称数据完全一致。先从少量真实完整动作定位实现问题，随后执行固定动作集；不以短前缀或单个成功视频代表完成。
+- 论文：arXiv:2610.28480v1，§3、附录 A–F。
+- LAFAN1 G1 retarget：`lvhaidong/LAFAN1_Retargeting_Dataset`，revision `ce1572906efe6157840e8474d5a0d7aa87481e74`。
+- 固定 40 条完整 CSV、264,705 帧；按首末帧时间差计 2.45060185 h。50 Hz 重采样后 441,140 帧。不截短前缀，不删除困难动作。
+- 机器人 XML/网格：mjlab `8bb2bc9e187797689ec82c78c35019afd2fd0376` 的 G1 资产；不安装 mjlab Python 包，不导入社区 SuperMimic 算法。
+- 执行器与 PPO 参数：参考 BeyondMimic `9db915838b17785c6fec90c91fe80b95b147e1bd`。源文件和许可入口见 `configs/sources.lock.json`。
+- 数据数量和时长与论文一致；作者未给精确 revision，不声明逐文件等同于作者副本。
 
-## 核心实现
+数据留在 D57，Git 保存程序、来源锁、逐文件 SHA256 和紧凑结果。分别保留原始动作与重定向仓库的许可。
 
-1. G1 物理执行、参考动作时序、真实 transition 与 episode 边界。
-2. replay buffer 的连续窗口；存储实际执行的带噪动作、状态与 episode sim context。
-3. k-step autoregressive world-model 拟合。
-4. H-step imagined rollout，Actor 的 BPTT 梯度和软生存权重；更新 Actor 时冻结世界模型权重并保留对输入的导数。
-5. imagined-transition GAE targets 与 Critic 更新。
-6. 论文的 return-based reset sampling；按同一调度交替采样、模型学习与策略学习。
-7. 完整 motion 的固定策略评估、视频、失败分类和分项耗时。
+## 已实现的模块
 
-这些模块当前未实现，不创建伪造训练入口或空“成功”结果。
+`robot.py` 构建低增益 PD 模型；`motion.py` 读取完整动作与未来参考；`kinematics.py` 提供可微位置、姿态和速度；`task.py` 统一观测、奖励和终止；`simulator.py` 对接 MuJoCo Warp；`environment.py` 完成真实采样、重置和困难片段采样；`replay.py` 保存连续窗口；`networks.py`、`learning.py` 实现世界模型、BPTT Actor/Critic 和 PPO-Sim；训练、完整评估与 tmux 入口在 `scripts/`。
 
-## 实现前需要明确的定义
+源码实现不代表论文成绩已复现。实际运行状态见 `results/index.json`。
 
-- 状态向量 s 的字段、坐标系和归一化；goal 的具体字段与参考坐标系。
-- G1 MJCF/URDF 的确切版本、关节顺序、默认姿态、动作缩放与 PD gains。论文采用 BeyondMimic 定义，不能仅依据相同机器人名称认定等价。
-- reward / observation / termination heads 在所复现实现中采用解析还是学习形式；论文正文允许两种形式，需要明确实际选择。
-- update-to-data ratio=0.4 的具体调度计数口径。
-- LAFAN1 的动作名单、重定向与重采样版本；BONES-SEED 的版本和过滤名单。
-- 原论文未公开完整软件锁。本机已装 MuJoCo Warp 的版本属于准备配置，不作为作者版本声明。
+## 未完全由原文指定的实现选择
 
-以上选择会改变实验结果，应落在配置中。记录实际差异，不用兼容层或默认回退掩盖差异。
+1. 物理状态为 qpos(36)、qvel(35)、上一实际动作(29)，共 100 维。MLP 输入去除世界 XY 并规范化 yaw；输出位置/速度残差，旋转保持单位四元数。使用固定尺度，不把本实现 MSE 冒充论文未公开的 nominal-error 数值。
+2. Actor 保持每帧 93 维本体观测、10 帧历史，不输入机器人真实全局位置或线速度。未来参考每帧 71 维：关节位置/速度、根高度、参考当前 heading 下的旋转 6D、线速度/角速度；共 710 维。论文明确 K=10，但未完全列出该排列。
+3. Critic 隐藏层 256/128，输入规范化状态、参考、context，以及仅供 Critic 使用的当前根部相对参考位姿 9 维，保留根奖励所需的 XY/yaw 偏差。Actor 不获得该特权输入。首次开发 r1 缺少这 9 维，结果独立保留；后续补齐并重新执行。
+4. dynamics 为 2048×3 MLP；reward 和 observation 解析计算；termination 为归一化高度/倾斜误差到概率的 256/128 MLP，以真实终止标签拟合 BCE。8 步自回归训练。
+5. armature、默认姿态、10 Hz 自然频率、阻尼比 2、`action_scale=0.25*effort_limit/kp` 来自 BeyondMimic。使用有限力矩低增益 PD；速度规格用于记录，不人为截断 qvel。5 ms×4、implicitfast、Newton 和 line search 各 10 次；求解器迭代上限提示保留，不假装全部接触精确收敛。
+6. 依附录 A，以 pelvis 为根。身体姿态/位置采用 BeyondMimic 根 XY/yaw 对齐，身体速度和根奖励保持全局定义；跟踪 14 个 body。奖励乘 0.02 s，单步理论上限 0.1，软关节限位取硬范围 90%。物理自碰撞开启，去掉的是 self-collision reward penalty。
+7. 每回合足摩擦 0.3–1.2、关节默认偏置 ±0.01 rad、torso CoM 按 Table A.3 随机化；模型和 Critic 接收 33 维 context。没有额外随机根速度推扰。
+8. UTD=0.4 解释为每收集 2.5 个控制步/环境执行一次模型和策略阶段，交替收集 2、3 步；模型阶段含 10 个独立 Adam minibatch 更新。replay 每环境 1000 步。启动预热 64 步、前 5 轮只拟合模型，这两个数值是实现选择。
+9. 训练回合最多 500 步，评估无此上限。1 s 分桶重置使用 50% 均匀、40% 当前回报 softmax、10% 历史权重；回报 EMA=0.1、历史 EMA=0.01，截断处用有限回合折扣回报。
+10. ELU、固定特征缩放和 TF32 为明确实现选择。当前已执行路径为 eager PyTorch，编译选项不默认开启。每控制步清零 solver warmstart，避免隐含长时求解器缓存。Warp 使用注册 stream，与 PyTorch 显式同步。
 
-## 对照与评价
+## 训练和对照
 
-- 方法对照：同一环境、数据、观测、奖励、终止和评估协议下的 PPO-Sim。
-- 机制对照按实现进展选择 Critic / imagination horizon 等论文相关项，不预先扩大组合。
-- 主评价：从片段起点完整回放的归一化回报、失败次数与比例、跟踪误差。
-- 工程记录：真实采样、世界模型、Actor/Critic 更新与评估的耗时；峰值显存。
-- 学习曲线中的随机重置回报与完整片段回放结果分开。固定预算、seed 与 checkpoint 选择方式后再执行比较。
-- 原论文大规模 benchmark 使用训练动作，报告覆盖能力时不称作对未见动作的泛化。
+初始正式学习预算：每种方法单卡 3 h、seed 0，每 1000 轮保存检查点，记录仿真、模型、Actor/Critic 分项耗时。SuperMimic 使用 4096 环境、H=32、imagination batch=4096、world batch=2048×10。PPO-Sim 使用 8192 环境、24 步 rollout、5 epochs×4 minibatches、clip=0.2、entropy=0.005、gamma=0.99、lambda=0.95、初始 lr=0.001 和 KL 自适应。
 
-## 规模与资源
+两者使用相同动作、观测、奖励、终止、随机化、Actor/Critic 隐藏结构与评估。固定缩放替代 BeyondMimic running empirical normalization，属于明确差异。先判断 seed 0 是否学习，再决定扩充 3 seeds 和 H/Critic 对照。
 
-D57 单张 RTX PRO 6000 96GB。首轮真实执行测量吞吐、显存和资源占用后确定墙钟预算；H100 上的作者训练时间不直接承诺为 D57 时间。依赖隔离不能隔离共享 GPU 算力。
+开发配置只跑 8 轮：SuperMimic 模型预热后 3 次 BPTT，PPO 8 次 on-policy update。这是实际训练链检查，不能比较算法优劣。GPU 与 MPC/RL 共享，记录实际时间，不将本机耗时等同 H100。离线评估另计；初始化和循环时间保留。
 
-完成 LAFAN1 后，再根据结果决定是否扩展论文的 BONES-SEED 规模实验。完整数据下载须先核对存储与数据访问条件。用户尚未授权本初始化阶段启动这些计算。
+## 完整评估
 
-## 来源
+每条动作从首帧、参考初始速度开始，确定性 Actor，无噪声/随机化，摩擦 1.0，执行至自然结束或论文终止：根高度偏差 >0.25 m 或重力 z 分量差 >0.8。数值异常单列失败。分母固定 `0.1*(完整帧数-1)`，失败尾段为零，不按存活时长重算。保存逐动作完成率、回报、失败原因和失败前误差。
 
-- [论文 v1](https://arxiv.org/abs/2610.28480v1)：§3、Appendix A–F，Algorithm A.1，Tables A.1–A.5。
-- [作者项目](https://supermimic.github.io/)。
-- [BONES-SEED](https://huggingface.co/datasets/bones-studio/seed)。
-- [LAFAN1 原始数据](https://github.com/ubisoft/ubisoft-laforge-animation-dataset)。
+初始 previous_action=0，历史用首观测填充，训练/评估一致。参考 PD 诊断以首参考 setpoint 作为 initial previous_action，避免人为动作跳变，因此只作物理接口和未学习控制诊断，不当作 PPO-Sim。指标测量训练动作覆盖，不宣称未见动作泛化；40 条完整长动作不等于仅评前 60 s。
+
+## 前期已经发现的事实
+
+- 40 条参考动作在转换后没有关节硬限位或所记录速度规格超限；这不等于动力学可执行。
+- 首次 FK 审核发现 BODY 线速度取在惯性质心，与 xpos 连杆原点不一致。改为 XBODY 后，全部 441,140 帧的位置/姿态/线速度/角速度核对通过。失败记录 `kinematics_initial_com_mismatch.json` 保留。
+- 参考 PD 的 40 条动作全部失败。低增益 setpoint 是力矩控制接口，直接参考角不足以补偿动力学；该结果提供起点，不保证任何学习方法有效。
+- 首次 CUDA graph capture 的默认 stream 不受支持。改用 Warp 注册 stream 和显式同步后，真实 rollout 完成；原始日志保留。
+
+## 后续学习证据
+
+比较 8 步模型误差、32 步 imagined return/survival 与真实完整片段回报是否同向改善。模型误差下降但真实控制不改善时，检查状态/参考表示、被策略利用的模型误差、接触和长动作漂移。然后比较 PPO-Sim 的曲线与失败分布，再决定 Go2、多接口或更大动作库的扩展。
