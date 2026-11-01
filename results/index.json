@@ -138,8 +138,163 @@
     },
     "20261031-learning-s0": {
       "tag": "20261031-learning-s0",
-      "updated_unix": 1793445727.6066356,
+      "updated_unix": 1793497040.7404685,
       "runs": [
+        {
+          "method": "ppo_sim",
+          "run": "20261031-learning-s0-ppo_sim",
+          "config_name": "lafan40_g1_paper_sized",
+          "relative_results": "results/20261031-learning-s0/ppo_sim",
+          "execution_directory": "/root/autodl-tmp/robot-repro/supermimic/outputs/runs/20261031-learning-s0-ppo_sim",
+          "last_metrics": {
+            "ppo_surrogate_loss": -0.01482068246259587,
+            "critic_mse": 0.04198064897209406,
+            "ppo_mean_kl": 0.01182870459742844,
+            "sim_step_reward": 0.03070715442299843,
+            "sim_step_termination_fraction": 0.0008951823110692203,
+            "learning_rate": 3.375000000000001e-05,
+            "collection_seconds": 1.0218255054205656,
+            "policy_critic_seconds": 0.6692749932408333,
+            "checkpoint_write_seconds": 0.23910709097981453,
+            "iteration": 5614,
+            "actor_updates": 5614,
+            "elapsed_seconds": 10800.780656814575,
+            "collected_sim_transitions": 1103757312,
+            "torch_peak_allocated_mib": 5802.54541015625
+          },
+          "evaluation_history": [
+            {
+              "iteration": 0,
+              "checkpoint_sha256": "633eeb934f1ae717183da8f440db7160188b0455c4c7163c4323f931a9e8d46a",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 0.8835000000000001,
+              "median_executed_seconds": 0.86,
+              "mean_completion_fraction": 0.004217198252584186,
+              "mean_normalized_return": 0.001793939027192244,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.1917590147112509
+            },
+            {
+              "iteration": 1000,
+              "checkpoint_sha256": "2bfb343c7d703b872afad63acd846b82db324977b1a26dfea6860c7fc1038324",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 2.859,
+              "median_executed_seconds": 1.95,
+              "mean_completion_fraction": 0.01432163006505976,
+              "mean_normalized_return": 0.007728965844661174,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.3957913391708447
+            },
+            {
+              "iteration": 2000,
+              "checkpoint_sha256": "203fa7530e63ca4bc3401a13f701fc7cbc92f12c0554c9930927a0b9a0c0dbe3",
+              "motions": 40,
+              "completed_motions": 2,
+              "mean_executed_seconds": 30.8735,
+              "median_executed_seconds": 1.92,
+              "mean_completion_fraction": 0.13825008484987317,
+              "mean_normalized_return": 0.05646876532938429,
+              "termination_reasons": {
+                "root_tilt": 1,
+                "root_height": 37,
+                "completed": 2
+              },
+              "mean_per_motion_root_position_error_m": 1.5167245832832437
+            },
+            {
+              "iteration": 3000,
+              "checkpoint_sha256": "36978499d2377c2e9063cfb14545ff5cd7f63f896e79702a4840f83632dc4c52",
+              "motions": 40,
+              "completed_motions": 15,
+              "mean_executed_seconds": 144.8205,
+              "median_executed_seconds": 167.01,
+              "mean_completion_fraction": 0.6214472675943405,
+              "mean_normalized_return": 0.25174416862665977,
+              "termination_reasons": {
+                "root_tilt": 3,
+                "root_height": 22,
+                "completed": 15
+              },
+              "mean_per_motion_root_position_error_m": 4.298705242587517
+            },
+            {
+              "iteration": 4000,
+              "checkpoint_sha256": "be48c545aabe612e4eada95cfe308d236f40fbe5b36a70d7faa48173a4176991",
+              "motions": 40,
+              "completed_motions": 12,
+              "mean_executed_seconds": 132.3405,
+              "median_executed_seconds": 159.56,
+              "mean_completion_fraction": 0.566746759674416,
+              "mean_normalized_return": 0.22931105974048388,
+              "termination_reasons": {
+                "root_tilt": 1,
+                "root_height": 27,
+                "completed": 12
+              },
+              "mean_per_motion_root_position_error_m": 3.2024911217105707
+            },
+            {
+              "iteration": 5000,
+              "checkpoint_sha256": "610272b61018421c13876bfdffe27a250359ea8b3e33f1246f1be0375c2cb18f",
+              "motions": 40,
+              "completed_motions": 16,
+              "mean_executed_seconds": 148.288,
+              "median_executed_seconds": 169.11,
+              "mean_completion_fraction": 0.6457336944635048,
+              "mean_normalized_return": 0.27437817810150833,
+              "termination_reasons": {
+                "root_tilt": 2,
+                "root_height": 22,
+                "completed": 16
+              },
+              "mean_per_motion_root_position_error_m": 4.844985677745664
+            },
+            {
+              "iteration": 5614,
+              "checkpoint_sha256": "55b4f703f4be792203f15a55e626a29cd4071e12804122e0459fc49d529f8d6d",
+              "motions": 40,
+              "completed_motions": 12,
+              "mean_executed_seconds": 109.5655,
+              "median_executed_seconds": 85.87,
+              "mean_completion_fraction": 0.46912199954138645,
+              "mean_normalized_return": 0.2135267710156795,
+              "termination_reasons": {
+                "root_height": 27,
+                "completed": 12,
+                "root_tilt": 1
+              },
+              "mean_per_motion_root_position_error_m": 3.1290783718558868
+            }
+          ],
+          "evaluation_iteration": 5614,
+          "failed_motions": 28,
+          "motions": 40,
+          "mean_normalized_return": 0.2135267710156795,
+          "mean_completion_fraction": 0.46912199954138645,
+          "final_evaluation": {
+            "iteration": 5614,
+            "checkpoint_sha256": "55b4f703f4be792203f15a55e626a29cd4071e12804122e0459fc49d529f8d6d",
+            "motions": 40,
+            "completed_motions": 12,
+            "mean_executed_seconds": 109.5655,
+            "median_executed_seconds": 85.87,
+            "mean_completion_fraction": 0.46912199954138645,
+            "mean_normalized_return": 0.2135267710156795,
+            "termination_reasons": {
+              "root_height": 27,
+              "completed": 12,
+              "root_tilt": 1
+            },
+            "mean_per_motion_root_position_error_m": 3.1290783718558868
+          },
+          "status": "evaluated"
+        },
         {
           "method": "supermimic",
           "run": "20261031-learning-s0-supermimic",
@@ -147,28 +302,107 @@
           "relative_results": "results/20261031-learning-s0/supermimic",
           "execution_directory": "/root/autodl-tmp/robot-repro/supermimic/outputs/runs/20261031-learning-s0-supermimic",
           "last_metrics": {
-            "sim_step_reward": 0.040101371705532074,
-            "sim_step_termination_fraction": 0.02490234375,
-            "wm_normalized_state_mse": 0.003911504778079689,
-            "wm_termination_bce": 0.010553222615271807,
-            "wm_gradient_norm_before_clip": 0.0701645266264677,
-            "imagined_discounted_return": 0.36648648977279663,
-            "actor_gradient_norm_before_clip": 0.9316178560256958,
-            "critic_mse": 0.009654382057487965,
-            "imagined_survival_at_horizon": 0.139396071434021,
-            "collection_seconds": 0.048974534496665,
-            "world_seconds": 0.8130050636827946,
-            "policy_critic_seconds": 2.3723588455468416,
-            "iteration": 45,
-            "actor_updates": 40,
-            "elapsed_seconds": 144.61465162411332,
-            "collected_sim_transitions": 720896,
-            "torch_peak_allocated_mib": 19493.041015625
+            "sim_step_reward": 0.02053074538707733,
+            "sim_step_termination_fraction": 0.0064290366135537624,
+            "wm_normalized_state_mse": 0.006014350056648255,
+            "wm_termination_bce": 0.0036371116759255527,
+            "wm_gradient_norm_before_clip": 0.14473955407738687,
+            "imagined_discounted_return": 1.5798228979110718,
+            "actor_gradient_norm_before_clip": 3.7494704723358154,
+            "critic_mse": 0.049197609163820745,
+            "imagined_survival_at_horizon": 0.7178332805633545,
+            "collection_seconds": 0.2829001881182194,
+            "world_seconds": 0.9595323707908392,
+            "policy_critic_seconds": 2.656936429440975,
+            "checkpoint_write_seconds": 0.4864001162350178,
+            "iteration": 2874,
+            "actor_updates": 2869,
+            "elapsed_seconds": 10803.679312370718,
+            "collected_sim_transitions": 29954048,
+            "torch_peak_allocated_mib": 19561.0849609375
           },
-          "status": "running"
+          "evaluation_history": [
+            {
+              "iteration": 0,
+              "checkpoint_sha256": "c84d355dfd2a3e451f4aba47470147d4ee5ccb72c14a632a4f455217d91f1753",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 0.8835000000000001,
+              "median_executed_seconds": 0.86,
+              "mean_completion_fraction": 0.004217198252584186,
+              "mean_normalized_return": 0.0017939393169080931,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.1917592018080285
+            },
+            {
+              "iteration": 1000,
+              "checkpoint_sha256": "09dcf26d2dd69b95d28ca42ea89e178152183243ddc64f91f2d9e01209569545",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 1.532,
+              "median_executed_seconds": 1.54,
+              "mean_completion_fraction": 0.007317167138172077,
+              "mean_normalized_return": 0.0027714725602790103,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.20654530073274244
+            },
+            {
+              "iteration": 2000,
+              "checkpoint_sha256": "d91ae311b008a6da3cb968a42c1e04493b46ff438df7049b9c02a4743ce3510e",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 1.5075,
+              "median_executed_seconds": 1.44,
+              "mean_completion_fraction": 0.007166513595017276,
+              "mean_normalized_return": 0.0032578776565493337,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.22888680431827133
+            },
+            {
+              "iteration": 2874,
+              "checkpoint_sha256": "be06dbff6051d5d65176aff1996b7720f3a1bd1cdc577ce53507cecf69b7ed51",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 3.052,
+              "median_executed_seconds": 1.6600000000000001,
+              "mean_completion_fraction": 0.01350994809142655,
+              "mean_normalized_return": 0.0035699634294367134,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.9206077606267993
+            }
+          ],
+          "evaluation_iteration": 2874,
+          "failed_motions": 40,
+          "motions": 40,
+          "mean_normalized_return": 0.0035699634294367134,
+          "mean_completion_fraction": 0.01350994809142655,
+          "final_evaluation": {
+            "iteration": 2874,
+            "checkpoint_sha256": "be06dbff6051d5d65176aff1996b7720f3a1bd1cdc577ce53507cecf69b7ed51",
+            "motions": 40,
+            "completed_motions": 0,
+            "mean_executed_seconds": 3.052,
+            "median_executed_seconds": 1.6600000000000001,
+            "mean_completion_fraction": 0.01350994809142655,
+            "mean_normalized_return": 0.0035699634294367134,
+            "termination_reasons": {
+              "root_height": 40
+            },
+            "mean_per_motion_root_position_error_m": 0.9206077606267993
+          },
+          "status": "evaluated"
         }
       ],
-      "both_methods_evaluated": false,
+      "all_runs_evaluated": true,
+      "both_methods_evaluated": true,
       "qualification_pass": false,
       "interpretation": "Read config purpose and full-motion results. A completed update loop or evaluation is not a paper-level reproduction pass."
     }
