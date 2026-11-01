@@ -408,8 +408,119 @@
     },
     "20261101-termination-s0": {
       "tag": "20261101-termination-s0",
-      "updated_unix": 1793508370.364493,
+      "updated_unix": 1793519564.678214,
       "runs": [
+        {
+          "method": "supermimic",
+          "run": "20261101-termination-s0-analytic_smooth",
+          "config_name": "lafan40_g1_paper_sized",
+          "relative_results": "results/20261101-termination-s0/supermimic_analytic_smooth",
+          "execution_directory": "/root/autodl-tmp/robot-repro/supermimic/.cache/execution-worktrees/termination-s0-run/outputs/runs/20261101-termination-s0-analytic_smooth",
+          "last_metrics": {
+            "sim_step_reward": 0.03229496628046036,
+            "sim_step_termination_fraction": 0.0025634765625,
+            "wm_normalized_state_mse": 0.0019036567071452736,
+            "wm_termination_bce": 0.0007484067522455007,
+            "wm_gradient_norm_before_clip": 0.04236930925399065,
+            "imagined_discounted_return": 3.1384615898132324,
+            "actor_gradient_norm_before_clip": 2.838651418685913,
+            "critic_mse": 0.04957630932331085,
+            "imagined_survival_at_horizon": 0.9297024607658386,
+            "collection_seconds": 0.07179873250424862,
+            "world_seconds": 0.8395991735160351,
+            "policy_critic_seconds": 2.4965597800910473,
+            "checkpoint_write_seconds": 0.4333423934876919,
+            "iteration": 2793,
+            "actor_updates": 2788,
+            "elapsed_seconds": 10802.274052063003,
+            "collected_sim_transitions": 28860416,
+            "torch_peak_allocated_mib": 19294.775390625
+          },
+          "imagination_termination": "analytic_smooth",
+          "evaluation_history": [
+            {
+              "iteration": 0,
+              "checkpoint_sha256": "a46de55e4fd32b66767cfef6c307d672a16899a3e09e65d1bf07f17a04172c6c",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 0.8835000000000001,
+              "median_executed_seconds": 0.86,
+              "mean_completion_fraction": 0.004217198252584186,
+              "mean_normalized_return": 0.0017939708166712803,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.19175475871865783
+            },
+            {
+              "iteration": 1000,
+              "checkpoint_sha256": "503fa66ad6e9774fd39dc666a2c02111fed8e5c508caafd16d65dea79d8725a7",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 1.039,
+              "median_executed_seconds": 1.03,
+              "mean_completion_fraction": 0.00494710340674891,
+              "mean_normalized_return": 0.002073429943627461,
+              "termination_reasons": {
+                "root_tilt": 29,
+                "root_height": 11
+              },
+              "mean_per_motion_root_position_error_m": 0.16369507304779926
+            },
+            {
+              "iteration": 2000,
+              "checkpoint_sha256": "3b1659431afc052621e522d4f7ccfa27c935c0cd3df718f6dd62a69252cbbe4f",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 3.411,
+              "median_executed_seconds": 3.2300000000000004,
+              "mean_completion_fraction": 0.016520402170949907,
+              "mean_normalized_return": 0.0028972691332974933,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 1.0482731101148175
+            },
+            {
+              "iteration": 2793,
+              "checkpoint_sha256": "0b83f2778d3e54f0256cfe8403fae60cad40b3b43e20e9678c15482ddc82a5ee",
+              "motions": 40,
+              "completed_motions": 20,
+              "mean_executed_seconds": 159.15,
+              "median_executed_seconds": 185.39,
+              "mean_completion_fraction": 0.6871396697408569,
+              "mean_normalized_return": 0.27833015770764724,
+              "termination_reasons": {
+                "root_tilt": 1,
+                "root_height": 19,
+                "completed": 20
+              },
+              "mean_per_motion_root_position_error_m": 2.8662864352173383
+            }
+          ],
+          "evaluation_iteration": 2793,
+          "failed_motions": 20,
+          "motions": 40,
+          "mean_normalized_return": 0.27833015770764724,
+          "mean_completion_fraction": 0.6871396697408569,
+          "final_evaluation": {
+            "iteration": 2793,
+            "checkpoint_sha256": "0b83f2778d3e54f0256cfe8403fae60cad40b3b43e20e9678c15482ddc82a5ee",
+            "motions": 40,
+            "completed_motions": 20,
+            "mean_executed_seconds": 159.15,
+            "median_executed_seconds": 185.39,
+            "mean_completion_fraction": 0.6871396697408569,
+            "mean_normalized_return": 0.27833015770764724,
+            "termination_reasons": {
+              "root_tilt": 1,
+              "root_height": 19,
+              "completed": 20
+            },
+            "mean_per_motion_root_position_error_m": 2.8662864352173383
+          },
+          "status": "evaluated"
+        },
         {
           "method": "supermimic",
           "run": "20261101-termination-s0-learned",
@@ -520,7 +631,7 @@
           "status": "evaluated"
         }
       ],
-      "all_runs_evaluated": false,
+      "all_runs_evaluated": true,
       "both_methods_evaluated": false,
       "qualification_pass": false,
       "interpretation": "Read config purpose and full-motion results. A completed update loop or evaluation is not a paper-level reproduction pass."
