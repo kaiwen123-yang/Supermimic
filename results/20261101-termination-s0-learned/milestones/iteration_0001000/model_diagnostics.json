@@ -1,0 +1,382 @@
+{
+  "iteration": 1000,
+  "actor_updates": 995,
+  "imagination_termination": "learned",
+  "termination_smoothing_temperature": 0.05,
+  "termination_mode_override": null,
+  "checkpoint_sha256": "cb1da6a92f78f19159f3a2120473053fedcdd79c90856898e219574f8f16690a",
+  "dataset_manifest_sha256": "f0626e39012f5b4bd4496de7e42df5f66bb174a7f512f4241feff2c1e2efafb6",
+  "motions": 40,
+  "starts": 120,
+  "start_fractions": [
+    0.0,
+    0.25,
+    0.5
+  ],
+  "observations_and_actions_noiseless": true,
+  "context": "nominal: foot friction 1.0, zero calibration and CoM offsets",
+  "open_loop_definition": "world model receives the same executed actions as the physical rollout",
+  "closed_loop_definition": "policy receives predicted states through its observation history",
+  "termination_head_on_true_states": {
+    "safe_state_count": 3675,
+    "first_terminal_count": 20,
+    "mean_probability_on_safe_states": 7.516586429243084e-05,
+    "mean_probability_on_first_terminal_states": 0.005202138709137216,
+    "brier_score": 0.005360025880861046
+  },
+  "horizons": [
+    {
+      "horizon_steps": 1,
+      "horizon_seconds": 0.02,
+      "actual_survival_fraction": 1.0,
+      "predicted_open_loop_survival": 0.9999951124191284,
+      "predicted_closed_loop_survival": 0.9999951124191284,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.02922525629401207,
+        "root_orientation_rmse_rad": 0.05399007350206375,
+        "joint_position_rmse_rad": 0.032222289592027664,
+        "root_velocity_rmse_m_per_s": 0.39927932620048523,
+        "normalized_state_mse": 0.012383973225951195
+      },
+      "open_loop_before_first_failure": {
+        "samples": 120,
+        "root_position_rmse_m": 0.02922525629401207,
+        "root_orientation_rmse_rad": 0.05399007350206375,
+        "joint_position_rmse_rad": 0.032222289592027664,
+        "root_velocity_rmse_m_per_s": 0.39927932620048523,
+        "normalized_state_mse": 0.012383973225951195
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 120,
+        "root_position_rmse_m": 0.02922525629401207,
+        "root_orientation_rmse_rad": 0.05399007350206375,
+        "joint_position_rmse_rad": 0.032222289592027664,
+        "root_velocity_rmse_m_per_s": 0.39927932620048523,
+        "normalized_state_mse": 0.012383973225951195
+      },
+      "closed_vs_real_action_rmse": 0.0
+    },
+    {
+      "horizon_steps": 8,
+      "horizon_seconds": 0.16,
+      "actual_survival_fraction": 0.98333340883255,
+      "predicted_open_loop_survival": 0.9998984932899475,
+      "predicted_closed_loop_survival": 0.9999009966850281,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.07416651397943497,
+        "root_orientation_rmse_rad": 0.16719388961791992,
+        "joint_position_rmse_rad": 0.0804944634437561,
+        "root_velocity_rmse_m_per_s": 0.4455137252807617,
+        "normalized_state_mse": 0.007123417686671019
+      },
+      "open_loop_before_first_failure": {
+        "samples": 119,
+        "root_position_rmse_m": 0.07356777042150497,
+        "root_orientation_rmse_rad": 0.1646057516336441,
+        "joint_position_rmse_rad": 0.08025151491165161,
+        "root_velocity_rmse_m_per_s": 0.436472088098526,
+        "normalized_state_mse": 0.007063168566673994
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 119,
+        "root_position_rmse_m": 0.07354775816202164,
+        "root_orientation_rmse_rad": 0.17719557881355286,
+        "joint_position_rmse_rad": 0.08733681589365005,
+        "root_velocity_rmse_m_per_s": 0.44618093967437744,
+        "normalized_state_mse": 0.00839743297547102
+      },
+      "closed_vs_real_action_rmse": 0.22444355487823486
+    },
+    {
+      "horizon_steps": 16,
+      "horizon_seconds": 0.32,
+      "actual_survival_fraction": 0.9750000238418579,
+      "predicted_open_loop_survival": 0.9978697896003723,
+      "predicted_closed_loop_survival": 0.9975768327713013,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.13657167553901672,
+        "root_orientation_rmse_rad": 0.3326452076435089,
+        "joint_position_rmse_rad": 0.08258428424596786,
+        "root_velocity_rmse_m_per_s": 0.4765639007091522,
+        "normalized_state_mse": 0.007168281357735395
+      },
+      "open_loop_before_first_failure": {
+        "samples": 117,
+        "root_position_rmse_m": 0.11995901167392731,
+        "root_orientation_rmse_rad": 0.32313382625579834,
+        "joint_position_rmse_rad": 0.08107415586709976,
+        "root_velocity_rmse_m_per_s": 0.43102210760116577,
+        "normalized_state_mse": 0.006768656894564629
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 117,
+        "root_position_rmse_m": 0.11965104937553406,
+        "root_orientation_rmse_rad": 0.3528650403022766,
+        "joint_position_rmse_rad": 0.1316489428281784,
+        "root_velocity_rmse_m_per_s": 0.4357520639896393,
+        "normalized_state_mse": 0.015105423517525196
+      },
+      "closed_vs_real_action_rmse": 0.43206483125686646
+    },
+    {
+      "horizon_steps": 32,
+      "horizon_seconds": 0.64,
+      "actual_survival_fraction": 0.8333333730697632,
+      "predicted_open_loop_survival": 0.8785200119018555,
+      "predicted_closed_loop_survival": 0.8896304965019226,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.342544287443161,
+        "root_orientation_rmse_rad": 0.882759690284729,
+        "joint_position_rmse_rad": 0.14795324206352234,
+        "root_velocity_rmse_m_per_s": 1.1480664014816284,
+        "normalized_state_mse": 0.027923384681344032
+      },
+      "open_loop_before_first_failure": {
+        "samples": 102,
+        "root_position_rmse_m": 0.28431838750839233,
+        "root_orientation_rmse_rad": 0.805647075176239,
+        "joint_position_rmse_rad": 0.13781611621379852,
+        "root_velocity_rmse_m_per_s": 1.0862815380096436,
+        "normalized_state_mse": 0.022373726591467857
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 102,
+        "root_position_rmse_m": 0.2515641450881958,
+        "root_orientation_rmse_rad": 0.7638214230537415,
+        "joint_position_rmse_rad": 0.25649094581604004,
+        "root_velocity_rmse_m_per_s": 0.8788102269172668,
+        "normalized_state_mse": 0.0427825003862381
+      },
+      "closed_vs_real_action_rmse": 0.6427364349365234
+    }
+  ],
+  "first_failure_pairs": [
+    {
+      "motion": "fallAndGetUp1_subject5",
+      "start_fraction": 0.25,
+      "step": 7,
+      "real_height_error_m": 0.2525429129600525,
+      "open_model_height_error_m": 0.23696917295455933,
+      "closed_model_height_error_m": 0.22854799032211304,
+      "probability_on_real_state": 0.0010580759262666106,
+      "probability_on_open_model_state": 0.00043586440733633935,
+      "probability_on_closed_model_state": 0.00037935582804493606
+    },
+    {
+      "motion": "fallAndGetUp2_subject3",
+      "start_fraction": 0.5,
+      "step": 8,
+      "real_height_error_m": 0.27769413590431213,
+      "open_model_height_error_m": 0.15217947959899902,
+      "closed_model_height_error_m": 0.15723615884780884,
+      "probability_on_real_state": 0.004702755715698004,
+      "probability_on_open_model_state": 0.00034401865559630096,
+      "probability_on_closed_model_state": 0.0003598963376134634
+    },
+    {
+      "motion": "run2_subject4",
+      "start_fraction": 0.5,
+      "step": 14,
+      "real_height_error_m": 0.250603586435318,
+      "open_model_height_error_m": 0.0816342830657959,
+      "closed_model_height_error_m": 0.07774323225021362,
+      "probability_on_real_state": 0.002811695449054241,
+      "probability_on_open_model_state": 0.0018538745352998376,
+      "probability_on_closed_model_state": 0.002621695166453719
+    },
+    {
+      "motion": "run1_subject5",
+      "start_fraction": 0.25,
+      "step": 18,
+      "real_height_error_m": 0.25332748889923096,
+      "open_model_height_error_m": 0.0532800555229187,
+      "closed_model_height_error_m": 0.04189467430114746,
+      "probability_on_real_state": 0.003716877894476056,
+      "probability_on_open_model_state": 0.9770095348358154,
+      "probability_on_closed_model_state": 0.9974330067634583
+    },
+    {
+      "motion": "sprint1_subject4",
+      "start_fraction": 0.25,
+      "step": 21,
+      "real_height_error_m": 0.2355601191520691,
+      "open_model_height_error_m": 0.1660557985305786,
+      "closed_model_height_error_m": 0.17960184812545776,
+      "probability_on_real_state": 0.0043001980520784855,
+      "probability_on_open_model_state": 0.002850195625796914,
+      "probability_on_closed_model_state": 0.0020252091344445944
+    },
+    {
+      "motion": "fallAndGetUp1_subject5",
+      "start_fraction": 0.5,
+      "step": 22,
+      "real_height_error_m": 0.035225093364715576,
+      "open_model_height_error_m": 0.22046875953674316,
+      "closed_model_height_error_m": 0.21701520681381226,
+      "probability_on_real_state": 0.015439505688846111,
+      "probability_on_open_model_state": 0.01391453668475151,
+      "probability_on_closed_model_state": 0.015296725556254387
+    },
+    {
+      "motion": "run2_subject1",
+      "start_fraction": 0.5,
+      "step": 23,
+      "real_height_error_m": 0.21283620595932007,
+      "open_model_height_error_m": 0.2717832922935486,
+      "closed_model_height_error_m": 0.26296836137771606,
+      "probability_on_real_state": 0.0032179905101656914,
+      "probability_on_open_model_state": 0.009508967399597168,
+      "probability_on_closed_model_state": 0.007796407211571932
+    },
+    {
+      "motion": "jumps1_subject5",
+      "start_fraction": 0.5,
+      "step": 25,
+      "real_height_error_m": 0.25829392671585083,
+      "open_model_height_error_m": 0.04072481393814087,
+      "closed_model_height_error_m": 0.027523458003997803,
+      "probability_on_real_state": 0.00328421569429338,
+      "probability_on_open_model_state": 0.0018914479296654463,
+      "probability_on_closed_model_state": 0.0003925088676624
+    },
+    {
+      "motion": "walk2_subject1",
+      "start_fraction": 0.5,
+      "step": 25,
+      "real_height_error_m": 0.2672976851463318,
+      "open_model_height_error_m": 0.11955726146697998,
+      "closed_model_height_error_m": 0.10845917463302612,
+      "probability_on_real_state": 0.004684863146394491,
+      "probability_on_open_model_state": 0.008392702788114548,
+      "probability_on_closed_model_state": 0.004521187394857407
+    },
+    {
+      "motion": "fallAndGetUp1_subject1",
+      "start_fraction": 0.25,
+      "step": 26,
+      "real_height_error_m": 0.2696491479873657,
+      "open_model_height_error_m": 0.2181018888950348,
+      "closed_model_height_error_m": 0.19508621096611023,
+      "probability_on_real_state": 0.0048340256325900555,
+      "probability_on_open_model_state": 0.006581342313438654,
+      "probability_on_closed_model_state": 0.005570246838033199
+    },
+    {
+      "motion": "jumps1_subject1",
+      "start_fraction": 0.25,
+      "step": 29,
+      "real_height_error_m": 0.26530447602272034,
+      "open_model_height_error_m": 0.021762967109680176,
+      "closed_model_height_error_m": 0.054718077182769775,
+      "probability_on_real_state": 0.0064729247242212296,
+      "probability_on_open_model_state": 0.9999973773956299,
+      "probability_on_closed_model_state": 0.9997779726982117
+    },
+    {
+      "motion": "run2_subject1",
+      "start_fraction": 0.25,
+      "step": 30,
+      "real_height_error_m": 0.25933006405830383,
+      "open_model_height_error_m": 0.058494389057159424,
+      "closed_model_height_error_m": 0.0912061333656311,
+      "probability_on_real_state": 0.004248135723173618,
+      "probability_on_open_model_state": 0.9954603314399719,
+      "probability_on_closed_model_state": 0.7980231046676636
+    },
+    {
+      "motion": "run2_subject4",
+      "start_fraction": 0.25,
+      "step": 30,
+      "real_height_error_m": 0.235147625207901,
+      "open_model_height_error_m": 0.23722881078720093,
+      "closed_model_height_error_m": 0.15546369552612305,
+      "probability_on_real_state": 0.004545423202216625,
+      "probability_on_open_model_state": 0.02590089850127697,
+      "probability_on_closed_model_state": 0.0015794211067259312
+    },
+    {
+      "motion": "jumps1_subject2",
+      "start_fraction": 0.5,
+      "step": 30,
+      "real_height_error_m": 0.2647241950035095,
+      "open_model_height_error_m": 0.14705771207809448,
+      "closed_model_height_error_m": 0.12106966972351074,
+      "probability_on_real_state": 0.00500132329761982,
+      "probability_on_open_model_state": 0.000843547226395458,
+      "probability_on_closed_model_state": 0.0002932316274382174
+    },
+    {
+      "motion": "walk3_subject5",
+      "start_fraction": 0.5,
+      "step": 30,
+      "real_height_error_m": 0.28414949774742126,
+      "open_model_height_error_m": 0.24028784036636353,
+      "closed_model_height_error_m": 0.24124079942703247,
+      "probability_on_real_state": 0.008498456329107285,
+      "probability_on_open_model_state": 0.009092050604522228,
+      "probability_on_closed_model_state": 0.00675473315641284
+    },
+    {
+      "motion": "fallAndGetUp2_subject3",
+      "start_fraction": 0.25,
+      "step": 31,
+      "real_height_error_m": 0.0648077204823494,
+      "open_model_height_error_m": 0.011006161570549011,
+      "closed_model_height_error_m": 0.005974128842353821,
+      "probability_on_real_state": 0.0032598504330962896,
+      "probability_on_open_model_state": 0.9998829364776611,
+      "probability_on_closed_model_state": 0.9999493360519409
+    },
+    {
+      "motion": "walk3_subject4",
+      "start_fraction": 0.25,
+      "step": 31,
+      "real_height_error_m": 0.2624940276145935,
+      "open_model_height_error_m": 0.11727005243301392,
+      "closed_model_height_error_m": 0.05950486660003662,
+      "probability_on_real_state": 0.004627038259059191,
+      "probability_on_open_model_state": 0.002986729610711336,
+      "probability_on_closed_model_state": 2.9035332772764377e-05
+    },
+    {
+      "motion": "dance2_subject1",
+      "start_fraction": 0.5,
+      "step": 31,
+      "real_height_error_m": 0.29100513458251953,
+      "open_model_height_error_m": 0.17079180479049683,
+      "closed_model_height_error_m": 0.17719966173171997,
+      "probability_on_real_state": 0.00889438483864069,
+      "probability_on_open_model_state": 0.0006314461934380233,
+      "probability_on_closed_model_state": 0.0010461276397109032
+    },
+    {
+      "motion": "walk1_subject5",
+      "start_fraction": 0.5,
+      "step": 32,
+      "real_height_error_m": 0.2641306519508362,
+      "open_model_height_error_m": 0.1467341184616089,
+      "closed_model_height_error_m": 0.14682769775390625,
+      "probability_on_real_state": 0.0038278880529105663,
+      "probability_on_open_model_state": 0.002791071543470025,
+      "probability_on_closed_model_state": 0.0008962934371083975
+    },
+    {
+      "motion": "walk3_subject2",
+      "start_fraction": 0.5,
+      "step": 32,
+      "real_height_error_m": 0.2755143642425537,
+      "open_model_height_error_m": 0.12552565336227417,
+      "closed_model_height_error_m": 0.0650445818901062,
+      "probability_on_real_state": 0.006617145147174597,
+      "probability_on_open_model_state": 0.0012659758795052767,
+      "probability_on_closed_model_state": 4.3871463276445866e-05
+    }
+  ],
+  "analysis_script_sha256": "aea8107ee092f1dff8f159d9d966aa396e16a1775a20daa6baf553bd421387b0",
+  "wall_seconds": 5.774924689903855,
+  "scope": "Matched short-horizon mechanism diagnostic; complete-motion success is evaluated separately"
+}
