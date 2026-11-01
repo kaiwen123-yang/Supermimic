@@ -52,6 +52,10 @@ bash scripts/setup_d57.sh
 
 该结果支持解析平滑终止在本次同预算单 seed 实现中改善实际控制；解析组多完成 115 轮更新，且共享 GPU 负载不同，因此不将墙钟效率或所有改善单独归因于世界模型。完成的 20 条动作仍有 1.11–7.59 m 的逐动作平均根位置误差，跌倒起身仍为 0/6。原终止网络的 BCE 训练保留，仅替换想象 Actor/Critic 使用的概率。协议、诊断解释和限制见 [复现计划](docs/REPRODUCTION_PLAN.md) 与 [机器可读协议](configs/termination_ablation_protocol.json)。按用户要求，当前先分析结果，没有启动下一轮实验。
 
+固定权重录像已发布：[五类动作总览及完整视频](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-termination-s0-videos-v1)。左侧是运动学参考，中间为学习型终止，右侧为解析平滑终止；失败后画面冻结并保留时间、根位置/关节误差及全局 XY 轨迹。录像对应一次独立重放，结果为 0/40 与 19/40，原始评估 0/40 与 20/40 保留；[录像数据与分项统计](results/20261101-termination-s0/videos) 独立保存。
+
+用户已要求为后续扩盘释放 D57 存储。`sm-archive-cleanup-20261101` 会先归档尚未发布的逐轮检查点和原始记录，核验压缩内容及 GitHub 资产 SHA256 后再清理本项目的大产物、专用环境和缓存；共享环境不在范围内。动作输入按固定上游版本与原始 manifest 重建。执行状态和恢复清单将保存在 `results/storage_cleanup/20261101/`，恢复前不要直接启动训练。现阶段没有安排新的算法对照。
+
 ```bash
 ssh autodl-d57
 tmux attach -t sm-g1-lafan40
