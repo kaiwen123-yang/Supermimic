@@ -1,8 +1,9 @@
 """One-shot D57 archive and explicitly authorized cleanup, after byte verification.
 
 Unique experiment files are archived or mapped to already verified Release assets.
-Third-party datasets, the project venv and build caches are reproducible inputs;
-their source locks, installed versions and original dataset manifest are retained.
+Source code, the project venv, robot assets and working checkouts are protected.
+Only backed-up outputs and explicitly selected dataset caches are deletion targets.
+The historical 20261101 cleanup is complete and must never run a second time.
 """
 from pathlib import Path
 import argparse
@@ -23,6 +24,7 @@ TAG = 'sm-d57-storage-archive-20261101'
 META = ROOT / 'results/storage_cleanup/20261101'
 STAGE = ROOT / 'work/storage-archive-20261101'
 ZSTD = '/root/miniconda3/bin/zstd'
+CLEANUP_TARGET_NAMES = ('outputs', 'data/raw', 'data/processed')
 
 
 def command(args, cwd=ROOT):
@@ -95,6 +97,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--delete-after-verify', action='store_true')
     args = parser.parse_args()
+    existing_status = META / 'status.json'
+    if existing_status.exists() and json.loads(existing_status.read_text()).get('phase') == 'cleaned':
+        print('ARCHIVE_ALREADY_COMPLETED: preserving the restored development environment', flush=True)
+        return
     assert ROOT.resolve() == ROOT and (ROOT / 'AGENTS.md').exists()
     assert ROOT not in Path(sys.executable).resolve().parents, 'Use system Python outside the project venv'
     META.mkdir(parents=True, exist_ok=True)
@@ -244,7 +250,7 @@ The archive preserves unique outputs and source snapshots; caches and the virtua
             assert p.stat().st_size == e['bytes'] and digest(p) == e['sha256'], e['path']
         else:
             assert os.readlink(p) == e['target'], e['path']
-    targets = [ROOT / name for name in ('outputs', '.venv', '.cache', 'data/raw', 'data/processed', 'data/robot')]
+    targets = [ROOT / name for name in CLEANUP_TARGET_NAMES]
     for p in targets:
         resolved = p.resolve(strict=True)
         assert resolved.parent == ROOT or resolved.parent == ROOT / 'data'
@@ -268,7 +274,7 @@ if __name__ == '__main__':
         main()
     except Exception as exc:
         META.mkdir(parents=True, exist_ok=True)
-        removed = [str(ROOT / name) for name in ('outputs', '.venv', '.cache', 'data/raw', 'data/processed', 'data/robot')
+        removed = [str(ROOT / name) for name in CLEANUP_TARGET_NAMES
                    if not (ROOT / name).exists()]
         status('failed', error=repr(exc), traceback=traceback.format_exc(), removed_paths=removed)
         raise

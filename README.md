@@ -11,7 +11,7 @@
 
 SSH 别名 `autodl-d57`；项目目录 `/root/autodl-tmp/robot-repro/supermimic`。GPU 为单张 RTX PRO 6000 96GB。
 
-**2026-11-01 存储状态：本项目在 D57 的训练数据、输出、专用 `.venv` 和本地缓存已归档校验后清理。** 当前只保留轻量源码、紧凑结果及恢复清单；下列激活命令须在恢复环境后使用。扩盘后的恢复入口为 [RESTORE.md](results/storage_cleanup/20261101/RESTORE.md)，归档见 [GitHub Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-d57-storage-archive-20261101)。
+**2026-11-01 21:00 状态：D57 最新主源码、原版本独立 `.venv` 和 G1 机器人资产已恢复。** 79 个包的版本逐项与清理前一致，依赖检查通过，机器人 XML 及 manifest 的 SHA256 与清理前一致。可以正常激活下述开发环境；40 条动作数据缓存及历史权重仍保留在备份中，实际训练/评估前按需恢复。详见 [环境恢复核验](results/storage_cleanup/20261101/development_environment_restored.json)。数据恢复入口为 [RESTORE.md](results/storage_cleanup/20261101/RESTORE.md)，归档见 [GitHub Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-d57-storage-archive-20261101)。
 
 ```bash
 cd /root/autodl-tmp/robot-repro/supermimic
@@ -57,6 +57,8 @@ bash scripts/setup_d57.sh
 固定权重录像已发布：[五类动作总览及完整视频](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-termination-s0-videos-v1)。左侧是运动学参考，中间为学习型终止，右侧为解析平滑终止；失败后画面冻结并保留时间、根位置/关节误差及全局 XY 轨迹。录像对应一次独立重放，结果为 0/40 与 19/40，原始评估 0/40 与 20/40 保留；[录像数据与分项统计](results/20261101-termination-s0/videos) 独立保存。
 
 用户授权的存储清理已于北京时间 2026-11-01 20:31 正常结束。18 个归档分卷及 5 个恢复元数据资产均完成 GitHub 大小/SHA256 校验；119 个检查点全部覆盖，其中 104 个在归档中、15 个复用已发布权重，并已从 GitHub 实际取回一个检查点、严格载入模型和优化器。清理窗口实测回收 49.85 GB，扣除本次生成的 18.29 GB 临时分卷后，原项目净释放约 31.56 GB。D57 本项目只剩约 40.7 MiB 的轻量源码和结果。π0、π0.5、MPC/RL 及共享 uv 缓存不在删除范围，保护文件与根目录核对未变。详见 [最终核验](results/storage_cleanup/20261101/final_verification.json)；动作输入和环境按固定来源、原始 manifest 与依赖锁重建。没有安排新的算法对照。
+
+上述空间数字记录的是 20:31 清理完成时的状态。随后根据用户反馈纠正了清理范围：已恢复约 7.57 GB 的常驻开发环境和轻量机器人资产，源码主目录同步到最新版本，原未提交改动保存在 Git stash。今后清理数据默认保留源码、环境、依赖锁、机器人资产与工作树；已结束的 20261101 清理入口再次运行会直接返回，不会删除恢复后的环境。
 
 ```bash
 ssh autodl-d57
