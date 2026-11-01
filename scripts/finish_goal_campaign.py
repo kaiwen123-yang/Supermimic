@@ -143,6 +143,18 @@ def main():
         score.pop("clips");score.pop("data_definition")
     summary_path=result/"summary.json"
     summary_path.write_text(json.dumps(summary,indent=2)+"\n")
+    readme=ROOT/"README.md"
+    text=readme.read_text()
+    text=re.sub(r"\*\*P2 v2 已于北京时间[^\n]+?：\*\*", "**P2 v2 两组训练已结束，最终成绩、上传及清理状态见本轮 summary 和运行索引：**", text)
+    readme.write_text(text)
+    plan=ROOT/"docs/REPRODUCTION_PLAN.md"
+    with plan.open("a") as out:
+        out.write("\nP2 v2 本轮实际最终成绩："+"；".join(f"{mode} 第 {score['iteration']} 轮，{score['completed_motions']}/40，完整时长归一化回报 {score['mean_normalized_return']:.8f}" for mode,score in summary["final_scores"].items())+f"。共同已评估节点 {common_iteration}。详细误差、失败窗口和清理结果见 results/{tag}/summary.json 与 comparison.json。\n")
+    protocol_path=ROOT/"configs/next_stage_correction_protocol.json"
+    protocol=json.loads(protocol_path.read_text());protocol["status"]="training_completed_publishing"
+    protocol_path.write_text(json.dumps(protocol,indent=2,ensure_ascii=False)+"\n")
+    result_paths=[result.relative_to(ROOT),Path("README.md"),Path("docs/REPRODUCTION_PLAN.md"),Path("configs/next_stage_correction_protocol.json")]
+    result_paths += [(ROOT/"results"/run.name).relative_to(ROOT) for run in runs.values() if (ROOT/"results"/run.name).exists()]
     release_tag="sm-"+tag+"-final"
     notes=stage/"release-notes.md"
     notes.write_text("P2 v2 full joint-training pair, final scoring trajectories and five-class videos.\n\n"+
@@ -219,7 +231,7 @@ def main():
         def update(index):
             index.setdefault("campaigns",{})[tag]={"status":summary["status"],"summary":str(summary_path.relative_to(ROOT)),"release_url":summary["release_url"]}
             index["next_stage"].update(status=summary["status"],campaign=tag,training_started=True)
-        summary["results_commit"]=push_results(release_tag,[result.relative_to(ROOT)],update)
+        summary["results_commit"]=push_results(release_tag,result_paths,update)
         call(["gh","release","edit",release_tag,"--repo",REPO,"--draft=false","--latest=false","--notes-file",str(notes)])
         # Git push and uploaded name/size confirmations are complete. No consumers remain.
         deleted=[];released=0;seen_inodes=set()
@@ -245,7 +257,9 @@ def main():
         summary["cleanup"]={"deleted":deleted,"released_bytes":released,"dataset_cache":"only exact files in data/raw/lafan1_g1 and data/processed/lafan1_g1_50hz, after working-data asset uploaded; upstream LICENSE/README included"}
         summary["status"]="completed" if not missing else "completed_with_unpublished_files"
         summary_path.write_text(json.dumps(summary,indent=2)+"\n")
-        push_results(release_tag+"-cleanup",[result.relative_to(ROOT)],update)
+        protocol["status"]=summary["status"]
+        protocol_path.write_text(json.dumps(protocol,indent=2,ensure_ascii=False)+"\n")
+        push_results(release_tag+"-cleanup",result_paths,update)
     print("P2_COMPLETE",json.dumps({k:v for k,v in summary.items() if k in ("status","release_url","common_iteration","next_focus","unpublished")}),flush=True)
 
 if __name__=="__main__": main()
