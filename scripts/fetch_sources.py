@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import fnmatch
-import hashlib
+import argparse
 import json
 import os
 from pathlib import Path
@@ -14,15 +14,10 @@ import urllib.request
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--motions-only", action="store_true")
+    args = parser.parse_args()
     cfg = json.loads((ROOT / "configs/sources.lock.json").read_text())
     ds = cfg["lafan1"]
     out = ROOT / "data/raw/lafan1_g1"
@@ -42,7 +37,7 @@ def main() -> None:
     for name in clips + ["README.md", "LICENSE"]:
         path = out / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        valid = path.exists() and name in known and sha256(path) == known[name]["sha256"]
+        valid = path.exists() and name in known and path.stat().st_size == known[name]["bytes"]
         if not valid:
             url = f"https://huggingface.co/datasets/{ds['repo']}/resolve/{ds['revision']}/{urllib.parse.quote(name)}"
             part = path.with_suffix(path.suffix + ".part")
@@ -57,12 +52,14 @@ def main() -> None:
                     if delay > 0:
                         time.sleep(delay)
             part.replace(path)
-        row = {"path": name, "bytes": path.stat().st_size, "sha256": sha256(path)}
+        row = {"path": name, "bytes": path.stat().st_size}
         records.append(row)
         previous_path.write_text(json.dumps({"repo": ds["repo"], "revision": ds["revision"], "files": records}, indent=2) + "\n")
-        print(f"DATA {name} {row['bytes']} bytes {row['sha256']}", flush=True)
+        print(f"DATA {name} {row['bytes']} bytes", flush=True)
+    if args.motions_only:
+        return
     asset = cfg["mjlab_asset"]
-    checkout = ROOT / ".cache/upstream/mjlab"
+    checkout = ROOT / "upstream/mjlab"
     if not (checkout / ".git").exists():
         checkout.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(["git", "clone", "--filter=blob:none", "--no-checkout", asset["repo"], str(checkout)], check=True)

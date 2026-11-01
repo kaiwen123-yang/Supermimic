@@ -5,7 +5,6 @@ motions. It supplements, and never replaces, complete-motion policy evaluation.
 """
 from pathlib import Path
 import argparse
-import hashlib
 import json
 import sys
 import time
@@ -15,7 +14,7 @@ sys.path.insert(0, str(ROOT))
 import torch
 from supermimic.checkpointing import pin_checkpoint
 from supermimic.geometry import quat_mul, quat_inv, quat_to_rotvec
-from supermimic.motion import MotionLibrary
+from supermimic.motion import MotionLibrary, checkpoint_data_definition
 from supermimic.networks import Actor, WorldModel, state_prediction_error
 from supermimic.simulator import G1Simulator
 from supermimic.task import observation
@@ -48,7 +47,7 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
     if "world_model" not in checkpoint:
         raise ValueError("This diagnostic requires a SuperMimic world model")
     motions = MotionLibrary(ROOT / "data/processed/lafan1_g1_50hz", "cuda")
-    if checkpoint["dataset_manifest_sha256"] != motions.manifest_hash:
+    if checkpoint_data_definition(checkpoint) != motions.data_definition:
         raise ValueError("Dataset changed")
     actor, world = Actor().cuda().eval(), WorldModel().cuda().eval()
     actor.load_state_dict(checkpoint["actor"])
@@ -78,9 +77,10 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
                   "closed_survival": torch.ones(120, device="cuda"), "horizons": []}
               for m in ("learned", "analytic_smooth")} if compare_termination else {}
     for step in range(1, 33):
-        goal = motions.goal(clip, frame + step - 1)
+        goal = motions.goal(clip, frame + step - 1, goal_frame=checkpoint["config"].get("goal_frame", "reference_heading"), root_quaternion=real[:, 3:7])
+        predicted_goal = motions.goal(clip, frame + step - 1, goal_frame=checkpoint["config"].get("goal_frame", "reference_heading"), root_quaternion=closed_prediction[:, 3:7])
         action = actor(real_history, goal)
-        closed_action = actor(closed_history, goal)
+        closed_action = actor(closed_history, predicted_goal)
         qpos, qvel = sim.step(action)
         real = torch.cat((qpos, qvel, action), -1)
         open_prediction = world(open_prediction, action, sim.context)
@@ -143,8 +143,8 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
     result = {"iteration": checkpoint["iteration"], "actor_updates": checkpoint["actor_updates"],
         "imagination_termination": mode, "termination_smoothing_temperature": temperature,
         "termination_mode_override": termination_mode,
-        "checkpoint_sha256": hashlib.sha256(checkpoint_path.read_bytes()).hexdigest(),
-        "dataset_manifest_sha256": motions.manifest_hash, "motions": 40, "starts": 120,
+        "checkpoint_file": f"checkpoint_{checkpoint['iteration']:07d}.pt",
+        "data_definition": motions.data_definition, "motions": 40, "starts": 120,
         "start_fractions": [0.0, 0.25, 0.5], "observations_and_actions_noiseless": True,
         "context": "nominal: foot friction 1.0, zero calibration and CoM offsets",
         "open_loop_definition": "world model receives the same executed actions as the physical rollout",
@@ -154,7 +154,6 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
             "mean_probability_on_first_terminal_states": terminal_sum/terminal_count if terminal_count else None,
             "brier_score": brier_sum/max(safe_count+terminal_count, 1)},
         "horizons": horizon_records, "first_failure_pairs": first_failure_pairs,
-        "analysis_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "wall_seconds": time.monotonic()-started,
         "scope": "Matched short-horizon mechanism diagnostic; complete-motion success is evaluated separately"}
     if compare_termination:

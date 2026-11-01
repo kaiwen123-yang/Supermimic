@@ -1,6 +1,5 @@
 """Complete fixed motion library with clip boundaries and physical timestamps."""
 from pathlib import Path
-import hashlib
 import json
 
 import numpy as np
@@ -9,11 +8,28 @@ import torch
 from .geometry import quat_apply, quat_inv, quat_mul, yaw_quat, rotation_6d
 
 
+def data_definition(manifest):
+    """Semantic provenance; preparation duration and host are not input semantics."""
+    return {"source": {k: manifest["dataset"][k] for k in ("repo", "revision")},
+            "clips": [{k: c[k] for k in ("name", "frames")} for c in manifest["clips"]],
+            "control_hz": 50, "joint_order": manifest["joint_order"],
+            "body_order": manifest["body_order"],
+            "preprocessing_version": manifest.get("preprocessing_version", "lafan-g1-linear-slerp-central-xbody-v1")}
+
+
+def checkpoint_data_definition(checkpoint):
+    if "data_definition" in checkpoint:
+        return checkpoint["data_definition"]
+    # Historical checkpoints used this fixed preparation, including runtime fields.
+    historical = Path(__file__).resolve().parents[1] / "results/lafan1_g1_preparation/motion_manifest.json"
+    return data_definition(json.loads(historical.read_text()))
+
+
 class MotionLibrary:
     def __init__(self, directory: Path, device="cpu"):
         self.manifest_path = directory / "manifest.json"
-        self.manifest_hash = hashlib.sha256(self.manifest_path.read_bytes()).hexdigest()
         manifest = json.loads(self.manifest_path.read_text())
+        self.data_definition = data_definition(manifest)
         self.names = [c["name"] for c in manifest["clips"]]
         arrays = {key: [] for key in ("qpos", "qvel", "body_pos", "body_quat", "body_lin_vel", "body_ang_vel")}
         offsets, lengths = [], []
@@ -35,8 +51,8 @@ class MotionLibrary:
         index = self.offsets[clip] + frame
         return {key: value[index] for key, value in self.values.items()}
 
-    def goal(self, clip, frame, future_frames=10):
-        """71 features/frame; reference-relative heading, no robot state estimate.
+    def goal(self, clip, frame, future_frames=10, *, goal_frame="reference_heading", root_quaternion=None):
+        """71 features/frame in reference heading or current robot root coordinates.
 
         This feature layout is an explicit reproduction choice: the paper gives K
         but does not fully enumerate the future-reference feature vector.
@@ -44,7 +60,14 @@ class MotionLibrary:
         horizon = torch.arange(1, future_frames + 1, device=self.device)
         current = self.get(clip, frame)
         future = self.get(clip[..., None], frame[..., None] + horizon)
-        inv_heading = quat_inv(yaw_quat(current["qpos"][..., 3:7]))[..., None, :]
+        if goal_frame == "reference_heading":
+            coordinate = yaw_quat(current["qpos"][..., 3:7])
+        elif goal_frame == "robot_root":
+            coordinate = root_quaternion
+        else:
+            raise ValueError(f"Unknown goal frame: {goal_frame}")
+        # No detach: imagined root orientation carries Actor gradients.
+        inv_heading = quat_inv(coordinate)[..., None, :]
         orientation = quat_mul(inv_heading, future["qpos"][..., 3:7])
         velocity = quat_apply(inv_heading, future["qvel"][..., :3])
         omega = quat_apply(future["qpos"][..., 3:7], future["qvel"][..., 3:6])

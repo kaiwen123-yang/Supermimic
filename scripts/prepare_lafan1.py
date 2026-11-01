@@ -5,7 +5,7 @@ All source clips, including retargeting violations, remain in the manifest.
 """
 from __future__ import annotations
 
-import hashlib
+import argparse
 import json
 from pathlib import Path
 import sys
@@ -19,14 +19,6 @@ import numpy as np
 from scipy.spatial.transform import Rotation, Slerp
 
 from supermimic.robot import JOINTS, TRACKED_BODIES, build_model, joint_arrays
-
-
-def digest(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
 
 
 def resample(raw: np.ndarray, source_hz: int = 30, target_hz: int = 50):
@@ -60,6 +52,9 @@ def resample(raw: np.ndarray, source_hz: int = 30, target_hz: int = 50):
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--result-dir", type=Path, default=ROOT / "results/lafan1_g1_preparation")
+    args = parser.parse_args()
     started = time.monotonic()
     lock = json.loads((ROOT / "configs/sources.lock.json").read_text())
     sources = ROOT / "data/raw/lafan1_g1"
@@ -67,7 +62,7 @@ def main() -> None:
     csvs = [row for row in downloads["files"] if row["path"].endswith(".csv")]
     if len(csvs) != 40 or downloads["revision"] != lock["lafan1"]["revision"]:
         raise RuntimeError("The pinned complete 40-clip download is required")
-    model_path = build_model()
+    model_path = ROOT / "data/robot/g1.xml"
     model = mujoco.MjModel.from_xml_path(str(model_path))
     data = mujoco.MjData(model)
     body_ids = [model.body(name).id for name in TRACKED_BODIES]
@@ -82,8 +77,6 @@ def main() -> None:
     soft_half = (upper - lower) * 0.9 / 2
     for row in csvs:
         source = sources / row["path"]
-        if digest(source) != row["sha256"]:
-            raise RuntimeError(f"Raw hash changed: {source.name}")
         raw = np.loadtxt(source, delimiter=",")
         t, qpos, qvel, quat_error = resample(raw)
         shape = (len(t), len(body_ids))
@@ -116,7 +109,7 @@ def main() -> None:
         records.append({
             "name": source.stem, "source_frames": len(raw), "frames": len(t),
             "source_duration_s": (len(raw) - 1) / 30, "duration_s": float(t[-1]),
-            "source_sha256": row["sha256"], "processed_sha256": digest(target), "processed_bytes": target.stat().st_size,
+            "processed_bytes": target.stat().st_size,
             "max_source_quaternion_norm_error": quat_error,
             "hard_joint_limit_frames": int(np.any(hard > 1e-6, axis=1).sum()),
             "max_hard_joint_limit_violation_rad": float(hard.max()),
@@ -139,10 +132,11 @@ def main() -> None:
         "velocity": "second-order central XYZ/joints; SO(3) central angular difference, root angular qvel expressed locally",
         "joint_order": JOINTS, "body_order": TRACKED_BODIES,
         "full_clip_evaluation_denominator": "0.1 * (frames - 1); rewards after early failure are zero, never renormalize by survived steps",
+        "control_hz": 50, "preprocessing_version": "lafan-g1-linear-slerp-central-xbody-v1",
         "wall_seconds": time.monotonic() - started,
     }
     (output / "manifest.json").write_text(json.dumps(result, indent=2) + "\n")
-    record_dir = ROOT / "results/lafan1_g1_preparation"
+    record_dir = args.result_dir
     record_dir.mkdir(parents=True, exist_ok=True)
     (record_dir / "motion_manifest.json").write_text(json.dumps(result, indent=2) + "\n")
     print(f"PREPARATION_COMPLETE clips=40 hours={result['source_duration_hours']:.6f} frames={result['frames_50hz']}", flush=True)

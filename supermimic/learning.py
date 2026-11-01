@@ -39,7 +39,8 @@ class SuperMimic:
     def collect(self, steps):
         rewards, failures = [], []
         for _ in range(steps):
-            goal = self.env.motions.goal(self.env.clip, self.env.frame)
+            goal = self.env.motions.goal(self.env.clip, self.env.frame,
+                goal_frame=self.cfg.get("goal_frame", "reference_heading"), root_quaternion=self.env.sim.qpos[:, 3:7])
             action = self.actor(self.env.history, goal)
             executed = action + 0.1 * torch.randn_like(action)
             transition = self.env.step(executed)
@@ -82,7 +83,8 @@ class SuperMimic:
         objective = torch.zeros_like(survival)
         states, goals, critic_references, rewards, deaths, values = [], [], [], [], [], []
         for step in range(horizon):
-            goal = env.motions.goal(clip, frame + step)
+            goal = env.motions.goal(clip, frame + step,
+                goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
             states.append(state.detach())
             goals.append(goal.detach())
             current_ref = env.motions.get(clip, frame + step)["qpos"]
@@ -107,7 +109,8 @@ class SuperMimic:
             state = predicted
             obs = env.observe(state, context, noise=True)
             history = torch.cat((history[:, 1:], obs[:, None]), 1)
-        goal_end = env.motions.goal(clip, frame + horizon)
+        goal_end = env.motions.goal(clip, frame + horizon,
+            goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
         terminal_value = self.critic(state, goal_end, context, env.motions.get(clip, frame + horizon)["qpos"])
         objective = objective + gamma**horizon * survival * terminal_value
         values.append(terminal_value.detach())
@@ -167,7 +170,8 @@ class PPOSim:
         records = []
         for _ in range(cfg["ppo_rollout_steps"]):
             state, history = env.state(), env.history.clone()
-            goal = env.motions.goal(env.clip, env.frame)
+            goal = env.motions.goal(env.clip, env.frame,
+                goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
             context = env.sim.context.clone()
             current_ref = env.motions.get(env.clip, env.frame)["qpos"]
             mean = self.actor(history, goal)
@@ -176,7 +180,8 @@ class PPOSim:
             action = distribution.sample()
             value = self.critic(state, goal, context, current_ref)
             transition = env.step(action)
-            next_goal = env.motions.goal(transition["clip"], transition["frame"] + 1)
+            next_goal = env.motions.goal(transition["clip"], transition["frame"] + 1,
+                goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=transition["next_state"][:, 3:7])
             next_ref = env.motions.get(transition["clip"], transition["frame"] + 1)["qpos"]
             next_value = self.critic(transition["next_state"], next_goal, context, next_ref)
             terminal = transition["terminated"] | transition["natural_end"]
