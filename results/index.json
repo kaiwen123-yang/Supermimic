@@ -18,7 +18,7 @@
             "ppo_mean_kl": 0.020334435810946162,
             "sim_step_reward": -0.07188412547111511,
             "sim_step_termination_fraction": 0.024322509765625,
-            "learning_rate": 1e-05,
+            "learning_rate": 0.00001,
             "collection_seconds": 0.7751656696200371,
             "policy_critic_seconds": 0.5655711982399225,
             "iteration": 8,
@@ -152,7 +152,7 @@
             "ppo_mean_kl": 0.01182870459742844,
             "sim_step_reward": 0.03070715442299843,
             "sim_step_termination_fraction": 0.0008951823110692203,
-            "learning_rate": 3.375000000000001e-05,
+            "learning_rate": 0.00003375000000000001,
             "collection_seconds": 1.0218255054205656,
             "policy_critic_seconds": 0.6692749932408333,
             "checkpoint_write_seconds": 0.23910709097981453,
@@ -779,11 +779,17 @@
   },
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
-    "protocol_id": "p2-correctness-goal-frame-v1",
+    "protocol_id": "p2-goal-feedback-joint-training-v2",
     "status": "planned_not_started",
     "document": "docs/REPRODUCTION_PLAN.md#p2-next-stage",
     "protocol": "configs/next_stage_correction_protocol.json",
     "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
-    "training_started": false
+    "training_started": false,
+    "iterations_per_arm": 6000,
+    "background_training_cap_hours_per_arm": 8,
+    "codex_interaction_window_max_hours": 4,
+    "focus": "Relative orientation feedback and full joint training",
+    "hash_or_smoke_tests": false,
+    "environment_modification_allowed": false
   }
 }

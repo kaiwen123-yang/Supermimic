@@ -1,104 +1,222 @@
 {
-  "protocol_id": "p2-correctness-goal-frame-v1",
+  "protocol_id": "p2-goal-feedback-joint-training-v2",
+  "updated_date_beijing": "2026-11-01",
   "status": "planned_not_started",
   "document": "docs/REPRODUCTION_PLAN.md#p2-next-stage",
   "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
   "execution_requires_explicit_start": true,
   "not_a_train_py_config": true,
-  "requires_implementation_before_launch": [
-    "Stable dataset content identity excluding wall_seconds and strict per-file verification",
-    "Explicit legacy manifest compatibility without editing old checkpoints",
-    "goal_frame support in all physical, imagined, critic, evaluation and diagnostic paths",
-    "Campaign-specific verified publication and deletion allowlist"
-  ],
-  "source_baseline_commit": "1da00fba2261a198dcf599c9f9937a9cc0ffc810",
+  "supersedes": "p2-correctness-goal-frame-v1",
+  "source_review_commit": "56b8afbcfcdfd69608447d2276c8d4b7246fd0ea",
+  "objective": "Add current-robot-relative orientation feedback throughout the full joint training loop and improve real complete-motion tracking.",
   "evidence": {
     "paper": "https://arxiv.org/abs/2610.28480v1",
-    "paper_sha256": "2dbcf0dcf362c22c7293d719acb399083c8ccf0b0205e787e1dcb63425572383",
-    "paper_sections": ["3.1", "3.2", "Appendix A, page 13, Table A.1", "Table A.2"],
-    "beyondmimic_commit": "9db915838b17785c6fec90c91fe80b95b147e1bd",
-    "beyondmimic_scope": "Relative anchor orientation remains in G1FlatWoStateEstimationEnvCfg; not proof of SuperMimic's unpublished exact goal encoding",
-    "legacy_dataset_manifest_sha256": "f0626e39012f5b4bd4496de7e42df5f66bb174a7f512f4241feff2c1e2efafb6",
-    "diagnostic_checkpoint_iteration": 2793,
-    "diagnostic_checkpoint_sha256": "0b83f2778d3e54f0256cfe8403fae60cad40b3b43e20e9678c15482ddc82a5ee",
-    "diagnostic_checkpoint_release": "https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-termination-s0-analytic_smooth-i0002793",
+    "paper_sections": [
+      "3.1–3.3",
+      "4.2",
+      "Appendix A–F"
+    ],
+    "summary": "results/20261101-termination-s0/summary.json",
     "comparison": "results/20261101-termination-s0/comparison.json",
-    "video_review": "results/20261101-termination-s0/videos/video_review.json"
+    "video_review": "results/20261101-termination-s0/videos/video_review.json",
+    "analytic_final": {
+      "iteration": 2793,
+      "completed": 20,
+      "total": 40,
+      "mean_normalized_return": 0.27833015770764724
+    },
+    "video_replay_completed": 19,
+    "analytic_completed_motion_mean_root_error_m": 3.819,
+    "fall_and_get_up_completed": 0,
+    "learning_transition": "Analytic arm was 0/40 at 2000 iterations and 20/40 at 2793; 3000 is now an interim milestone."
   },
-  "data_identity": {
-    "exclude_runtime_metadata": ["wall_seconds", "timestamps", "host", "creation_time"],
-    "include_content_definition": ["pinned source revision", "ordered clip names", "actual source and processed file hashes", "frame counts", "50 Hz", "joint/body order", "preprocessing semantic version"],
-    "verify_all_processed_files": true,
-    "legacy_compatibility": "Known original manifest plus verified actual file contents; no hash rewriting or bypass"
+  "requires_implementation_before_launch": [
+    "Remove runtime wall_seconds from dataset compatibility semantics; use documented source, ordered motions, frame counts, rate, joint/body order and preprocessing version",
+    "Implement goal_frame in physical sampling, imagined steps and terminal critic, PPO, evaluation and any diagnostics actually used",
+    "Use current predicted root orientation in imagined goal with state gradients retained",
+    "Remove optional hash calculations and restoration drills from the actual training/evaluation/publication invocation paths",
+    "Record complete evaluation trajectories for both scoring and video rendering"
+  ],
+  "data_definition": {
+    "runtime_metadata_excluded_from_compatibility": [
+      "wall_seconds",
+      "timestamps",
+      "host"
+    ],
+    "fields": [
+      "source revision",
+      "ordered clip names",
+      "frame counts",
+      "control_hz",
+      "joint/body order",
+      "preprocessing semantic version"
+    ],
+    "control_hz": 50,
+    "motions": 40,
+    "legacy_record_policy": "Keep historical metadata unchanged; use explicit recorded semantic provenance if loading old checkpoints.",
+    "new_hash_checks": false,
+    "load_hash_gate": false,
+    "restore_scope": "Only the current 40-motion working dataset and any specifically needed weight asset; no full historical archive."
   },
-  "phase_a": {
-    "training_updates": 0,
-    "fixed_checkpoint_full_motion_repeats": 3,
-    "motions_per_repeat": 40,
-    "diagnostic_starts": 120,
-    "diagnostic_horizons": [1, 8, 16, 32],
-    "offline_coordinate_probes": ["joint robot/reference rigid transform", "robot-only XY offset", "robot-only yaw offset"],
-    "probe_interpretation": "Semantic probes on recorded real trajectories, not physical task success"
-  },
-  "paired_training": {
-    "method": "supermimic",
-    "arms": ["reference_heading", "robot_root"],
-    "only_between_arm_learning_difference": "goal_frame",
-    "goal_definition": "Future orientation and root velocities expressed in Q; Q is reference heading for A and current robot root quaternion for B",
+  "goal": {
+    "arms": [
+      "reference_heading",
+      "robot_root"
+    ],
+    "reference_heading_Q": "Yaw component of the current reference root quaternion",
+    "robot_root_Q": "Current physical robot full root quaternion; current predicted full quaternion during imagination",
+    "orientation": "inverse(Q) * future_reference_quaternion, encoded with existing rotation_6d",
+    "velocity": "Future reference root linear and angular velocity expressed in Q coordinates",
     "goal_dim": 710,
     "proprioception_dim_per_frame": 93,
     "history_frames": 10,
     "root_anchor": "pelvis",
-    "new_actual_position_or_linear_velocity_input": false,
-    "orientation_assumption": "Current simulated root orientation, predicted root orientation in imagination; hardware estimator not validated",
-    "imagined_goal_state_gradient_retained": true,
+    "add_actual_XY_or_linear_velocity": false,
+    "remaining_limitation": "Pure robot XY translation remains unobservable to the actor",
+    "deployment_assumption": "Simulator root orientation is available; corresponding hardware estimation and initialization are future work",
+    "preserve_imagined_state_to_goal_gradient": true,
     "true_and_predicted_diagnostic_goals_separate": true,
+    "ppo_next_goal_state": "transition.next_state",
+    "old_checkpoint_goal_frame": "reference_heading"
+  },
+  "paired_training": {
+    "method": "supermimic",
+    "loop": "collect simulator data -> fit differentiable world model -> update actor and critic",
+    "only_between_arm_learning_difference": "goal_frame",
     "seed": 0,
-    "initialization": "Fresh identical network and RNG initialization, not a trained checkpoint warm start",
-    "iterations_per_arm": 3000,
-    "actor_updates_per_arm_if_complete": 2995,
-    "sim_transitions_per_arm_if_complete": 30982144,
-    "wall_cap_hours_per_arm": 4.0,
-    "execution": "sequential in dedicated tmux; other projects may continue",
+    "initialization": "Fresh same-seed network initialization for both arms; no trained warm start and no initialization hash check",
+    "iterations_per_arm": 6000,
+    "world_only_initial_iterations": 5,
+    "actor_updates_per_arm_if_complete": 5995,
+    "sim_transitions_per_arm_if_complete": 61702144,
+    "interim_iteration": 3000,
+    "background_training_cap_hours_per_arm": 8,
+    "total_training_cap_hours": 16,
+    "evaluations_rendering_uploads_separate_from_training_time": true,
+    "codex_interaction_window_max_hours": 4,
+    "window_handoff_does_not_restart_training": true,
+    "execution": "Dedicated tmux, robot_root arm first, then reference_heading; serial by default",
+    "no_early_restart_for_low_success": true,
     "imagination_termination": "analytic_smooth",
     "termination_smoothing_temperature": 0.05,
     "imagination_horizon": 32,
     "world_window": 8,
     "num_envs": 4096,
-    "unchanged_from": "configs/lafan40_termination_analytic_smooth.json except the common budget and implemented goal_frame field",
-    "wall_cap_behavior": "Do not extend; report actual finals and largest shared published 1000-iteration milestone"
+    "cosine_iterations": 250000,
+    "preserve_learning_rate_schedule": true,
+    "preserve": "Reward, physical termination, PD, noise, randomization, model sizes, optimizer settings and learned termination BCE",
+    "wall_cap_behavior": "Publish actual finals; compare largest common published iteration; do not silently extend",
+    "allow_shared_gpu": true,
+    "require_exclusive_gpu": false,
+    "arbitrary_12_GiB_cap": false
   },
   "evaluation": {
     "full_motions": 40,
-    "final_repeats_per_arm": 3,
-    "primary_score": "Original full-motion success and full-duration normalized return",
-    "additional_tracking_coverage": "alive AND root position error <=0.3m AND root SO3 error <=0.4rad, divided by full reference steps; failed tail zero",
-    "common_prefix_metrics_require_counts": true,
-    "prediction_counts": "All 120 plus pre-failure subset; report first-failure counts",
-    "primary_video_repeat": 0,
-    "video_motion_names": ["walk1_subject1", "run1_subject5", "dance2_subject3", "jumps1_subject1", "fallAndGetUp1_subject5"],
+    "start": "frame 0",
+    "friction": 1,
+    "domain_randomization": false,
+    "observation_noise": false,
+    "termination": "Original reference-relative height >0.25m OR gravity-z difference >0.8",
+    "primary_score": "Original full-motion completion and full-duration normalized return",
+    "every_iterations": 1000,
+    "final_full_motion_repeats_initially": 1,
+    "pretraining_old_checkpoint_replays": 0,
+    "repeat_only_if": "An observed borderline variation would change the substantive conclusion",
+    "extra_metrics": [
+      "root SO3 error",
+      "heading error on upright segments",
+      "root XY and position error",
+      "joint and relative-body error",
+      "reward components",
+      "failure time and category",
+      "common surviving prefixes with duration/sample count"
+    ],
+    "tracking_coverage": "alive AND root position error<=0.3m AND root SO3 error<=0.4rad, divided by full reference steps; failed tail zero",
+    "final_score_and_video_share_trajectory": true,
+    "video_motion_names": [
+      "walk1_subject1",
+      "run1_subject5",
+      "dance2_subject3",
+      "jumps1_subject1",
+      "fallAndGetUp1_subject5"
+    ],
+    "mandatory_120_start_diagnostic_sweep": false,
+    "targeted_diagnostics": "Only real failure windows needed to explain a concrete remaining question",
     "no_old_result_overwrite": true
   },
-  "continuation_criterion": {
-    "scope": "Predeclared engineering criterion, not paper success or statistical significance",
-    "common_prefix_root_orientation_error_relative_reduction_at_least": 0.2,
-    "tracking_coverage_must_not_decrease": true,
-    "mean_completed_motion_drop_at_most": 2,
-    "mean_normalized_return_relative_drop_at_most": 0.05,
-    "negative_result_action": "Publish all results and stop; retain confirmed correctness fixes"
+  "checkpointing": {
+    "every_iteration": true,
+    "keep_recent": 20,
+    "keep_initial": true,
+    "publish_every_iterations": 1000,
+    "publish_final": true,
+    "upload_retained_artifacts_once": true
   },
-  "checkpointing": {"every_iteration": true, "keep_recent": 20, "keep_initial": true, "publish_every_iterations": 1000, "publish_final": true},
   "publication_cleanup": {
-    "all_stage_consumers_must_finish": true,
-    "all_retained_artifacts_must_have_verified_remote_copy": true,
-    "remote_size_and_sha256_required": true,
-    "representative_final_checkpoint_restore_required": true,
-    "delete_only_explicit_campaign_artifact_paths": true,
-    "protect": ["source", ".venv", "dependency locks", "activation scripts", "robot assets", "working trees", "Git/stash", "recovery metadata", "pi-series", "MPC-RL", "shared caches"],
+    "git": "Source, actual configs, plans, compact results and one results/index.json",
+    "release": "All retained checkpoints, original trajectories/arrays, videos and large logs",
+    "server_direct_upload": true,
+    "no_user_pc_archive": true,
+    "minimum_upload_confirmation": [
+      "Git push completed",
+      "Release asset state uploaded",
+      "expected file name and byte count",
+      "download URL recorded"
+    ],
+    "remote_hash_checks": false,
+    "re_download_checks": false,
+    "restore_drills": false,
+    "delete_only_explicit_completed_artifact_paths": true,
+    "all_file_consumers_must_finish": true,
+    "end_of_stage_delete_all_uploaded_stage_artifact_copies": true,
+    "failed_upload_policy": "Keep each unpublished file and report it; continue unaffected work.",
+    "protect": [
+      "source",
+      "scripts/configs/docs",
+      ".git/stash",
+      ".venv",
+      "dependency locks",
+      "activation scripts",
+      "robot XML and meshes",
+      "development worktrees",
+      "recovery metadata",
+      "other projects",
+      "shared dependencies"
+    ],
     "no_entire_root_outputs_cache_or_work_deletion": true,
-    "no_large_artifact_mirror_on_user_pc": true,
-    "do_not_reuse_completed_20261101_cleanup_job": true
+    "do_not_reuse_completed_20261101_cleanup_job": true,
+    "environment_backup_or_reinstallation": false,
+    "cleanup_record": [
+      "exact removed paths",
+      "released space",
+      "unpublished files if any"
+    ]
   },
-  "deferred": ["H=16", "extra training seeds", "PPO retraining", "reward retuning", "actor global XY oracle", "BONES-SEED", "Go2", "hardware"],
-  "stop": "After two bounded runs, complete evaluation, publication, verified artifact cleanup and explanation; no automatic expansion"
+  "prohibited_work": [
+    "defensive programming",
+    "unit/mock/smoke/import/shape tests",
+    "hash tests or digest recalculation",
+    "restore drills",
+    "whole-disk scans",
+    "generic fallback/monitoring frameworks",
+    "unrelated reports"
+  ],
+  "decision_after_results": {
+    "improved_orientation_and_return": "Continue robot_root; next round matched-input PPO and training seeds",
+    "improved_orientation_but_drifting_XY": "Study estimated velocity/relative displacement; mark any simulator position oracle as a separate mechanism upper bound",
+    "persistent_get_up_failure": "Inspect actual contact-transition, orientation representation and model prediction in those failed motions",
+    "imagination_reality_gap": "Use actual failed windows to motivate a subsequent H=16/H=32 or model-learning change",
+    "no_improvement": "Publish actual result and revise based on concrete failure evidence"
+  },
+  "deferred": [
+    "reward/PD retuning",
+    "H or model-size sweeps",
+    "new PPO training this round",
+    "extra training seeds this round",
+    "BONES-SEED",
+    "Go2",
+    "velocity encoder",
+    "hardware"
+  ],
+  "stop": "After the two specified runs, complete evaluation/video, GitHub publication and exact artifact cleanup; report next evidence-based step."
 }

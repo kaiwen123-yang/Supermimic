@@ -1,5 +1,7 @@
 # SuperMimic 独立复现
 
+> **2026-11-01 当前执行约定：** 按 P2 v2 推进相对朝向反馈与完整联合训练，不运行哈希/冒烟等测试；GitHub 发布后只删除实验副本，正常工作环境保留。下方已有实验与清理核验文字是历史记录，不是新任务的前置步骤。
+
 本仓库用于以学习为目的，依据论文独立实现 **SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model**。当前已接入固定版本的 LAFAN1 40 条完整动作、G1 / MuJoCo Warp、可微运动学、SuperMimic 核心训练循环、PPO-Sim 和完整动作评估。实际运行结果见 `results/index.json`；源码实现、短程更新和复现成绩分别记录。
 
 - 论文：[arXiv:2610.28480v1](https://arxiv.org/abs/2610.28480v1)
@@ -20,7 +22,7 @@ cd /root/autodl-tmp/robot-repro/supermimic
 source activate.sh
 ```
 
-重建依赖：
+历史安装入口（当前环境已恢复，下一轮不执行）：
 ```bash
 bash scripts/setup_d57.sh
 ```
@@ -48,7 +50,7 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-**下一阶段已规划，尚未启动：** [P2 数据恢复与目标坐标修正](docs/REPRODUCTION_PLAN.md#p2-next-stage)。先修复数据身份混入准备耗时及缺少实际文件核验的问题，再做目标坐标信息诊断；在机制门通过后，比较 `reference_heading` 与 `robot_root` 两组，保留解析平滑终止和 H=32。拟定每组 3000 轮、4 小时上限，完整评估并发布后才清理精确列出的实验副本。协议见 [JSON](configs/next_stage_correction_protocol.json)，可复制的[启动提示词在这里](docs/NEXT_STAGE_START_PROMPT.md)。JSON 是待实现协议，不是现有 `train.py` 的可执行配置。
+**下一阶段 P2 v2 已规划，尚未启动：** [详细审阅与计划](docs/REPRODUCTION_PLAN.md#p2-next-stage)。当前已有真实初步成功：解析平滑终止 20/40，但完成动作仍有米级根位置误差，跌倒起身 0/6。下一轮优先把当前机器人相对参考的朝向反馈贯穿完整联合训练；比较 `reference_heading` 与 `robot_root` 两组，均 seed 0、6000 轮（3000 为中期）、后台每组最多 8 h。单个 Codex 交互窗口≤4 h，后台连续运行。沿用解析平滑终止与 H=32，最终评估直接记录视频轨迹。取消旧计划的哈希/冒烟等测试、旧策略三次重放、机械诊断扫描和恢复演练；GitHub/Release 确认上传后，删除已无消费者的本轮实验副本，保留源码、`.venv`、机器人资产和工作树。协议见 [JSON](configs/next_stage_correction_protocol.json)，[复制启动提示词](docs/NEXT_STAGE_START_PROMPT.md)。JSON 是待实现协议，不是现有 `train.py` 的可执行配置。
 
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 
@@ -83,8 +85,8 @@ bash scripts/run_termination_ablation_d57.sh 20261101-termination-s0
 # 数据准备（下载只发生在 D57；保存原始动作，不静默剔除困难片段）
 bash scripts/prepare_d57.sh
 
-# 数值核对与未学习的参考 PD 诊断
-bash scripts/validate_preparation_d57.sh
+# 历史前期入口，已完成；P2 v2 不再重复运行
+# bash scripts/validate_preparation_d57.sh
 
 # 独立 tmux 中运行真实短程学习和每种方法的 40 条完整评估
 tmux new-session -d -s sm-g1-learning 'cd /root/autodl-tmp/robot-repro/supermimic && bash scripts/run_development_d57.sh 20261031-r1'
@@ -101,9 +103,9 @@ python scripts/evaluate.py outputs/runs/lafan40-ppo-seed0/checkpoint_latest.pt
 
 用户在 2026-10-31 要求更密集的保存和推送：现在每轮原子保存完整模型/优化器检查点，保留最近 20 轮、初始版本和每个 1000 轮节点。编号文件不可覆盖，`checkpoint_latest.pt` 指向最近版本。检查点约数百 MB，滚动保留避免逐轮长期累积占满共享数据盘；回退到较旧版本时使用新的 run 名称。
 
-每 1000 轮自动建立独立发布 tmux：固定该版本，完成全部 40 条动作评估；SuperMimic 另外做 120 个确定性起点的 1/8/16/32 步真实仿真—模型对照。权重和复现元数据进入 GitHub Release，逐动作结果与指标进入 Git；逐个核对 GitHub 返回的资产大小和 SHA256 后发布。上传失败会保留失败记录，训练继续，已发布节点不被覆盖。运行索引区分“训练仍在进行，但已有阶段评估”和“训练预算及最终评估完成”。
+P2 v2 继续每 1000 轮固定版本并完成全部 40 条动作评估、发布。最终主评估同时保存录像轨迹；不再机械附加 120 起点诊断。权重和原始数据进入 GitHub Release，逐动作结果与指标进入 Git。按用户最新要求，后续执行将移除实际调用链中的自动哈希和恢复演练，只确认上传完成状态、文件名、字节数与下载 URL；上传失败保留未发布原件，训练照常推进。运行索引区分阶段评估与整轮完成。
 
-需要查看最新策略时，可在训练期间运行以下命令。评估会固定一次具体版本，即使 latest 继续变化或旧版本被滚动清理，结果和校验和仍对应同一组权重。
+需要查看最新策略时，可在训练期间运行以下命令。评估固定具体编号版本，记录 run/iteration 和对应 Release 资产，不跟随持续变化的 latest：
 
 ```bash
 python scripts/evaluate.py outputs/runs/20261031-learning-s0-supermimic/checkpoint_latest.pt
