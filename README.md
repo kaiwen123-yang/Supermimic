@@ -48,7 +48,9 @@ bash scripts/setup_d57.sh
 
 最终权重与诊断：[SuperMimic 2874](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-supermimic-i0002874)、[PPO-Sim 5614](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-ppo_sim-i0005614)。完整逐动作结果、各轮指标及恢复历史见 [本轮汇总](results/20261031-learning-s0/summary.json)。D57 原始日志为 `outputs/campaigns/20261031-learning-s0.log`。
 
-下一组为 `20261101-termination-s0`：在独立 tmux `sm-termination-s0` 中串行运行学习型与解析平滑终止两组，每组 3 h、seed 0，从同样初始参数开始，H=32 及原配置不变。两份配置只在 `imagination_termination` 字段不同；原终止网络的 BCE 训练保留，仅替换想象 Actor/Critic 使用的终止概率。协议与预设判据见 [复现计划](docs/REPRODUCTION_PLAN.md) 和 [机器可读协议](configs/termination_ablation_protocol.json)。实际是否启动/完成，以运行索引和服务器进程为准。
+终止处理对照 `20261101-termination-s0` 已于北京时间 2026-11-01 15:52 完成，两组各 3 h、seed 0、相同初始化、H=32；配置只相差 `imagination_termination`。学习型组最终第 2678 轮为 0/40 完整执行、平均 3.299 s、完成比例 1.5263%、归一化回报 0.004678；解析平滑组最终第 2793 轮为 20/40、159.15 s、68.7140%、0.278330。40 条动作的执行时间和回报均提高。两组最终权重、完整评估与诊断均已发布，见 [本轮汇总](results/20261101-termination-s0/summary.json) 和 [逐动作及机制对照](results/20261101-termination-s0/comparison.json)。
+
+该结果支持解析平滑终止在本次同预算单 seed 实现中改善实际控制；解析组多完成 115 轮更新，且共享 GPU 负载不同，因此不将墙钟效率或所有改善单独归因于世界模型。完成的 20 条动作仍有 1.11–7.59 m 的逐动作平均根位置误差，跌倒起身仍为 0/6。原终止网络的 BCE 训练保留，仅替换想象 Actor/Critic 使用的概率。协议、诊断解释和限制见 [复现计划](docs/REPRODUCTION_PLAN.md) 与 [机器可读协议](configs/termination_ablation_protocol.json)。按用户要求，当前先分析结果，没有启动下一轮实验。
 
 ```bash
 ssh autodl-d57

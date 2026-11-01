@@ -1,0 +1,1519 @@
+{
+  "campaign": "20261101-termination-s0",
+  "evidence_commit": "72159b0bd2953cfdbf6ad46d99ba8f3cf702ff43",
+  "config_differences": {
+    "imagination_termination": [
+      "learned",
+      "analytic_smooth"
+    ]
+  },
+  "primary_comparison": "Final checkpoints after each fixed 3-hour budget; no best-checkpoint substitution",
+  "arms": {
+    "learned": {
+      "checkpoint_sha256": "e6f898d274ae2de68793ced28e04afdedc1949c09b1d254f90c21339df56d1d1",
+      "release_url": "https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-termination-s0-learned-i0002678",
+      "wall_seconds": 10803.904914863408,
+      "actor_updates": 2673,
+      "sim_transitions": 27684864,
+      "final_evaluation": {
+        "iteration": 2678,
+        "completed": 0,
+        "motions": 40,
+        "mean_seconds": 3.299,
+        "median_seconds": 1.87,
+        "mean_completion_fraction": 0.015263370920573668,
+        "mean_normalized_return": 0.004678485528353227,
+        "termination_reasons": {
+          "root_height": 37,
+          "root_tilt": 3
+        }
+      },
+      "evaluation_history": [
+        {
+          "iteration": 0,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 0.8835000000000001,
+          "median_seconds": 0.86,
+          "mean_completion_fraction": 0.004217198252584186,
+          "mean_normalized_return": 0.0017939447290204278,
+          "termination_reasons": {
+            "root_height": 40
+          }
+        },
+        {
+          "iteration": 1000,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 1.367,
+          "median_seconds": 1.3800000000000001,
+          "mean_completion_fraction": 0.006477508235838568,
+          "mean_normalized_return": 0.0027826361382580875,
+          "termination_reasons": {
+            "root_height": 40
+          }
+        },
+        {
+          "iteration": 2000,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 2.8585000000000003,
+          "median_seconds": 2.24,
+          "mean_completion_fraction": 0.014041115263807052,
+          "mean_normalized_return": 0.0029282493647492846,
+          "termination_reasons": {
+            "root_height": 33,
+            "root_tilt": 7
+          }
+        },
+        {
+          "iteration": 2678,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 3.299,
+          "median_seconds": 1.87,
+          "mean_completion_fraction": 0.015263370920573668,
+          "mean_normalized_return": 0.004678485528353227,
+          "termination_reasons": {
+            "root_height": 37,
+            "root_tilt": 3
+          }
+        }
+      ],
+      "horizon_32": {
+        "horizon_steps": 32,
+        "horizon_seconds": 0.64,
+        "actual_survival_fraction": 0.9666666984558105,
+        "predicted_open_loop_survival": 0.9304997324943542,
+        "predicted_closed_loop_survival": 0.9461945295333862,
+        "open_loop_all_samples": {
+          "samples": 120,
+          "root_position_rmse_m": 0.2851487994194031,
+          "root_orientation_rmse_rad": 0.9635897874832153,
+          "joint_position_rmse_rad": 0.13683097064495087,
+          "root_velocity_rmse_m_per_s": 1.1283942461013794,
+          "normalized_state_mse": 0.03377938270568848
+        },
+        "open_loop_before_first_failure": {
+          "samples": 117,
+          "root_position_rmse_m": 0.26704707741737366,
+          "root_orientation_rmse_rad": 0.9401013255119324,
+          "joint_position_rmse_rad": 0.1354684680700302,
+          "root_velocity_rmse_m_per_s": 1.0879684686660767,
+          "normalized_state_mse": 0.03220808506011963
+        },
+        "closed_loop_before_first_failure": {
+          "samples": 117,
+          "root_position_rmse_m": 0.25212961435317993,
+          "root_orientation_rmse_rad": 0.6096937656402588,
+          "joint_position_rmse_rad": 0.21768508851528168,
+          "root_velocity_rmse_m_per_s": 0.8768717050552368,
+          "normalized_state_mse": 0.04793970286846161
+        },
+        "closed_vs_real_action_rmse": 0.7998875379562378
+      },
+      "termination_boundary": {
+        "iteration": 2678,
+        "checkpoint_sha256": "e6f898d274ae2de68793ced28e04afdedc1949c09b1d254f90c21339df56d1d1",
+        "imagination_termination": "learned",
+        "termination_smoothing_temperature": 0.05,
+        "analysis_script_sha256": "f2412792c8637fdea9d2911d4e835e79690a73e6fde07de1b8efa328a548eb78",
+        "scope": "Counterfactual feature grid of the active imagination termination rule; no physical episode or policy-success claim",
+        "actual_hard_height_threshold_m": 0.25,
+        "actual_hard_gravity_z_threshold": 0.8,
+        "height_at_zero_tilt": [
+          {
+            "height_error_m": 0.0,
+            "predicted_probability": 1.130826944972796e-06,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.1,
+            "predicted_probability": 2.057395704468945e-06,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.2,
+            "predicted_probability": 0.0001950529112946242,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.249,
+            "predicted_probability": 0.0026476446073502302,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.251,
+            "predicted_probability": 0.0029157500248402357,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.3,
+            "predicted_probability": 0.02219630777835846,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.4,
+            "predicted_probability": 0.31747865676879883,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.5,
+            "predicted_probability": 0.824195146560669,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.75,
+            "predicted_probability": 0.9981321692466736,
+            "actual_hard_termination": true
+          }
+        ],
+        "tilt_at_zero_height": [
+          {
+            "gravity_z_error": 0.0,
+            "predicted_probability": 1.130826944972796e-06,
+            "actual_hard_termination": false
+          },
+          {
+            "gravity_z_error": 0.4,
+            "predicted_probability": 0.00010648377792676911,
+            "actual_hard_termination": false
+          },
+          {
+            "gravity_z_error": 0.79,
+            "predicted_probability": 0.04472002387046814,
+            "actual_hard_termination": false
+          },
+          {
+            "gravity_z_error": 0.81,
+            "predicted_probability": 0.05996498465538025,
+            "actual_hard_termination": true
+          },
+          {
+            "gravity_z_error": 1.0,
+            "predicted_probability": 0.43591931462287903,
+            "actual_hard_termination": true
+          },
+          {
+            "gravity_z_error": 1.2,
+            "predicted_probability": 0.8563849329948425,
+            "actual_hard_termination": true
+          },
+          {
+            "gravity_z_error": 1.6,
+            "predicted_probability": 0.9939149022102356,
+            "actual_hard_termination": true
+          }
+        ],
+        "height_at_first_probability_over_half_m": 0.4312500059604645,
+        "gravity_z_at_first_probability_over_half": 1.0232000350952148,
+        "height_grid_resolution_m": 0.00025,
+        "gravity_z_grid_resolution": 0.0008
+      },
+      "first_failure_probability": {
+        "samples": 4,
+        "probability_on_real_state": 0.007092839223332703,
+        "probability_on_open_model_state": 0.08670341901597567,
+        "probability_on_closed_model_state": 0.08500033912059735
+      },
+      "termination_on_true_states": {
+        "safe_state_count": 3775,
+        "first_terminal_count": 4,
+        "mean_probability_on_safe_states": 3.0204845085086312e-05,
+        "mean_probability_on_first_terminal_states": 0.007092839223332703,
+        "brier_score": 0.0010436221338184972
+      },
+      "other_gpu_processes_at_start": "pid, used_gpu_memory [MiB]\n3269, 756 MiB\n72019, 8778 MiB\n",
+      "verified_git_evidence_sha256": {
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/config.json": "1372fd253094801f9ff24e56a15f811c8b34e8bea2fd980bf895462199297262",
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/runtime.json": "8f658f7947c3a6d82f3e706eeaf5afe63830ab57bd593bafbe618c9fc039acf1",
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/evaluation.json": "991a9f1bcbca5ad37b271ec6b9e6c1a37a15b6d568e71b6100dcf971b4f7a5ba",
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/checkpoint_manifest.json": "749e311d635bfae7bf4c51a039a53b31b94355fd2708f67399333c8284e0f633",
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/metrics.jsonl": "9f282a131ba876d4f488864e7b0490bcd74f7cbd36e13498139d575b68131c4c",
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/model_diagnostics.json": "260bf1e536428bf9dfea9f6dbedf659e839b00a8a54acf1b9e210fb59a743b8f",
+        "results/20261101-termination-s0-learned/milestones/iteration_0002678/termination_boundary.json": "c4a103b10c5a4eaa260487a286f7a5d4dcb464e14d5f55906c4e20b1d16dfc8b"
+      }
+    },
+    "analytic_smooth": {
+      "checkpoint_sha256": "0b83f2778d3e54f0256cfe8403fae60cad40b3b43e20e9678c15482ddc82a5ee",
+      "release_url": "https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-termination-s0-analytic_smooth-i0002793",
+      "wall_seconds": 10802.27477216348,
+      "actor_updates": 2788,
+      "sim_transitions": 28860416,
+      "final_evaluation": {
+        "iteration": 2793,
+        "completed": 20,
+        "motions": 40,
+        "mean_seconds": 159.15,
+        "median_seconds": 185.39,
+        "mean_completion_fraction": 0.6871396697408569,
+        "mean_normalized_return": 0.27833015770764724,
+        "termination_reasons": {
+          "root_tilt": 1,
+          "root_height": 19,
+          "completed": 20
+        }
+      },
+      "evaluation_history": [
+        {
+          "iteration": 0,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 0.8835000000000001,
+          "median_seconds": 0.86,
+          "mean_completion_fraction": 0.004217198252584186,
+          "mean_normalized_return": 0.0017939708166712803,
+          "termination_reasons": {
+            "root_height": 40
+          }
+        },
+        {
+          "iteration": 1000,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 1.039,
+          "median_seconds": 1.03,
+          "mean_completion_fraction": 0.00494710340674891,
+          "mean_normalized_return": 0.002073429943627461,
+          "termination_reasons": {
+            "root_tilt": 29,
+            "root_height": 11
+          }
+        },
+        {
+          "iteration": 2000,
+          "completed": 0,
+          "motions": 40,
+          "mean_seconds": 3.411,
+          "median_seconds": 3.2300000000000004,
+          "mean_completion_fraction": 0.016520402170949907,
+          "mean_normalized_return": 0.0028972691332974933,
+          "termination_reasons": {
+            "root_height": 40
+          }
+        },
+        {
+          "iteration": 2793,
+          "completed": 20,
+          "motions": 40,
+          "mean_seconds": 159.15,
+          "median_seconds": 185.39,
+          "mean_completion_fraction": 0.6871396697408569,
+          "mean_normalized_return": 0.27833015770764724,
+          "termination_reasons": {
+            "root_tilt": 1,
+            "root_height": 19,
+            "completed": 20
+          }
+        }
+      ],
+      "horizon_32": {
+        "horizon_steps": 32,
+        "horizon_seconds": 0.64,
+        "actual_survival_fraction": 0.9583333730697632,
+        "predicted_open_loop_survival": 0.8990311026573181,
+        "predicted_closed_loop_survival": 0.9212930798530579,
+        "open_loop_all_samples": {
+          "samples": 120,
+          "root_position_rmse_m": 0.22571377456188202,
+          "root_orientation_rmse_rad": 0.7388493418693542,
+          "joint_position_rmse_rad": 0.12477774918079376,
+          "root_velocity_rmse_m_per_s": 0.8665458559989929,
+          "normalized_state_mse": 0.02377292327582836
+        },
+        "open_loop_before_first_failure": {
+          "samples": 115,
+          "root_position_rmse_m": 0.1908557116985321,
+          "root_orientation_rmse_rad": 0.709448516368866,
+          "joint_position_rmse_rad": 0.12012995779514313,
+          "root_velocity_rmse_m_per_s": 0.8070164918899536,
+          "normalized_state_mse": 0.02037607505917549
+        },
+        "closed_loop_before_first_failure": {
+          "samples": 115,
+          "root_position_rmse_m": 0.1465744972229004,
+          "root_orientation_rmse_rad": 0.501124918460846,
+          "joint_position_rmse_rad": 0.1405499428510666,
+          "root_velocity_rmse_m_per_s": 0.5221494436264038,
+          "normalized_state_mse": 0.022155901417136192
+        },
+        "closed_vs_real_action_rmse": 0.6075637340545654
+      },
+      "termination_boundary": {
+        "iteration": 2793,
+        "checkpoint_sha256": "0b83f2778d3e54f0256cfe8403fae60cad40b3b43e20e9678c15482ddc82a5ee",
+        "imagination_termination": "analytic_smooth",
+        "termination_smoothing_temperature": 0.05,
+        "analysis_script_sha256": "f2412792c8637fdea9d2911d4e835e79690a73e6fde07de1b8efa328a548eb78",
+        "scope": "Counterfactual feature grid of the active imagination termination rule; no physical episode or policy-success claim",
+        "actual_hard_height_threshold_m": 0.25,
+        "actual_hard_gravity_z_threshold": 0.8,
+        "height_at_zero_tilt": [
+          {
+            "height_error_m": 0.0,
+            "predicted_probability": 0.0,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.1,
+            "predicted_probability": 6.139278411865234e-06,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.2,
+            "predicted_probability": 0.0179862380027771,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.249,
+            "predicted_probability": 0.48001062870025635,
+            "actual_hard_termination": false
+          },
+          {
+            "height_error_m": 0.251,
+            "predicted_probability": 0.5199890732765198,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.3,
+            "predicted_probability": 0.9820137619972229,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.4,
+            "predicted_probability": 0.9999938011169434,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.5,
+            "predicted_probability": 1.0,
+            "actual_hard_termination": true
+          },
+          {
+            "height_error_m": 0.75,
+            "predicted_probability": 1.0,
+            "actual_hard_termination": true
+          }
+        ],
+        "tilt_at_zero_height": [
+          {
+            "gravity_z_error": 0.0,
+            "predicted_probability": 0.0,
+            "actual_hard_termination": false
+          },
+          {
+            "gravity_z_error": 0.4,
+            "predicted_probability": 4.5418739318847656e-05,
+            "actual_hard_termination": false
+          },
+          {
+            "gravity_z_error": 0.79,
+            "predicted_probability": 0.4378235340118408,
+            "actual_hard_termination": false
+          },
+          {
+            "gravity_z_error": 0.81,
+            "predicted_probability": 0.5621767640113831,
+            "actual_hard_termination": true
+          },
+          {
+            "gravity_z_error": 1.0,
+            "predicted_probability": 0.9933071732521057,
+            "actual_hard_termination": true
+          },
+          {
+            "gravity_z_error": 1.2,
+            "predicted_probability": 0.9999545812606812,
+            "actual_hard_termination": true
+          },
+          {
+            "gravity_z_error": 1.6,
+            "predicted_probability": 1.0,
+            "actual_hard_termination": true
+          }
+        ],
+        "height_at_first_probability_over_half_m": 0.25,
+        "gravity_z_at_first_probability_over_half": 0.8,
+        "height_grid_resolution_m": 0.00025,
+        "gravity_z_grid_resolution": 0.0008
+      },
+      "first_failure_probability": {
+        "samples": 5,
+        "probability_on_real_state": 0.7265002369880676,
+        "probability_on_open_model_state": 0.669119393825531,
+        "probability_on_closed_model_state": 0.5311731934547425
+      },
+      "termination_on_true_states": {
+        "safe_state_count": 3794,
+        "first_terminal_count": 5,
+        "mean_probability_on_safe_states": 0.000937292276713241,
+        "mean_probability_on_first_terminal_states": 0.7265002369880676,
+        "brier_score": 0.00029114163305345457
+      },
+      "other_gpu_processes_at_start": "pid, used_gpu_memory [MiB]\n3269, 756 MiB\n",
+      "verified_git_evidence_sha256": {
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/config.json": "1a1e96be879a138aa180b64bba0f348241b48bd53e3a57cd06714df6f6a65b7b",
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/runtime.json": "655f80b6a27e49a324a9f785ef8555237cad9c8a9b215e079dd92618bb05b559",
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/evaluation.json": "b8c91f8c63687150c9370b21d3f77d1768d22283ccb897150d87c214fa4b0ad4",
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/checkpoint_manifest.json": "1c8853dea16f388c4bb42f0596367f8f4cb1ad0dac25fd6a2649ffce79fa0bbf",
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/metrics.jsonl": "0abad45f12eaa8e8e92c114b13cdc2270982d8adf7391c9f1c9673e34cf6b93f",
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/model_diagnostics.json": "442f86e6ffc14706172afa24e0690049ad9466b609192d5562465d2b4884a354",
+        "results/20261101-termination-s0-analytic_smooth/milestones/iteration_0002793/termination_boundary.json": "a8ff26b67b5be4e637c9cdab656c5c19f9832d529c87a9269379243ea656d55e"
+      }
+    }
+  },
+  "per_motion": [
+    {
+      "motion": "dance1_subject1",
+      "learned": {
+        "motion": "dance1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 87,
+        "full_reference_steps": 6573,
+        "completion_fraction": 0.01323596531264263,
+        "normalized_return": 0.0029810710383498936,
+        "root_position_error_before_failure_m": 0.39826382165667656
+      },
+      "analytic_smooth": {
+        "motion": "dance1_subject1",
+        "failed": true,
+        "reason": "root_tilt",
+        "executed_steps": 5336,
+        "full_reference_steps": 6573,
+        "completion_fraction": 0.8118058725087479,
+        "normalized_return": 0.28500367603798205,
+        "root_position_error_before_failure_m": 1.796174422554348
+      },
+      "execution_seconds_change": 104.98,
+      "normalized_return_change": 0.28202260499963216
+    },
+    {
+      "motion": "dance1_subject2",
+      "learned": {
+        "motion": "dance1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 358,
+        "full_reference_steps": 6573,
+        "completion_fraction": 0.05446523657386277,
+        "normalized_return": 0.019961540945294818,
+        "root_position_error_before_failure_m": 1.2113036256928684
+      },
+      "analytic_smooth": {
+        "motion": "dance1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 3585,
+        "full_reference_steps": 6573,
+        "completion_fraction": 0.5454130534002738,
+        "normalized_return": 0.1764203525289596,
+        "root_position_error_before_failure_m": 1.3955415903940027
+      },
+      "execution_seconds_change": 64.54,
+      "normalized_return_change": 0.1564588115836648
+    },
+    {
+      "motion": "dance1_subject3",
+      "learned": {
+        "motion": "dance1_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 80,
+        "full_reference_steps": 6573,
+        "completion_fraction": 0.01217100258633805,
+        "normalized_return": 0.0032161625302510773,
+        "root_position_error_before_failure_m": 0.34158341884613036
+      },
+      "analytic_smooth": {
+        "motion": "dance1_subject3",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 6573,
+        "full_reference_steps": 6573,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.41315591482199904,
+        "root_position_error_before_failure_m": 1.2173629335919671
+      },
+      "execution_seconds_change": 129.86,
+      "normalized_return_change": 0.40993975229174795
+    },
+    {
+      "motion": "dance2_subject1",
+      "learned": {
+        "motion": "dance2_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 92,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.008153859789063193,
+        "normalized_return": 0.0018126022347657593,
+        "root_position_error_before_failure_m": 0.39882937721584155
+      },
+      "analytic_smooth": {
+        "motion": "dance2_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 4657,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.41274483736594875,
+        "normalized_return": 0.1425165759432055,
+        "root_position_error_before_failure_m": 4.270558349661799
+      },
+      "execution_seconds_change": 91.3,
+      "normalized_return_change": 0.14070397370843973
+    },
+    {
+      "motion": "dance2_subject2",
+      "learned": {
+        "motion": "dance2_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 436,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.03864220508729948,
+        "normalized_return": 0.01353792293500913,
+        "root_position_error_before_failure_m": 1.6536057498476922
+      },
+      "analytic_smooth": {
+        "motion": "dance2_subject2",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 11283,
+        "full_reference_steps": 11283,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.3435503848000726,
+        "root_position_error_before_failure_m": 1.81183926454622
+      },
+      "execution_seconds_change": 216.94,
+      "normalized_return_change": 0.3300124618650635
+    },
+    {
+      "motion": "dance2_subject3",
+      "learned": {
+        "motion": "dance2_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 118,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.010458211468581051,
+        "normalized_return": 0.0036011221433567006,
+        "root_position_error_before_failure_m": 0.2774540852692168
+      },
+      "analytic_smooth": {
+        "motion": "dance2_subject3",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 11283,
+        "full_reference_steps": 11283,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4090433577997596,
+        "root_position_error_before_failure_m": 1.6586267088761855
+      },
+      "execution_seconds_change": 223.3,
+      "normalized_return_change": 0.40544223565640286
+    },
+    {
+      "motion": "dance2_subject4",
+      "learned": {
+        "motion": "dance2_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 130,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.011521758397589293,
+        "normalized_return": 0.0019308910675846728,
+        "root_position_error_before_failure_m": 0.953783944936899
+      },
+      "analytic_smooth": {
+        "motion": "dance2_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 2916,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.25844190374900294,
+        "normalized_return": 0.09398843362421619,
+        "root_position_error_before_failure_m": 0.7980845677672754
+      },
+      "execution_seconds_change": 55.72,
+      "normalized_return_change": 0.09205754255663151
+    },
+    {
+      "motion": "dance2_subject5",
+      "learned": {
+        "motion": "dance2_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 96,
+        "full_reference_steps": 11283,
+        "completion_fraction": 0.00850837543206594,
+        "normalized_return": 0.0019279135295202216,
+        "root_position_error_before_failure_m": 0.4030297597249349
+      },
+      "analytic_smooth": {
+        "motion": "dance2_subject5",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 11283,
+        "full_reference_steps": 11283,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.3825713399981582,
+        "root_position_error_before_failure_m": 1.1115457159000266
+      },
+      "execution_seconds_change": 223.74,
+      "normalized_return_change": 0.38064342646863797
+    },
+    {
+      "motion": "fallAndGetUp1_subject1",
+      "learned": {
+        "motion": "fallAndGetUp1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 78,
+        "full_reference_steps": 8410,
+        "completion_fraction": 0.009274673008323424,
+        "normalized_return": 0.002311621494724124,
+        "root_position_error_before_failure_m": 0.2724728462023613
+      },
+      "analytic_smooth": {
+        "motion": "fallAndGetUp1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 272,
+        "full_reference_steps": 8410,
+        "completion_fraction": 0.032342449464922714,
+        "normalized_return": 0.01831160260720996,
+        "root_position_error_before_failure_m": 0.17726506906397202
+      },
+      "execution_seconds_change": 3.88,
+      "normalized_return_change": 0.015999981112485837
+    },
+    {
+      "motion": "fallAndGetUp1_subject4",
+      "learned": {
+        "motion": "fallAndGetUp1_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 114,
+        "full_reference_steps": 8410,
+        "completion_fraction": 0.013555291319857313,
+        "normalized_return": 0.0033662253979695397,
+        "root_position_error_before_failure_m": 0.3750002007735403
+      },
+      "analytic_smooth": {
+        "motion": "fallAndGetUp1_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 300,
+        "full_reference_steps": 8410,
+        "completion_fraction": 0.0356718192627824,
+        "normalized_return": 0.02119958584997515,
+        "root_position_error_before_failure_m": 0.20703829447428385
+      },
+      "execution_seconds_change": 3.72,
+      "normalized_return_change": 0.01783336045200561
+    },
+    {
+      "motion": "fallAndGetUp1_subject5",
+      "learned": {
+        "motion": "fallAndGetUp1_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 75,
+        "full_reference_steps": 8410,
+        "completion_fraction": 0.0089179548156956,
+        "normalized_return": 0.002696406118367997,
+        "root_position_error_before_failure_m": 0.35017720540364583
+      },
+      "analytic_smooth": {
+        "motion": "fallAndGetUp1_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 368,
+        "full_reference_steps": 8410,
+        "completion_fraction": 0.04375743162901308,
+        "normalized_return": 0.02237765372295584,
+        "root_position_error_before_failure_m": 0.6817095797994862
+      },
+      "execution_seconds_change": 5.86,
+      "normalized_return_change": 0.01968124760458784
+    },
+    {
+      "motion": "fallAndGetUp2_subject2",
+      "learned": {
+        "motion": "fallAndGetUp2_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 292,
+        "full_reference_steps": 8195,
+        "completion_fraction": 0.03563148261134838,
+        "normalized_return": 0.017770969700420535,
+        "root_position_error_before_failure_m": 0.4316301215184878
+      },
+      "analytic_smooth": {
+        "motion": "fallAndGetUp2_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 295,
+        "full_reference_steps": 8195,
+        "completion_fraction": 0.03599755948749237,
+        "normalized_return": 0.01782057007469005,
+        "root_position_error_before_failure_m": 0.4602919756355932
+      },
+      "execution_seconds_change": 0.06,
+      "normalized_return_change": 4.9600374269515024e-05
+    },
+    {
+      "motion": "fallAndGetUp2_subject3",
+      "learned": {
+        "motion": "fallAndGetUp2_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 94,
+        "full_reference_steps": 8195,
+        "completion_fraction": 0.011470408785845028,
+        "normalized_return": 0.002590472120712122,
+        "root_position_error_before_failure_m": 0.40957422459379156
+      },
+      "analytic_smooth": {
+        "motion": "fallAndGetUp2_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 267,
+        "full_reference_steps": 8195,
+        "completion_fraction": 0.03258084197681513,
+        "normalized_return": 0.01926048097267174,
+        "root_position_error_before_failure_m": 0.21735432085472992
+      },
+      "execution_seconds_change": 3.46,
+      "normalized_return_change": 0.01667000885195962
+    },
+    {
+      "motion": "fallAndGetUp3_subject1",
+      "learned": {
+        "motion": "fallAndGetUp3_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 74,
+        "full_reference_steps": 5108,
+        "completion_fraction": 0.014487079091620987,
+        "normalized_return": 0.003478344567791036,
+        "root_position_error_before_failure_m": 0.34778272783434067
+      },
+      "analytic_smooth": {
+        "motion": "fallAndGetUp3_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 447,
+        "full_reference_steps": 5108,
+        "completion_fraction": 0.0875097885669538,
+        "normalized_return": 0.046956944297605316,
+        "root_position_error_before_failure_m": 0.8093851588716443
+      },
+      "execution_seconds_change": 7.46,
+      "normalized_return_change": 0.04347859972981428
+    },
+    {
+      "motion": "fight1_subject2",
+      "learned": {
+        "motion": "fight1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 390,
+        "full_reference_steps": 12243,
+        "completion_fraction": 0.031854937515314874,
+        "normalized_return": 0.00896819187205747,
+        "root_position_error_before_failure_m": 1.9562611115284456
+      },
+      "analytic_smooth": {
+        "motion": "fight1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 1252,
+        "full_reference_steps": 12243,
+        "completion_fraction": 0.10226251735685699,
+        "normalized_return": 0.03093753133267639,
+        "root_position_error_before_failure_m": 2.281637465991913
+      },
+      "execution_seconds_change": 17.240000000000002,
+      "normalized_return_change": 0.021969339460618922
+    },
+    {
+      "motion": "fight1_subject3",
+      "learned": {
+        "motion": "fight1_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 79,
+        "full_reference_steps": 12243,
+        "completion_fraction": 0.00645266683002532,
+        "normalized_return": 0.0018796003167656312,
+        "root_position_error_before_failure_m": 0.24005119710028927
+      },
+      "analytic_smooth": {
+        "motion": "fight1_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 584,
+        "full_reference_steps": 12243,
+        "completion_fraction": 0.047700726946009964,
+        "normalized_return": 0.02047689329279917,
+        "root_position_error_before_failure_m": 0.8431953534688035
+      },
+      "execution_seconds_change": 10.1,
+      "normalized_return_change": 0.01859729297603354
+    },
+    {
+      "motion": "fight1_subject5",
+      "learned": {
+        "motion": "fight1_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 92,
+        "full_reference_steps": 12243,
+        "completion_fraction": 0.007514498080535816,
+        "normalized_return": 0.0017279189347461344,
+        "root_position_error_before_failure_m": 0.47792841040569806
+      },
+      "analytic_smooth": {
+        "motion": "fight1_subject5",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12243,
+        "full_reference_steps": 12243,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.3380484449739775,
+        "root_position_error_before_failure_m": 4.04348084109287
+      },
+      "execution_seconds_change": 243.02,
+      "normalized_return_change": 0.3363205260392314
+    },
+    {
+      "motion": "fightAndSports1_subject1",
+      "learned": {
+        "motion": "fightAndSports1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 84,
+        "full_reference_steps": 12256,
+        "completion_fraction": 0.00685378590078329,
+        "normalized_return": 0.0017806979056749267,
+        "root_position_error_before_failure_m": 0.337923526763916
+      },
+      "analytic_smooth": {
+        "motion": "fightAndSports1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 2238,
+        "full_reference_steps": 12256,
+        "completion_fraction": 0.18260443864229764,
+        "normalized_return": 0.0694699013513311,
+        "root_position_error_before_failure_m": 1.2993255697050938
+      },
+      "execution_seconds_change": 43.08,
+      "normalized_return_change": 0.06768920344565618
+    },
+    {
+      "motion": "fightAndSports1_subject4",
+      "learned": {
+        "motion": "fightAndSports1_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 96,
+        "full_reference_steps": 12256,
+        "completion_fraction": 0.007832898172323759,
+        "normalized_return": 0.0019048570652854659,
+        "root_position_error_before_failure_m": 0.4659671386082967
+      },
+      "analytic_smooth": {
+        "motion": "fightAndSports1_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 4651,
+        "full_reference_steps": 12256,
+        "completion_fraction": 0.37948759791122716,
+        "normalized_return": 0.15367424519192766,
+        "root_position_error_before_failure_m": 1.5790907491332509
+      },
+      "execution_seconds_change": 91.10000000000001,
+      "normalized_return_change": 0.1517693881266422
+    },
+    {
+      "motion": "jumps1_subject1",
+      "learned": {
+        "motion": "jumps1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 78,
+        "full_reference_steps": 12221,
+        "completion_fraction": 0.006382456427460928,
+        "normalized_return": 0.0019022341728912769,
+        "root_position_error_before_failure_m": 0.3021586491511418
+      },
+      "analytic_smooth": {
+        "motion": "jumps1_subject1",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12221,
+        "full_reference_steps": 12221,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.38022465132699346,
+        "root_position_error_before_failure_m": 4.097390314315523
+      },
+      "execution_seconds_change": 242.86,
+      "normalized_return_change": 0.3783224171541022
+    },
+    {
+      "motion": "jumps1_subject2",
+      "learned": {
+        "motion": "jumps1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 492,
+        "full_reference_steps": 12221,
+        "completion_fraction": 0.04025857131167662,
+        "normalized_return": 0.014128125091395412,
+        "root_position_error_before_failure_m": 1.8525373257272613
+      },
+      "analytic_smooth": {
+        "motion": "jumps1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 9431,
+        "full_reference_steps": 12221,
+        "completion_fraction": 0.7717044431715899,
+        "normalized_return": 0.3265689506184283,
+        "root_position_error_before_failure_m": 2.673903508045276
+      },
+      "execution_seconds_change": 178.78,
+      "normalized_return_change": 0.31244082552703284
+    },
+    {
+      "motion": "jumps1_subject5",
+      "learned": {
+        "motion": "jumps1_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 71,
+        "full_reference_steps": 12221,
+        "completion_fraction": 0.005809671876278537,
+        "normalized_return": 0.0016799014832596761,
+        "root_position_error_before_failure_m": 0.3019087616826447
+      },
+      "analytic_smooth": {
+        "motion": "jumps1_subject5",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12221,
+        "full_reference_steps": 12221,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4007651464276399,
+        "root_position_error_before_failure_m": 2.4332829057053433
+      },
+      "execution_seconds_change": 243.0,
+      "normalized_return_change": 0.3990852449443802
+    },
+    {
+      "motion": "run1_subject2",
+      "learned": {
+        "motion": "run1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 435,
+        "full_reference_steps": 11890,
+        "completion_fraction": 0.036585365853658534,
+        "normalized_return": 0.013737722642287373,
+        "root_position_error_before_failure_m": 1.494647988505747
+      },
+      "analytic_smooth": {
+        "motion": "run1_subject2",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 11890,
+        "full_reference_steps": 11890,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.3360898568912952,
+        "root_position_error_before_failure_m": 3.441881636354079
+      },
+      "execution_seconds_change": 229.1,
+      "normalized_return_change": 0.3223521342490078
+    },
+    {
+      "motion": "run1_subject5",
+      "learned": {
+        "motion": "run1_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 75,
+        "full_reference_steps": 11890,
+        "completion_fraction": 0.006307821698906644,
+        "normalized_return": 0.002250216205747715,
+        "root_position_error_before_failure_m": 0.24821721394856772
+      },
+      "analytic_smooth": {
+        "motion": "run1_subject5",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 11890,
+        "full_reference_steps": 11890,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.25357966828085576,
+        "root_position_error_before_failure_m": 7.587200378469302
+      },
+      "execution_seconds_change": 236.3,
+      "normalized_return_change": 0.25132945207510804
+    },
+    {
+      "motion": "run2_subject1",
+      "learned": {
+        "motion": "run2_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 80,
+        "full_reference_steps": 12240,
+        "completion_fraction": 0.006535947712418301,
+        "normalized_return": 0.002030955615386464,
+        "root_position_error_before_failure_m": 0.23144106864929198
+      },
+      "analytic_smooth": {
+        "motion": "run2_subject1",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12240,
+        "full_reference_steps": 12240,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.2867482752581827,
+        "root_position_error_before_failure_m": 5.585113485498366
+      },
+      "execution_seconds_change": 243.20000000000002,
+      "normalized_return_change": 0.28471731964279623
+    },
+    {
+      "motion": "run2_subject4",
+      "learned": {
+        "motion": "run2_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 100,
+        "full_reference_steps": 12240,
+        "completion_fraction": 0.008169934640522876,
+        "normalized_return": 0.002741702631408093,
+        "root_position_error_before_failure_m": 0.22699649810791014
+      },
+      "analytic_smooth": {
+        "motion": "run2_subject4",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12240,
+        "full_reference_steps": 12240,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.29254409690308414,
+        "root_position_error_before_failure_m": 4.899567567912582
+      },
+      "execution_seconds_change": 242.8,
+      "normalized_return_change": 0.28980239427167603
+    },
+    {
+      "motion": "sprint1_subject2",
+      "learned": {
+        "motion": "sprint1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 1141,
+        "full_reference_steps": 13655,
+        "completion_fraction": 0.08355913584767484,
+        "normalized_return": 0.023896897943497402,
+        "root_position_error_before_failure_m": 4.644258651265337
+      },
+      "analytic_smooth": {
+        "motion": "sprint1_subject2",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 13655,
+        "full_reference_steps": 13655,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4604441678729174,
+        "root_position_error_before_failure_m": 4.018106920541926
+      },
+      "execution_seconds_change": 250.28,
+      "normalized_return_change": 0.43654726992942
+    },
+    {
+      "motion": "sprint1_subject4",
+      "learned": {
+        "motion": "sprint1_subject4",
+        "failed": true,
+        "reason": "root_tilt",
+        "executed_steps": 89,
+        "full_reference_steps": 13655,
+        "completion_fraction": 0.006517759062614427,
+        "normalized_return": 0.0014682125146028456,
+        "root_position_error_before_failure_m": 0.2999380947498793
+      },
+      "analytic_smooth": {
+        "motion": "sprint1_subject4",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 13655,
+        "full_reference_steps": 13655,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4419670314502472,
+        "root_position_error_before_failure_m": 4.894603625045771
+      },
+      "execution_seconds_change": 271.32,
+      "normalized_return_change": 0.44049881893564435
+    },
+    {
+      "motion": "walk1_subject1",
+      "learned": {
+        "motion": "walk1_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 93,
+        "full_reference_steps": 13065,
+        "completion_fraction": 0.00711825487944891,
+        "normalized_return": 0.0020622024579929565,
+        "root_position_error_before_failure_m": 0.25900647973501556
+      },
+      "analytic_smooth": {
+        "motion": "walk1_subject1",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 13065,
+        "full_reference_steps": 13065,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.49796530792551663,
+        "root_position_error_before_failure_m": 4.512395055970149
+      },
+      "execution_seconds_change": 259.44,
+      "normalized_return_change": 0.4959031054675237
+    },
+    {
+      "motion": "walk1_subject2",
+      "learned": {
+        "motion": "walk1_subject2",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 119,
+        "full_reference_steps": 13065,
+        "completion_fraction": 0.00910830463069269,
+        "normalized_return": 0.0025107932647343025,
+        "root_position_error_before_failure_m": 0.3985576469357274
+      },
+      "analytic_smooth": {
+        "motion": "walk1_subject2",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 13065,
+        "full_reference_steps": 13065,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4147938941111749,
+        "root_position_error_before_failure_m": 5.119752798507463
+      },
+      "execution_seconds_change": 258.92,
+      "normalized_return_change": 0.4122831008464406
+    },
+    {
+      "motion": "walk1_subject5",
+      "learned": {
+        "motion": "walk1_subject5",
+        "failed": true,
+        "reason": "root_tilt",
+        "executed_steps": 99,
+        "full_reference_steps": 13065,
+        "completion_fraction": 0.007577497129735935,
+        "normalized_return": 0.001845032421510611,
+        "root_position_error_before_failure_m": 0.40701952847567474
+      },
+      "analytic_smooth": {
+        "motion": "walk1_subject5",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 13065,
+        "full_reference_steps": 13065,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.37675425269984214,
+        "root_position_error_before_failure_m": 3.011659849789514
+      },
+      "execution_seconds_change": 259.32,
+      "normalized_return_change": 0.3749092202783315
+    },
+    {
+      "motion": "walk2_subject1",
+      "learned": {
+        "motion": "walk2_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 83,
+        "full_reference_steps": 11908,
+        "completion_fraction": 0.006970104131676184,
+        "normalized_return": 0.0020635023908323596,
+        "root_position_error_before_failure_m": 0.3010141073939312
+      },
+      "analytic_smooth": {
+        "motion": "walk2_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 8926,
+        "full_reference_steps": 11908,
+        "completion_fraction": 0.7495801142089352,
+        "normalized_return": 0.31459732747614527,
+        "root_position_error_before_failure_m": 3.7561302655164686
+      },
+      "execution_seconds_change": 176.86,
+      "normalized_return_change": 0.3125338250853129
+    },
+    {
+      "motion": "walk2_subject3",
+      "learned": {
+        "motion": "walk2_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 85,
+        "full_reference_steps": 11908,
+        "completion_fraction": 0.007138058448102116,
+        "normalized_return": 0.002148136581636172,
+        "root_position_error_before_failure_m": 0.2476987502154182
+      },
+      "analytic_smooth": {
+        "motion": "walk2_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 8670,
+        "full_reference_steps": 11908,
+        "completion_fraction": 0.7280819617064158,
+        "normalized_return": 0.3451121890548896,
+        "root_position_error_before_failure_m": 2.4992966947808535
+      },
+      "execution_seconds_change": 171.70000000000002,
+      "normalized_return_change": 0.34296405247325346
+    },
+    {
+      "motion": "walk2_subject4",
+      "learned": {
+        "motion": "walk2_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 89,
+        "full_reference_steps": 11908,
+        "completion_fraction": 0.00747396708095398,
+        "normalized_return": 0.00202422999759068,
+        "root_position_error_before_failure_m": 0.34287782733360034
+      },
+      "analytic_smooth": {
+        "motion": "walk2_subject4",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 11908,
+        "full_reference_steps": 11908,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4878499854680152,
+        "root_position_error_before_failure_m": 4.83218641092123
+      },
+      "execution_seconds_change": 236.38,
+      "normalized_return_change": 0.48582575547042456
+    },
+    {
+      "motion": "walk3_subject1",
+      "learned": {
+        "motion": "walk3_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 91,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.0073803730738037305,
+        "normalized_return": 0.0021571078536380913,
+        "root_position_error_before_failure_m": 0.36533431168440933
+      },
+      "analytic_smooth": {
+        "motion": "walk3_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 9108,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.7386861313868613,
+        "normalized_return": 0.37262428203251724,
+        "root_position_error_before_failure_m": 5.9267024868247695
+      },
+      "execution_seconds_change": 180.34,
+      "normalized_return_change": 0.37046717417887914
+    },
+    {
+      "motion": "walk3_subject2",
+      "learned": {
+        "motion": "walk3_subject2",
+        "failed": true,
+        "reason": "root_tilt",
+        "executed_steps": 113,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.00916463909164639,
+        "normalized_return": 0.0023450064446417567,
+        "root_position_error_before_failure_m": 0.41573829988462735
+      },
+      "analytic_smooth": {
+        "motion": "walk3_subject2",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12330,
+        "full_reference_steps": 12330,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.4680434673275294,
+        "root_position_error_before_failure_m": 4.888784025243309
+      },
+      "execution_seconds_change": 244.34,
+      "normalized_return_change": 0.46569846088288763
+    },
+    {
+      "motion": "walk3_subject3",
+      "learned": {
+        "motion": "walk3_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 79,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.006407137064071371,
+        "normalized_return": 0.0014429691837555205,
+        "root_position_error_before_failure_m": 0.30777832224399226
+      },
+      "analytic_smooth": {
+        "motion": "walk3_subject3",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 8621,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.6991889699918897,
+        "normalized_return": 0.39501133877768907,
+        "root_position_error_before_failure_m": 2.454330495664656
+      },
+      "execution_seconds_change": 170.84,
+      "normalized_return_change": 0.39356836959393354
+    },
+    {
+      "motion": "walk3_subject4",
+      "learned": {
+        "motion": "walk3_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 98,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.00794809407948094,
+        "normalized_return": 0.0025968224849530768,
+        "root_position_error_before_failure_m": 0.22424505194839167
+      },
+      "analytic_smooth": {
+        "motion": "walk3_subject4",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 9741,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.7900243309002433,
+        "normalized_return": 0.3923749714872263,
+        "root_position_error_before_failure_m": 4.141631137075249
+      },
+      "execution_seconds_change": 192.86,
+      "normalized_return_change": 0.3897781490022732
+    },
+    {
+      "motion": "walk3_subject5",
+      "learned": {
+        "motion": "walk3_subject5",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 100,
+        "full_reference_steps": 12330,
+        "completion_fraction": 0.008110300081103,
+        "normalized_return": 0.001987288661440117,
+        "root_position_error_before_failure_m": 0.4019485855102539
+      },
+      "analytic_smooth": {
+        "motion": "walk3_subject5",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 12330,
+        "full_reference_steps": 12330,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.36627845733221814,
+        "root_position_error_before_failure_m": 2.892345904298459
+      },
+      "execution_seconds_change": 244.6,
+      "normalized_return_change": 0.36429116867077804
+    },
+    {
+      "motion": "walk4_subject1",
+      "learned": {
+        "motion": "walk4_subject1",
+        "failed": true,
+        "reason": "root_height",
+        "executed_steps": 123,
+        "full_reference_steps": 8195,
+        "completion_fraction": 0.0150091519219036,
+        "normalized_return": 0.002675829172279865,
+        "root_position_error_before_failure_m": 0.8380875005954649
+      },
+      "analytic_smooth": {
+        "motion": "walk4_subject1",
+        "failed": false,
+        "reason": "completed",
+        "executed_steps": 8195,
+        "full_reference_steps": 8195,
+        "completion_fraction": 1.0,
+        "normalized_return": 0.5180851003613103,
+        "root_position_error_before_failure_m": 4.325684010829774
+      },
+      "execution_seconds_change": 161.44,
+      "normalized_return_change": 0.5154092711890305
+    }
+  ],
+  "paired_improvements": {
+    "longer_execution": 40,
+    "higher_return": 40
+  },
+  "analytic_completed_by_family": {
+    "dance": {
+      "completed": 4,
+      "motions": 8
+    },
+    "fallAndGetUp": {
+      "completed": 0,
+      "motions": 6
+    },
+    "fight": {
+      "completed": 1,
+      "motions": 3
+    },
+    "fightAndSports": {
+      "completed": 0,
+      "motions": 2
+    },
+    "jumps": {
+      "completed": 2,
+      "motions": 3
+    },
+    "run": {
+      "completed": 4,
+      "motions": 4
+    },
+    "sprint": {
+      "completed": 2,
+      "motions": 2
+    },
+    "walk": {
+      "completed": 7,
+      "motions": 12
+    }
+  },
+  "analytic_completed_motion_root_error_m": {
+    "count": 20,
+    "mean": 3.819140517670503,
+    "min": 1.1115457159000266,
+    "max": 7.587200378469302
+  },
+  "interpretation_limits": [
+    "Single seed; final iteration counts and shared GPU workloads differ despite equal wall-clock budgets",
+    "Each policy visits different states; prediction error changes do not isolate world-model weights",
+    "Pre-failure horizon samples include a first failure on the current step; survival excludes it",
+    "Analytic boundary alignment follows the fixed formula; full-motion improvement is the control evidence",
+    "Completion uses original height/tilt rules and does not imply accurate global root tracking"
+  ],
+  "new_training_or_simulation": false
+}
