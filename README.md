@@ -11,6 +11,8 @@
 
 SSH 别名 `autodl-d57`；项目目录 `/root/autodl-tmp/robot-repro/supermimic`。GPU 为单张 RTX PRO 6000 96GB。
 
+2026-11-01 重启后，本地数据盘 `/root/autodl-tmp` 已生效为 1000G；西北B区文件存储 `/root/autodl-fs` 已启用并通过读写核验。训练和暂存仍使用本地数据盘，不自动把大产物复制到独立计费的文件存储。
+
 **2026-11-01 21:00 状态：D57 最新主源码、原版本独立 `.venv` 和 G1 机器人资产已恢复。** 79 个包的版本逐项与清理前一致，依赖检查通过，机器人 XML 及 manifest 的 SHA256 与清理前一致。可以正常激活下述开发环境；40 条动作数据缓存及历史权重仍保留在备份中，实际训练/评估前按需恢复。详见 [环境恢复核验](results/storage_cleanup/20261101/development_environment_restored.json)。数据恢复入口为 [RESTORE.md](results/storage_cleanup/20261101/RESTORE.md)，归档见 [GitHub Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-d57-storage-archive-20261101)。
 
 ```bash
@@ -46,9 +48,11 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
+**下一阶段已规划，尚未启动：** [P2 数据恢复与目标坐标修正](docs/REPRODUCTION_PLAN.md#p2-next-stage)。先修复数据身份混入准备耗时及缺少实际文件核验的问题，再做目标坐标信息诊断；在机制门通过后，比较 `reference_heading` 与 `robot_root` 两组，保留解析平滑终止和 H=32。拟定每组 3000 轮、4 小时上限，完整评估并发布后才清理精确列出的实验副本。协议见 [JSON](configs/next_stage_correction_protocol.json)，可复制的[启动提示词在这里](docs/NEXT_STAGE_START_PROMPT.md)。JSON 是待实现协议，不是现有 `train.py` 的可执行配置。
+
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 
-最终权重与诊断：[SuperMimic 2874](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-supermimic-i0002874)、[PPO-Sim 5614](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-ppo_sim-i0005614)。完整逐动作结果、各轮指标及恢复历史见 [本轮汇总](results/20261031-learning-s0/summary.json)。D57 原始日志为 `outputs/campaigns/20261031-learning-s0.log`。
+最终权重与诊断：[SuperMimic 2874](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-supermimic-i0002874)、[PPO-Sim 5614](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-ppo_sim-i0005614)。完整逐动作结果、各轮指标及恢复历史见 [本轮汇总](results/20261031-learning-s0/summary.json)。原始日志已归档，恢复后的相对路径为 `outputs/campaigns/20261031-learning-s0.log`。
 
 终止处理对照 `20261101-termination-s0` 已于北京时间 2026-11-01 15:52 完成，两组各 3 h、seed 0、相同初始化、H=32；配置只相差 `imagination_termination`。学习型组最终第 2678 轮为 0/40 完整执行、平均 3.299 s、完成比例 1.5263%、归一化回报 0.004678；解析平滑组最终第 2793 轮为 20/40、159.15 s、68.7140%、0.278330。40 条动作的执行时间和回报均提高。两组最终权重、完整评估与诊断均已发布，见 [本轮汇总](results/20261101-termination-s0/summary.json) 和 [逐动作及机制对照](results/20261101-termination-s0/comparison.json)。
 
@@ -61,6 +65,7 @@ bash scripts/setup_d57.sh
 上述空间数字记录的是 20:31 清理完成时的状态。随后根据用户反馈纠正了清理范围：已恢复约 7.57 GB 的常驻开发环境和轻量机器人资产，源码主目录同步到最新版本，原未提交改动保存在 Git stash。今后清理数据默认保留源码、环境、依赖锁、机器人资产与工作树；已结束的 20261101 清理入口再次运行会直接返回，不会删除恢复后的环境。
 
 ```bash
+# 历史会话示例：任务已结束，实例重启后旧会话不再存在。
 ssh autodl-d57
 tmux attach -t sm-g1-lafan40
 # 退出查看而保留任务：Ctrl-b，然后 d
