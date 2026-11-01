@@ -206,8 +206,8 @@ def main():
     assets.append(dataset_archive);roots.extend(dataset_roots)
     with (ROOT/"work/p2-publication.lock").open("a") as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
-        ensure_release(release_tag,"P2 goal feedback / complete pair",notes,git("rev-parse","HEAD"))
-        uploaded,missing=upload_files(release_tag,assets)
+        release=ensure_release(release_tag,"P2 goal feedback / complete pair",notes,git("rev-parse","HEAD"))
+        uploaded,missing=upload_files(release_tag,assets,release["id"])
         by_name={x["name"]:x for x in uploaded}
         summary.update(release_url=f"https://github.com/{REPO}/releases/tag/{release_tag}",assets=uploaded,unpublished=missing)
         for relative,record in coverage.items():

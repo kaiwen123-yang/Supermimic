@@ -27,20 +27,22 @@ def git(*args,cwd=ROOT):
                  "-c","http.proxy=http://127.0.0.1:7890",*args],cwd)
 
 
-def release_by_tag(tag):
-    rid=json.loads(call(["gh","release","view",tag,"--repo",REPO,"--json","databaseId"]))["databaseId"]
+def release_by_tag(tag,release_id=None):
+    rid=release_id if release_id is not None else json.loads(call(["gh","release","view",tag,"--repo",REPO,"--json","databaseId"]))["databaseId"]
     return json.loads(call(["gh","api",f"repos/{REPO}/releases/{rid}"]))
 
 
 def ensure_release(tag,title,notes,commit):
     existing=subprocess.run(["gh","release","view",tag,"--repo",REPO,"--json","databaseId"],capture_output=True,text=True)
     if existing.returncode:
-        call(["gh","release","create",tag,"--repo",REPO,"--target",commit,"--title",title,"--notes-file",str(notes),"--draft"])
-    return release_by_tag(tag)
+        created=json.loads(call(["gh","api",f"repos/{REPO}/releases","--method","POST",
+            "-f",f"tag_name={tag}","-f",f"target_commitish={commit}","-f",f"name={title}","-F","draft=true","-F",f"body=@{notes}"]))
+        return release_by_tag(tag,created["id"])
+    return release_by_tag(tag,json.loads(existing.stdout)["databaseId"])
 
 
-def upload_files(tag,paths):
-    remote={a["name"]:a for a in release_by_tag(tag)["assets"]}
+def upload_files(tag,paths,release_id=None):
+    remote={a["name"]:a for a in release_by_tag(tag,release_id)["assets"]}
     uploaded,missing=[],[]
     for path in paths:
         size=path.stat().st_size
@@ -48,7 +50,7 @@ def upload_files(tag,paths):
         try:
             if not (asset and asset["state"]=="uploaded" and asset["size"]==size):
                 call(["gh","release","upload",tag,str(path),"--repo",REPO,"--clobber"])
-                asset=next(a for a in release_by_tag(tag)["assets"] if a["name"]==path.name)
+                asset=next(a for a in release_by_tag(tag,release_id)["assets"] if a["name"]==path.name)
             if asset["state"]!="uploaded" or asset["size"]!=size:
                 raise RuntimeError(f"Asset not fully uploaded: {path.name}")
             uploaded.append({"path":str(path.relative_to(ROOT)),"name":path.name,"bytes":size,
@@ -125,8 +127,8 @@ def publish(run_name,iteration,final=False):
                 "All motions and failed tails remain in the denominator. Raw state/reference/action/reward trajectories are the scoring source.\n\n"
                 f"Training source: {runtime['git_commit']}. Full model and optimizer checkpoint included. "
                 "Goal frame adds orientation feedback; pure XY displacement remains unobserved.\n",encoding="utf-8")
-            ensure_release(tag,f"P2 {cfg['goal_frame']} / iteration {iteration}",notes,runtime["git_commit"])
-            uploaded,missing=upload_files(tag,[checkpoint,archive,pub/"evaluation.log",*(result/n for n in ("evaluation.json","config.json","runtime.json","training.json"))])
+            release=ensure_release(tag,f"P2 {cfg['goal_frame']} / iteration {iteration}",notes,runtime["git_commit"])
+            uploaded,missing=upload_files(tag,[checkpoint,archive,pub/"evaluation.log",*(result/n for n in ("evaluation.json","config.json","runtime.json","training.json"))],release["id"])
             status.update(status="assets_uploaded" if not missing else "upload_incomplete",assets=uploaded,unpublished=missing,
                           goal_frame=cfg["goal_frame"],completed_motions=evaluation["completed_motions"],
                           mean_normalized_return=evaluation["mean_normalized_return"],
