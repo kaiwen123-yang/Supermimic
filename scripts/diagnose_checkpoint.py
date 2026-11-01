@@ -41,7 +41,7 @@ def errors(prediction, truth, mask):
 
 
 @torch.no_grad()
-def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=None):
+def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=None, compare_termination=False):
     torch.set_num_threads(1)
     started = time.monotonic()
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
@@ -73,6 +73,10 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
     safe_sum = terminal_sum = brier_sum = 0.0
     safe_count = terminal_count = 0
     first_failure_pairs = []
+    paired = {m: {"safe_sum": 0.0, "terminal_sum": 0.0, "brier_sum": 0.0,
+                  "open_survival": torch.ones(120, device="cuda"),
+                  "closed_survival": torch.ones(120, device="cuda"), "horizons": []}
+              for m in ("learned", "analytic_smooth")} if compare_termination else {}
     for step in range(1, 33):
         goal = motions.goal(clip, frame + step - 1)
         action = actor(real_history, goal)
@@ -87,6 +91,21 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
         open_probability = world.termination_probability(open_prediction, ref, mode, temperature)
         closed_probability = world.termination_probability(closed_prediction, ref, mode, temperature)
         safe, first_terminal = alive & ~done, alive & done
+        paired_probabilities = {}
+        for paired_mode, stats in paired.items():
+            probabilities = [world.termination_probability(s, ref, paired_mode, temperature)
+                             for s in (real, open_prediction, closed_prediction)]
+            paired_probabilities[paired_mode] = probabilities
+            actual_p, open_p, closed_p = probabilities
+            stats["safe_sum"] += float(actual_p[safe].sum())
+            stats["terminal_sum"] += float(actual_p[first_terminal].sum())
+            stats["brier_sum"] += float((actual_p[alive] - done[alive].float()).square().sum())
+            stats["open_survival"] *= 1 - open_p
+            stats["closed_survival"] *= 1 - closed_p
+            if step in (1, 8, 16, 32):
+                stats["horizons"].append({"horizon_steps": step,
+                    "predicted_open_loop_survival": float(stats["open_survival"].mean()),
+                    "predicted_closed_loop_survival": float(stats["closed_survival"].mean())})
         safe_sum += float(actual_probability[safe].sum())
         terminal_sum += float(actual_probability[first_terminal].sum())
         brier_sum += float((actual_probability[alive] - done[alive].float()).square().sum())
@@ -100,6 +119,10 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
                 "probability_on_real_state": float(actual_probability[sample]),
                 "probability_on_open_model_state": float(open_probability[sample]),
                 "probability_on_closed_model_state": float(closed_probability[sample])})
+            if compare_termination:
+                first_failure_pairs[-1]["counterfactual_probabilities_on_same_states"] = {
+                    m: {key: float(p[sample]) for key, p in zip(("real", "open_model", "closed_model"), probabilities)}
+                    for m, probabilities in paired_probabilities.items()}
         valid = alive.clone()
         alive &= ~done
         open_survival *= 1 - open_probability
@@ -134,6 +157,15 @@ def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=Non
         "analysis_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "wall_seconds": time.monotonic()-started,
         "scope": "Matched short-horizon mechanism diagnostic; complete-motion success is evaluated separately"}
+    if compare_termination:
+        result["paired_termination_comparison"] = {
+            "same_physical_and_predicted_states": True, "same_actions": True,
+            "interpretation": "Both probability functions evaluated inside one rollout; no policy or dynamics update",
+            "safe_state_count": safe_count, "first_terminal_count": terminal_count,
+            "modes": {m: {"mean_probability_on_safe_states": s["safe_sum"] / max(safe_count, 1),
+                          "mean_probability_on_first_terminal_states": s["terminal_sum"] / terminal_count if terminal_count else None,
+                          "brier_score": s["brier_sum"] / max(safe_count + terminal_count, 1),
+                          "horizons": s["horizons"]} for m, s in paired.items()}}
     target = output_path or output_dir / f"diagnostics_{checkpoint['iteration']:07d}.json"
     target.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print("MODEL_DIAGNOSTIC_COMPLETE", json.dumps(result, allow_nan=False), flush=True)
@@ -144,11 +176,13 @@ def main():
     parser.add_argument("checkpoint", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--termination-mode", choices=("learned", "analytic_smooth"))
+    parser.add_argument("--compare-termination", action="store_true",
+                        help="Evaluate both probability rules on the exact same rollout states")
     args = parser.parse_args()
-    if args.termination_mode and not args.output:
+    if (args.termination_mode or args.compare_termination) and not args.output:
         raise ValueError("A counterfactual termination mode requires a separate output path")
     with pin_checkpoint(args.checkpoint) as pinned:
-        diagnose(pinned, args.checkpoint.absolute().parent, args.output, args.termination_mode)
+        diagnose(pinned, args.checkpoint.absolute().parent, args.output, args.termination_mode, args.compare_termination)
 
 
 if __name__ == "__main__":
