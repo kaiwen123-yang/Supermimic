@@ -15,6 +15,8 @@ def main():
     parser.add_argument("directory", type=Path)
     parser.add_argument("--source-commit", required=True)
     args = parser.parse_args()
+    git("fetch", URL, "main")
+    args.source_commit = git("rev-parse", args.source_commit + "^{commit}")
     directory = args.directory.absolute()
     videos = directory / "videos"
     manifest = json.loads((videos / "video_manifest.json").read_text())
@@ -71,6 +73,12 @@ Recorded trajectories, full 40-motion replay evaluations, logs, source hashes an
         if asset["digest"] != "sha256:" + digest or asset["size"] != path.stat().st_size:
             raise ValueError(f"Asset digest/size mismatch: {path.name}")
         verified.append({"name": path.name, "bytes": asset["size"], "sha256": digest, "url": asset["browser_download_url"]})
+    call(["gh", "release", "edit", tag, "--repo", REPO, "--draft=false", "--latest=false"])
+    published = release_by_tag(tag, release_id)
+    assert not published["draft"]
+    public_urls = {a["name"]: a["browser_download_url"] for a in published["assets"]}
+    for asset in verified:
+        asset["url"] = public_urls[asset["name"]]
     target = ROOT / "results/20261101-termination-s0/videos"
     target.mkdir(parents=True, exist_ok=True)
     shutil.copy2(videos / "video_manifest.json", target / "video_manifest.json")
@@ -78,7 +86,7 @@ Recorded trajectories, full 40-motion replay evaluations, logs, source hashes an
     for mode in ("learned", "analytic_smooth"):
         shutil.copy2(directory / f"replay_{mode}/evaluation.json", target / f"replay_evaluation_{mode}.json")
     publication = {"release_url": f"https://github.com/{REPO}/releases/tag/{tag}", "source_commit": args.source_commit,
-                   "assets": verified, "status": "assets_verified", "original_evaluations_unchanged": True}
+                   "assets": verified, "status": "published_verified", "original_evaluations_unchanged": True}
     (target / "publication.json").write_text(json.dumps(publication, indent=2) + "\n")
     git("fetch", URL, "main")
     head = git("rev-parse", "FETCH_HEAD")
@@ -93,8 +101,6 @@ Recorded trajectories, full 40-motion replay evaluations, logs, source hashes an
     git("add", "--", str(relative), "results/index.json", cwd=worktree)
     git("commit", "-m", "Publish termination comparison videos with separate replay evidence", cwd=worktree)
     git("push", URL, "HEAD:main", cwd=worktree)
-    call(["gh", "release", "edit", tag, "--repo", REPO, "--draft=false", "--latest=false"])
-    assert not release_by_tag(tag, release_id)["draft"]
     publication["status"] = "published_verified"
     publication["results_commit"] = git("rev-parse", "HEAD", cwd=worktree)
     (directory / "publication.json").write_text(json.dumps(publication, indent=2) + "\n")
