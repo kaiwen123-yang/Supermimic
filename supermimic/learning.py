@@ -95,7 +95,9 @@ class SuperMimic:
             reward, _, _ = reward_and_termination(env.fk(predicted[:, :36], predicted[:, 36:71]), ref,
                                                   predicted[:, :36], action, state[:, 71:],
                                                   env.sim.soft_lower, env.sim.soft_upper)
-            probability = torch.sigmoid(self.world.termination_logits(predicted, ref["qpos"]))
+            probability = self.world.termination_probability(
+                predicted, ref["qpos"], cfg.get("imagination_termination", "learned"),
+                cfg.get("termination_smoothing_temperature", 0.05))
             natural_end = frame + step + 1 >= env.motions.lengths[clip] - 1
             probability = torch.where(natural_end, torch.ones_like(probability), probability)
             objective = objective + gamma**step * survival * reward

@@ -1,4 +1,4 @@
-"""Evaluate and publish one immutable 1000-iteration milestone from D57."""
+"""Evaluate and publish an immutable milestone or completed-budget checkpoint."""
 from pathlib import Path
 import argparse
 import fcntl
@@ -40,25 +40,31 @@ def sha256(path):
     return result.hexdigest()
 
 
-def release_by_tag(tag):
-    # GitHub's by-tag endpoint omits drafts. The authenticated release listing
-    # includes them and their asset digests, which are needed before publication.
-    pages = json.loads(call(["gh", "api", f"repos/{REPO}/releases?per_page=100", "--paginate", "--slurp"]))
-    for page in pages:
-        for release in page:
-            if release["tag_name"] == tag:
-                return release
-    raise LookupError(f"Release not found in authenticated listing: {tag}")
+def release_by_tag(tag, release_id=None):
+    # New drafts can lag in the release listing. Query the exact release ID
+    # returned by creation (or gh's authenticated lookup), without polling.
+    if release_id is None:
+        release_id = json.loads(call(["gh", "release", "view", tag, "--repo", REPO,
+                                      "--json", "databaseId"]))["databaseId"]
+    release = json.loads(call(["gh", "api", f"repos/{REPO}/releases/{release_id}"]))
+    if release["tag_name"] != tag:
+        raise ValueError("Release ID/tag mismatch")
+    return release
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("run")
     parser.add_argument("iteration", type=int)
+    parser.add_argument("--final", action="store_true", help="Publish the exact budget-completed checkpoint")
     args = parser.parse_args()
-    if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run) or args.iteration <= 0 or args.iteration % 1000:
-        raise ValueError("Publication requires a named positive 1000-iteration milestone")
+    if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run) or args.iteration <= 0 or (args.iteration % 1000 and not args.final):
+        raise ValueError("Publication requires a positive milestone or an explicitly selected final checkpoint")
     run = ROOT / "outputs/runs" / args.run
+    if args.final:
+        completed = json.loads((run / "status.json").read_text())
+        if completed["status"] != "budget_completed" or completed["iteration"] != args.iteration:
+            raise ValueError("Final publication must match the completed training budget")
     checkpoint_path = run / f"checkpoint_{args.iteration:07d}.pt"
     tag = f"sm-{args.run}-i{args.iteration:07d}"
     publication_dir = ROOT / "outputs/publications" / tag
@@ -87,6 +93,7 @@ def main():
             cfg = checkpoint["config"]
             checkpoint_hash = sha256(checkpoint_path)
             metadata = {"iteration": args.iteration, "actor_updates": checkpoint["actor_updates"],
+                        "checkpoint_role": "final" if args.final else "milestone",
                         "dataset_manifest_sha256": checkpoint["dataset_manifest_sha256"],
                         "elapsed_seconds": checkpoint["elapsed_seconds"],
                         "sim_transitions": checkpoint["collected_steps"],
@@ -117,12 +124,18 @@ def main():
                         subprocess.run([sys.executable, "-u", str(ROOT / "scripts/diagnose_checkpoint.py"), str(checkpoint_path)],
                                        cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
                 shutil.copy2(diagnostic_path, result_dir / "model_diagnostics.json")
+                diagnostic = json.loads(diagnostic_path.read_text())
+                if diagnostic["checkpoint_sha256"] != checkpoint_hash or diagnostic["iteration"] != args.iteration:
+                    raise ValueError("Model diagnostic checkpoint mismatch")
                 boundary_path = run / f"termination_boundary_{args.iteration:07d}.json"
                 if not boundary_path.exists() or json.loads(boundary_path.read_text())["checkpoint_sha256"] != checkpoint_hash:
                     with (publication_dir / "termination-boundary.log").open("w") as log:
                         subprocess.run([sys.executable, "-u", str(ROOT / "scripts/inspect_termination_boundary.py"), str(checkpoint_path)],
                                        cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
                 shutil.copy2(boundary_path, result_dir / "termination_boundary.json")
+                boundary = json.loads(boundary_path.read_text())
+                if boundary["checkpoint_sha256"] != checkpoint_hash or boundary["iteration"] != args.iteration:
+                    raise ValueError("Termination diagnostic checkpoint mismatch")
             (result_dir / "config.json").write_text(json.dumps(cfg, indent=2) + "\n")
             (result_dir / "runtime.json").write_text(json.dumps(runtime, indent=2) + "\n")
             rows = []
@@ -151,11 +164,12 @@ def main():
                 f"Training source: `{runtime['git_commit']}`. Full configuration and source hashes are attached. "
                 "This is an independent learning-reproduction milestone, not a claimed paper-level pass. "
                 "Optimizer states are included; simulator and replay states are rebuilt on resume.\n", encoding="utf-8")
-            existing = subprocess.run(["gh", "release", "view", tag, "--repo", REPO, "--json", "isDraft,url"], text=True, capture_output=True)
+            existing = subprocess.run(["gh", "release", "view", tag, "--repo", REPO, "--json", "databaseId,isDraft,url"], text=True, capture_output=True)
             if existing.returncode == 0:
                 release = json.loads(existing.stdout)
+                release_id = release["databaseId"]
                 if not release["isDraft"]:
-                    remote = release_by_tag(tag)
+                    remote = release_by_tag(tag, release_id)
                     asset = next((a for a in remote["assets"] if a["name"] == checkpoint_path.name), None)
                     if not asset or asset.get("digest") != "sha256:" + checkpoint_hash:
                         raise RuntimeError("Published milestone differs; refusing to overwrite its evidence")
@@ -164,15 +178,18 @@ def main():
                     state_path.write_text(json.dumps(status, indent=2) + "\n")
                     return
             else:
-                call(["gh", "release", "create", tag, "--repo", REPO, "--draft", "--target", runtime["git_commit"],
-                      "--title", f"{cfg['method']} / LAFAN1 / iteration {args.iteration}", "--notes-file", str(notes)])
+                created = json.loads(call(["gh", "api", f"repos/{REPO}/releases", "--method", "POST",
+                    "-f", f"tag_name={tag}", "-f", f"target_commitish={runtime['git_commit']}",
+                    "-f", f"name={cfg['method']} / LAFAN1 / iteration {args.iteration}",
+                    "-F", "draft=true", "-F", f"body=@{notes}"]))
+                release_id = created["id"]
             asset_names = ["config.json", "runtime.json", "evaluation.json", "checkpoint_manifest.json", "metrics.jsonl"]
             if (result_dir / "model_diagnostics.json").exists():
                 asset_names.append("model_diagnostics.json")
             if (result_dir / "termination_boundary.json").exists():
                 asset_names.append("termination_boundary.json")
             assets = [checkpoint_path, *(result_dir / name for name in asset_names)]
-            existing_assets = {a["name"]: a for a in release_by_tag(tag)["assets"]}
+            existing_assets = {a["name"]: a for a in release_by_tag(tag, release_id)["assets"]}
             for path in assets:
                 old = existing_assets.get(path.name)
                 if old and old.get("digest") == "sha256:" + sha256(path) and old["size"] == path.stat().st_size:
@@ -180,7 +197,7 @@ def main():
                     continue
                 call(["gh", "release", "upload", tag, str(path), "--repo", REPO, "--clobber"])
                 print("ASSET_UPLOADED", path.name, flush=True)
-            remote = release_by_tag(tag)
+            remote = release_by_tag(tag, release_id)
             verified = []
             for path in assets:
                 asset = next((a for a in remote["assets"] if a["name"] == path.name), None)
@@ -213,7 +230,7 @@ def main():
             with notes.open("a") as text:
                 text.write(f"\nCompact evidence commit: `{results_commit}`. All attached asset SHA256 digests matched GitHub.\n")
             call(["gh", "release", "edit", tag, "--repo", REPO, "--notes-file", str(notes), "--draft=false", "--latest=false"])
-            published = release_by_tag(tag)
+            published = release_by_tag(tag, release_id)
             if published["draft"]:
                 raise RuntimeError("Release is still a draft")
             status.update(status="verified", release_url=published["html_url"], results_commit=results_commit,

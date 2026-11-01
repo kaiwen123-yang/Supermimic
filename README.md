@@ -44,13 +44,25 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-2026-10-31：40 条动作准备完成，两轮短程开发训练和完整动作评估已经执行。首轮持续学习在 D57 的 `sm-g1-lafan40` tmux 会话中运行，tag 为 `20261031-learning-s0`；先 SuperMimic 3 h，离线评估保留的检查点，再 PPO-Sim 3 h 和完整评估。Git 中的运行索引是标注时间的快照，最新日志位于服务器 `outputs/campaigns/20261031-learning-s0.log`。任务结束后自动在 D57 生成紧凑结果，尚未产生的结果不预先发布。
+2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
+
+最终权重与诊断：[SuperMimic 2874](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-supermimic-i0002874)、[PPO-Sim 5614](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261031-learning-s0-ppo_sim-i0005614)。完整逐动作结果、各轮指标及恢复历史见 [本轮汇总](results/20261031-learning-s0/summary.json)。D57 原始日志为 `outputs/campaigns/20261031-learning-s0.log`。
+
+下一组为 `20261101-termination-s0`：在独立 tmux `sm-termination-s0` 中串行运行学习型与解析平滑终止两组，每组 3 h、seed 0，从同样初始参数开始，H=32 及原配置不变。两份配置只在 `imagination_termination` 字段不同；原终止网络的 BCE 训练保留，仅替换想象 Actor/Critic 使用的终止概率。协议与预设判据见 [复现计划](docs/REPRODUCTION_PLAN.md) 和 [机器可读协议](configs/termination_ablation_protocol.json)。实际是否启动/完成，以运行索引和服务器进程为准。
 
 ```bash
 ssh autodl-d57
 tmux attach -t sm-g1-lafan40
 # 退出查看而保留任务：Ctrl-b，然后 d
 ```
+
+终止单因素对照入口（在独立 tmux 中调用）：
+
+```bash
+bash scripts/run_termination_ablation_d57.sh 20261101-termination-s0
+```
+
+两组均每轮原子保存完整检查点，保留最近 20 轮和所有 1000 轮节点；每 1000 轮自动完整评估、诊断并发布。每组预算结束后还会发布不满 1000 整数节点的最终检查点与诊断，自动合并完整实验汇总到运行索引。
 
 ```bash
 # 数据准备（下载只发生在 D57；保存原始动作，不静默剔除困难片段）

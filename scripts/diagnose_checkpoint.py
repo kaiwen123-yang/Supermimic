@@ -41,7 +41,7 @@ def errors(prediction, truth, mask):
 
 
 @torch.no_grad()
-def diagnose(checkpoint_path, output_dir, output_path=None):
+def diagnose(checkpoint_path, output_dir, output_path=None, termination_mode=None):
     torch.set_num_threads(1)
     started = time.monotonic()
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
@@ -53,6 +53,8 @@ def diagnose(checkpoint_path, output_dir, output_path=None):
     actor, world = Actor().cuda().eval(), WorldModel().cuda().eval()
     actor.load_state_dict(checkpoint["actor"])
     world.load_state_dict(checkpoint["world_model"])
+    mode = termination_mode or checkpoint["config"].get("imagination_termination", "learned")
+    temperature = checkpoint["config"].get("termination_smoothing_temperature", 0.05)
     clip = torch.arange(40, device="cuda").repeat(3)
     fractions = torch.tensor([0.0, 0.25, 0.5], device="cuda").repeat_interleave(40)
     frame = ((motions.lengths[clip] - 1) * fractions).long()
@@ -81,9 +83,9 @@ def diagnose(checkpoint_path, output_dir, output_path=None):
         closed_prediction = world(closed_prediction, closed_action, sim.context)
         ref = motions.get(clip, frame + step)["qpos"]
         done = hard_failure(real, ref)
-        actual_probability = torch.sigmoid(world.termination_logits(real, ref))
-        open_probability = torch.sigmoid(world.termination_logits(open_prediction, ref))
-        closed_probability = torch.sigmoid(world.termination_logits(closed_prediction, ref))
+        actual_probability = world.termination_probability(real, ref, mode, temperature)
+        open_probability = world.termination_probability(open_prediction, ref, mode, temperature)
+        closed_probability = world.termination_probability(closed_prediction, ref, mode, temperature)
         safe, first_terminal = alive & ~done, alive & done
         safe_sum += float(actual_probability[safe].sum())
         terminal_sum += float(actual_probability[first_terminal].sum())
@@ -116,6 +118,8 @@ def diagnose(checkpoint_path, output_dir, output_path=None):
                 "closed_loop_before_first_failure": errors(closed_prediction, real, valid),
                 "closed_vs_real_action_rmse": float((closed_action - action).square().mean().sqrt())})
     result = {"iteration": checkpoint["iteration"], "actor_updates": checkpoint["actor_updates"],
+        "imagination_termination": mode, "termination_smoothing_temperature": temperature,
+        "termination_mode_override": termination_mode,
         "checkpoint_sha256": hashlib.sha256(checkpoint_path.read_bytes()).hexdigest(),
         "dataset_manifest_sha256": motions.manifest_hash, "motions": 40, "starts": 120,
         "start_fractions": [0.0, 0.25, 0.5], "observations_and_actions_noiseless": True,
@@ -139,9 +143,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("checkpoint", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--termination-mode", choices=("learned", "analytic_smooth"))
     args = parser.parse_args()
+    if args.termination_mode and not args.output:
+        raise ValueError("A counterfactual termination mode requires a separate output path")
     with pin_checkpoint(args.checkpoint) as pinned:
-        diagnose(pinned, args.checkpoint.absolute().parent, args.output)
+        diagnose(pinned, args.checkpoint.absolute().parent, args.output, args.termination_mode)
 
 
 if __name__ == "__main__":

@@ -51,6 +51,8 @@ def main():
     parser.add_argument("--run", required=True)
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--resume-in-place", action="store_true")
+    parser.add_argument("--initialization-reference", type=Path,
+                        help="Require matching untrained weights and RNG state for a paired experiment")
     args = parser.parse_args()
     cfg = json.loads(args.config.read_text())
     cfg["method"] = args.method
@@ -106,6 +108,27 @@ def main():
         # their paper environment counts differ.
         torch.manual_seed(cfg["seed"] + 1000)
         learner = SuperMimic(env, cfg) if args.method == "supermimic" else PPOSim(env, cfg)
+        if args.initialization_reference:
+            if args.resume or args.method != "supermimic":
+                raise ValueError("Initialization matching requires a fresh SuperMimic run")
+            initial = torch.load(args.initialization_reference, map_location="cpu", weights_only=False, mmap=True)
+            if initial["iteration"] != 0 or initial["dataset_manifest_sha256"] != motions.manifest_hash:
+                raise ValueError("Initialization reference must be iteration zero on this dataset")
+            for name, model in (("actor", learner.actor), ("critic", learner.critic), ("world_model", learner.world)):
+                current = model.state_dict()
+                if current.keys() != initial[name].keys() or any(
+                    not torch.equal(tensor.cpu(), initial[name][key]) for key, tensor in current.items()
+                ):
+                    raise ValueError(f"Paired initialization differs: {name}")
+            if not torch.equal(torch.get_rng_state(), initial["torch_rng"]) or any(
+                not torch.equal(a.cpu(), b.cpu()) for a, b in zip(torch.cuda.get_rng_state_all(), initial["cuda_rng"])
+            ):
+                raise ValueError("Paired initialization RNG differs")
+            metadata.update(initialization_reference=str(args.initialization_reference),
+                            initialization_reference_sha256=hashlib.sha256(args.initialization_reference.read_bytes()).hexdigest(),
+                            paired_initial_weights_and_rng_verified=True)
+            (directory / "runtime.json").write_text(json.dumps(metadata, indent=2) + "\n")
+            del initial
         first_iteration = 0
         if args.resume:
             previous = torch.load(args.resume, map_location="cuda", weights_only=False)

@@ -84,12 +84,33 @@ class WorldModel(nn.Module):
         velocity = torch.cat((v[..., :3] + quat_apply(heading, dv[..., :3]), v[..., 3:] + dv[..., 3:]), -1)
         return torch.cat((position, orientation, joints, velocity, action), -1)
 
-    def termination_logits(self, state, reference_qpos):
+    @staticmethod
+    def termination_features(state, reference_qpos):
         q = state[..., :36]
         # R_zz = 1 - 2(x^2 + y^2), equal to the gravity-z comparison up to sign.
         height = torch.abs(q[..., 2] - reference_qpos[..., 2]) / 0.25
         tilt = 2 * torch.abs(q[..., 4:6].square().sum(-1) - reference_qpos[..., 4:6].square().sum(-1)) / 0.8
-        return self.termination(torch.stack((height, tilt), -1)).squeeze(-1)
+        return torch.stack((height, tilt), -1)
+
+    def termination_logits(self, state, reference_qpos):
+        # Both experiment arms retain this learned head and its original BCE
+        # objective, including the gradient through predicted states.
+        return self.termination(self.termination_features(state, reference_qpos)).squeeze(-1)
+
+    def termination_probability_from_features(self, features, mode="learned", temperature=0.05):
+        if mode == "learned":
+            return torch.sigmoid(self.termination(features).squeeze(-1))
+        if mode != "analytic_smooth" or temperature <= 0:
+            raise ValueError("Unknown termination mode or nonpositive smoothing temperature")
+        # Smooth OR of the same normalized height and gravity-z thresholds.
+        # Temperature 0.05 means 0.0125 m and 0.04 gravity-z units. It is fixed
+        # before the experiment; physical collection/evaluation still use hard rules.
+        component_probability = torch.sigmoid((features - 1.0) / temperature)
+        return 1.0 - (1.0 - component_probability).prod(-1)
+
+    def termination_probability(self, state, reference_qpos, mode="learned", temperature=0.05):
+        return self.termination_probability_from_features(
+            self.termination_features(state, reference_qpos), mode, temperature)
 
 
 def state_prediction_error(prediction, target):
