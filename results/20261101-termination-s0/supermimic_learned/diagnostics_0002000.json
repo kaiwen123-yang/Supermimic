@@ -1,0 +1,228 @@
+{
+  "iteration": 2000,
+  "actor_updates": 1995,
+  "imagination_termination": "learned",
+  "termination_smoothing_temperature": 0.05,
+  "termination_mode_override": null,
+  "checkpoint_sha256": "9edce19d057e7782fc6916a573787f0c7817031eb7f58a1f4d2983c46f76e64f",
+  "dataset_manifest_sha256": "f0626e39012f5b4bd4496de7e42df5f66bb174a7f512f4241feff2c1e2efafb6",
+  "motions": 40,
+  "starts": 120,
+  "start_fractions": [
+    0.0,
+    0.25,
+    0.5
+  ],
+  "observations_and_actions_noiseless": true,
+  "context": "nominal: foot friction 1.0, zero calibration and CoM offsets",
+  "open_loop_definition": "world model receives the same executed actions as the physical rollout",
+  "closed_loop_definition": "policy receives predicted states through its observation history",
+  "termination_head_on_true_states": {
+    "safe_state_count": 3782,
+    "first_terminal_count": 6,
+    "mean_probability_on_safe_states": 4.014460488022091e-05,
+    "mean_probability_on_first_terminal_states": 0.002935717716657867,
+    "brier_score": 0.0015747735557177216
+  },
+  "horizons": [
+    {
+      "horizon_steps": 1,
+      "horizon_seconds": 0.02,
+      "actual_survival_fraction": 1.0,
+      "predicted_open_loop_survival": 0.9999892711639404,
+      "predicted_closed_loop_survival": 0.9999892711639404,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.018689202144742012,
+        "root_orientation_rmse_rad": 0.04494491592049599,
+        "joint_position_rmse_rad": 0.033955760300159454,
+        "root_velocity_rmse_m_per_s": 0.32824161648750305,
+        "normalized_state_mse": 0.010384893976151943
+      },
+      "open_loop_before_first_failure": {
+        "samples": 120,
+        "root_position_rmse_m": 0.018689202144742012,
+        "root_orientation_rmse_rad": 0.04494491592049599,
+        "joint_position_rmse_rad": 0.033955760300159454,
+        "root_velocity_rmse_m_per_s": 0.32824161648750305,
+        "normalized_state_mse": 0.010384893976151943
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 120,
+        "root_position_rmse_m": 0.018689202144742012,
+        "root_orientation_rmse_rad": 0.04494491592049599,
+        "joint_position_rmse_rad": 0.033955760300159454,
+        "root_velocity_rmse_m_per_s": 0.32824161648750305,
+        "normalized_state_mse": 0.010384893976151943
+      },
+      "closed_vs_real_action_rmse": 0.0
+    },
+    {
+      "horizon_steps": 8,
+      "horizon_seconds": 0.16,
+      "actual_survival_fraction": 0.9916667342185974,
+      "predicted_open_loop_survival": 0.9995418787002563,
+      "predicted_closed_loop_survival": 0.9995172619819641,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.08341175317764282,
+        "root_orientation_rmse_rad": 0.18301263451576233,
+        "joint_position_rmse_rad": 0.06948656588792801,
+        "root_velocity_rmse_m_per_s": 0.3663596212863922,
+        "normalized_state_mse": 0.006530094891786575
+      },
+      "open_loop_before_first_failure": {
+        "samples": 119,
+        "root_position_rmse_m": 0.0830913633108139,
+        "root_orientation_rmse_rad": 0.18225136399269104,
+        "joint_position_rmse_rad": 0.06925413757562637,
+        "root_velocity_rmse_m_per_s": 0.35744646191596985,
+        "normalized_state_mse": 0.006331768352538347
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 119,
+        "root_position_rmse_m": 0.08549097180366516,
+        "root_orientation_rmse_rad": 0.1974216103553772,
+        "joint_position_rmse_rad": 0.09305990487337112,
+        "root_velocity_rmse_m_per_s": 0.3930961489677429,
+        "normalized_state_mse": 0.013913732953369617
+      },
+      "closed_vs_real_action_rmse": 0.4137263894081116
+    },
+    {
+      "horizon_steps": 16,
+      "horizon_seconds": 0.32,
+      "actual_survival_fraction": 0.98333340883255,
+      "predicted_open_loop_survival": 0.9886119365692139,
+      "predicted_closed_loop_survival": 0.9888805747032166,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.14547908306121826,
+        "root_orientation_rmse_rad": 0.46316951513290405,
+        "joint_position_rmse_rad": 0.08837003260850906,
+        "root_velocity_rmse_m_per_s": 0.5818222761154175,
+        "normalized_state_mse": 0.012337780557572842
+      },
+      "open_loop_before_first_failure": {
+        "samples": 118,
+        "root_position_rmse_m": 0.14050239324569702,
+        "root_orientation_rmse_rad": 0.44541051983833313,
+        "joint_position_rmse_rad": 0.08587614446878433,
+        "root_velocity_rmse_m_per_s": 0.5609467029571533,
+        "normalized_state_mse": 0.011421699076890945
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 118,
+        "root_position_rmse_m": 0.15142737329006195,
+        "root_orientation_rmse_rad": 0.46819236874580383,
+        "joint_position_rmse_rad": 0.22512245178222656,
+        "root_velocity_rmse_m_per_s": 0.6411158442497253,
+        "normalized_state_mse": 0.056099679321050644
+      },
+      "closed_vs_real_action_rmse": 0.8488881587982178
+    },
+    {
+      "horizon_steps": 32,
+      "horizon_seconds": 0.64,
+      "actual_survival_fraction": 0.9500000476837158,
+      "predicted_open_loop_survival": 0.8598731160163879,
+      "predicted_closed_loop_survival": 0.9469999074935913,
+      "open_loop_all_samples": {
+        "samples": 120,
+        "root_position_rmse_m": 0.36879605054855347,
+        "root_orientation_rmse_rad": 1.3568602800369263,
+        "joint_position_rmse_rad": 0.15698187053203583,
+        "root_velocity_rmse_m_per_s": 1.7227221727371216,
+        "normalized_state_mse": 0.059529729187488556
+      },
+      "open_loop_before_first_failure": {
+        "samples": 116,
+        "root_position_rmse_m": 0.3586241602897644,
+        "root_orientation_rmse_rad": 1.3271394968032837,
+        "joint_position_rmse_rad": 0.15202295780181885,
+        "root_velocity_rmse_m_per_s": 1.732012152671814,
+        "normalized_state_mse": 0.0560128279030323
+      },
+      "closed_loop_before_first_failure": {
+        "samples": 116,
+        "root_position_rmse_m": 0.30710917711257935,
+        "root_orientation_rmse_rad": 0.7636244893074036,
+        "joint_position_rmse_rad": 0.3021840751171112,
+        "root_velocity_rmse_m_per_s": 1.0983535051345825,
+        "normalized_state_mse": 0.11701760441064835
+      },
+      "closed_vs_real_action_rmse": 0.9863720536231995
+    }
+  ],
+  "first_failure_pairs": [
+    {
+      "motion": "fallAndGetUp1_subject5",
+      "start_fraction": 0.25,
+      "step": 6,
+      "real_height_error_m": 0.26453614234924316,
+      "open_model_height_error_m": 0.27343910932540894,
+      "closed_model_height_error_m": 0.2744036912918091,
+      "probability_on_real_state": 0.0012473446549847722,
+      "probability_on_open_model_state": 0.001296711852774024,
+      "probability_on_closed_model_state": 0.0013414800632745028
+    },
+    {
+      "motion": "fallAndGetUp2_subject3",
+      "start_fraction": 0.5,
+      "step": 14,
+      "real_height_error_m": 0.18031921982765198,
+      "open_model_height_error_m": 0.23755031824111938,
+      "closed_model_height_error_m": 0.23170071840286255,
+      "probability_on_real_state": 0.0020677957218140364,
+      "probability_on_open_model_state": 0.0037664994597434998,
+      "probability_on_closed_model_state": 0.0033707749098539352
+    },
+    {
+      "motion": "run2_subject4",
+      "start_fraction": 0.5,
+      "step": 26,
+      "real_height_error_m": 0.2623852491378784,
+      "open_model_height_error_m": 0.23628777265548706,
+      "closed_model_height_error_m": 0.25384557247161865,
+      "probability_on_real_state": 0.004754532128572464,
+      "probability_on_open_model_state": 0.11543504893779755,
+      "probability_on_closed_model_state": 0.0016643821727484465
+    },
+    {
+      "motion": "fallAndGetUp1_subject1",
+      "start_fraction": 0.25,
+      "step": 30,
+      "real_height_error_m": 0.2682161331176758,
+      "open_model_height_error_m": 0.3643270432949066,
+      "closed_model_height_error_m": 0.31711235642433167,
+      "probability_on_real_state": 0.0016403025947511196,
+      "probability_on_open_model_state": 0.09596527367830276,
+      "probability_on_closed_model_state": 0.09820394963026047
+    },
+    {
+      "motion": "run1_subject5",
+      "start_fraction": 0.25,
+      "step": 32,
+      "real_height_error_m": 0.26183077692985535,
+      "open_model_height_error_m": 0.17177432775497437,
+      "closed_model_height_error_m": 0.1726905107498169,
+      "probability_on_real_state": 0.00353325461037457,
+      "probability_on_open_model_state": 7.583900151075795e-05,
+      "probability_on_closed_model_state": 3.291119355708361e-05
+    },
+    {
+      "motion": "sprint1_subject4",
+      "start_fraction": 0.25,
+      "step": 32,
+      "real_height_error_m": 0.2801779508590698,
+      "open_model_height_error_m": 0.1877235770225525,
+      "closed_model_height_error_m": 0.1535181999206543,
+      "probability_on_real_state": 0.0043710763566195965,
+      "probability_on_open_model_state": 0.7498669624328613,
+      "probability_on_closed_model_state": 0.8669309020042419
+    }
+  ],
+  "analysis_script_sha256": "aea8107ee092f1dff8f159d9d966aa396e16a1775a20daa6baf553bd421387b0",
+  "wall_seconds": 5.623153937980533,
+  "scope": "Matched short-horizon mechanism diagnostic; complete-motion success is evaluated separately"
+}

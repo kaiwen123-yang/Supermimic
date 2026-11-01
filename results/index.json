@@ -408,7 +408,7 @@
     },
     "20261101-termination-s0": {
       "tag": "20261101-termination-s0",
-      "updated_unix": 1793497448.1709397,
+      "updated_unix": 1793508370.364493,
       "runs": [
         {
           "method": "supermimic",
@@ -417,28 +417,107 @@
           "relative_results": "results/20261101-termination-s0/supermimic_learned",
           "execution_directory": "/root/autodl-tmp/robot-repro/supermimic/.cache/execution-worktrees/termination-s0-run/outputs/runs/20261101-termination-s0-learned",
           "last_metrics": {
-            "sim_step_reward": 0.040163032710552216,
-            "sim_step_termination_fraction": 0.0208740234375,
-            "wm_normalized_state_mse": 0.0047829457558691505,
-            "wm_termination_bce": 0.012854811549186707,
-            "wm_gradient_norm_before_clip": 0.10171868056058883,
-            "imagined_discounted_return": 0.32418423891067505,
-            "actor_gradient_norm_before_clip": 2.0676519870758057,
-            "critic_mse": 0.012526343856006861,
-            "imagined_survival_at_horizon": 0.18191678822040558,
-            "collection_seconds": 0.11690842732787132,
-            "world_seconds": 0.8907176367938519,
-            "policy_critic_seconds": 2.479227876290679,
-            "checkpoint_write_seconds": 0.4704688508063555,
-            "iteration": 21,
-            "actor_updates": 16,
-            "elapsed_seconds": 77.63494339585304,
-            "collected_sim_transitions": 475136,
-            "torch_peak_allocated_mib": 19491.806640625
+            "sim_step_reward": 0.022313248366117477,
+            "sim_step_termination_fraction": 0.0029296875,
+            "wm_normalized_state_mse": 0.004638079786673188,
+            "wm_termination_bce": 0.0019814263680018483,
+            "wm_gradient_norm_before_clip": 0.070878129824996,
+            "imagined_discounted_return": 2.390143394470215,
+            "actor_gradient_norm_before_clip": 2.6616220474243164,
+            "critic_mse": 0.0375783309340477,
+            "imagined_survival_at_horizon": 0.8580184578895569,
+            "collection_seconds": 0.07475591264665127,
+            "world_seconds": 0.87901895865798,
+            "policy_critic_seconds": 2.512921852990985,
+            "checkpoint_write_seconds": 0.4421513844281435,
+            "iteration": 2678,
+            "actor_updates": 2673,
+            "elapsed_seconds": 10803.904445348307,
+            "collected_sim_transitions": 27684864,
+            "torch_peak_allocated_mib": 19493.041015625
           },
           "imagination_termination": "learned",
-          "evaluation_history": [],
-          "status": "running"
+          "evaluation_history": [
+            {
+              "iteration": 0,
+              "checkpoint_sha256": "540f94f3479c13979f3adf55ae175a86914757adbf42a406665da139fd29992c",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 0.8835000000000001,
+              "median_executed_seconds": 0.86,
+              "mean_completion_fraction": 0.004217198252584186,
+              "mean_normalized_return": 0.0017939447290204278,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.19175863697782752
+            },
+            {
+              "iteration": 1000,
+              "checkpoint_sha256": "cb1da6a92f78f19159f3a2120473053fedcdd79c90856898e219574f8f16690a",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 1.367,
+              "median_executed_seconds": 1.3800000000000001,
+              "mean_completion_fraction": 0.006477508235838568,
+              "mean_normalized_return": 0.0027826361382580875,
+              "termination_reasons": {
+                "root_height": 40
+              },
+              "mean_per_motion_root_position_error_m": 0.192514748695414
+            },
+            {
+              "iteration": 2000,
+              "checkpoint_sha256": "9edce19d057e7782fc6916a573787f0c7817031eb7f58a1f4d2983c46f76e64f",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 2.8585000000000003,
+              "median_executed_seconds": 2.24,
+              "mean_completion_fraction": 0.014041115263807052,
+              "mean_normalized_return": 0.0029282493647492846,
+              "termination_reasons": {
+                "root_height": 33,
+                "root_tilt": 7
+              },
+              "mean_per_motion_root_position_error_m": 0.6656507104890949
+            },
+            {
+              "iteration": 2678,
+              "checkpoint_sha256": "e6f898d274ae2de68793ced28e04afdedc1949c09b1d254f90c21339df56d1d1",
+              "motions": 40,
+              "completed_motions": 0,
+              "mean_executed_seconds": 3.299,
+              "median_executed_seconds": 1.87,
+              "mean_completion_fraction": 0.015263370920573668,
+              "mean_normalized_return": 0.004678485528353227,
+              "termination_reasons": {
+                "root_height": 37,
+                "root_tilt": 3
+              },
+              "mean_per_motion_root_position_error_m": 0.635350828941684
+            }
+          ],
+          "evaluation_iteration": 2678,
+          "failed_motions": 40,
+          "motions": 40,
+          "mean_normalized_return": 0.004678485528353227,
+          "mean_completion_fraction": 0.015263370920573668,
+          "final_evaluation": {
+            "iteration": 2678,
+            "checkpoint_sha256": "e6f898d274ae2de68793ced28e04afdedc1949c09b1d254f90c21339df56d1d1",
+            "motions": 40,
+            "completed_motions": 0,
+            "mean_executed_seconds": 3.299,
+            "median_executed_seconds": 1.87,
+            "mean_completion_fraction": 0.015263370920573668,
+            "mean_normalized_return": 0.004678485528353227,
+            "termination_reasons": {
+              "root_height": 37,
+              "root_tilt": 3
+            },
+            "mean_per_motion_root_position_error_m": 0.635350828941684
+          },
+          "status": "evaluated"
         }
       ],
       "all_runs_evaluated": false,
