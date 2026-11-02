@@ -1,6 +1,6 @@
 # SuperMimic 独立复现
 
-> **2026-11-01 当前执行约定：** 按 P2 v2 推进相对朝向反馈与完整联合训练，不运行哈希/冒烟等测试；GitHub 发布后只删除实验副本，正常工作环境保留。下方已有实验与清理核验文字是历史记录，不是新任务的前置步骤。
+> **2026-11-02 当前阶段：** P2 两组6000轮训练与主评估已完成；当前下一步是 [P3 位置反馈与预测跨度续训](docs/REPRODUCTION_PLAN.md#p3-next-stage)，计划已发布、尚未启动。不运行哈希/冒烟等测试；GitHub 发布后只删除已无消费者的明确实验副本，永久保留工作环境。下方环境恢复、核验与旧实验入口均为历史记录，不是本轮前置步骤。
 
 本仓库用于以学习为目的，依据论文独立实现 **SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model**。当前已接入固定版本的 LAFAN1 40 条完整动作、G1 / MuJoCo Warp、可微运动学、SuperMimic 核心训练循环、PPO-Sim 和完整动作评估。实际运行结果见 `results/index.json`；源码实现、短程更新和复现成绩分别记录。
 
@@ -34,7 +34,7 @@ bash scripts/setup_d57.sh
 ## 现有内容
 
 - [论文配置](configs/paper_reference.toml)：按论文标注来源的算法/网络/训练参数，不是已经可执行的训练配置。
-- [执行准备](docs/REPRODUCTION_PLAN.md)：实现选择、对照、评估和学习问题。
+- [复现记录与当前计划](docs/REPRODUCTION_PLAN.md#p3-next-stage)：P2实际结论、P3续训对照、评估与研究问题。
 - [来源锁](configs/sources.lock.json)：LAFAN1、机器人资产和 BeyondMimic 参数的确切版本。
 - [运行配置](configs/lafan40.json)：论文规模的初始学习预算；[开发配置](configs/lafan40_development.json) 只缩短更新次数。
 - [数据来源](data/sources.json)：原始数据入口；40 条动作的实际哈希、时长与质量记录见 `results/lafan1_g1_preparation/motion_manifest.json`。
@@ -44,19 +44,30 @@ bash scripts/setup_d57.sh
 
 ## 实施原则
 
-采样、世界模型拟合与策略/Critic 更新交替进行；固定世界模型参数时保留经过其输入的梯度。Actor 的输入遵守论文观测边界。完整动作回放、实际失败与耗时都保留；训练回报、完整片段评估和作者报道结果分别记录。
+采样、世界模型拟合与策略/Critic 更新交替进行；固定世界模型参数时保留经过其输入的梯度。P2 Actor 保留原本体观测与目标输入；P3 显式区分原输入对照和增加仿真相对位置反馈的机制分支，不将新增状态信息冒充作者已公开定义。完整动作回放、实际失败与耗时都保留；训练回报、完整片段评估和作者报道结果分别记录。
 
 用户已授权 G1 的 LAFAN1 训练、完整评估和 PPO-Sim 对比，先把前期实现和运行打通。用户允许与主要使用 CPU 的 MPC/RL 作业共享 D57 GPU，不另设 12GB 显存限制；不修改其他项目环境或终止其任务。
 
 ## 运行与学习
 
-P2 v2 本轮为 `20261101-goal-feedback-s0`，入口 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`。独立 tmux 先 B `robot_root` 后 A `reference_heading`，各 seed 0 从头初始化、6000 轮或最多 8 小时。每 1000 轮异步执行一次完整 40 动作评估和发布；训练结束后自动比较共同节点、渲染五类最终评分轨迹、上传保留检查点/原始记录/动作工作缓存并清理已上传的精确文件。主工作目录和 `../supermimic-publications/` 下的发布工作树保留。
+**最新已完成训练：P2 `20261101-goal-feedback-s0`。** 两组均6000轮，A `reference_heading` 为12/40完整执行、归一化回报0.269443；B `robot_root` 为13/40、0.409124。共同存活区间SO(3)误差由1.099降至0.138 rad，heading由1.039降至0.061 rad，说明相对朝向反馈有效。XY仍3.115 m、跟踪覆盖仅1.934%、起身仍0/6；B四条跑步在5000→6000均明显退步，不能仅凭总回报提高宣布问题已解决。[汇总](results/20261101-goal-feedback-s0/summary.json)和[比较](results/20261101-goal-feedback-s0/comparison.json)保留逐动作及真实失败证据。
 
-目标编码、数据语义与当前保存/评估/发布路径不计算文件哈希。历史权重缺省使用 `reference_heading`；旧数据语义由历史 preparation manifest 中的固定来源、动作顺序、帧数和关节/身体顺序解释。当前重建耗时不会进入兼容定义。B 补充相对根朝向反馈，不增加真实 XY 或线速度输入。
+**下一阶段：P3，从B6000续训，不重新从零训练。** X保留H32；Y改为H16；Z在H16下增加三维当前相对根位置反馈。X/Y判断预测跨度与末端Critic的权衡，Y/Z判断位置反馈。Z仅扩展Actor目标编码首层710→713，旧权重/优化器状态继承、新列置零；Critic输入不变。Z是使用仿真位置的机制分支，后续部署需要位置/位移估计。
 
-Release 上传优先使用 `/etc/network_turbo` 官方学术加速，Git 使用服务器现有代理。上传失败保留原件并记入本轮汇总。运行日志：`outputs/campaigns/20261101-goal-feedback-s0-{robot_root,reference_heading}.train.log`；最终结果：`results/20261101-goal-feedback-s0/summary.json`。
+三组各新增3000轮（全局6001–9000）、新增训练阶段最多4 h（含本阶段replay预热和联合训练），旧训练耗时只作累计记录。默认独立tmux按Y→Z→X运行，保留完整采样→WM→Actor/Critic联合更新。每1000新增轮执行40条完整动作评估和发布；最终评分与视频使用同一次真实轨迹。四条跑步和六条起身单独呈现。当前仅审阅和发布计划，没有启动P3。
 
-**P2 v2 两组训练已结束，最终成绩、上传及清理状态见本轮 summary 和运行索引：** [详细审阅与计划](docs/REPRODUCTION_PLAN.md#p2-next-stage)。当前已有真实初步成功：解析平滑终止 20/40，但完成动作仍有米级根位置误差，跌倒起身 0/6。下一轮优先把当前机器人相对参考的朝向反馈贯穿完整联合训练；比较 `reference_heading` 与 `robot_root` 两组，均 seed 0、6000 轮（3000 为中期）、后台每组最多 8 h。单个 Codex 交互窗口≤4 h，后台连续运行。沿用解析平滑终止与 H=32，最终评估直接记录视频轨迹。取消旧计划的哈希/冒烟等测试、旧策略三次重放、机械诊断扫描和恢复演练；GitHub/Release 确认上传后，删除已无消费者的本轮实验副本，保留源码、`.venv`、机器人资产和工作树。协议见 [JSON](configs/next_stage_correction_protocol.json)，[复制启动提示词](docs/NEXT_STAGE_START_PROMPT.md)。JSON 是待实现协议，不是现有 `train.py` 的可执行配置。
+- [完整分析与P3计划](docs/REPRODUCTION_PLAN.md#p3-next-stage)
+- [P3机器可读协议](configs/next_stage_tracking_protocol.json)（计划协议，不是现有train.py配置）
+- [复制启动提示词](docs/NEXT_STAGE_START_PROMPT.md)
+- [共同父版本B6000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-goal-feedback-s0-robot_root-i0006000)
+
+P2训练和主评估已经完成，发布清理仍以最新summary为准。审阅基线aa92f660为publication_completion_running，已记录释放11,612,876,800字节；超过单资产限制的原始记录正在按1 GiB分卷补传。现有上传任务沿原流程收尾，不重复已完成的训练、评估或归档。
+
+后续代码、配置和紧凑结果推GitHub，大权重/原始数组/视频/日志从D57直传Release。只确认uploaded、名称、字节数和URL，不做哈希、重下载核验或恢复演练。上传完成且训练/评估/渲染等消费者结束后，删除明确实验副本；保留源码、Git/stash、.venv、G1资产、工作树及其他项目。不在用户电脑另做归档。
+
+### 已完成阶段与历史记录
+
+P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以P3协议为准。
 
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 
@@ -109,7 +120,7 @@ python scripts/evaluate.py outputs/runs/lafan40-ppo-seed0/checkpoint_latest.pt
 
 用户在 2026-10-31 要求更密集的保存和推送：现在每轮原子保存完整模型/优化器检查点，保留最近 20 轮、初始版本和每个 1000 轮节点。编号文件不可覆盖，`checkpoint_latest.pt` 指向最近版本。检查点约数百 MB，滚动保留避免逐轮长期累积占满共享数据盘；回退到较旧版本时使用新的 run 名称。
 
-P2 v2 继续每 1000 轮固定版本并完成全部 40 条动作评估、发布。最终主评估同时保存录像轨迹；不再机械附加 120 起点诊断。权重和原始数据进入 GitHub Release，逐动作结果与指标进入 Git。按用户最新要求，后续执行将移除实际调用链中的自动哈希和恢复演练，只确认上传完成状态、文件名、字节数与下载 URL；上传失败保留未发布原件，训练照常推进。运行索引区分阶段评估与整轮完成。
+P3沿用每1000新增轮完成全部40条动作评估与发布的方式。最终主评估同时保存录像轨迹；不机械附加120起点诊断。权重和原始数据进入GitHub Release，逐动作结果与指标进入Git。当前发布路径只确认上传完成状态、文件名、字节数与下载URL；上传失败保留未发布原件。运行索引区分训练完成、评估完成与发布清理完成。
 
 需要查看最新策略时，可在训练期间运行以下命令。评估固定具体编号版本，记录 run/iteration 和对应 Release 资产，不跟随持续变化的 latest：
 

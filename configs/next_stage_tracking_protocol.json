@@ -1,0 +1,214 @@
+{
+  "protocol_id": "p3-position-horizon-continuation-v1",
+  "status": "planned_not_started",
+  "date_beijing": "2026-11-02",
+  "document": "docs/REPRODUCTION_PLAN.md#p3-next-stage",
+  "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
+  "not_a_train_py_config": true,
+  "source_review_commit": "aa92f660b7624924f0deb170dc3381da3b4c6478",
+  "execution_requires_start_instruction": true,
+  "parent": {
+    "campaign": "20261101-goal-feedback-s0-robot_root",
+    "iteration": 6000,
+    "actor_updates": 5995,
+    "release": "https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-goal-feedback-s0-robot_root-i0006000",
+    "asset": "checkpoint_0006000.pt",
+    "historical_running_reference_iteration": 5000
+  },
+  "evidence": {
+    "comparison": "results/20261101-goal-feedback-s0/comparison.json",
+    "orientation_feedback_effect_confirmed": true,
+    "remaining": [
+      "XY error about 3.115m and tracking coverage 1.934%",
+      "running regression between iterations 5000 and 6000",
+      "0/6 get-up and inaccurate multi-step model states at contact transitions"
+    ],
+    "model_horizon_cause_is_hypothesis": true
+  },
+  "arms": [
+    {
+      "id": "X",
+      "name": "continue_h32",
+      "goal_frame": "robot_root",
+      "actor_position_feedback": "none",
+      "actor_goal_dim": 710,
+      "critic_goal_dim": 710,
+      "imagination_horizon": 32
+    },
+    {
+      "id": "Y",
+      "name": "continue_h16",
+      "goal_frame": "robot_root",
+      "actor_position_feedback": "none",
+      "actor_goal_dim": 710,
+      "critic_goal_dim": 710,
+      "imagination_horizon": 16
+    },
+    {
+      "id": "Z",
+      "name": "position_h16",
+      "goal_frame": "robot_root",
+      "actor_position_feedback": "sim_relative_xyz",
+      "actor_goal_dim": 713,
+      "critic_goal_dim": 710,
+      "imagination_horizon": 16
+    }
+  ],
+  "comparisons": [
+    "X vs Y: model horizon and critic bootstrapping tradeoff",
+    "Y vs Z: added current-relative-position feedback"
+  ],
+  "position_feedback": {
+    "formula": "R(current_root)^T * (reference_current_root_position - current_root_position) / 0.3",
+    "dimensions": 3,
+    "append_after_existing_goal": true,
+    "physical_source": "current actual state",
+    "imagination_source": "current predicted state",
+    "retain_position_and_orientation_gradient": true,
+    "critic_inputs_unchanged": true,
+    "deployment": "Simulator-position mechanism branch; real deployment needs a position/displacement estimate",
+    "no_actual_linear_velocity_added": true
+  },
+  "warm_start": {
+    "same_parent_for_all": true,
+    "restore_actor_critic_world_optimizers_sampler_rng": true,
+    "Z_actor_encoder": "Preserve old 710 input columns; append 3 zero columns",
+    "Z_adam": "Preserve old moments and step; zero new columns' moments",
+    "critic": "Original 710-goal and existing 9 relative-pose features",
+    "no_random_encoder_reinitialization": true,
+    "no_hash_or_equivalence_tests": true,
+    "replay": "Rebuild with existing 64-step warmup, same for all arms",
+    "all_actor_construction_and_loading_paths": "Read input mode from checkpoint configuration; Z is 713 dimensions, X/Y and old weights remain 710"
+  },
+  "budget": {
+    "start_iteration": 6000,
+    "end_iteration": 9000,
+    "new_joint_updates_per_arm": 3000,
+    "end_actor_updates": 8995,
+    "new_training_cap_hours_per_arm": 4,
+    "total_training_cap_hours": 12,
+    "stage_time_separate_from_parent_elapsed": true,
+    "existing_resume_timer_must_be_adjusted": true,
+    "new_sim_transitions_including_warmup": 30982144,
+    "cosine_iterations": 250000,
+    "preserve_global_learning_rate_progress": true,
+    "intermediate_iterations": [
+      7000,
+      8000,
+      9000
+    ],
+    "nonround_final_publish": true,
+    "codex_interaction_max_hours": 4,
+    "background_continues_on_handoff": true,
+    "default_order": [
+      "Y",
+      "Z",
+      "X"
+    ],
+    "default_execution": "Sequential dedicated tmux on shared GPU; do not stop other projects",
+    "on_time_cap": "Publish actual endpoint and compare common completed iteration; do not silently extend",
+    "stage_clock_start": "After checkpoint restoration; includes 64-step replay warmup and joint training, excludes evaluation/video/upload"
+  },
+  "unchanged": {
+    "world_window": 8,
+    "num_envs": 4096,
+    "imagination_termination": "analytic_smooth",
+    "termination_temperature": 0.05,
+    "items": [
+      "reward",
+      "physical termination",
+      "PD",
+      "randomization/noise",
+      "world-model architecture and loss",
+      "sampler",
+      "optimizer settings",
+      "full-motion evaluation"
+    ]
+  },
+  "evaluation": {
+    "motions": 40,
+    "full_clip_from_frame_zero": true,
+    "original_denominator_and_failure_rules": true,
+    "score_video_same_rollout": true,
+    "metrics": [
+      "return/completion/coverage",
+      "common-prefix root XY/SO3 and upright heading",
+      "per-family and per-motion performance",
+      "reward components",
+      "four running motions at all new milestones",
+      "all six get-up failure phases"
+    ],
+    "fixed_120_start_diagnostic_sweep": false,
+    "targeted_prediction": "Only actual failed intervals; replay logged same actions when comparing model with physics",
+    "reuse_training_tensors_for": [
+      "per-family sample count",
+      "per-family failure count",
+      "per-family WM position/orientation/velocity errors"
+    ],
+    "no_separate_logging_diagnostic_job": true
+  },
+  "checkpointing": {
+    "every_iteration": true,
+    "keep_parent": true,
+    "keep_recent": 20,
+    "keep_milestones_and_final": true,
+    "do_not_delete_parent_while_any_arm_uses_it": true
+  },
+  "publication": {
+    "git": "Source/configuration/compact results/plan",
+    "release": "Retained checkpoints, original arrays/trajectories, video and logs",
+    "archive_part_max_bytes": 1073741824,
+    "record_part_order": true,
+    "no_local_user_pc_archive": true,
+    "confirmation": [
+      "uploaded state",
+      "file name",
+      "byte count",
+      "URL"
+    ],
+    "no_hash_checks": true,
+    "no_redownload_or_restore_drill": true
+  },
+  "cleanup": {
+    "only_uploaded_exact_artifact_paths": true,
+    "all_current_consumers_finished": true,
+    "keep_unuploaded_files_and_report": true,
+    "protect": [
+      "source",
+      "Git/stash",
+      ".venv",
+      "locks",
+      "activation scripts",
+      "G1 XML and meshes",
+      "worktrees",
+      "recovery metadata",
+      "other projects and shared environment"
+    ],
+    "no_whole_outputs_cache_work_or_project_deletion": true
+  },
+  "deferred": [
+    "new PPO runs",
+    "extra training seeds",
+    "reward/PD changes",
+    "WM loss or sampler change before this comparison",
+    "BONES-SEED",
+    "Go2",
+    "hardware"
+  ],
+  "decisions_after_results": {
+    "H16_improves_stability": "Continue with the demonstrated choice, inspect remaining actual model errors",
+    "position_feedback_improves_tracking": "Develop estimator-backed input and assess estimation error",
+    "short_horizon_model_error_persists": "Improve actual contact-transition data coverage and task-scaled WM loss",
+    "skill_regression": "Use real family sampling shares and model errors to decide sampler/update changes",
+    "position_no_gain_within_budget": "This bounded continuation found no gain; it does not disprove the value of position feedback"
+  },
+  "prohibited": [
+    "defensive programming",
+    "unit/mock/smoke/import/shape/hash tests",
+    "restore drills",
+    "whole-disk scans",
+    "generic fallback/monitoring frameworks",
+    "unrelated reports"
+  ],
+  "stop": "After three bounded continuation runs, complete results/video/publication and exact cleanup; report evidence and next decision."
+}
