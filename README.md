@@ -1,6 +1,6 @@
 # SuperMimic 独立复现
 
-> **2026-11-02 当前阶段：** P2 两组6000轮训练与主评估已完成；当前下一步是 [P3 位置反馈与预测跨度续训](docs/REPRODUCTION_PLAN.md#p3-next-stage)，计划已发布、尚未启动。不运行哈希/冒烟等测试；GitHub 发布后只删除已无消费者的明确实验副本，永久保留工作环境。下方环境恢复、核验与旧实验入口均为历史记录，不是本轮前置步骤。
+> **2026-11-02 原文复核后修订：** 当前入口为 [P3 v2](docs/REPRODUCTION_PLAN.md#p3-next-stage)：保留H32，先比较解析终止分支遗留的辅助BCE；H16与新增位置反馈后移。6000轮是阶段预算，不是充分收敛证据。计划已更新、尚未启动。不运行哈希/冒烟等测试；只清理上传完成且无消费者的明确实验副本，永久保留工作环境。
 
 本仓库用于以学习为目的，依据论文独立实现 **SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model**。当前已接入固定版本的 LAFAN1 40 条完整动作、G1 / MuJoCo Warp、可微运动学、SuperMimic 核心训练循环、PPO-Sim 和完整动作评估。实际运行结果见 `results/index.json`；源码实现、短程更新和复现成绩分别记录。
 
@@ -44,7 +44,7 @@ bash scripts/setup_d57.sh
 
 ## 实施原则
 
-采样、世界模型拟合与策略/Critic 更新交替进行；固定世界模型参数时保留经过其输入的梯度。P2 Actor 保留原本体观测与目标输入；P3 显式区分原输入对照和增加仿真相对位置反馈的机制分支，不将新增状态信息冒充作者已公开定义。完整动作回放、实际失败与耗时都保留；训练回报、完整片段评估和作者报道结果分别记录。
+采样、世界模型拟合与策略/Critic 更新交替进行；固定世界模型参数时保留经过其输入的梯度。P3 v2保持现有Actor710维输入和H32；论文未展开goal全部特征/坐标，当前实现选择明确记录，不将额外状态输入冒充作者公开定义。完整动作回放、实际失败与耗时都保留；训练回报、完整片段评估和作者报道结果分别记录。
 
 用户已授权 G1 的 LAFAN1 训练、完整评估和 PPO-Sim 对比，先把前期实现和运行打通。用户允许与主要使用 CPU 的 MPC/RL 作业共享 D57 GPU，不另设 12GB 显存限制；不修改其他项目环境或终止其任务。
 
@@ -52,18 +52,18 @@ bash scripts/setup_d57.sh
 
 **最新已完成训练：P2 `20261101-goal-feedback-s0`。** 两组均6000轮，A `reference_heading` 为12/40完整执行、归一化回报0.269443；B `robot_root` 为13/40、0.409124。共同存活区间SO(3)误差由1.099降至0.138 rad，heading由1.039降至0.061 rad，说明相对朝向反馈有效。XY仍3.115 m、跟踪覆盖仅1.934%、起身仍0/6；B四条跑步在5000→6000均明显退步，不能仅凭总回报提高宣布问题已解决。[汇总](results/20261101-goal-feedback-s0/summary.json)和[比较](results/20261101-goal-feedback-s0/comparison.json)保留逐动作及真实失败证据。
 
-**下一阶段：P3，从B6000续训，不重新从零训练。** X保留H32；Y改为H16；Z在H16下增加三维当前相对根位置反馈。X/Y判断预测跨度与末端Critic的权衡，Y/Z判断位置反馈。Z仅扩展Actor目标编码首层710→713，旧权重/优化器状态继承、新列置零；Critic输入不变。Z是使用仿真位置的机制分支，后续部署需要位置/位移估计。
+**下一阶段：P3 v2，先对齐训练目标。** 原文默认H32且其消融中最快达到目标；320000轮是表A.5训练长度，250000仅为LR衰减日程。当前6000轮不能视为充分训练，但论文没有给LAFAN达到0.82时的确切迭代数，也不机械要求跑满320000轮。
 
-三组各新增3000轮（全局6001–9000）、新增训练阶段最多4 h（含本阶段replay预热和联合训练），旧训练耗时只作累计记录。默认独立tmux按Y→Z→X运行，保留完整采样→WM→Actor/Critic联合更新。每1000新增轮执行40条完整动作评估和发布；最终评分与视频使用同一次真实轨迹。四条跑步和六条起身单独呈现。当前仅审阅和发布计划，没有启动P3。
+代码已使用解析平滑终止，世界模型仍训练一个未用于控制的learned termination BCE，而且其梯度会影响dynamics。当前先从同一B6000继续两组：C0保留原state+BCE；C1仅保留原state loss。两组均H32、robot_root、Actor710维和原Critic，其他设置不变。不预先认定BCE有害，不同时改state mean/sum、采样器或网络。
 
-- [完整分析与P3计划](docs/REPRODUCTION_PLAN.md#p3-next-stage)
-- [P3机器可读协议](configs/next_stage_tracking_protocol.json)（计划协议，不是现有train.py配置）
-- [复制启动提示词](docs/NEXT_STAGE_START_PROMPT.md)
+每组首段新增3000轮（6001–9000），新增训练阶段最多4h，含本阶段replay预热，旧训练时间只作累计记录。默认独立tmux按C1→C0运行完整联合更新，每1000新增轮评估全部40动作并发布。最终评分与视频同轨迹。H16和位置XYZ后移；首段结果不能当作收敛判定。
+
+- [原文对照与P3 v2计划](docs/REPRODUCTION_PLAN.md#p3-next-stage)
+- [当前机器可读协议](configs/next_stage_tracking_protocol.json)（计划协议，不是train.py配置）
+- [替换旧版的启动提示词](docs/NEXT_STAGE_START_PROMPT.md)
 - [共同父版本B6000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-goal-feedback-s0-robot_root-i0006000)
 
-P2训练和主评估已经完成，发布清理仍以最新summary为准。审阅基线aa92f660为publication_completion_running，已记录释放11,612,876,800字节；超过单资产限制的原始记录正在按1 GiB分卷补传。现有上传任务沿原流程收尾，不重复已完成的训练、评估或归档。
-
-后续代码、配置和紧凑结果推GitHub，大权重/原始数组/视频/日志从D57直传Release。只确认uploaded、名称、字节数和URL，不做哈希、重下载核验或恢复演练。上传完成且训练/评估/渲染等消费者结束后，删除明确实验副本；保留源码、Git/stash、.venv、G1资产、工作树及其他项目。不在用户电脑另做归档。
+P2发布清理已完成：最新38167c20记录status=completed、unpublished为空、累计释放20,390,535,168字节。此前补传进行中是较早快照，不重复已完成任务。大产物继续由D57直传Release，只确认uploaded、名称、字节数与URL；无消费者后清理明确副本，不在用户电脑归档，环境与源码永久保留。
 
 ### 已完成阶段与历史记录
 
