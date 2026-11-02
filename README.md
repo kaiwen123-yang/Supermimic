@@ -133,3 +133,5 @@ python scripts/evaluate.py outputs/runs/20261031-learning-s0-supermimic/checkpoi
 P3 v2 执行入口：`bash scripts/run_tracking_continuation_d57.sh 20261102-h32-bce-s0`。独立源码工作树 `/root/autodl-tmp/robot-repro/supermimic-p3-h32` 复用主项目原位 `.venv` 和 G1 资产；主目录的 P2 未提交文件保持原位。实际配置为 `configs/lafan40_h32_state_only.json` 和 `configs/lafan40_h32_aux_bce.json`。从同一 B6000 恢复全部网络、优化器、sampler 和已保存的 Torch/CUDA RNG；NumPy 保持 seed 0。恢复完成后重新计本段预算，6001 轮接续全局 LR；父版本不重复评估。保留原 70 维逐维 mean，C1 的 BCE 记录为 null（未计算），不记作零误差。
 
 P3 v2 已于北京时间 2026-11-02T20:17:21.130707+08:00 开始 C1 正式联合续训；C0 按同父 B6000 排队。tmux 为 `sm-p3-h32-bce-s0`。启动实际更新与共享 GPU 条件见 `results/index.json`；尚未产生本阶段完整评估结果。
+
+P3 v2 实际阶段结果：h32_aux_bce 第9000轮，29/40，归一化回报0.61540441，新增3000轮/3.225h；h32_state_only 第9000轮，15/40，归一化回报0.48260317，新增3000轮/3.236h。结果和实际失败窗口见 results/20261102-h32-bce-s0/summary.json、comparison.json；该阶段不能作为充分收敛证据。
