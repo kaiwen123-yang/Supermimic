@@ -66,7 +66,8 @@ def main():
     training={arm:training_summary(run) for arm,run in runs.items()}
     write(result/"training.json",training)
     if not (stage/"videos/video_manifest.json").exists():
-        subprocess.run([sys.executable,"-u",str(ROOT/"scripts/render_goal_videos.py"),str(stage),str(finals[ARMS[0]]),str(finals[ARMS[1]]),"--labels","C0 aux BCE","C1 state only"],check=True)
+        with (stage/"render.log").open("a") as log:
+            subprocess.run([sys.executable,"-u",str(ROOT/"scripts/render_goal_videos.py"),str(stage),str(finals[ARMS[0]]),str(finals[ARMS[1]]),"--labels","C0 aux BCE","C1 state only"],stdout=log,stderr=subprocess.STDOUT,check=True)
     shutil.copy2(stage/"videos/video_manifest.json",result/"video_manifest.json")
     scores={arm:json.loads((ev/"evaluation.json").read_text()) for arm,ev in finals.items()}
     selected={arm:[r for r in score["clips"] if r["motion"].startswith(("run","fallAndGetUp"))] for arm,score in scores.items()}
