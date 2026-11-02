@@ -56,7 +56,7 @@ P2 v2 本轮为 `20261101-goal-feedback-s0`，入口 `bash scripts/run_goal_feed
 
 Release 上传优先使用 `/etc/network_turbo` 官方学术加速，Git 使用服务器现有代理。上传失败保留原件并记入本轮汇总。运行日志：`outputs/campaigns/20261101-goal-feedback-s0-{robot_root,reference_heading}.train.log`；最终结果：`results/20261101-goal-feedback-s0/summary.json`。
 
-**P2 v2 已于北京时间 2026-11-01 23:03 启动 B 组，当前状态见 `results/index.json`：** [详细审阅与计划](docs/REPRODUCTION_PLAN.md#p2-next-stage)。当前已有真实初步成功：解析平滑终止 20/40，但完成动作仍有米级根位置误差，跌倒起身 0/6。下一轮优先把当前机器人相对参考的朝向反馈贯穿完整联合训练；比较 `reference_heading` 与 `robot_root` 两组，均 seed 0、6000 轮（3000 为中期）、后台每组最多 8 h。单个 Codex 交互窗口≤4 h，后台连续运行。沿用解析平滑终止与 H=32，最终评估直接记录视频轨迹。取消旧计划的哈希/冒烟等测试、旧策略三次重放、机械诊断扫描和恢复演练；GitHub/Release 确认上传后，删除已无消费者的本轮实验副本，保留源码、`.venv`、机器人资产和工作树。协议见 [JSON](configs/next_stage_correction_protocol.json)，[复制启动提示词](docs/NEXT_STAGE_START_PROMPT.md)。JSON 是待实现协议，不是现有 `train.py` 的可执行配置。
+**P2 v2 两组训练已结束，最终成绩、上传及清理状态见本轮 summary 和运行索引：** [详细审阅与计划](docs/REPRODUCTION_PLAN.md#p2-next-stage)。当前已有真实初步成功：解析平滑终止 20/40，但完成动作仍有米级根位置误差，跌倒起身 0/6。下一轮优先把当前机器人相对参考的朝向反馈贯穿完整联合训练；比较 `reference_heading` 与 `robot_root` 两组，均 seed 0、6000 轮（3000 为中期）、后台每组最多 8 h。单个 Codex 交互窗口≤4 h，后台连续运行。沿用解析平滑终止与 H=32，最终评估直接记录视频轨迹。取消旧计划的哈希/冒烟等测试、旧策略三次重放、机械诊断扫描和恢复演练；GitHub/Release 确认上传后，删除已无消费者的本轮实验副本，保留源码、`.venv`、机器人资产和工作树。协议见 [JSON](configs/next_stage_correction_protocol.json)，[复制启动提示词](docs/NEXT_STAGE_START_PROMPT.md)。JSON 是待实现协议，不是现有 `train.py` 的可执行配置。
 
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 
