@@ -41,9 +41,13 @@ def ensure_release(tag,title,notes,commit):
     existing=subprocess.run(["gh","release","view",tag,"--repo",REPO,"--json","databaseId"],capture_output=True,text=True,env=GH_ENV)
     if existing.returncode:
         created=json.loads(call(["gh","api",f"repos/{REPO}/releases","--method","POST",
-            "-f",f"tag_name={tag}","-f",f"target_commitish={commit}","-f",f"name={title}","-F","draft=true","-F",f"body=@{notes}"]))
+            "-f",f"tag_name={tag}","-f",f"target_commitish={commit}","-f",f"name={title}","-F","draft=false","-F",f"body=@{notes}"]))
         return release_by_tag(tag,created["id"])
-    return release_by_tag(tag,json.loads(existing.stdout)["databaseId"])
+    release=release_by_tag(tag,json.loads(existing.stdout)["databaseId"])
+    if release["draft"]:
+        call(["gh","release","edit",tag,"--repo",REPO,"--draft=false","--latest=false"])
+        release=release_by_tag(tag,release["id"])
+    return release
 
 
 def upload_files(tag,paths,release_id=None):
