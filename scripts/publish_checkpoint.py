@@ -13,10 +13,15 @@ import traceback
 ROOT=Path(__file__).resolve().parents[1]
 REPO="kaiwen123-yang/Supermimic"
 URL=f"https://github.com/{REPO}.git"
+# P3 milestone publication hit repeated TLS timeouts through academic acceleration.
+# Use the existing D57 proxy for GitHub requests without changing training's environment.
+GH_ENV=os.environ.copy()
+GH_ENV.update({key:"http://127.0.0.1:7890" for key in
+               ("HTTPS_PROXY","HTTP_PROXY","ALL_PROXY","https_proxy","http_proxy","all_proxy")})
 
 
 def call(args,cwd=ROOT):
-    r=subprocess.run(args,cwd=cwd,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    r=subprocess.run(args,cwd=cwd,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=GH_ENV)
     if r.returncode:
         raise RuntimeError(f"{args[0]} failed ({r.returncode}): {r.stderr[-4000:]}")
     return r.stdout.strip()
@@ -33,7 +38,7 @@ def release_by_tag(tag,release_id=None):
 
 
 def ensure_release(tag,title,notes,commit):
-    existing=subprocess.run(["gh","release","view",tag,"--repo",REPO,"--json","databaseId"],capture_output=True,text=True)
+    existing=subprocess.run(["gh","release","view",tag,"--repo",REPO,"--json","databaseId"],capture_output=True,text=True,env=GH_ENV)
     if existing.returncode:
         created=json.loads(call(["gh","api",f"repos/{REPO}/releases","--method","POST",
             "-f",f"tag_name={tag}","-f",f"target_commitish={commit}","-f",f"name={title}","-F","draft=true","-F",f"body=@{notes}"]))
@@ -54,7 +59,7 @@ def upload_files(tag,paths,release_id=None):
             if asset["state"]!="uploaded" or asset["size"]!=size:
                 raise RuntimeError(f"Asset not fully uploaded: {path.name}")
             uploaded.append({"path":str(path.relative_to(ROOT)),"name":path.name,"bytes":size,
-                             "state":asset["state"],"url":asset["browser_download_url"],"network":"AutoDL official academic acceleration"})
+                             "state":asset["state"],"url":asset["browser_download_url"],"network":"D57 existing localhost HTTP proxy"})
             print("ASSET_UPLOADED",path.name,size,flush=True)
         except Exception as exc:
             missing.append({"path":str(path.relative_to(ROOT)),"bytes":size,"error":str(exc)})
