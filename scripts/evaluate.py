@@ -110,6 +110,7 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
                             goal_frame=goal_frame, dt=.02, full_reference_steps=length)
         records.append(row)
     result = {"status": "evaluated", "method": cfg["method"], "goal_frame": goal_frame,
+              "world_termination_loss": cfg.get("world_termination_loss", "aux_bce"),
               "iteration": iteration, "actor_updates": actor_updates, "data_definition": motions.data_definition,
               "checkpoint_file": f"checkpoint_{iteration:07d}.pt", "motions": 40,
               "failed_motions": sum(r["failed"] for r in records), "completed_motions": sum(not r["failed"] for r in records),

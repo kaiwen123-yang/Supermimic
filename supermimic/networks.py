@@ -93,8 +93,8 @@ class WorldModel(nn.Module):
         return torch.stack((height, tilt), -1)
 
     def termination_logits(self, state, reference_qpos):
-        # Both experiment arms retain this learned head and its original BCE
-        # objective, including the gradient through predicted states.
+        # aux_bce includes gradients through predicted states; state-only training
+        # retains this module for checkpoint compatibility but never calls it.
         return self.termination(self.termination_features(state, reference_qpos)).squeeze(-1)
 
     def termination_probability_from_features(self, features, mode="learned", temperature=0.05):
@@ -113,10 +113,14 @@ class WorldModel(nn.Module):
             self.termination_features(state, reference_qpos), mode, temperature)
 
 
-def state_prediction_error(prediction, target):
+def state_prediction_squared_coordinates(prediction, target):
     rotation = quat_to_rotvec(quat_mul(prediction[..., 3:7], quat_inv(target[..., 3:7])))
     delta = torch.cat((prediction[..., :3] - target[..., :3], rotation,
                        prediction[..., 7:36] - target[..., 7:36],
                        (prediction[..., 36:39] - target[..., 36:39]) / 3,
                        (prediction[..., 39:71] - target[..., 39:71]) / 10), -1)
-    return delta.square().mean(-1)
+    return delta.square()
+
+
+def state_prediction_error(prediction, target):
+    return state_prediction_squared_coordinates(prediction, target).mean(-1)

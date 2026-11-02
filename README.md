@@ -1,6 +1,6 @@
 # SuperMimic 独立复现
 
-> **2026-11-02 原文复核后修订：** 当前入口为 [P3 v2](docs/REPRODUCTION_PLAN.md#p3-next-stage)：保留H32，先比较解析终止分支遗留的辅助BCE；H16与新增位置反馈后移。6000轮是阶段预算，不是充分收敛证据。计划已更新、尚未启动。不运行哈希/冒烟等测试；只清理上传完成且无消费者的明确实验副本，永久保留工作环境。
+> **2026-11-02 原文复核后修订：** 当前入口为 [P3 v2](docs/REPRODUCTION_PLAN.md#p3-next-stage)：保留H32，先比较解析终止分支遗留的辅助BCE；H16与新增位置反馈后移。6000轮是阶段预算，不是充分收敛证据。本轮已授权执行，实现与实际进度见下文及运行索引。不运行哈希/冒烟等测试；只清理上传完成且无消费者的明确实验副本，永久保留工作环境。
 
 本仓库用于以学习为目的，依据论文独立实现 **SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model**。当前已接入固定版本的 LAFAN1 40 条完整动作、G1 / MuJoCo Warp、可微运动学、SuperMimic 核心训练循环、PPO-Sim 和完整动作评估。实际运行结果见 `results/index.json`；源码实现、短程更新和复现成绩分别记录。
 
@@ -52,7 +52,7 @@ bash scripts/setup_d57.sh
 
 **最新已完成训练：P2 `20261101-goal-feedback-s0`。** 两组均6000轮，A `reference_heading` 为12/40完整执行、归一化回报0.269443；B `robot_root` 为13/40、0.409124。共同存活区间SO(3)误差由1.099降至0.138 rad，heading由1.039降至0.061 rad，说明相对朝向反馈有效。XY仍3.115 m、跟踪覆盖仅1.934%、起身仍0/6；B四条跑步在5000→6000均明显退步，不能仅凭总回报提高宣布问题已解决。[汇总](results/20261101-goal-feedback-s0/summary.json)和[比较](results/20261101-goal-feedback-s0/comparison.json)保留逐动作及真实失败证据。
 
-**下一阶段：P3 v2，先对齐训练目标。** 原文默认H32且其消融中最快达到目标；320000轮是表A.5训练长度，250000仅为LR衰减日程。当前6000轮不能视为充分训练，但论文没有给LAFAN达到0.82时的确切迭代数，也不机械要求跑满320000轮。
+**当前执行：P3 v2，先对齐训练目标。** 原文默认H32且其消融中最快达到目标；320000轮是表A.5训练长度，250000仅为LR衰减日程。当前6000轮不能视为充分训练，但论文没有给LAFAN达到0.82时的确切迭代数，也不机械要求跑满320000轮。
 
 代码已使用解析平滑终止，世界模型仍训练一个未用于控制的learned termination BCE，而且其梯度会影响dynamics。当前先从同一B6000继续两组：C0保留原state+BCE；C1仅保留原state loss。两组均H32、robot_root、Actor710维和原Critic，其他设置不变。不预先认定BCE有害，不同时改state mean/sum、采样器或网络。
 
@@ -129,3 +129,5 @@ python scripts/evaluate.py outputs/runs/20261031-learning-s0-supermimic/checkpoi
 ```
 
 学习顺序：先理解参考动画与动态控制的区别；再观察世界模型是否提升真实仿真表现；最后在相同动作、任务、网络与评估下比较 PPO-Sim。八次开发迭代不能作为两种方法优劣的证据。
+
+P3 v2 执行入口：`bash scripts/run_tracking_continuation_d57.sh 20261102-h32-bce-s0`。独立源码工作树 `/root/autodl-tmp/robot-repro/supermimic-p3-h32` 复用主项目原位 `.venv` 和 G1 资产；主目录的 P2 未提交文件保持原位。实际配置为 `configs/lafan40_h32_state_only.json` 和 `configs/lafan40_h32_aux_bce.json`。从同一 B6000 恢复全部网络、优化器、sampler 和已保存的 Torch/CUDA RNG；NumPy 保持 seed 0。恢复完成后重新计本段预算，6001 轮接续全局 LR；父版本不重复评估。保留原 70 维逐维 mean，C1 的 BCE 记录为 null（未计算），不记作零误差。

@@ -62,6 +62,24 @@ def upload_files(tag,paths,release_id=None):
     return uploaded,missing
 
 
+def archive_parts(path):
+    """Ordered byte parts of a completed tar stream, each at most 1 GiB."""
+    limit=1024**3
+    if path.stat().st_size<=limit:
+        return [path]
+    parts=[]
+    with path.open("rb") as source:
+        for number in range((path.stat().st_size+limit-1)//limit):
+            part=path.with_name(path.name+f".part{number+1:03d}")
+            remaining=min(limit,path.stat().st_size-number*limit)
+            with part.open("wb") as output:
+                while remaining:
+                    block=source.read(min(8*1024**2,remaining))
+                    output.write(block);remaining-=len(block)
+            parts.append(part)
+    return parts
+
+
 def push_results(tag,relative_paths,index_update):
     git("fetch",URL,"main")
     worktree=ROOT.parent/"supermimic-publications"/(tag+"-"+str(time.time_ns()))
@@ -81,7 +99,7 @@ def push_results(tag,relative_paths,index_update):
     ip.write_text(json.dumps(index,indent=2,ensure_ascii=False)+"\n")
     git("add","--",*[str(p) for p in relative_paths],"results/index.json",cwd=worktree)
     if subprocess.run(["git","diff","--cached","--quiet"],cwd=worktree).returncode:
-        git("commit","-m",f"Record P2 goal feedback {tag}",cwd=worktree)
+        git("commit","-m",f"Record SuperMimic {tag}",cwd=worktree)
     commit=git("rev-parse","HEAD",cwd=worktree)
     git("push",URL,"HEAD:main",cwd=worktree)
     return commit
@@ -102,6 +120,8 @@ def publish(run_name,iteration,final=False):
         try:
             checkpoint=run/f"checkpoint_{iteration:07d}.pt"
             cfg=json.loads((run/"config.json").read_text())
+            campaign=cfg.get("campaign", "20261101-goal-feedback-s0")
+            arm=cfg.get("arm", cfg["goal_frame"])
             runtime=json.loads((run/"runtime.json").read_text())
             evaluation_dir=run/f"evaluation_{iteration:07d}"
             if not (evaluation_dir/"evaluation.json").exists():
@@ -122,21 +142,24 @@ def publish(run_name,iteration,final=False):
                 with tarfile.open(archive,"w") as tar:
                     tar.add(evaluation_dir/"trajectories",arcname="trajectories")
             notes=pub/"release-notes.md"
-            notes.write_text(f"P2 v2 {cfg['goal_frame']}, seed 0, iteration {iteration}.\n\n"
+            notes.write_text(f"{campaign} / {arm}, seed 0, iteration {iteration}.\n\n"
                 f"Completed {evaluation['completed_motions']}/40; full-duration normalized return {evaluation['mean_normalized_return']:.8f}. "
                 "All motions and failed tails remain in the denominator. Raw state/reference/action/reward trajectories are the scoring source.\n\n"
                 f"Training source: {runtime['git_commit']}. Full model and optimizer checkpoint included. "
-                "Goal frame adds orientation feedback; pure XY displacement remains unobserved.\n",encoding="utf-8")
-            release=ensure_release(tag,f"P2 {cfg['goal_frame']} / iteration {iteration}",notes,runtime["git_commit"])
-            uploaded,missing=upload_files(tag,[checkpoint,archive,pub/"evaluation.log",*(result/n for n in ("evaluation.json","config.json","runtime.json","training.json"))],release["id"])
+                f"World termination training objective: {cfg.get('world_termination_loss', 'aux_bce')}. "
+                "Stage observations do not establish convergence; tracking coverage is an additional diagnostic.\n",encoding="utf-8")
+            release=ensure_release(tag,f"{arm} / iteration {iteration}",notes,runtime["git_commit"])
+            parts=archive_parts(archive)
+            uploaded,missing=upload_files(tag,[checkpoint,*parts,pub/"evaluation.log",*(result/n for n in ("evaluation.json","config.json","runtime.json","training.json"))],release["id"])
             status.update(status="assets_uploaded" if not missing else "upload_incomplete",assets=uploaded,unpublished=missing,
-                          goal_frame=cfg["goal_frame"],completed_motions=evaluation["completed_motions"],
+                          goal_frame=cfg["goal_frame"],world_termination_loss=cfg.get("world_termination_loss", "aux_bce"),
+                          trajectory_archive_parts=[p.name for p in parts],completed_motions=evaluation["completed_motions"],
                           mean_normalized_return=evaluation["mean_normalized_return"],
                           release_url=f"https://github.com/{REPO}/releases/tag/{tag}",final=final)
             (result/"publication.json").write_text(json.dumps(status,indent=2)+"\n")
             def update(index):
                 index.setdefault("publications",{})[tag]={k:status[k] for k in ("iteration","goal_frame","release_url","status","completed_motions","mean_normalized_return")}
-                index["next_stage"].update(status="running",training_started=True,campaign="20261101-goal-feedback-s0")
+                index["next_stage"].update(status="running",training_started=True,campaign=campaign)
             commit=push_results(tag,[result.relative_to(ROOT)],update)
             call(["gh","release","edit",tag,"--repo",REPO,"--draft=false","--latest=false"])
             status.update(status="published" if not missing else "upload_incomplete",results_commit=commit,completed_unix=time.time())

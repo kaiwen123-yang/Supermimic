@@ -1,10 +1,11 @@
 """SuperMimic's three-phase update and the matched PPO-Sim baseline."""
 import math
+import re
 import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .networks import Actor, Critic, WorldModel, state_prediction_error
+from .networks import Actor, Critic, WorldModel, state_prediction_squared_coordinates
 from .replay import Replay
 from .task import reward_and_termination
 
@@ -34,10 +35,16 @@ class SuperMimic:
         self.replay = Replay(cfg["replay_steps_per_environment"], env.num_envs, env.device)
         self.collected_steps = 0
         self.phase_times = {}
+        families = [re.match(r"[A-Za-z]+", name)[0] for name in env.motions.names]
+        self.family_names = sorted(set(families))
+        self.clip_family = torch.tensor([self.family_names.index(f) for f in families], device=env.device)
 
     @torch.no_grad()
     def collect(self, steps):
         rewards, failures = [], []
+        counts = torch.zeros(len(self.family_names), device=self.env.device)
+        failed = torch.zeros_like(counts)
+        reset_counts = torch.zeros_like(counts)
         for _ in range(steps):
             goal = self.env.motions.goal(self.env.clip, self.env.frame,
                 goal_frame=self.cfg.get("goal_frame", "reference_heading"), root_quaternion=self.env.sim.qpos[:, 3:7])
@@ -47,28 +54,51 @@ class SuperMimic:
             self.replay.add(transition)
             rewards.append(transition["reward"].mean())
             failures.append(transition["terminated"].float().mean())
+            family = self.clip_family[transition["clip"]]
+            counts.add_(torch.bincount(family, minlength=len(counts)))
+            failed.add_(torch.bincount(family[transition["terminated"]], minlength=len(counts)))
+            reset_counts.add_(torch.bincount(self.clip_family[self.env.clip[transition["boundary"]]], minlength=len(counts)))
             self.collected_steps += self.env.num_envs
-        return {"sim_step_reward": float(torch.stack(rewards).mean()), "sim_step_termination_fraction": float(torch.stack(failures).mean())}
+        return {"sim_step_reward": float(torch.stack(rewards).mean()), "sim_step_termination_fraction": float(torch.stack(failures).mean()),
+                "family_transitions": dict(zip(self.family_names, counts.long().tolist())),
+                "family_sample_share": dict(zip(self.family_names, (counts / counts.sum()).tolist())),
+                "family_failure_count": dict(zip(self.family_names, failed.long().tolist())),
+                "family_reset_samples": dict(zip(self.family_names, reset_counts.long().tolist()))}
 
     def fit_world(self):
         cfg = self.cfg
         state_losses, termination_losses, norms = [], [], []
+        use_bce = cfg.get("world_termination_loss", "aux_bce") == "aux_bce"
+        components = torch.zeros(70, device=self.env.device)
+        family_counts = torch.zeros(len(self.family_names), device=self.env.device)
         for _ in range(cfg["world_batches"]):
             sample = self.replay.sample(cfg["world_batch_size"], cfg["world_window"])
             state = sample["state"][:, 0]
+            family_counts.add_(torch.bincount(self.clip_family[sample["clip"].flatten()], minlength=len(family_counts)))
             state_loss = term_loss = 0
             for j in range(cfg["world_window"]):
                 state = self.world(state, sample["action"][:, j], sample["context"][:, j])
-                reference = self.env.motions.get(sample["clip"][:, j], sample["frame"][:, j] + 1)
-                state_loss = state_loss + state_prediction_error(state, sample["next_state"][:, j]).mean()
-                logits = self.world.termination_logits(state, reference["qpos"])
-                term_loss = term_loss + F.binary_cross_entropy_with_logits(logits, sample["terminated"][:, j].float())
+                squared = state_prediction_squared_coordinates(state, sample["next_state"][:, j])
+                state_loss = state_loss + squared.mean(-1).mean()
+                components.add_(squared.detach().mean(0))
+                if use_bce:
+                    reference = self.env.motions.get(sample["clip"][:, j], sample["frame"][:, j] + 1)
+                    logits = self.world.termination_logits(state, reference["qpos"])
+                    term_loss = term_loss + F.binary_cross_entropy_with_logits(logits, sample["terminated"][:, j].float())
             loss = (state_loss + term_loss) / cfg["world_window"]
             norms.append(optimize(loss, self.world_opt, self.world.parameters()))
             state_losses.append(float(state_loss.detach()) / cfg["world_window"])
-            termination_losses.append(float(term_loss.detach()) / cfg["world_window"])
+            if use_bce:
+                termination_losses.append(float(term_loss.detach()) / cfg["world_window"])
+        components /= cfg["world_batches"] * cfg["world_window"]
+        slices = {"root_position_m2": (0, 3), "root_rotation_rad2": (3, 6), "joint_position_rad2": (6, 35),
+                  "root_linear_velocity_scaled_mse": (35, 38), "root_angular_velocity_scaled_mse": (38, 41),
+                  "joint_velocity_scaled_mse": (41, 70)}
         return {"wm_normalized_state_mse": sum(state_losses) / len(state_losses),
-                "wm_termination_bce": sum(termination_losses) / len(termination_losses),
+                "world_termination_loss": cfg.get("world_termination_loss", "aux_bce"),
+                "wm_termination_bce": sum(termination_losses) / len(termination_losses) if use_bce else None,
+                "wm_state_components": {name: float(components[a:b].mean()) for name, (a, b) in slices.items()},
+                "wm_family_sample_share": dict(zip(self.family_names, (family_counts / family_counts.sum()).tolist())),
                 "wm_gradient_norm_before_clip": sum(norms) / len(norms)}
 
     def improve_policy(self):

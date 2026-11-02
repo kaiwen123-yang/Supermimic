@@ -47,6 +47,7 @@ def main():
     parser.add_argument("directory", type=Path)
     parser.add_argument("reference_heading", type=Path)
     parser.add_argument("robot_root", type=Path)
+    parser.add_argument("--labels", nargs=2, default=["A reference_heading", "B robot_root"])
     args = parser.parse_args()
     directory = args.directory.absolute()
     output = directory / "videos"
@@ -118,7 +119,7 @@ def main():
             draw = ImageDraw.Draw(canvas)
             draw.text((18, 12), f"G1  |  {name}", font=TITLE, fill="white")
             draw.text((1020, 15), f"t = {step*.02:6.2f} s    |    1x speed", font=FONT, fill=(210, 219, 230))
-            labels = ["REFERENCE  |  kinematic", f"A reference_heading | i{evaluations[0]['iteration']}", f"B robot_root | i{evaluations[1]['iteration']}"]
+            labels = ["REFERENCE  |  kinematic", *[f"{label} | i{e['iteration']}" for label,e in zip(args.labels,evaluations)]]
             for index, panel in enumerate(panels):
                 x = index * WIDTH
                 draw.text((x+16, 49), labels[index], font=FONT, fill=COLORS[index])
@@ -140,7 +141,7 @@ def main():
                     draw.text((x+16, 519), f"Height: {m('root_height_error_m'):.3f}/0.250 m   Tilt: {m('tilt_error'):.3f}/0.800", font=SMALL, fill=(210, 219, 230))
             draw.line((0, 549, CANVAS[0], 549), fill=(52, 65, 81))
             draw.text((730, 560), "WORLD XY PATHS (metres)  |  Shared world camera while running", font=SMALL, fill="white")
-            draw.text((730, 585), "Green: reference    Orange: A    Blue: B", font=SMALL, fill=(210, 219, 230))
+            draw.text((730, 585), f"Green: reference    Orange: {args.labels[0]}    Blue: {args.labels[1]}", font=SMALL, fill=(210, 219, 230))
             draw.text((730, 610), "Failed panels freeze; physics does not restart for the video.", font=SMALL, fill=(210, 219, 230))
             draw.text((730, 635), "Final scoring trajectories; no additional physical replay.", font=SMALL, fill=(210, 219, 230))
             draw.text((20, 554), f"XY span: {high[0]-low[0]:.1f} x {high[1]-low[1]:.1f} m", font=SMALL, fill=(210, 219, 230))
@@ -174,7 +175,7 @@ def main():
         assets.append({"motion": name, "file": filename, "bytes": (output/filename).stat().st_size,
                        "fps": FPS, "playback_speed": 1.0,
                        "duration_seconds": frame_count/FPS, "source_steps": last,
-                       "reference_heading": reports[0][name], "robot_root": reports[1][name]})
+                       "arms": {label:report[name] for label,report in zip(args.labels,reports)}})
         print("VIDEO_COMPLETE", name, frame_count/FPS, flush=True)
     overview = output / "goal_feedback_comparison_overview.mp4"
     process = encoder(overview)
@@ -192,7 +193,7 @@ def main():
             sheet.paste(frame.resize((768,344)),(0,344*i))
     sheet.save(output/"contact_sheet.jpg",quality=90)
     manifest={"selection":"Five predefined motions from final full evaluations: walking, running/drift, dance, jumps, failed get-up",
-              "checkpoints":[{"iteration":e['iteration'],"goal_frame":e['goal_frame']} for e in evaluations],
+              "checkpoints":[{"label":label,"iteration":e['iteration'],"goal_frame":e['goal_frame']} for label,e in zip(args.labels,evaluations)],
               "videos":assets,"overview":{"file":overview.name,"duration_seconds":len(overview_frames)/FPS,
                   "bytes":overview.stat().st_size,"editing":"First 12 seconds plus last 4 seconds where applicable; tail cuts labeled; 1x playback"},
               "rendering":"MuJoCo kinematics on recorded physical qpos, separate kinematic reference, no resimulated physics",

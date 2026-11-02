@@ -848,25 +848,27 @@
   },
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
-    "protocol_id": "p2-goal-feedback-joint-training-v2",
-    "status": "completed",
-    "document": "docs/REPRODUCTION_PLAN.md#p2-next-stage",
-    "protocol": "configs/next_stage_correction_protocol.json",
-    "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
-    "training_started": true,
-    "iterations_per_arm": 6000,
-    "background_training_cap_hours_per_arm": 8,
-    "codex_interaction_window_max_hours": 4,
-    "focus": "Relative orientation feedback and full joint training",
-    "hash_or_smoke_tests": false,
-    "environment_modification_allowed": false,
-    "campaign": "20261101-goal-feedback-s0",
-    "tmux_session": "sm-p2-goal-feedback-s0",
-    "started_beijing": "2026-11-01 23:03",
-    "execution_entry": "scripts/run_goal_feedback_d57.sh",
+    "protocol_id": "p3-paper-alignment-h32-v2",
+    "status": "implementation_ready",
+    "document": "docs/REPRODUCTION_PLAN.md#p3-next-stage",
+    "protocol": "configs/next_stage_tracking_protocol.json",
+    "training_started": false,
+    "campaign": "20261102-h32-bce-s0",
+    "tmux_session": "sm-p3-h32-bce-s0",
+    "source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p3-h32",
+    "execution_entry": "scripts/run_tracking_continuation_d57.sh",
     "actual_configs": [
-      "configs/lafan40_goal_robot_root.json",
-      "configs/lafan40_goal_reference_heading.json"
-    ]
+      "configs/lafan40_h32_state_only.json",
+      "configs/lafan40_h32_aux_bce.json"
+    ],
+    "start_iteration": 6000,
+    "target_iteration": 9000,
+    "new_updates_per_arm": 3000,
+    "training_cap_hours_per_arm": 4,
+    "default_order": [
+      "C1",
+      "C0"
+    ],
+    "background_continues_on_handoff": true
   }
 }

@@ -46,8 +46,8 @@ def compare(a,b):
             "B":{k:v for k,v in eb.items() if k not in ("clips","data_definition","protocol")}}
 
 
-def get_up_failures(run,evaluation):
-    """Only actual failed get-ups: contact and same-action prediction near failure."""
+def get_up_failures(run,evaluation, prefixes=("fallAndGetUp",), checkpoint_iteration=None):
+    """Actual failed motions: contact and same-action prediction near failure."""
     sys.path.insert(0,str(ROOT))
     import mujoco
     import torch
@@ -58,10 +58,11 @@ def get_up_failures(run,evaluation):
     from supermimic.task import observation
     from supermimic.robot import joint_arrays
     ev=json.loads((evaluation/"evaluation.json").read_text())
-    failures=[r for r in ev["clips"] if r["failed"] and r["motion"].startswith("fallAndGetUp")]
+    failures=[r for r in ev["clips"] if r["failed"] and r["motion"].startswith(prefixes)]
     if not failures:return []
     torch.set_num_threads(2)
-    checkpoint=torch.load(run/f"checkpoint_{ev['iteration']:07d}.pt",map_location="cpu",weights_only=False)
+    model_iteration=ev['iteration'] if checkpoint_iteration is None else checkpoint_iteration
+    checkpoint=torch.load(run/f"checkpoint_{model_iteration:07d}.pt",map_location="cpu",weights_only=False)
     world=WorldModel().cuda().eval();world.load_state_dict(checkpoint["world_model"])
     actor=Actor().cuda().eval();actor.load_state_dict(checkpoint["actor"])
     del checkpoint
