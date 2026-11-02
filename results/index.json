@@ -643,6 +643,17 @@
       "status": "completed",
       "summary": "results/20261101-goal-feedback-s0/summary.json",
       "release_url": "https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261101-goal-feedback-s0-final"
+    },
+    "20261102-h32-bce-s0": {
+      "status": "running",
+      "source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p3-h32",
+      "tmux_session": "sm-p3-h32-bce-s0",
+      "order": [
+        "h32_state_only",
+        "h32_aux_bce"
+      ],
+      "parent_iteration": 6000,
+      "target_iteration": 9000
     }
   },
   "publications": {
@@ -849,10 +860,10 @@
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
     "protocol_id": "p3-paper-alignment-h32-v2",
-    "status": "implementation_ready",
+    "status": "running",
     "document": "docs/REPRODUCTION_PLAN.md#p3-next-stage",
     "protocol": "configs/next_stage_tracking_protocol.json",
-    "training_started": false,
+    "training_started": true,
     "campaign": "20261102-h32-bce-s0",
     "tmux_session": "sm-p3-h32-bce-s0",
     "source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p3-h32",
@@ -869,6 +880,23 @@
       "C1",
       "C0"
     ],
-    "background_continues_on_handoff": true
+    "background_continues_on_handoff": true,
+    "started_beijing": "2026-11-02T20:17:21.130707+08:00",
+    "current_arm": "C1 h32_state_only",
+    "queued_arm": "C0 h32_aux_bce",
+    "startup_evidence": {
+      "iteration": 6046,
+      "new_joint_updates": 46,
+      "new_actor_updates": 46,
+      "new_sim_transitions": 733184,
+      "stage_elapsed_seconds": 180.56182543560863,
+      "world_termination_loss": "none",
+      "wm_termination_bce": null,
+      "learning_rate": 0.00019972017350522342
+    },
+    "training_source_commit": "ac9e1ae139b9d848cf211bc7ce7d83b30cc947b3",
+    "training_runtime_git_dirty": true,
+    "runtime_dirty_note": "Only final rendering-log capture was edited during startup; train/learning/network/config code is the committed ac9e1ae version.",
+    "other_gpu_processes_at_start": "pid, used_gpu_memory [MiB]\n79609, 33362 MiB\n"
   }
 }
