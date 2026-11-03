@@ -1,0 +1,233 @@
+{
+  "protocol_id": "p4-c0-continuous-joint-training-v1",
+  "status": "planned_not_started",
+  "date_beijing": "2026-11-03",
+  "document": "docs/REPRODUCTION_PLAN.md#p4-next-stage",
+  "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
+  "not_a_train_py_config": true,
+  "execution_requires_start_instruction": true,
+  "review_commit": "63a36bb7c2167f2364aadadfe5385cb0fcc86773",
+  "previous_protocol": "configs/next_stage_tracking_protocol.json",
+  "evidence": {
+    "completed_campaign": "20261102-h32-bce-s0",
+    "summary": "results/20261102-h32-bce-s0/summary.json",
+    "comparison": "results/20261102-h32-bce-s0/comparison.json",
+    "training": "results/20261102-h32-bce-s0/training.json",
+    "parent_b6000": {
+      "completed_motions": 13,
+      "normalized_return": 0.4091243664
+    },
+    "c0_9000": {
+      "completed_motions": 29,
+      "normalized_return": 0.6154044138588113,
+      "getups_completed": 3,
+      "running_completed": 3
+    },
+    "c1_9000": {
+      "completed_motions": 15,
+      "normalized_return": 0.48260316646359164,
+      "getups_completed": 1,
+      "running_completed": 2
+    },
+    "decision": "Continue C0; deleting auxiliary BCE did not improve this continuation. Its causal mechanism is not established.",
+    "not_convergence": true,
+    "current_training_motion_coverage_not_unseen_motion_generalization": true
+  },
+  "proposed_campaign": "20261103-c0-continuation-s0",
+  "proposed_run": "20261103-c0-continuation-s0-h32_aux_bce",
+  "parent": {
+    "run": "20261102-h32-bce-s0-h32_aux_bce",
+    "iteration": 9000,
+    "actor_updates": 8995,
+    "release": "https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000",
+    "asset": "checkpoint_0009000.pt",
+    "bytes": 217425457,
+    "url": "https://github.com/kaiwen123-yang/Supermimic/releases/download/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000/checkpoint_0009000.pt",
+    "config": "configs/lafan40_h32_aux_bce.json",
+    "evaluation": "results/20261102-h32-bce-s0-h32_aux_bce/milestones/iteration_0009000/evaluation.json",
+    "reuse_existing_evaluation": true
+  },
+  "data": {
+    "url": "https://github.com/kaiwen123-yang/Supermimic/releases/download/sm-20261101-goal-feedback-s0-final/lafan40_working_data.tar.gz",
+    "bytes": 450342763,
+    "use_existing_processed_cache": true,
+    "restore_working_inputs_only": true,
+    "no_retarget_or_environment_rebuild": true
+  },
+  "algorithm": {
+    "goal_frame": "robot_root",
+    "goal_dim": 710,
+    "actor_position_feedback": "none",
+    "imagination_horizon": 32,
+    "world_window": 8,
+    "imagination_termination": "analytic_smooth",
+    "termination_smoothing_temperature": 0.05,
+    "world_termination_loss": "aux_bce",
+    "num_envs": 4096,
+    "state_loss_reduction": "existing mean over 70 coordinates",
+    "global_lr_schedule_iterations": 250000,
+    "unchanged": [
+      "state representation/scales",
+      "network architecture",
+      "reward",
+      "physical termination",
+      "PD",
+      "noise/domain randomization",
+      "sampler",
+      "optimizer settings",
+      "seed"
+    ],
+    "complete_joint_loop": [
+      "real collection",
+      "world-model fit",
+      "actor/critic update"
+    ]
+  },
+  "warm_start": {
+    "restore": [
+      "world model",
+      "actor",
+      "critic",
+      "optimizers",
+      "sampler",
+      "Torch CPU RNG",
+      "all CUDA RNG",
+      "global iteration/counters/LR progress"
+    ],
+    "numpy_seed": 0,
+    "restore_physical_scene_or_replay": false,
+    "replay_warmup_steps": 64,
+    "warmup_once_for_new_run": true,
+    "no_restart_for_interaction_handoff": true
+  },
+  "budget": {
+    "start_iteration": 9000,
+    "end_iteration": 18000,
+    "new_joint_updates": 9000,
+    "new_training_cap_hours": 12,
+    "estimated_training_hours": 9.674808461465872,
+    "estimate_basis": "C0 observed 11609.770153759047 seconds for 3000 new updates; shared GPU load may vary",
+    "includes_replay_warmup": true,
+    "old_elapsed_cumulative_only": true,
+    "final_evaluation_video_upload_timed_separately": true,
+    "codex_interaction_max_hours": 4,
+    "one_continuous_tmux_run": true,
+    "background_continues_on_handoff": true,
+    "no_restart_or_replay_rebuild_at_12000_or_15000": true,
+    "nonround_final_publish": true
+  },
+  "required_implementation": {
+    "scope": "single-run launch/finalization and truthful publication status only",
+    "old_pair_entry_not_directly_reusable": true,
+    "derive_milestones_from_start_and_actual_final": true,
+    "reuse_existing_publish_render_functions": true,
+    "fix_or_explicitly_record_final_for_already_published_milestone": true,
+    "distinguish_training_snapshot_from_final_evaluation_status": true,
+    "no_confirmed_core_algorithm_bug_found": true,
+    "no_generic_framework_or_preflight_tests": true
+  },
+  "evaluation": {
+    "milestones": [
+      10000,
+      11000,
+      12000,
+      13000,
+      14000,
+      15000,
+      16000,
+      17000,
+      18000
+    ],
+    "full_40_clips": true,
+    "start_frame": 0,
+    "primary": [
+      "full-duration normalized return",
+      "original height/tilt failure",
+      "completed motions"
+    ],
+    "paper_return_reference": 0.82,
+    "reference_is_not_guaranteed_target_or_stop_gate": true,
+    "additional": [
+      "six getups",
+      "four runs",
+      "remaining eleven failures",
+      "retention of completed motions",
+      "XY/SO3/heading",
+      "tracking coverage"
+    ],
+    "coverage_is_not_paper_success_rate": true,
+    "final_score_video_same_trajectory": true,
+    "reuse_parent_results_no_old_full_rollouts": true,
+    "final_actual_running_getup_failure_windows_only": true,
+    "no_dual_model_cross_comparison_required": true,
+    "no_start_point_scan": true,
+    "reuse_existing_training_statistics": true,
+    "matched_prefix_comparisons_require_same_prefix": true
+  },
+  "checkpointing": {
+    "every_iteration": true,
+    "keep_parent": true,
+    "keep_recent": 20,
+    "keep_milestones_and_final": true
+  },
+  "deferred": [
+    "C1 repeat",
+    "BCE weight/detach sweep",
+    "H16",
+    "Actor XYZ",
+    "state loss multiply by 70",
+    "sampler rewrite without evidence",
+    "PPO",
+    "extra seeds",
+    "BONES-SEED",
+    "hardware deployment"
+  ],
+  "publication": {
+    "git": "source/configuration/compact results/existing run index",
+    "release": "retained checkpoints/raw arrays/trajectories/video/logs",
+    "server_direct_to_github": true,
+    "archive_part_max_bytes": 1073741824,
+    "upload_retained_artifacts_once": true,
+    "no_user_pc_archive": true,
+    "confirmation": [
+      "Git push succeeded",
+      "asset state uploaded",
+      "file name",
+      "byte count",
+      "download URL"
+    ],
+    "no_hash_redownload_or_restore_drill": true
+  },
+  "cleanup": {
+    "exact_uploaded_experiment_paths_only": true,
+    "all_consumers_finished": true,
+    "include_restored_parent_and_working_data_after_last_consumer": true,
+    "preserve_unuploaded": true,
+    "protect": [
+      "source",
+      "scripts/configs/docs",
+      "Git/stash",
+      ".venv",
+      "dependency locks",
+      "activation scripts",
+      "G1 XML/meshes",
+      "development worktrees",
+      "recovery metadata",
+      "other projects",
+      "shared dependencies"
+    ],
+    "no_whole_outputs_cache_work_or_project_deletion": true,
+    "do_not_repeat_old_cleanup_jobs": true
+  },
+  "prohibited": [
+    "defensive programming",
+    "unit/mock/smoke/import/shape/hash tests",
+    "digest recomputation",
+    "restore drills",
+    "whole-disk scans",
+    "generic fallback/monitoring frameworks",
+    "independent benchmark",
+    "unrelated reports"
+  ],
+  "stop": "Complete this bounded continuous C0 stage, publish actual final evaluation and artifacts, clean only confirmed uploaded experiment copies, and report learning trends. Do not automatically launch deferred branches."
+}
