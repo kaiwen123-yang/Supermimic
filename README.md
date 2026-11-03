@@ -1,8 +1,8 @@
 # SuperMimic 独立复现
 
-> **2026-11-03产物约定更新：** 先推代码、配置、逐回合/逐动作JSON、训练JSON/JSONL与结论并继续研究。大checkpoint、完整视频、原始数组/轨迹和数据缓存默认不上传GitHub，由用户从服务器导出到自己的存储盘备份并统一删除；取消旧的阶段自动清理。当前P4训练保持运行。[完整约定](docs/REPRODUCTION_PLAN.md#p4-next-stage)与[接管提示词](docs/NEXT_STAGE_START_PROMPT.md)。
+> **2026-11-03产物约定更新：** 先推代码、配置、逐回合/逐动作JSON、训练JSON/JSONL与结论并继续研究。大checkpoint、完整视频、原始数组/轨迹和数据缓存默认不上传GitHub，由用户从服务器导出到自己的存储盘备份并统一删除；取消旧的阶段自动清理。当前P4训练保持运行，实际发布/收尾入口已接入新策略（代码3bc7ff6）。[完整约定](docs/REPRODUCTION_PLAN.md#p4-next-stage)与[接管提示词](docs/NEXT_STAGE_START_PROMPT.md)。
 
-> **P4已于北京时间2026-11-03 16:36:41开始新训练阶段。** 单个C0 run从9000连续推进至最多18000轮/12小时，保留辅助BCE；一次64步replay预热后完整执行真实采样→WM→Actor/Critic。当前仍在训练，尚无P4正式评估成绩。[运行记录](results/20261103-c0-continuation-s0/summary.json)。独立tmux `sm-p4-c0-continuation-s0` 跨聊天窗口持续运行，不重启训练。
+> **P4已于北京时间2026-11-03 16:36:41开始新训练阶段。** 单个C0 run从9000连续推进至最多18000轮/12小时，保留辅助BCE；一次64步replay预热后完整执行真实采样→WM→Actor/Critic。当前仍在训练，已按整千节点持续完成正式评估，最新成绩见运行索引。[运行记录](results/20261103-c0-continuation-s0/summary.json)。独立tmux `sm-p4-c0-continuation-s0` 跨聊天窗口持续运行，不重启训练。
 
 本仓库用于以学习为目的，依据论文独立实现 **SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model**。当前已接入固定版本的 LAFAN1 40 条完整动作、G1 / MuJoCo Warp、可微运动学、SuperMimic 核心训练循环、PPO-Sim 和完整动作评估。实际运行结果见 `results/index.json`；源码实现、短程更新和复现成绩分别记录。
 
@@ -133,7 +133,7 @@ python scripts/evaluate.py outputs/runs/lafan40-ppo-seed0/checkpoint_latest.pt
 
 用户在 2026-10-31 要求更密集的保存和推送：现在每轮原子保存完整模型/优化器检查点，保留最近 20 轮、初始版本和每个 1000 轮节点。编号文件不可覆盖，`checkpoint_latest.pt` 指向最近版本。检查点约数百 MB，滚动保留避免逐轮长期累积占满共享数据盘；回退到较旧版本时使用新的 run 名称。
 
-P4沿用每1000新增轮完整评估40条动作，先推逐动作JSON、训练JSON/JSONL和结论。原始评分轨迹保存于服务器，必要视频按需生成。权重、完整视频、原始数组和大日志默认不上传，也不自动做阶段清理；用户定期导出备份并统一删除。训练器原有最近20轮滚动保留规则照旧，里程碑、最终与续训所需权重保留。在现有索引记录服务器产物路径和用途，不新增归档系统。当前运行中的旧发布/收尾脚本需由Codex接入新策略，文档更新不等于服务器进程已切换；接入时不重启正常训练或评估。
+P4沿用每1000新增轮完整评估40条动作，先推逐动作JSON、训练JSON/JSONL和结论。原始评分轨迹保存于服务器，必要视频按需生成。权重、完整视频、原始数组和大日志默认不上传，也不自动做阶段清理；用户定期导出备份并统一删除。训练器原有最近20轮滚动保留规则照旧，里程碑、最终与续训所需权重保留。在现有索引记录服务器产物路径和用途，不新增归档系统。2026-11-03 22:15已将实际publish_checkpoint.py与finish_c0_continuation.py切换为轻量Git发布。训练PID149031持续运行；新节点不创建Release、不打包或上传大产物，收尾不批量渲染、不删除阶段或输入副本。
 
 需要查看策略时，优先使用已发布节点的正式评估和视频；本轮每1000轮自动完成一次全40评估，不另开旧版本重复回放。
 

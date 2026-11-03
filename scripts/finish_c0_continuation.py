@@ -46,7 +46,7 @@ def update_documents(tag, summary, comparison):
             "该阶段不作为收敛证明，coverage不是论文成功率。大产物留服务器待用户备份和删除，不阻塞本阶段完成。")
     readme=ROOT/"README.md"
     text=readme.read_text()
-    start=text.index("> **")
+    start=text.index("> **P4")
     end=text.index("\n\n",start)
     text=text[:start]+"> **P4本段训练和正式评估已结束。** "+report+text[end:]
     text=text.replace("当前只完成审阅与计划发布，尚未启动P4。", "P4本段训练和正式评估已结束，实际状态与结果见本文顶部链接。")
