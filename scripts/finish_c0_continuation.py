@@ -73,10 +73,12 @@ def update_documents(tag, summary, comparison):
     end=text.index("\n\n",start)
     text=text[:start]+"> **"+report+"**"+text[end:]
     text=text.replace("当前只完成审阅与计划发布，尚未启动P4。", "P4本段训练和正式评估已结束，实际状态与结果见本文顶部链接。")
+    text=text.replace("P4已正式启动，当前训练进行中，实际进度见顶部运行记录。", "P4本段训练和正式评估已结束，实际状态与结果见本文顶部链接。")
     text=text.replace("下一步P4：一个C0连续run，9000→18000。", "P4：一个C0连续run，9000→实际最终节点。")
     readme.write_text(text)
     plan=ROOT/"docs/REPRODUCTION_PLAN.md"
     text=plan.read_text().replace("2026-11-03，计划已发布，尚未启动", "2026-11-03，已执行，实际结果见本节末")
+    text=text.replace("2026-11-03，正式训练进行中", "2026-11-03，已执行，实际结果见本节末")
     text=text.replace("此次只审阅 GitHub 结果、原文和源码，发布下一步计划，没有启动训练、修改服务器环境或执行删除。",
                       "P4已获授权并执行，本节保留计划与证据，实际结果在本节末记录。")
     text=text.replace("当前仅完成审阅与计划发布，训练需执行该启动提示词后开始。", "P4本段训练和正式评估已结束，实际发布/清理状态见本节末结果链接。")
@@ -233,7 +235,8 @@ def main():
         summary["upload_inventory"]=coverage
         summary["status"]="uploaded" if not summary["unpublished"] else "upload_incomplete"
         update_documents(tag,summary,comparison)
-        protocol.update(status=summary["status"],training_started=True,execution={"campaign":tag,"run":run.name,
+        protocol.update(status=summary["status"],training_started=True)
+        protocol["execution"].update({"campaign":tag,"run":run.name,
                         "final_iteration":final,"training_done":True,"full_clip_evaluation_done":True,
                         "summary":str(sp.relative_to(ROOT)),"release_url":summary["release_url"]})
         write(protocol_path,protocol);write(sp,summary)
