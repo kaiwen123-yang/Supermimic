@@ -18,7 +18,7 @@
             "ppo_mean_kl": 0.020334435810946162,
             "sim_step_reward": -0.07188412547111511,
             "sim_step_termination_fraction": 0.024322509765625,
-            "learning_rate": 0.00001,
+            "learning_rate": 1e-05,
             "collection_seconds": 0.7751656696200371,
             "policy_critic_seconds": 0.5655711982399225,
             "iteration": 8,
@@ -152,7 +152,7 @@
             "ppo_mean_kl": 0.01182870459742844,
             "sim_step_reward": 0.03070715442299843,
             "sim_step_termination_fraction": 0.0008951823110692203,
-            "learning_rate": 0.00003375000000000001,
+            "learning_rate": 3.375000000000001e-05,
             "collection_seconds": 1.0218255054205656,
             "policy_critic_seconds": 0.6692749932408333,
             "checkpoint_write_seconds": 0.23910709097981453,
@@ -946,7 +946,7 @@
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
     "protocol_id": "p4-c0-continuous-joint-training-v1",
-    "status": "planned_not_started",
+    "status": "authorized_preparing",
     "document": "docs/REPRODUCTION_PLAN.md#p4-next-stage",
     "protocol": "configs/next_stage_continuation_protocol.json",
     "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
@@ -963,7 +963,7 @@
     "codex_interaction_max_hours": 4,
     "background_continues_on_handoff": true,
     "keep_world_termination_loss": "aux_bce",
-    "decision": "C0-9000 achieved 29/40 and 0.615404; continue this single joint-training run. P3 is completed; no new training has started.",
+    "decision": "User authorized one continuous C0 run from 9000 to at most 18000/12 h. Inputs and single-run entry are being prepared; P3 is completed.",
     "required_implementation": {
       "scope": "single-run launch/finalization and truthful publication status only",
       "old_pair_entry_not_directly_reusable": true,
@@ -973,6 +973,8 @@
       "distinguish_training_snapshot_from_final_evaluation_status": true,
       "no_confirmed_core_algorithm_bug_found": true,
       "no_generic_framework_or_preflight_tests": true
-    }
+    },
+    "campaign": "20261103-c0-continuation-s0",
+    "run": "20261103-c0-continuation-s0-h32_aux_bce"
   }
 }

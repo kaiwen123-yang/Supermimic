@@ -124,7 +124,16 @@ def publish(run_name,iteration,final=False):
     with (ROOT/"work/p2-publication.lock").open("a") as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
         if sp.exists() and json.loads(sp.read_text()).get("status")=="published":
-            return json.loads(sp.read_text())
+            status=json.loads(sp.read_text())
+            if final and not status.get("final",False):
+                status["final"]=True
+                result=ROOT/"results"/run_name/"milestones"/f"iteration_{iteration:07d}"
+                (result/"publication.json").write_text(json.dumps(status,indent=2)+"\n")
+                def mark_final(index):
+                    index["publications"][tag].update(status="published",final=True)
+                status["final_metadata_commit"]=push_results(tag+"-final-metadata",[result.relative_to(ROOT)],mark_final)
+                sp.write_text(json.dumps(status,indent=2)+"\n")
+            return status
         sp.write_text(json.dumps(status,indent=2)+"\n")
         try:
             checkpoint=run/f"checkpoint_{iteration:07d}.pt"
@@ -165,12 +174,13 @@ def publish(run_name,iteration,final=False):
                           trajectory_archive_parts=[p.name for p in parts],completed_motions=evaluation["completed_motions"],
                           mean_normalized_return=evaluation["mean_normalized_return"],
                           release_url=f"https://github.com/{REPO}/releases/tag/{tag}",final=final)
+            call(["gh","release","edit",tag,"--repo",REPO,"--draft=false","--latest=false"])
+            status["status"]="published" if not missing else "upload_incomplete"
             (result/"publication.json").write_text(json.dumps(status,indent=2)+"\n")
             def update(index):
-                index.setdefault("publications",{})[tag]={k:status[k] for k in ("iteration","goal_frame","release_url","status","completed_motions","mean_normalized_return")}
+                index.setdefault("publications",{})[tag]={k:status[k] for k in ("iteration","goal_frame","world_termination_loss","release_url","status","completed_motions","mean_normalized_return","final")}
                 index["next_stage"].update(status="running",training_started=True,campaign=campaign)
             commit=push_results(tag,[result.relative_to(ROOT)],update)
-            call(["gh","release","edit",tag,"--repo",REPO,"--draft=false","--latest=false"])
             status.update(status="published" if not missing else "upload_incomplete",results_commit=commit,completed_unix=time.time())
             sp.write_text(json.dumps(status,indent=2)+"\n")
             print("MILESTONE_PUBLISHED",json.dumps(status),flush=True)

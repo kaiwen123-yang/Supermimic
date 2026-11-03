@@ -43,18 +43,23 @@ def render_model():
 
 
 def main():
+    global CANVAS
     parser = argparse.ArgumentParser()
     parser.add_argument("directory", type=Path)
     parser.add_argument("reference_heading", type=Path)
-    parser.add_argument("robot_root", type=Path)
-    parser.add_argument("--labels", nargs=2, default=["A reference_heading", "B robot_root"])
+    parser.add_argument("robot_root", type=Path, nargs="?")
+    parser.add_argument("--labels", nargs="+", default=["A reference_heading", "B robot_root"])
+    parser.add_argument("--motions", nargs="+")
     args = parser.parse_args()
     directory = args.directory.absolute()
     output = directory / "videos"
     output.mkdir(exist_ok=False)
-    evaluation_dirs = [args.reference_heading, args.robot_root]
+    evaluation_dirs = [args.reference_heading] + ([args.robot_root] if args.robot_root else [])
+    count = len(evaluation_dirs)
+    args.labels = args.labels[:count]
+    CANVAS = (WIDTH * (count + 1), 688)
     evaluations = [json.loads((p / "evaluation.json").read_text()) for p in evaluation_dirs]
-    names = ["walk1_subject1", "run1_subject5", "dance2_subject3", "jumps1_subject1", "fallAndGetUp1_subject5"]
+    names = args.motions or ["walk1_subject1", "run1_subject5", "dance2_subject3", "jumps1_subject1", "fallAndGetUp1_subject5"]
     reports = [{c["motion"]: c for c in e["clips"]} for e in evaluations]
     model = render_model()
     data = mujoco.MjData(model)
@@ -68,7 +73,7 @@ def main():
     assets, overview_frames, contact_images = [], [], []
     for motion_index, name in enumerate(names):
         records = [np.load(p/"trajectories"/(name+".npz"), allow_pickle=False) for p in evaluation_dirs]
-        ends = [reports[i][name]["executed_steps"] for i in range(2)]
+        ends = [reports[i][name]["executed_steps"] for i in range(count)]
         full_steps = reports[0][name]["full_reference_steps"]
         last = max(ends)
         assert last <= full_steps
@@ -76,17 +81,19 @@ def main():
         reference = records[int(np.argmax(ends))]["reference_qpos"]
         last = min(last, len(reference) - 1)
         frame_count = int(np.ceil((last * 0.02 + 2) * FPS)) + 1
-        filename = name + "_comparison.mp4"
+        filename = name + ("_comparison.mp4" if count == 2 else "_c0_final.mp4")
         process = encoder(output / filename)
-        static_xy = [reference[:last+1:25, :2], poses[0][:ends[0]+1:25, :2], poses[1][:ends[1]+1:25, :2]]
+        static_xy = [reference[:last+1:25, :2]] + [pose[:end+1:25, :2] for pose,end in zip(poses,ends)]
         all_xy = np.concatenate(static_xy)
         low, high = all_xy.min(0) - 0.5, all_xy.max(0) + 0.5
-        scale = min(650 / max(high[0]-low[0], 1), 112 / max(high[1]-low[1], 1))
+        chart_width = 650 if count == 2 else 410
+        text_x = 730 if count == 2 else 470
+        scale = min(chart_width / max(high[0]-low[0], 1), 112 / max(high[1]-low[1], 1))
 
         def point(xy):
             return (int(25 + (xy[0]-low[0])*scale), int(663 - (xy[1]-low[1])*scale))
 
-        frozen = [None, None]
+        frozen = [None] * count
         overview_segment = []
         for video_frame in range(frame_count):
             step = min(round(video_frame / FPS / 0.02), last)
@@ -118,7 +125,7 @@ def main():
             canvas = Image.new("RGB", CANVAS, (15, 22, 34))
             draw = ImageDraw.Draw(canvas)
             draw.text((18, 12), f"G1  |  {name}", font=TITLE, fill="white")
-            draw.text((1020, 15), f"t = {step*.02:6.2f} s    |    1x speed", font=FONT, fill=(210, 219, 230))
+            draw.text((CANVAS[0]-516, 15), f"t = {step*.02:6.2f} s    |    1x speed", font=FONT, fill=(210, 219, 230))
             labels = ["REFERENCE  |  kinematic", *[f"{label} | i{e['iteration']}" for label,e in zip(args.labels,evaluations)]]
             for index, panel in enumerate(panels):
                 x = index * WIDTH
@@ -140,15 +147,17 @@ def main():
                     draw.text((x+16, 496), f"Root error: {m('root_position_error_m'):.2f} m   Joint RMSE: {m('joint_rmse_rad'):.2f} rad", font=SMALL, fill="white")
                     draw.text((x+16, 519), f"Height: {m('root_height_error_m'):.3f}/0.250 m   Tilt: {m('tilt_error'):.3f}/0.800", font=SMALL, fill=(210, 219, 230))
             draw.line((0, 549, CANVAS[0], 549), fill=(52, 65, 81))
-            draw.text((730, 560), "WORLD XY PATHS (metres)  |  Shared world camera while running", font=SMALL, fill="white")
-            draw.text((730, 585), f"Green: reference    Orange: {args.labels[0]}    Blue: {args.labels[1]}", font=SMALL, fill=(210, 219, 230))
-            draw.text((730, 610), "Failed panels freeze; physics does not restart for the video.", font=SMALL, fill=(210, 219, 230))
-            draw.text((730, 635), "Final scoring trajectories; no additional physical replay.", font=SMALL, fill=(210, 219, 230))
+            draw.text((text_x, 560), "WORLD XY PATHS (metres) | Shared world camera", font=SMALL, fill="white")
+            legend=f"Green: reference    Orange: {args.labels[0]}"
+            if count == 2: legend += f"    Blue: {args.labels[1]}"
+            draw.text((text_x, 585), legend, font=SMALL, fill=(210, 219, 230))
+            draw.text((text_x, 610), "Failed panels freeze; physics does not restart.", font=SMALL, fill=(210, 219, 230))
+            draw.text((text_x, 635), "Final scoring trajectories; no extra physical replay.", font=SMALL, fill=(210, 219, 230))
             draw.text((20, 554), f"XY span: {high[0]-low[0]:.1f} x {high[1]-low[1]:.1f} m", font=SMALL, fill=(210, 219, 230))
             for k, xy in enumerate(static_xy):
                 if len(xy)>1:
                     draw.line([point(p) for p in xy], fill=tuple(int(v*.35) for v in COLORS[k]), width=1)
-            current_paths = [reference[:step+1:5, :2], poses[0][:min(step,ends[0])+1:5, :2], poses[1][:min(step,ends[1])+1:5, :2]]
+            current_paths = [reference[:step+1:5, :2]] + [pose[:min(step,end)+1:5, :2] for pose,end in zip(poses,ends)]
             for k, xy in enumerate(current_paths):
                 if len(xy)>1:
                     draw.line([point(p) for p in xy], fill=COLORS[k], width=2)
@@ -177,7 +186,7 @@ def main():
                        "duration_seconds": frame_count/FPS, "source_steps": last,
                        "arms": {label:report[name] for label,report in zip(args.labels,reports)}})
         print("VIDEO_COMPLETE", name, frame_count/FPS, flush=True)
-    overview = output / "goal_feedback_comparison_overview.mp4"
+    overview = output / ("goal_feedback_comparison_overview.mp4" if count == 2 else "c0_continuation_overview.mp4")
     process = encoder(overview)
     for p in overview_frames:
         with Image.open(p) as frame:
@@ -186,13 +195,14 @@ def main():
     if process.wait() != 0:
         raise RuntimeError("Overview encoder failed")
     # A small contact sheet supports visual QA without downloading the videos.
-    sheet = Image.new("RGB", (768, 344*len(names)), (15,22,34))
+    preview_height = round(CANVAS[1]*768/CANVAS[0])
+    sheet = Image.new("RGB", (768, preview_height*len(names)), (15,22,34))
     for i,name in enumerate(names):
         chosen = min(((t, p) for n,t,p in contact_images if n==name), key=lambda item: abs(item[0]-6.0))[1]
         with Image.open(chosen) as frame:
-            sheet.paste(frame.resize((768,344)),(0,344*i))
+            sheet.paste(frame.resize((768,preview_height)),(0,preview_height*i))
     sheet.save(output/"contact_sheet.jpg",quality=90)
-    manifest={"selection":"Five predefined motions from final full evaluations: walking, running/drift, dance, jumps, failed get-up",
+    manifest={"selection":names,
               "checkpoints":[{"label":label,"iteration":e['iteration'],"goal_frame":e['goal_frame']} for label,e in zip(args.labels,evaluations)],
               "videos":assets,"overview":{"file":overview.name,"duration_seconds":len(overview_frames)/FPS,
                   "bytes":overview.stat().st_size,"editing":"First 12 seconds plus last 4 seconds where applicable; tail cuts labeled; 1x playback"},
