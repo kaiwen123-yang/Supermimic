@@ -1,4 +1,4 @@
-"""Publish one fixed evaluation/checkpoint using Git and uploaded asset names/sizes."""
+"""Publish formal evaluation and training records to Git; bulk artifacts stay on D57."""
 from pathlib import Path
 import argparse
 import fcntl
@@ -115,75 +115,92 @@ def push_results(tag,relative_paths,index_update):
 
 
 def publish(run_name,iteration,final=False):
+    """Evaluate once, then publish JSON/JSONL to Git; retain large files on D57."""
     run=ROOT/"outputs/runs"/run_name
     tag=f"sm-{run_name}-i{iteration:07d}"
     pub=ROOT/"outputs/publications"/tag
     pub.mkdir(parents=True,exist_ok=True)
     sp=pub/"publication.json"
-    status={"run":run_name,"iteration":iteration,"tag":tag,"status":"preparing","started_unix":time.time()}
+    result=ROOT/"results"/run_name/"milestones"/f"iteration_{iteration:07d}"
     with (ROOT/"work/p2-publication.lock").open("a") as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
         if sp.exists() and json.loads(sp.read_text()).get("status")=="published":
             status=json.loads(sp.read_text())
             if final and not status.get("final",False):
                 status["final"]=True
-                result=ROOT/"results"/run_name/"milestones"/f"iteration_{iteration:07d}"
                 (result/"publication.json").write_text(json.dumps(status,indent=2)+"\n")
                 def mark_final(index):
                     index["publications"][tag].update(status="published",final=True)
                 status["final_metadata_commit"]=push_results(tag+"-final-metadata",[result.relative_to(ROOT)],mark_final)
                 sp.write_text(json.dumps(status,indent=2)+"\n")
             return status
+        status={"run":run_name,"iteration":iteration,"tag":tag,"status":"preparing",
+                "started_unix":time.time(),"publication_policy":"lightweight_git_first_bulk_artifacts_local"}
         sp.write_text(json.dumps(status,indent=2)+"\n")
         try:
             checkpoint=run/f"checkpoint_{iteration:07d}.pt"
             cfg=json.loads((run/"config.json").read_text())
-            campaign=cfg.get("campaign", "20261101-goal-feedback-s0")
-            arm=cfg.get("arm", cfg["goal_frame"])
-            runtime=json.loads((run/"runtime.json").read_text())
+            campaign=cfg["campaign"]
             evaluation_dir=run/f"evaluation_{iteration:07d}"
             if not (evaluation_dir/"evaluation.json").exists():
                 with (pub/"evaluation.log").open("a") as log:
                     subprocess.run([sys.executable,"-u",str(ROOT/"scripts/evaluate.py"),str(checkpoint)],
                                    cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True)
             evaluation=json.loads((evaluation_dir/"evaluation.json").read_text())
-            result=ROOT/"results"/run_name/"milestones"/f"iteration_{iteration:07d}"
             result.mkdir(parents=True,exist_ok=True)
             for name in ("config.json","runtime.json"):
                 shutil.copy2(run/name,result/name)
             shutil.copy2(evaluation_dir/"evaluation.json",result/"evaluation.json")
-            rows=[json.loads(line) for line in (run/"metrics.jsonl").read_text().splitlines() if line]
-            rows=[r for r in rows if r["iteration"]<=iteration]
-            (result/"training.json").write_text(json.dumps(rows[-1],indent=2)+"\n")
-            archive=pub/"trajectories.tar"
-            if not archive.exists():
-                with tarfile.open(archive,"w") as tar:
-                    tar.add(evaluation_dir/"trajectories",arcname="trajectories")
-            notes=pub/"release-notes.md"
-            notes.write_text(f"{campaign} / {arm}, seed 0, iteration {iteration}.\n\n"
-                f"Completed {evaluation['completed_motions']}/40; full-duration normalized return {evaluation['mean_normalized_return']:.8f}. "
-                "All motions and failed tails remain in the denominator. Raw state/reference/action/reward trajectories are the scoring source.\n\n"
-                f"Training source: {runtime['git_commit']}. Full model and optimizer checkpoint included. "
-                f"World termination training objective: {cfg.get('world_termination_loss', 'aux_bce')}. "
-                "Stage observations do not establish convergence; tracking coverage is an additional diagnostic.\n",encoding="utf-8")
-            release=ensure_release(tag,f"{arm} / iteration {iteration}",notes,runtime["git_commit"])
-            parts=archive_parts(archive)
-            uploaded,missing=upload_files(tag,[checkpoint,*parts,pub/"evaluation.log",*(result/n for n in ("evaluation.json","config.json","runtime.json","training.json"))],release["id"])
-            status.update(status="assets_uploaded" if not missing else "upload_incomplete",assets=uploaded,unpublished=missing,
-                          goal_frame=cfg["goal_frame"],world_termination_loss=cfg.get("world_termination_loss", "aux_bce"),
-                          trajectory_archive_parts=[p.name for p in parts],completed_motions=evaluation["completed_motions"],
-                          mean_normalized_return=evaluation["mean_normalized_return"],
-                          release_url=f"https://github.com/{REPO}/releases/tag/{tag}",final=final)
-            call(["gh","release","edit",tag,"--repo",REPO,"--draft=false","--latest=false"])
-            status["status"]="published" if not missing else "upload_incomplete"
+            lines=[line for line in (run/"metrics.jsonl").read_text().splitlines(keepends=True)
+                   if line.endswith("\n") and json.loads(line)["iteration"]<=iteration]
+            training_path=ROOT/"results"/run_name/"training.jsonl"
+            training_path.write_text("".join(lines))
+            (result/"training.json").write_text(json.dumps(json.loads(lines[-1]),indent=2)+"\n")
+            # The existing finalizer provides the same per-motion comparison at every node.
+            from finish_c0_continuation import compare_to_parent
+            protocol=json.loads((ROOT/"configs/next_stage_continuation_protocol.json").read_text())
+            parent=json.loads((ROOT/protocol["parent"]["evaluation"]).read_text())
+            comparison=compare_to_parent(parent,evaluation)
+            comparison["conclusion"]=(f"Iteration {iteration}: {evaluation['completed_motions']}/40 complete; "
+                f"full-duration normalized return {evaluation['mean_normalized_return']:.8f}; "
+                f"retained {len(comparison['parent_successes_retained'])}/29 parent successes, "
+                f"completed {len(comparison['newly_completed'])}/11 parent failures. "
+                "One fixed checkpoint; no convergence or unseen-motion generalization claim.")
+            (result/"comparison.json").write_text(json.dumps(comparison,indent=2)+"\n")
+            summary_path=ROOT/"results"/campaign/"summary.json"
+            summary=json.loads(summary_path.read_text())
+            summary.update(publication_policy=status["publication_policy"],latest_evaluated_iteration=iteration,
+                latest_evaluation={key:evaluation[key] for key in ("completed_motions","mean_normalized_return","mean_completion_fraction")},
+                latest_parent_successes_retained=len(comparison["parent_successes_retained"]),
+                latest_newly_completed=comparison["newly_completed"],
+                server_artifacts={"worktree":str(ROOT),"run_directory":str(run),
+                    "checkpoint":str(checkpoint),"checkpoint_purpose":"model/optimizer/sampler/RNG for continuation",
+                    "parent_checkpoint":str(ROOT/"outputs/parents"/campaign/"checkpoint_0009000.pt"),
+                    "trajectories":str(evaluation_dir/"trajectories"),"trajectory_purpose":"full evaluation scoring and on-demand video",
+                    "processed_cache":str(ROOT/"data/processed/lafan1_g1_50hz"),
+                    "logs":str(ROOT/"outputs/campaigns"/(run_name+".train.log")),
+                    "still_in_use":["run checkpoints","parent checkpoint","processed motion cache","training log"],
+                    "backup_status":"awaiting_user_export_not_confirmed","deletion_owner":"user"},
+                bulk_artifacts_status="retained_on_server_by_policy",unpublished=[])
+            summary_path.write_text(json.dumps(summary,indent=2,ensure_ascii=False)+"\n")
+            result_url=f"https://github.com/{REPO}/tree/main/{result.relative_to(ROOT).as_posix()}"
+            status.update(status="published",goal_frame=cfg["goal_frame"],
+                world_termination_loss=cfg.get("world_termination_loss","aux_bce"),
+                completed_motions=evaluation["completed_motions"],mean_normalized_return=evaluation["mean_normalized_return"],
+                result_url=result_url,final=final,full_clip_evaluation_done=True,assets=[],unpublished=[],
+                bulk_artifacts_status="retained_on_server_by_policy",backup_status="awaiting_user_export_not_confirmed",automatic_cleanup=False)
             (result/"publication.json").write_text(json.dumps(status,indent=2)+"\n")
             def update(index):
-                index.setdefault("publications",{})[tag]={k:status[k] for k in ("iteration","goal_frame","world_termination_loss","release_url","status","completed_motions","mean_normalized_return","final")}
-                index["next_stage"].update(status="running",training_started=True,campaign=campaign)
-            commit=push_results(tag,[result.relative_to(ROOT)],update)
-            status.update(status="published" if not missing else "upload_incomplete",results_commit=commit,completed_unix=time.time())
+                index.setdefault("publications",{})[tag]={key:status[key] for key in
+                    ("iteration","goal_frame","world_termination_loss","result_url","status","completed_motions","mean_normalized_return","final","publication_policy")}
+                index["next_stage"].update(status="running",training_started=True,campaign=campaign,
+                    publication_policy=status["publication_policy"],latest_evaluated_iteration=iteration)
+                index["campaigns"][campaign].update(latest_evaluated_iteration=iteration,publication_policy=status["publication_policy"],
+                    bulk_artifacts_status="retained_on_server_by_policy",server_run_directory=str(run),backup_status="awaiting_user_export_not_confirmed")
+            commit=push_results(tag,[result.relative_to(ROOT),training_path.relative_to(ROOT),summary_path.relative_to(ROOT)],update)
+            status.update(results_commit=commit,completed_unix=time.time())
             sp.write_text(json.dumps(status,indent=2)+"\n")
-            print("MILESTONE_PUBLISHED",json.dumps(status),flush=True)
+            print("MILESTONE_LIGHTWEIGHT_PUBLISHED",json.dumps(status),flush=True)
             return status
         except Exception as exc:
             status.update(status="failed",error=repr(exc),traceback=traceback.format_exc())
