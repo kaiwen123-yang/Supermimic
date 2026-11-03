@@ -71,7 +71,7 @@ def update_documents(tag, summary, comparison):
     text=readme.read_text()
     start=text.index("> **")
     end=text.index("\n\n",start)
-    text=text[:start]+"> **"+report+"**"+text[end:]
+    text=text[:start]+"> **P4本段训练和正式评估已结束。** "+report+text[end:]
     text=text.replace("当前只完成审阅与计划发布，尚未启动P4。", "P4本段训练和正式评估已结束，实际状态与结果见本文顶部链接。")
     text=text.replace("P4已正式启动，当前训练进行中，实际进度见顶部运行记录。", "P4本段训练和正式评估已结束，实际状态与结果见本文顶部链接。")
     text=text.replace("下一步P4：一个C0连续run，9000→18000。", "P4：一个C0连续run，9000→实际最终节点。")
@@ -94,11 +94,11 @@ def update_documents(tag, summary, comparison):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument("tag");tag=parser.parse_args().tag
-    started=time.time()
     run=ROOT/"outputs/runs"/(tag+"-h32_aux_bce")
     result=ROOT/"results"/tag;result.mkdir(parents=True,exist_ok=True)
     stage=ROOT/"outputs/campaigns"/tag;stage.mkdir(exist_ok=True)
     status=json.loads((run/"status.json").read_text())
+    started=(run/"status.json").stat().st_mtime
     runtime=json.loads((run/"runtime.json").read_text())
     protocol_path=ROOT/"configs/next_stage_continuation_protocol.json"
     protocol=json.loads(protocol_path.read_text())
