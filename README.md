@@ -1,5 +1,7 @@
 # SuperMimic 独立复现
 
+> **2026-11-03产物约定更新：** 先推代码、配置、逐回合/逐动作JSON、训练JSON/JSONL与结论并继续研究。大checkpoint、完整视频、原始数组/轨迹和数据缓存默认不上传GitHub，由用户从服务器导出到自己的存储盘备份并统一删除；取消旧的阶段自动清理。当前P4训练保持运行。[完整约定](docs/REPRODUCTION_PLAN.md#p4-next-stage)与[接管提示词](docs/NEXT_STAGE_START_PROMPT.md)。
+
 > **P4已于北京时间2026-11-03 16:36:41开始新训练阶段。** 单个C0 run从9000连续推进至最多18000轮/12小时，保留辅助BCE；一次64步replay预热后完整执行真实采样→WM→Actor/Critic。当前仍在训练，尚无P4正式评估成绩。[运行记录](results/20261103-c0-continuation-s0/summary.json)。独立tmux `sm-p4-c0-continuation-s0` 跨聊天窗口持续运行，不重启训练。
 
 本仓库用于以学习为目的，依据论文独立实现 **SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model**。当前已接入固定版本的 LAFAN1 40 条完整动作、G1 / MuJoCo Warp、可微运动学、SuperMimic 核心训练循环、PPO-Sim 和完整动作评估。实际运行结果见 `results/index.json`；源码实现、短程更新和复现成绩分别记录。
@@ -62,7 +64,7 @@ C0保住父版本全部13条成功，新增16条完成，38/40条回报提高。
 
 原文Eq.(1)没有要求BCE对预测状态detach，k8/H32也是默认。P3不支持删除BCE作为修复；C0更好不等于其世界模型在全部失败窗口更准确。论文LAFAN的0.82作为效果参照；320000是表列训练长度，不要求机械跑满，也不把9000判为收敛。
 
-**下一步P4：一个C0连续run，9000→18000。** 预计新增约9.7小时，训练阶段上限12小时；单个Codex交互窗口≤4小时，tmux跨窗口继续，不重启训练/replay/LR。保留H32、robot_root、目标710维、aux_bce和当前算法设置。每1000新增轮完整评估40条动作并发布，最终评分与视频同轨迹。P4已正式启动，当前训练进行中，实际进度见顶部运行记录。
+**下一步P4：一个C0连续run，9000→18000。** 预计新增约9.7小时，训练阶段上限12小时；单个Codex交互窗口≤4小时，tmux跨窗口继续，不重启训练/replay/LR。保留H32、robot_root、目标710维、aux_bce和当前算法设置。每1000新增轮完整评估40条动作并先发布轻量结果，原始轨迹留服务器；必要视频按需复用评分轨迹。P4已正式启动，当前训练进行中，实际进度见顶部运行记录。
 
 实际需要的实现工作是适配旧两组启动/收尾脚本到单run、正确更新最终发布和评估状态；没有发现需先改的确定算法错误。暂不新增H16/XYZ、BCE权重或state loss归约对照。
 
@@ -74,7 +76,7 @@ C0保住父版本全部13条成功，新增16条完成，38/40条回报提高。
 - [P4启动提示词](docs/NEXT_STAGE_START_PROMPT.md)
 - [P4父版本C0-9000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000)
 
-P3已status=completed、unpublished=[]，记录删除496个明确实验文件、释放14,243,586,048字节（约14.24GB）。[最终Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-final)已发布。下一轮只恢复所需父权重和工作缓存；大产物继续D57直传Release，无消费者后删已上传精确副本，不在用户电脑归档，环境/源码/G1资产与工作树永久保留。
+P3已status=completed、unpublished=[]，记录删除496个明确实验文件、释放14,243,586,048字节（约14.24GB）。[最终Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-final)已发布。以上是历史清理记录。当前P4已恢复所需工作输入；此后大产物默认留服务器，由用户备份和统一删除，助手不自动归档或清理，环境/源码/G1资产与工作树保留。
 
 ### 已完成阶段与历史记录
 
@@ -131,7 +133,7 @@ python scripts/evaluate.py outputs/runs/lafan40-ppo-seed0/checkpoint_latest.pt
 
 用户在 2026-10-31 要求更密集的保存和推送：现在每轮原子保存完整模型/优化器检查点，保留最近 20 轮、初始版本和每个 1000 轮节点。编号文件不可覆盖，`checkpoint_latest.pt` 指向最近版本。检查点约数百 MB，滚动保留避免逐轮长期累积占满共享数据盘；回退到较旧版本时使用新的 run 名称。
 
-P4沿用每1000新增轮完成全部40条动作评估与发布的方式。最终主评估同时保存录像轨迹；不机械附加120起点诊断。权重和原始数据进入GitHub Release，逐动作结果与指标进入Git。当前发布路径只确认上传完成状态、文件名、字节数与下载URL；上传失败保留未发布原件。运行索引区分训练完成、评估完成与发布清理完成。
+P4沿用每1000新增轮完整评估40条动作，先推逐动作JSON、训练JSON/JSONL和结论。原始评分轨迹保存于服务器，必要视频按需生成。权重、完整视频、原始数组和大日志默认不上传，也不自动做阶段清理；用户定期导出备份并统一删除。训练器原有最近20轮滚动保留规则照旧，里程碑、最终与续训所需权重保留。在现有索引记录服务器产物路径和用途，不新增归档系统。当前运行中的旧发布/收尾脚本需由Codex接入新策略，文档更新不等于服务器进程已切换；接入时不重启正常训练或评估。
 
 需要查看策略时，优先使用已发布节点的正式评估和视频；本轮每1000轮自动完成一次全40评估，不另开旧版本重复回放。
 
@@ -139,6 +141,6 @@ P4沿用每1000新增轮完成全部40条动作评估与发布的方式。最终
 
 P3 v2历史执行入口（已完成，不重复运行）：`bash scripts/run_tracking_continuation_d57.sh 20261102-h32-bce-s0`。独立源码工作树 `/root/autodl-tmp/robot-repro/supermimic-p3-h32` 复用主项目原位 `.venv` 和 G1 资产；主目录的 P2 未提交文件保持原位。实际配置为 `configs/lafan40_h32_state_only.json` 和 `configs/lafan40_h32_aux_bce.json`。从同一 B6000 恢复全部网络、优化器、sampler 和已保存的 Torch/CUDA RNG；NumPy 保持 seed 0。恢复完成后重新计本段预算，6001 轮接续全局 LR；父版本不重复评估。保留原 70 维逐维 mean，C1 的 BCE 记录为 null（未计算），不记作零误差。
 
-P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本清理。历史tmux为sm-p3-h32-bce-s0，实际执行记录保存在results/index.json的对应campaign；当前P4尚未启动。
+P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本清理。历史tmux为sm-p3-h32-bce-s0，实际执行记录保存在results/index.json的对应campaign；当前P4已启动，不重复启动。
 
 P3 v2 实际阶段结果：h32_aux_bce 第9000轮，29/40，归一化回报0.61540441，新增3000轮/3.225h；h32_state_only 第9000轮，15/40，归一化回报0.48260317，新增3000轮/3.236h。结果和实际失败窗口见 results/20261102-h32-bce-s0/summary.json、comparison.json；该阶段不能作为充分收敛证据。

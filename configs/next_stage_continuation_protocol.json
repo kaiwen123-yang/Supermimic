@@ -124,7 +124,18 @@
     "fix_or_explicitly_record_final_for_already_published_milestone": true,
     "distinguish_training_snapshot_from_final_evaluation_status": true,
     "no_confirmed_core_algorithm_bug_found": true,
-    "no_generic_framework_or_preflight_tests": true
+    "no_generic_framework_or_preflight_tests": true,
+    "publication_policy_revision": {
+      "scope": "publication/finalization only; preserve running training/evaluation and environment",
+      "push_lightweight_before_release_or_rendering": true,
+      "skip_default_bulk_packaging_and_upload": true,
+      "remove_bulk_upload_wait_from_research_handoff": true,
+      "bypass_automatic_stage_deletion": true,
+      "reuse_completed_evaluations": true,
+      "preserve_existing_worktree_changes": true,
+      "no_training_restart": true,
+      "report_actual_runtime_adoption_separately": true
+    }
   },
   "evaluation": {
     "milestones": [
@@ -162,7 +173,9 @@
     "no_dual_model_cross_comparison_required": true,
     "no_start_point_scan": true,
     "reuse_existing_training_statistics": true,
-    "matched_prefix_comparisons_require_same_prefix": true
+    "matched_prefix_comparisons_require_same_prefix": true,
+    "video_rendering_blocks_lightweight_results": false,
+    "videos_on_demand": true
   },
   "checkpointing": {
     "every_iteration": true,
@@ -183,26 +196,57 @@
     "hardware deployment"
   ],
   "publication": {
-    "git": "source/configuration/compact results/existing run index",
-    "release": "retained checkpoints/raw arrays/trajectories/video/logs",
-    "server_direct_to_github": true,
-    "archive_part_max_bytes": 1073741824,
-    "upload_retained_artifacts_once": true,
-    "no_user_pc_archive": true,
-    "confirmation": [
-      "Git push succeeded",
-      "asset state uploaded",
-      "file name",
-      "byte count",
-      "download URL"
+    "policy": "lightweight_git_first_bulk_artifacts_local",
+    "updated_beijing_date": "2026-11-03",
+    "order": [
+      "complete real training/evaluation",
+      "push code/configuration/per-episode and per-motion JSON/training JSONL/conclusions",
+      "continue authorized research"
     ],
-    "no_hash_redownload_or_restore_drill": true
+    "git": [
+      "source",
+      "actual configuration",
+      "per-episode/per-motion evaluation JSON",
+      "per-iteration training JSON/JSONL",
+      "full 40-motion result summary",
+      "compact actual failure evidence/plots",
+      "conclusions",
+      "existing run index"
+    ],
+    "batch_at_existing_milestones": true,
+    "no_git_commit_per_training_step": true,
+    "raw_arrays_must_not_be_embedded_in_json_for_git": true,
+    "bulk_artifact_github_upload_default": false,
+    "bulk_local": [
+      "retained checkpoints",
+      "full videos",
+      "raw arrays/trajectories",
+      "motion caches",
+      "large logs"
+    ],
+    "release_only_for_explicit_selected_sharing": true,
+    "no_default_bulk_upload_queue": true,
+    "no_full_upload_archives": true,
+    "research_waits_for_bulk_upload": false,
+    "research_waits_for_full_video_rendering": false,
+    "research_waits_for_user_backup": false,
+    "preserve_real_evaluation_and_required_raw_evidence": true,
+    "videos_on_demand_from_existing_scoring_trajectories": true,
+    "user_manages_export_to_own_storage_disk": true,
+    "assistant_does_not_create_user_pc_archives": true,
+    "no_hash_redownload_or_restore_drill": true,
+    "runtime_adoption": "requires Codex to update actual publication/finalization entry points; documentation commit alone does not change already running processes"
   },
   "cleanup": {
-    "exact_uploaded_experiment_paths_only": true,
-    "all_consumers_finished": true,
-    "include_restored_parent_and_working_data_after_last_consumer": true,
-    "preserve_unuploaded": true,
+    "policy": "user_managed_backup_and_stage_deletion",
+    "automatic_stage_artifact_cleanup": false,
+    "automatic_input_copy_cleanup": false,
+    "previous_upload_then_delete_authorization_revoked": true,
+    "deletion_owner": "user",
+    "upload_or_backup_does_not_trigger_automatic_deletion": true,
+    "checkpoint_rolling_retention_unchanged": true,
+    "preserve_retained_parent_milestone_final_and_resume_checkpoints": true,
+    "preserve_current_consumers": true,
     "protect": [
       "source",
       "scripts/configs/docs",
@@ -212,7 +256,7 @@
       "activation scripts",
       "G1 XML/meshes",
       "development worktrees",
-      "recovery metadata",
+      "active inputs and parent checkpoints",
       "other projects",
       "shared dependencies"
     ],
@@ -229,7 +273,7 @@
     "independent benchmark",
     "unrelated reports"
   ],
-  "stop": "Complete this bounded continuous C0 stage, publish actual final evaluation and artifacts, clean only confirmed uploaded experiment copies, and report learning trends. Do not automatically launch deferred branches.",
+  "stop": "Finish the existing bounded C0 training and formal evaluation, push lightweight results and conclusions, leave retained large artifacts on the server for the user's export/backup/manual deletion, and report their locations. Do not wait for bulk uploads or execute stage cleanup; do not automatically launch deferred research branches.",
   "training_started": true,
   "execution": {
     "campaign": "20261103-c0-continuation-s0",
@@ -245,5 +289,22 @@
     "source_commit": "f4b703741ddfc7d9aa55dc97ac3e88c2a21c2d72",
     "summary": "results/20261103-c0-continuation-s0/summary.json",
     "handoff_automation": "supermimic-p4"
+  },
+  "backup": {
+    "owner": "user",
+    "destination": "user-selected storage disk",
+    "source": "server retained experiment artifacts",
+    "record_locations_in_existing_summary_or_index": true,
+    "fields": [
+      "run/iteration",
+      "parent checkpoint",
+      "artifact paths and purposes",
+      "active consumers",
+      "user-confirmed backup status"
+    ],
+    "do_not_mark_backed_up_without_user_confirmation": true,
+    "no_new_archive_system": true,
+    "future_resume_can_use_local_or_user_backup_path": true,
+    "future_checkpoint_release_url_not_required": true
   }
 }
