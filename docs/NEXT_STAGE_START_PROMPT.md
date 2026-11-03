@@ -1,6 +1,6 @@
 # P4 接管与后续执行提示词：轻量结果先推，大产物由用户备份
 
-2026-11-03最新约定。P4已启动，使用现有tmux sm-p4-c0-continuation-s0，不重复启动。以下提示词覆盖旧版“全部大产物上传后自动删除服务器副本”的要求。2026-11-03 22:15已将实际publish_checkpoint.py与finish_c0_continuation.py切换为轻量Git发布。训练PID149031持续运行；新节点不创建Release、不打包或上传大产物，收尾不批量渲染、不删除阶段或输入副本。
+P4 `20261103-c0-continuation-s0` 本段训练和评估已结束。下文保留原授权提示词；不要重复启动，实际轻量发布和用户备份状态见 results/20261103-c0-continuation-s0/summary.json。
 
 ~~~text
 读取 Supermimic 最新 AGENTS.md、README.md、docs/REPRODUCTION_PLAN.md 的 P4第7节、configs/next_stage_continuation_protocol.json 和当前P4运行记录。执行最新轻量发布与用户管理备份约定。
