@@ -690,6 +690,10 @@
         "queued_at_start": "C0 h32_aux_bce",
         "publication_transport": "D57 existing localhost HTTP proxy after observed TLS timeouts; published asset URLs recorded"
       }
+    },
+    "20261103-c0-continuation-s0": {
+      "status": "running",
+      "summary": "results/20261103-c0-continuation-s0/summary.json"
     }
   },
   "publications": {
@@ -946,11 +950,11 @@
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
     "protocol_id": "p4-c0-continuous-joint-training-v1",
-    "status": "authorized_preparing",
+    "status": "running",
     "document": "docs/REPRODUCTION_PLAN.md#p4-next-stage",
     "protocol": "configs/next_stage_continuation_protocol.json",
     "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
-    "training_started": false,
+    "training_started": true,
     "review_commit": "63a36bb7c2167f2364aadadfe5385cb0fcc86773",
     "completed_parent_campaign": "20261102-h32-bce-s0",
     "proposed_campaign": "20261103-c0-continuation-s0",
@@ -963,7 +967,7 @@
     "codex_interaction_max_hours": 4,
     "background_continues_on_handoff": true,
     "keep_world_termination_loss": "aux_bce",
-    "decision": "User authorized one continuous C0 run from 9000 to at most 18000/12 h. Inputs and single-run entry are being prepared; P3 is completed.",
+    "decision": "One C0 continuation is running from 9000 with unchanged algorithm, once-only replay warmup, at most 9000 new updates/12 h. No P4 final score yet; P3 is completed.",
     "required_implementation": {
       "scope": "single-run launch/finalization and truthful publication status only",
       "old_pair_entry_not_directly_reusable": true,
@@ -975,6 +979,10 @@
       "no_generic_framework_or_preflight_tests": true
     },
     "campaign": "20261103-c0-continuation-s0",
-    "run": "20261103-c0-continuation-s0-h32_aux_bce"
+    "run": "20261103-c0-continuation-s0-h32_aux_bce",
+    "stage_started_unix": 1793695001.948512,
+    "stage_deadline_unix": 1793738201.948512,
+    "worktree": "/root/autodl-tmp/robot-repro/supermimic-p4-c0",
+    "tmux": "sm-p4-c0-continuation-s0"
   }
 }

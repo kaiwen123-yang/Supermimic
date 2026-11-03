@@ -1,6 +1,6 @@
 # P4 启动提示词：C0-9000连续完整联合续训
 
-2026-11-03发布。P3已完成，当前P4尚未启动。复制下面整段交给具有D57访问能力的Codex执行。
+P4 `20261103-c0-continuation-s0` 已于北京时间2026-11-03 16:36:41开始新训练阶段。下文保留原授权提示词；不要重复启动。使用已有tmux sm-p4-c0-continuation-s0继续，当前状态见 results/20261103-c0-continuation-s0/summary.json。
 
 ~~~text
 读取 https://github.com/kaiwen123-yang/Supermimic 最新AGENTS.md、README.md、docs/REPRODUCTION_PLAN.md的P4、configs/next_stage_continuation_protocol.json，以及P3 summary/comparison。执行P4，不重复旧P3两组任务。
