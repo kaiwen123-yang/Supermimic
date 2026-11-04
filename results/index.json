@@ -18,7 +18,7 @@
             "ppo_mean_kl": 0.020334435810946162,
             "sim_step_reward": -0.07188412547111511,
             "sim_step_termination_fraction": 0.024322509765625,
-            "learning_rate": 1e-05,
+            "learning_rate": 0.00001,
             "collection_seconds": 0.7751656696200371,
             "policy_critic_seconds": 0.5655711982399225,
             "iteration": 8,
@@ -152,7 +152,7 @@
             "ppo_mean_kl": 0.01182870459742844,
             "sim_step_reward": 0.03070715442299843,
             "sim_step_termination_fraction": 0.0008951823110692203,
-            "learning_rate": 3.375000000000001e-05,
+            "learning_rate": 0.00003375000000000001,
             "collection_seconds": 1.0218255054205656,
             "policy_critic_seconds": 0.6692749932408333,
             "checkpoint_write_seconds": 0.23910709097981453,
@@ -1049,59 +1049,155 @@
   },
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
-    "protocol_id": "p4-c0-continuous-joint-training-v1",
-    "status": "completed",
-    "document": "docs/REPRODUCTION_PLAN.md#p4-next-stage",
-    "protocol": "configs/next_stage_continuation_protocol.json",
+    "protocol_id": "p5-actor-lr-retention-v1",
+    "status": "planned",
+    "implementation_status": "pending_executor",
+    "document": "docs/P5_STABILITY_PLAN.md",
+    "protocol": "configs/next_stage_stability_protocol.json",
     "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
-    "training_started": true,
-    "review_commit": "63a36bb7c2167f2364aadadfe5385cb0fcc86773",
-    "completed_parent_campaign": "20261102-h32-bce-s0",
-    "proposed_campaign": "20261103-c0-continuation-s0",
-    "proposed_run": "20261103-c0-continuation-s0-h32_aux_bce",
-    "parent_iteration": 9000,
-    "start_iteration": 9000,
-    "target_iteration": 18000,
-    "new_joint_updates": 9000,
-    "new_training_cap_hours": 12,
+    "planned_date_beijing": "2026-11-04",
+    "review_commit": "45843e6ee24a51e48b33c799ee0373d8c1a5d25f",
+    "training_started": false,
+    "completed_parent_campaign": "20261103-c0-continuation-s0",
+    "proposed_campaign": "20261104-p5-actor-stability-s0",
+    "parent_iteration": 18000,
+    "parent_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p4-c0/outputs/runs/20261103-c0-continuation-s0-h32_aux_bce/checkpoint_0018000.pt",
+    "parent_evaluation": "results/20261103-c0-continuation-s0-h32_aux_bce/milestones/iteration_0018000/evaluation.json",
+    "parent_completed_count": 32,
+    "parent_failed_count": 8,
+    "start_iteration": 18000,
+    "target_iteration": 24000,
+    "new_joint_updates_per_arm": 6000,
+    "new_training_cap_hours_per_arm": 16,
+    "arms": [
+      {
+        "id": "c0_control",
+        "run": "20261104-p5-actor-stability-s0-c0_control",
+        "planned_training_config": "configs/lafan40_p5_c0_control.json",
+        "actor_learning_rate_scale": 1
+      },
+      {
+        "id": "actor_half_lr",
+        "run": "20261104-p5-actor-stability-s0-actor_half_lr",
+        "planned_training_config": "configs/lafan40_p5_actor_half_lr.json",
+        "actor_learning_rate_scale": 0.5
+      }
+    ],
     "codex_interaction_max_hours": 4,
     "background_continues_on_handoff": true,
-    "keep_world_termination_loss": "aux_bce",
-    "decision": "18000轮达到本阶段最高完整回报0.706754，较9000提高14.84%，完整执行由29增至32；15000–17000的回撤后出现恢复，不能据此宣布收敛或持续停滞。保留C0-18000作为后续续训起点，保留全部里程碑用于检查动作保持。起身成功集合仍会变化，且真实失败尾窗存在状态预测/解析终止失配；若继续研究，优先沿同配置观察这些能力能否稳定保持。本段已结束，没有自动追加训练预算或新分支。",
+    "hypothesis": "Only halve Actor LR to compare continued learning and retention against unchanged C0; this is not a demonstrated root-cause fix.",
     "required_implementation": {
-      "scope": "single-run launch/finalization and truthful publication status only",
-      "old_pair_entry_not_directly_reusable": true,
-      "derive_milestones_from_start_and_actual_final": true,
-      "reuse_existing_publish_render_functions": true,
-      "fix_or_explicitly_record_final_for_already_published_milestone": true,
-      "distinguish_training_snapshot_from_final_evaluation_status": true,
-      "no_confirmed_core_algorithm_bug_found": true,
-      "no_generic_framework_or_preflight_tests": true
+      "planned_only": true,
+      "changes": [
+        "Add actor_learning_rate_scale default 1.0 in SuperMimic.set_schedule; only Actor is scaled.",
+        "Record actual Actor/WM/Critic learning rates in existing metrics.",
+        "Create two inherited configs and a thin parallel P5 launcher in one source worktree.",
+        "Parameterize parent score/checkpoint and dynamic 32/8 comparison in existing publication path.",
+        "Store per-arm summary/progress without overwriting the other arm; reuse shared publication lock.",
+        "Replace cumulative training.jsonl Git publication with compact current-interval statistics.",
+        "Create a P5 finalizer using existing comparison/aggregation logic; do not run legacy P3/P4 finalizer main."
+      ],
+      "legacy_entrypoints_not_to_run": [
+        "scripts/run_tracking_continuation_d57.sh",
+        "scripts/run_c0_continuation_d57.sh",
+        "scripts/finish_tracking_campaign.py main",
+        "scripts/finish_c0_continuation.py main"
+      ]
     },
-    "campaign": "20261103-c0-continuation-s0",
-    "run": "20261103-c0-continuation-s0-h32_aux_bce",
-    "stage_started_unix": 1793695001.948512,
-    "stage_deadline_unix": 1793738201.948512,
-    "worktree": "/root/autodl-tmp/robot-repro/supermimic-p4-c0",
-    "tmux": "sm-p4-c0-continuation-s0",
+    "concurrency": {
+      "gpu_training_processes": 2,
+      "gpu_formal_evaluation_processes": 1,
+      "publication_lock": "work/p2-publication.lock",
+      "publication_lock_shared_by_arms": true,
+      "cpu_existing_trajectory_workers_max": 4,
+      "torch_threads_per_training_process": 2,
+      "torch_threads_per_evaluation_process": 2,
+      "render_tasks_max": 1,
+      "render_only_on_demand": true,
+      "synthetic_throughput_or_memory_benchmark": false,
+      "stop_other_projects": false,
+      "resource_estimate": {
+        "p4_seconds_per_update": 4.07937456,
+        "single_arm_6000_updates_hours": 6.799,
+        "pytorch_peak_gib_per_training_process": 19.3293,
+        "pytorch_peak_excludes_other_cuda_allocations": true,
+        "whole_stage_wall_hours_estimate": [
+          14,
+          16
+        ],
+        "estimate_is_not_guarantee": true
+      },
+      "actual_resource_shortage": "Adjust only this project's concurrency/order; keep algorithm and update budget unchanged and record actual execution."
+    },
+    "retention": {
+      "baseline_iteration": 18000,
+      "baseline_completed_count": 32,
+      "predeclared_tail_iterations": [
+        22000,
+        23000,
+        24000
+      ],
+      "report": [
+        "fixed_final_checkpoint",
+        "all_milestone_scores",
+        "tail_return_mean_and_range",
+        "intersection_of_success_sets_over_tail",
+        "tail_stable_getup_identities",
+        "retained_parent_32_successes",
+        "lost_and_newly_completed_motion_names",
+        "actual_new_updates_and_wall_time"
+      ],
+      "historical_p4_tail": {
+        "iterations": [
+          16000,
+          17000,
+          18000
+        ],
+        "stably_completed": 18,
+        "stably_completed_getups": 0,
+        "mean_normalized_return": 0.6542553072992867
+      },
+      "tail_nodes_are_not_independent_seeds": true,
+      "no_composite_score_or_new_success_threshold": true,
+      "selection": "Prefer B only when later return/full coverage are not worse and retention improves; otherwise retain A or report tradeoff. If both regress, retain C0-18000 as the usable baseline and report the new evidence. No automatic next experiment.",
+      "xy_subset": "Intersection of full-success motions for parent18000, A final and B final; report identities, count, per-motion means and subset mean."
+    },
     "artifact_policy": {
-      "policy": "lightweight_git_first_user_managed_bulk_backup",
-      "date_beijing": "2026-11-03",
-      "document": "docs/REPRODUCTION_PLAN.md#p4-next-stage",
-      "protocol": "configs/next_stage_continuation_protocol.json",
-      "bulk_upload_default": false,
-      "automatic_stage_cleanup": false,
-      "backup_and_deletion_owner": "user",
-      "existing_checkpoint_rolling_retention_unchanged": true,
-      "research_waits_for_bulk_upload_or_backup": false,
-      "runtime_adoption": "not established by this documentation commit; Codex must update the running worktree's publication/finalization entries without restarting training"
+      "policy": "key_analysis_results_to_git_bulk_local_user_managed",
+      "priority": "compute/formal evaluation -> push key code/config/JSON/conclusion -> continue research",
+      "per_node": [
+        "full_40_motion_evaluation_json",
+        "compact_1000_update_training_statistics",
+        "actual_three_optimizer_lrs",
+        "parent_retention_and_regression",
+        "run_config_and_runtime",
+        "server_artifact_paths",
+        "brief_conclusion"
+      ],
+      "exclude_by_default": [
+        "full_metrics_jsonl",
+        "large_text_logs",
+        "checkpoints",
+        "full_videos",
+        "raw_arrays",
+        "raw_trajectories",
+        "data_cache"
+      ],
+      "upload_bulk_to_release": false,
+      "bulk_background_queue": false,
+      "tar_archives": false,
+      "client_computer_archive": false,
+      "user_exports_and_deletes": true,
+      "automatic_stage_deletion": false,
+      "backup_status": "awaiting_user_export_not_confirmed",
+      "checkpoint_rolling_policy_unchanged": true
     },
-    "publication_policy": "lightweight_git_first_bulk_artifacts_local",
-    "latest_evaluated_iteration": 18000,
-    "training_done": true,
-    "full_clip_evaluation_done": true,
-    "lightweight_results_published": true,
-    "final_iteration": 18000,
-    "bulk_artifacts_status": "retained_on_server_by_policy"
+    "execution": {
+      "status": "not_started",
+      "actual_configs_created": false,
+      "training_started": false,
+      "formal_evaluation_done": false,
+      "key_results_published": false
+    }
   }
 }

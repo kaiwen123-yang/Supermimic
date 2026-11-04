@@ -1,0 +1,335 @@
+{
+  "protocol_id": "p5-actor-lr-retention-v1",
+  "planned_date_beijing": "2026-11-04",
+  "status": "planned",
+  "training_started": false,
+  "implementation_status": "pending_executor",
+  "document": "docs/P5_STABILITY_PLAN.md",
+  "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
+  "review": {
+    "repository": "kaiwen123-yang/Supermimic",
+    "source_commit": "45843e6ee24a51e48b33c799ee0373d8c1a5d25f",
+    "paper": "https://arxiv.org/pdf/2610.28480v1",
+    "paper_sections": [
+      "3.1-3.3",
+      "4.1",
+      "4.3",
+      "Appendices A-F"
+    ],
+    "evidence": [
+      "results/20261103-c0-continuation-s0/summary.json",
+      "results/20261103-c0-continuation-s0/comparison.json",
+      "results/20261103-c0-continuation-s0/training.json"
+    ],
+    "interpretation": "Core reproduction learns; skill retention fluctuates. Half Actor LR is a hypothesis, not an established root-cause fix."
+  },
+  "parent": {
+    "iteration": 18000,
+    "run": "20261103-c0-continuation-s0-h32_aux_bce",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p4-c0/outputs/runs/20261103-c0-continuation-s0-h32_aux_bce/checkpoint_0018000.pt",
+    "evaluation": "results/20261103-c0-continuation-s0-h32_aux_bce/milestones/iteration_0018000/evaluation.json",
+    "trajectory_root": "/root/autodl-tmp/robot-repro/supermimic-p4-c0/outputs/runs/20261103-c0-continuation-s0-h32_aux_bce/evaluation_0018000/trajectories",
+    "completed_motions": 32,
+    "failed_motions": 8,
+    "mean_normalized_return": 0.7067537398304967,
+    "getups_completed": 3,
+    "running_completed": 4,
+    "restore": [
+      "actor",
+      "world_model",
+      "critic",
+      "actor_optimizer",
+      "world_optimizer",
+      "critic_optimizer",
+      "sampler_returns",
+      "sampler_memory",
+      "torch_rng",
+      "cuda_rng",
+      "global_iteration"
+    ],
+    "replay_saved": false,
+    "simulator_state_saved": false,
+    "replay_warmup_steps_per_new_run": 64,
+    "replay_warmup_on_context_handoff": false
+  },
+  "campaign": "20261104-p5-actor-stability-s0",
+  "runtime": {
+    "host_alias": "autodl-d57",
+    "planned_source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p5-stability",
+    "shared_source_worktree_for_arms": true,
+    "reuse_environment": true,
+    "reuse_robot_assets": true,
+    "reuse_processed_data": true,
+    "rebuild_environment": false,
+    "download_historical_archive": false,
+    "interaction_window_hours_max": 4,
+    "background_continues_on_handoff": true
+  },
+  "budget": {
+    "start_iteration": 18000,
+    "target_iteration": 24000,
+    "new_joint_updates_per_arm": 6000,
+    "max_new_stage_hours_per_arm": 16,
+    "includes_initial_replay_warmup": true,
+    "old_elapsed_time_used_for_budget": false,
+    "evaluation_and_publication_timed_separately": true,
+    "automatic_extension": false,
+    "at_wall_limit": "Publish actual final checkpoint, including non-milestone final. Compare common completed iterations; report unequal progress explicitly."
+  },
+  "arms": [
+    {
+      "id": "c0_control",
+      "run": "20261104-p5-actor-stability-s0-c0_control",
+      "planned_training_config": "configs/lafan40_p5_c0_control.json",
+      "actor_learning_rate_scale": 1
+    },
+    {
+      "id": "actor_half_lr",
+      "run": "20261104-p5-actor-stability-s0-actor_half_lr",
+      "planned_training_config": "configs/lafan40_p5_actor_half_lr.json",
+      "actor_learning_rate_scale": 0.5
+    }
+  ],
+  "learning_rate": {
+    "base": 0.0002,
+    "cosine_iterations": 250000,
+    "floor_multiplier": 0.03,
+    "global_iteration_continues": true,
+    "actor": "base * cosine_multiplier(global_iteration) * actor_learning_rate_scale",
+    "world": "base * cosine_multiplier(global_iteration)",
+    "critic": "base * cosine_multiplier(global_iteration)",
+    "preserve_adam_state": true,
+    "apply_in_every_set_schedule_call": true,
+    "record_actual_optimizer_lrs": true
+  },
+  "preserved": {
+    "full_joint_cycle": true,
+    "world_window": 8,
+    "imagination_horizon": 32,
+    "num_envs_per_arm": 4096,
+    "world_batches": 10,
+    "world_batch_size": 2048,
+    "imagination_batch_size": 4096,
+    "critic_epochs": 5,
+    "critic_minibatches": 4,
+    "max_episode_steps": 500,
+    "world_termination_loss": "aux_bce",
+    "imagination_termination": "analytic_smooth",
+    "termination_smoothing_temperature": 0.05,
+    "goal_frame": "robot_root",
+    "goal_dimensions": 710,
+    "seed": 0,
+    "unchanged": [
+      "actor_and_world_architectures",
+      "state_representation_and_scaling",
+      "state_loss_70_dim_mean",
+      "rewards",
+      "physical_termination",
+      "PD_and_action_scale",
+      "reset_sampler",
+      "observation_noise",
+      "domain_randomization",
+      "gamma",
+      "lambda",
+      "checkpoint_every_iteration",
+      "keep_recent_20_and_milestones"
+    ]
+  },
+  "concurrency": {
+    "gpu_training_processes": 2,
+    "gpu_formal_evaluation_processes": 1,
+    "publication_lock": "work/p2-publication.lock",
+    "publication_lock_shared_by_arms": true,
+    "cpu_existing_trajectory_workers_max": 4,
+    "torch_threads_per_training_process": 2,
+    "torch_threads_per_evaluation_process": 2,
+    "render_tasks_max": 1,
+    "render_only_on_demand": true,
+    "synthetic_throughput_or_memory_benchmark": false,
+    "stop_other_projects": false,
+    "resource_estimate": {
+      "p4_seconds_per_update": 4.07937456,
+      "single_arm_6000_updates_hours": 6.799,
+      "pytorch_peak_gib_per_training_process": 19.3293,
+      "pytorch_peak_excludes_other_cuda_allocations": true,
+      "whole_stage_wall_hours_estimate": [
+        14,
+        16
+      ],
+      "estimate_is_not_guarantee": true
+    },
+    "actual_resource_shortage": "Adjust only this project's concurrency/order; keep algorithm and update budget unchanged and record actual execution."
+  },
+  "implementation": {
+    "planned_only": true,
+    "changes": [
+      "Add actor_learning_rate_scale default 1.0 in SuperMimic.set_schedule; only Actor is scaled.",
+      "Record actual Actor/WM/Critic learning rates in existing metrics.",
+      "Create two inherited configs and a thin parallel P5 launcher in one source worktree.",
+      "Parameterize parent score/checkpoint and dynamic 32/8 comparison in existing publication path.",
+      "Store per-arm summary/progress without overwriting the other arm; reuse shared publication lock.",
+      "Replace cumulative training.jsonl Git publication with compact current-interval statistics.",
+      "Create a P5 finalizer using existing comparison/aggregation logic; do not run legacy P3/P4 finalizer main."
+    ],
+    "legacy_entrypoints_not_to_run": [
+      "scripts/run_tracking_continuation_d57.sh",
+      "scripts/run_c0_continuation_d57.sh",
+      "scripts/finish_tracking_campaign.py main",
+      "scripts/finish_c0_continuation.py main"
+    ]
+  },
+  "evaluation": {
+    "iterations": [
+      19000,
+      20000,
+      21000,
+      22000,
+      23000,
+      24000
+    ],
+    "final_non_milestone": true,
+    "motions": 40,
+    "start_frame": 0,
+    "friction": 1,
+    "observation_noise": false,
+    "domain_randomization": false,
+    "physical_failure": "reference-relative root height >0.25m OR gravity-z difference >0.8 OR nonfinite",
+    "normalization": "0.1 * full reference transitions; failed tail zero",
+    "reuse_existing_evaluations": true,
+    "re_evaluate_parent": false,
+    "per_motion_best_checkpoint_splicing": false
+  },
+  "retention": {
+    "baseline_iteration": 18000,
+    "baseline_completed_count": 32,
+    "predeclared_tail_iterations": [
+      22000,
+      23000,
+      24000
+    ],
+    "report": [
+      "fixed_final_checkpoint",
+      "all_milestone_scores",
+      "tail_return_mean_and_range",
+      "intersection_of_success_sets_over_tail",
+      "tail_stable_getup_identities",
+      "retained_parent_32_successes",
+      "lost_and_newly_completed_motion_names",
+      "actual_new_updates_and_wall_time"
+    ],
+    "historical_p4_tail": {
+      "iterations": [
+        16000,
+        17000,
+        18000
+      ],
+      "stably_completed": 18,
+      "stably_completed_getups": 0,
+      "mean_normalized_return": 0.6542553072992867
+    },
+    "tail_nodes_are_not_independent_seeds": true,
+    "no_composite_score_or_new_success_threshold": true,
+    "selection": "Prefer B only when later return/full coverage are not worse and retention improves; otherwise retain A or report tradeoff. If both regress, retain C0-18000 as the usable baseline and report the new evidence. No automatic next experiment.",
+    "xy_subset": "Intersection of full-success motions for parent18000, A final and B final; report identities, count, per-motion means and subset mean."
+  },
+  "existing_trajectory_analysis": {
+    "blocks_training_start": false,
+    "requires_new_physics_rollout": false,
+    "parent_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p4-c0/outputs/runs/20261103-c0-continuation-s0-h32_aux_bce",
+    "state_arrays_include_initial_frame": true,
+    "targets": [
+      {
+        "motion": "dance1_subject1",
+        "iterations": [
+          18000,
+          14000
+        ],
+        "reference_time_window_seconds": [
+          104,
+          107.1
+        ],
+        "question": "signed root height and velocity, reference-vs-robot change, onset of posture/action deviation"
+      },
+      {
+        "motion": "fallAndGetUp1_subject1",
+        "failed_iteration": 18000,
+        "successful_iteration": 12000,
+        "reference_time_window_seconds": [
+          8.12,
+          8.76
+        ]
+      },
+      {
+        "motion": "fallAndGetUp2_subject2",
+        "failed_iteration": 18000,
+        "successful_iteration": 14000,
+        "reference_time_window_seconds": [
+          32.36,
+          33
+        ]
+      },
+      {
+        "motion": "fallAndGetUp2_subject3",
+        "failed_iteration": 18000,
+        "successful_iteration": 14000,
+        "reference_time_window_seconds": [
+          157.22,
+          157.86
+        ]
+      }
+    ],
+    "raw_arrays_stay_on_server": true,
+    "output": "compact event times, key values and evidence-based interpretation",
+    "contacts_are_geometry_not_measured_force": true
+  },
+  "publication": {
+    "policy": "key_analysis_results_to_git_bulk_local_user_managed",
+    "priority": "compute/formal evaluation -> push key code/config/JSON/conclusion -> continue research",
+    "per_node": [
+      "full_40_motion_evaluation_json",
+      "compact_1000_update_training_statistics",
+      "actual_three_optimizer_lrs",
+      "parent_retention_and_regression",
+      "run_config_and_runtime",
+      "server_artifact_paths",
+      "brief_conclusion"
+    ],
+    "exclude_by_default": [
+      "full_metrics_jsonl",
+      "large_text_logs",
+      "checkpoints",
+      "full_videos",
+      "raw_arrays",
+      "raw_trajectories",
+      "data_cache"
+    ],
+    "upload_bulk_to_release": false,
+    "bulk_background_queue": false,
+    "tar_archives": false,
+    "client_computer_archive": false,
+    "user_exports_and_deletes": true,
+    "automatic_stage_deletion": false,
+    "backup_status": "awaiting_user_export_not_confirmed",
+    "checkpoint_rolling_policy_unchanged": true
+  },
+  "prohibited": [
+    "defensive_programming",
+    "unit_mock_smoke_import_shape_hash_tests",
+    "digest_recomputation",
+    "restore_drills",
+    "full_disk_scans",
+    "standalone_benchmarks",
+    "generic_monitoring_or_archival_frameworks",
+    "legacy_automatic_cleanup",
+    "unrelated_environment_changes",
+    "unplanned_training_arms",
+    "automatic_budget_extension"
+  ],
+  "execution": {
+    "status": "not_started",
+    "actual_configs_created": false,
+    "training_started": false,
+    "formal_evaluation_done": false,
+    "key_results_published": false
+  }
+}

@@ -1,6 +1,8 @@
 # SuperMimic 独立复现
 
-> **2026-11-03产物约定更新：** 先推代码、配置、逐回合/逐动作JSON、训练JSON/JSONL与结论并继续研究。大checkpoint、完整视频、原始数组/轨迹和数据缓存默认不上传GitHub，由用户从服务器导出到自己的存储盘备份并统一删除；取消旧的阶段自动清理。P4已于2026-11-04 02:55完成正式评估和轻量发布，阶段产物继续保留。[完整约定](docs/REPRODUCTION_PLAN.md#p4-next-stage)与[接管提示词](docs/NEXT_STAGE_START_PROMPT.md)。
+> **当前入口：P5计划已发布，尚未实施或启动（2026-11-04）。** 从C0-18000并行续训两支：A保持当前设置，B只将Actor学习率乘0.5；每支新增6000次完整联合更新到24000，各自训练上限16小时。最新已完成成绩仍是下方P4。见[完整计划](docs/P5_STABILITY_PLAN.md)、[机器可读协议](configs/next_stage_stability_protocol.json)与[启动提示词](docs/NEXT_STAGE_START_PROMPT.md)。
+
+> **当前产物约定：** 先推代码、实际配置、完整逐动作/逐回合评分JSON、关键训练区间统计与结论并继续研究。完整逐轮日志、大checkpoint、完整视频、原始数组/轨迹和缓存留服务器，不上传Release、不进后台大文件队列、不在用户电脑归档。由用户定期导出到自己的存储盘备份并统一删除，助手不自动删除或标记已备份；训练原有checkpoint滚动保留照旧。P4已于2026-11-04 02:55完成正式评估和轻量发布，P5所需发布适配尚待执行。
 
 > **P4本段训练和正式评估已结束。** P4 `20261103-c0-continuation-s0`：第18000轮，32/40完整执行，完整时长归一化回报0.70675374；起身3/6、跑步4/4。新增9000次联合更新，训练阶段10.198小时（含一次64步预热）。父版本29条成功保留25条，新增完成7条，退化4条。训练、评估、轻量发布及服务器产物位置见[结果](results/20261103-c0-continuation-s0/summary.json)与[逐动作变化](results/20261103-c0-continuation-s0/comparison.json)。该阶段不作为收敛证明，coverage不是论文成功率。大产物留服务器待用户备份和删除，不阻塞本阶段完成。
 
@@ -36,7 +38,7 @@ bash scripts/setup_d57.sh
 ## 现有内容
 
 - [论文配置](configs/paper_reference.toml)：按论文标注来源的算法/网络/训练参数，不是已经可执行的训练配置。
-- [复现记录与当前计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)：P3实际结果、原文复核与P4连续续训。
+- [当前P5计划](docs/P5_STABILITY_PLAN.md)：P4实际结果、论文复核、两支并行续训与能力保持；[历史复现记录](docs/REPRODUCTION_PLAN.md)。
 - [来源锁](configs/sources.lock.json)：LAFAN1、机器人资产和 BeyondMimic 参数的确切版本。
 - [运行配置](configs/lafan40.json)：论文规模的初始学习预算；[开发配置](configs/lafan40_development.json) 只缩短更新次数。
 - [数据来源](data/sources.json)：原始数据入口；40 条动作的实际哈希、时长与质量记录见 `results/lafan1_g1_preparation/motion_manifest.json`。
@@ -46,7 +48,7 @@ bash scripts/setup_d57.sh
 
 ## 实施原则
 
-采样、世界模型拟合与策略/Critic 更新交替进行；固定世界模型参数时保留经过其输入的梯度。P4保持当前710维目标输入和H32；论文未展开goal全部特征/坐标，当前实现选择明确记录，不将额外状态输入冒充作者公开定义。完整动作回放、实际失败与耗时都保留；训练回报、完整片段评估和作者报道结果分别记录。
+采样、世界模型拟合与策略/Critic 更新交替进行；固定世界模型参数时保留经过其输入的梯度。P5继续保持当前710维目标输入和H32；论文未展开goal全部特征/坐标，当前实现选择明确记录，不将额外状态输入冒充作者公开定义。完整动作回放、实际失败与耗时都保留；训练回报、完整片段评估和作者报道结果分别记录。
 
 用户已授权 G1 的 LAFAN1 训练、完整评估和 PPO-Sim 对比，先把前期实现和运行打通。用户允许与主要使用 CPU 的 MPC/RL 作业共享 D57 GPU，不另设 12GB 显存限制；不修改其他项目环境或终止其任务。
 
@@ -66,21 +68,21 @@ C0保住父版本全部13条成功，新增16条完成，38/40条回报提高。
 
 **P4已完成：一个C0连续run，9000→18000。** 预计新增约9.7小时，训练阶段上限12小时；单个Codex交互窗口≤4小时，tmux跨窗口继续，不重启训练/replay/LR。保留H32、robot_root、目标710维、aux_bce和当前算法设置。每1000新增轮完整评估40条动作并先发布轻量结果，原始轨迹留服务器；必要视频按需复用评分轨迹。P4本段训练和正式评估已结束，实际状态与结果见本文顶部链接。
 
-实际需要的实现工作是适配旧两组启动/收尾脚本到单run、正确更新最终发布和评估状态；没有发现需先改的确定算法错误。暂不新增H16/XYZ、BCE权重或state loss归约对照。
+P4已完成单run启动/收尾适配。P5待实施的内容是Actor独立LR、两支并行入口、按arm隔离的18000父版本评估汇总，以及紧凑训练统计发布，详见当前计划。现有核心梯度路径未发现需先重写的确定算法错误；半Actor学习率的作用需要本轮正式对照回答。
 
 - [P3结果与发布清理](results/20261102-h32-bce-s0/summary.json)
 - [逐动作/里程碑/真实失败窗口](results/20261102-h32-bce-s0/comparison.json)
 - [正式训练区间统计](results/20261102-h32-bce-s0/training.json)
-- [完整审阅与P4计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)
+- [历史审阅与P4计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)
 - [P4机器可读协议](configs/next_stage_continuation_protocol.json)（不是train.py配置）
-- [P4启动提示词](docs/NEXT_STAGE_START_PROMPT.md)
+- [当前P5启动提示词](docs/NEXT_STAGE_START_PROMPT.md)
 - [P4父版本C0-9000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000)
 
 P3已status=completed、unpublished=[]，记录删除496个明确实验文件、释放14,243,586,048字节（约14.24GB）。[最终Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-final)已发布。以上是历史清理记录。当前P4已恢复所需工作输入；此后大产物默认留服务器，由用户备份和统一删除，助手不自动归档或清理，环境/源码/G1资产与工作树保留。
 
 ### 已完成阶段与历史记录
 
-P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以P4协议为准。
+P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以P5计划和协议为准。
 
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 
@@ -133,7 +135,7 @@ python scripts/evaluate.py outputs/runs/lafan40-ppo-seed0/checkpoint_latest.pt
 
 用户在 2026-10-31 要求更密集的保存和推送：现在每轮原子保存完整模型/优化器检查点，保留最近 20 轮、初始版本和每个 1000 轮节点。编号文件不可覆盖，`checkpoint_latest.pt` 指向最近版本。检查点约数百 MB，滚动保留避免逐轮长期累积占满共享数据盘；回退到较旧版本时使用新的 run 名称。
 
-P4沿用每1000新增轮完整评估40条动作，先推逐动作JSON、训练JSON/JSONL和结论。原始评分轨迹保存于服务器，必要视频按需生成。权重、完整视频、原始数组和大日志默认不上传，也不自动做阶段清理；用户定期导出备份并统一删除。训练器原有最近20轮滚动保留规则照旧，里程碑、最终与续训所需权重保留。在现有索引记录服务器产物路径和用途，不新增归档系统。2026-11-03 22:15已将实际publish_checkpoint.py与finish_c0_continuation.py切换为轻量Git发布。训练PID149031持续运行；新节点不创建Release、不打包或上传大产物，收尾不批量渲染、不删除阶段或输入副本。
+P5沿用每1000新增轮完整评估40条动作，先推完整评分JSON、每1000轮关键训练统计和结论；完整逐轮日志留服务器。原始评分轨迹保存于服务器，必要视频按需生成。权重、完整视频、原始数组和大日志默认不上传，也不自动做阶段清理；用户定期导出备份并统一删除。训练器原有最近20轮滚动保留规则照旧，里程碑、最终与续训所需权重保留。在现有索引记录服务器产物路径和用途，不新增归档系统。2026-11-03 22:15已将实际publish_checkpoint.py与finish_c0_continuation.py切换为轻量Git发布。P4训练PID149031随后已于18000轮正常结束。P4从14000节点起不创建Release、不打包或上传大产物，收尾不批量渲染、不删除阶段或输入副本；P5额外的紧凑日志与双run发布适配仍待实施。
 
 需要查看策略时，优先使用已发布节点的正式评估和视频；本轮每1000轮自动完成一次全40评估，不另开旧版本重复回放。
 
@@ -141,7 +143,7 @@ P4沿用每1000新增轮完整评估40条动作，先推逐动作JSON、训练JS
 
 P3 v2历史执行入口（已完成，不重复运行）：`bash scripts/run_tracking_continuation_d57.sh 20261102-h32-bce-s0`。独立源码工作树 `/root/autodl-tmp/robot-repro/supermimic-p3-h32` 复用主项目原位 `.venv` 和 G1 资产；主目录的 P2 未提交文件保持原位。实际配置为 `configs/lafan40_h32_state_only.json` 和 `configs/lafan40_h32_aux_bce.json`。从同一 B6000 恢复全部网络、优化器、sampler 和已保存的 Torch/CUDA RNG；NumPy 保持 seed 0。恢复完成后重新计本段预算，6001 轮接续全局 LR；父版本不重复评估。保留原 70 维逐维 mean，C1 的 BCE 记录为 null（未计算），不记作零误差。
 
-P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本清理。历史tmux为sm-p3-h32-bce-s0，实际执行记录保存在results/index.json的对应campaign；当前P4已启动，不重复启动。
+P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本清理。历史tmux为sm-p3-h32-bce-s0，实际执行记录保存在results/index.json的对应campaign；P4亦已完成，P5为当前待执行计划，不重复启动旧阶段。
 
 P3 v2 实际阶段结果：h32_aux_bce 第9000轮，29/40，归一化回报0.61540441，新增3000轮/3.225h；h32_state_only 第9000轮，15/40，归一化回报0.48260317，新增3000轮/3.236h。结果和实际失败窗口见 results/20261102-h32-bce-s0/summary.json、comparison.json；该阶段不能作为充分收敛证据。
 
