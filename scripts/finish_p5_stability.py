@@ -178,7 +178,24 @@ def finish(arm):
         protocol["execution"].update(status=campaign["status"], training_done=campaign["training_done"],
             formal_evaluation_done=both, key_results_published=both, arms={a:s["status"] for a,s in summaries.items()})
         write(PROTOCOL, protocol)
-        push_results("p5-" + arm + "-publication-confirmed", [result.relative_to(ROOT), PROTOCOL.relative_to(ROOT)], update)
+        paths = [result.relative_to(ROOT), PROTOCOL.relative_to(ROOT)]
+        if both:
+            readme = ROOT / "README.md"
+            lines = readme.read_text().splitlines()
+            for i,line in enumerate(lines):
+                if line.startswith("> **当前入口：P5"):
+                    lines[i] = f"> **当前入口：P5已完成训练、正式评分和关键结果发布。** {comparison['decision']} 见[最终分析](results/{protocol['campaign']}/conclusion.md)和[结果索引](results/{protocol['campaign']}/summary.json)。不自动追加训练。"
+                    break
+            readme.write_text("\n".join(lines) + "\n")
+            plan = ROOT / "docs/P5_STABILITY_PLAN.md"
+            lines = plan.read_text().splitlines()
+            for i,line in enumerate(lines):
+                if line.startswith("状态："):
+                    lines[i] = f"状态：**训练、正式评分和关键结果已完成。** 见 [最终分析](../results/{protocol['campaign']}/conclusion.md)。"
+                    break
+            plan.write_text("\n".join(lines) + "\n")
+            paths += [Path("README.md"), Path("docs/P5_STABILITY_PLAN.md")]
+        push_results("p5-" + arm + "-publication-confirmed", paths, update)
         print("P5_ARM_COMPLETE", arm, final, campaign["status"], flush=True)
 
 
