@@ -54,6 +54,7 @@ def aggregate(protocol, summaries):
         tail_stats[arm] = {"available_common_iterations": available_tail,
             "missing_predeclared_iterations": [i for i in tail if i not in nodes[arm]],
             "mean_return_over_available_common_nodes": statistics.mean(values) if values else None,
+            "mean_completed_over_available_common_nodes": statistics.mean(nodes[arm][i]["completed_motions"] for i in available_tail) if available_tail else None,
             "return_range_over_available_common_nodes": [min(values), max(values)] if values else None,
             "available_node_success_intersection": sorted(intersection),
             "three_node_success_intersection": sorted(intersection) if available_tail == tail else None,
@@ -71,15 +72,16 @@ def aggregate(protocol, summaries):
     complete_fixed = all(24000 in nodes[arm] for arm in arms) and available_tail == tail
     if not complete_fixed:
         decision = "固定24000或末三共同节点缺失，报告实际终点和已有共同节点；保持18000可用基线，不用不等预算宣布半Actor LR胜出。"
-    elif all(s["mean_normalized_return"] < parent["mean_normalized_return"] and
-             s["completed_motions"] < parent["completed_motions"] for s in (a, b)):
-        decision = "两支最终回报和完整数均低于18000，保留C0-18000可用基线，依据实际退化动作选择后续问题。"
+    elif all(s["mean_normalized_return"] <= parent["mean_normalized_return"] and
+             s["completed_motions"] <= parent["completed_motions"] and
+             (s["mean_normalized_return"] < parent["mean_normalized_return"] or s["completed_motions"] < parent["completed_motions"]) for s in (a, b)):
+        decision = "两支最终回报和完整数均未超过18000且各有退化，保留C0-18000可用基线，依据实际退化动作选择后续问题。"
     else:
         ta, tb = (tail_stats[arm] for arm in arms)
         b_not_worse = (b["mean_normalized_return"] >= a["mean_normalized_return"] and
             b["completed_motions"] >= a["completed_motions"] and
             tb["mean_return_over_available_common_nodes"] >= ta["mean_return_over_available_common_nodes"] and
-            all(nodes[arms[1]][i]["completed_motions"] >= nodes[arms[0]][i]["completed_motions"] for i in tail))
+            tb["mean_completed_over_available_common_nodes"] >= ta["mean_completed_over_available_common_nodes"])
         retention_better = (len(tb["three_node_success_intersection"]) > len(ta["three_node_success_intersection"]) and
             len(success(b) & success(parent)) >= len(success(a) & success(parent)) and
             len(tb["parent_successes_in_available_intersection"]) >= len(ta["parent_successes_in_available_intersection"]))
@@ -114,6 +116,7 @@ def write_report(result, comparison, summaries):
     lines += ["", "## 同集合 XY", "", f"共同完整成功集合共{xy['count']}条：" + ", ".join(xy["motion_names"]), ""]
     lines += [f"- {label}（{v['iteration']}）：平均XY误差 {v['subset_mean_xy_error_m']} m。" for label, v in xy["scores"].items()]
     lines += ["", "逐动作XY、所有节点评分和动作身份见 comparison.json；区间训练统计与原始产物路径见各arm目录。", "",
+              "P4重点失败片段的观测与解释见 [旧轨迹分析](p4_trajectory_analysis.md)。", "",
               "这些是40条训练动作的单父版本、单seed结果，末三节点不是独立重复。半Actor学习率的比较不能证明唯一根因。", "", comparison["next_step"], "",
               "大权重、逐轮日志、原始评分轨迹和缓存保留服务器，待用户备份；备份未确认，不自动删除。"]
     (result / "conclusion.md").write_text("\n".join(lines) + "\n")
