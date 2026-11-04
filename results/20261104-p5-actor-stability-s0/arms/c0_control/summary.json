@@ -2,12 +2,12 @@
   "backup_status": "awaiting_user_export_not_confirmed",
   "arm": "c0_control",
   "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-c0_control",
-  "full_clip_evaluation_done": false,
+  "full_clip_evaluation_done": true,
   "actor_learning_rate_scale": 1,
   "lightweight_results_published": false,
-  "status": "running",
+  "status": "publishing",
   "run": "20261104-p5-actor-stability-s0-c0_control",
-  "training_done": false,
+  "training_done": true,
   "training_started": true,
   "started_beijing": "2026-11-04T19:00:46.144854+08:00",
   "start_snapshot": "results/20261104-p5-actor-stability-s0/arms/c0_control/start_snapshot.json",
@@ -50,5 +50,95 @@
     "walk3_subject1"
   ],
   "bulk_artifacts_status": "retained_on_server_by_policy",
-  "unpublished": []
+  "unpublished": [],
+  "training_snapshot": {
+    "status": "budget_completed",
+    "method": "supermimic",
+    "iteration": 24000,
+    "actor_updates": 23995,
+    "sim_transitions": 246808576,
+    "wall_seconds": 95578.27555809729,
+    "stage_wall_seconds": 24082.711017481983,
+    "new_joint_updates": 6000,
+    "new_actor_updates": 6000,
+    "new_sim_transitions": 61702144,
+    "start_iteration": 18000,
+    "target_iteration": 24000,
+    "world_termination_loss": "aux_bce",
+    "full_clip_evaluation_done": false,
+    "qualification_pass": false
+  },
+  "final_iteration": 24000,
+  "evaluated_iterations": [
+    19000,
+    20000,
+    21000,
+    22000,
+    23000,
+    24000
+  ],
+  "previous_elapsed_seconds": 71495.5645419024,
+  "final_scores": {
+    "status": "evaluated",
+    "method": "supermimic",
+    "goal_frame": "robot_root",
+    "world_termination_loss": "aux_bce",
+    "iteration": 24000,
+    "actor_updates": 23995,
+    "checkpoint_file": "checkpoint_0024000.pt",
+    "motions": 40,
+    "failed_motions": 6,
+    "completed_motions": 34,
+    "wall_seconds": 316.534021852538,
+    "trajectory_directory": "trajectories",
+    "score_and_video_share_trajectory": true,
+    "protocol": {
+      "start_frame": 0,
+      "friction": 1.0,
+      "observation_noise": false,
+      "domain_randomization": false,
+      "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
+      "normalization": "0.1 * full reference transitions; failed tail zero",
+      "tracking_coverage": "survived AND position<=0.3m AND SO3<=0.4rad, divided by full reference steps",
+      "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
+      "scope": "training-motion coverage, not generalization"
+    },
+    "mean_normalized_return": 0.7131344779175189,
+    "mean_completion_fraction": 0.9129478176874292,
+    "mean_tracking_coverage": 0.12188091180583441,
+    "mean_execution_seconds": 200.54700000000008
+  },
+  "evaluation_wall_seconds": 1995.4341718722135,
+  "publications": [
+    {
+      "iteration": 19000,
+      "results_commit": "dcfd486cc550ccf58b316a4f5494d601fd6c7cf9",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0-c0_control/milestones/iteration_0019000"
+    },
+    {
+      "iteration": 20000,
+      "results_commit": "b678918463b291bcde3302575657a28f1f8e8993",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0-c0_control/milestones/iteration_0020000"
+    },
+    {
+      "iteration": 21000,
+      "results_commit": "74bc601e9074f763e68f1b8dead66786eb551fc9",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0-c0_control/milestones/iteration_0021000"
+    },
+    {
+      "iteration": 22000,
+      "results_commit": "3791751dd957bbcc316b3e73d5beeeb559cc0e55",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0-c0_control/milestones/iteration_0022000"
+    },
+    {
+      "iteration": 23000,
+      "results_commit": "fbebb2dd71909f7cb4060c0e19f0bccc3a1dda6d",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0-c0_control/milestones/iteration_0023000"
+    },
+    {
+      "iteration": 24000,
+      "results_commit": "947c5ae3f9ac3a1611184370276c296e22b3359b",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0-c0_control/milestones/iteration_0024000"
+    }
+  ]
 }
