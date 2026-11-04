@@ -5,7 +5,7 @@ P4 `20261103-c0-continuation-s0` 本段训练和评估已结束。下文保留�
 ~~~text
 读取 Supermimic 最新 AGENTS.md、README.md、docs/REPRODUCTION_PLAN.md 的 P4第7节、configs/next_stage_continuation_protocol.json 和当前P4运行记录。执行最新轻量发布与用户管理备份约定。
 
-P4 20261103-c0-continuation-s0 已在 /root/autodl-tmp/robot-repro/supermimic-p4-c0 运行，tmux为 sm-p4-c0-continuation-s0。接管现有任务，不重复从9000启动，不重新预热replay，不重置LR。保持9000→18000、最多12小时新训练预算、单窗口≤4小时；不扩大实验或改变算法。
+P4 20261103-c0-continuation-s0 已在 /root/autodl-tmp/robot-repro/supermimic-p4-c0 完成到18000轮，原tmux sm-p4-c0-continuation-s0正常退出。直接读取已发布结果；本提示词不授权再次启动或延长训练。实际最终权重留在服务器，后续续训需另行明确范围。
 
 顺序改为：服务器完成训练/正式评估 → 先推代码、实际配置、逐回合/逐动作评估JSON、逐轮训练JSON/JSONL、阶段结论与现有运行索引 → 继续既定研究。轻量记录按原milestone批量推送，不每步单独Git push，不等待视频渲染、大文件上传或用户备份。
 

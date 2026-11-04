@@ -118,7 +118,7 @@
       "mean_normalized_return": 0.7067537398304967
     }
   ],
-  "next_step_assessment": "最近三个正式节点未呈连续回报增长，需结合逐动作保持/退化与最终真实失败尾窗判断是否继续；本次不自动启动新分支。",
+  "next_step_assessment": "18000轮达到本阶段最高完整回报0.706754，较9000提高14.84%，完整执行由29增至32；15000–17000的回撤后出现恢复，不能据此宣布收敛或持续停滞。保留C0-18000作为后续续训起点，保留全部里程碑用于检查动作保持。起身成功集合仍会变化，且真实失败尾窗存在状态预测/解析终止失配；若继续研究，优先沿同配置观察这些能力能否稳定保持。本段已结束，没有自动追加训练预算或新分支。",
   "publication_policy": "lightweight_git_first_bulk_artifacts_local",
   "bulk_artifacts_status": "retained_on_server_by_policy",
   "server_artifacts": {
@@ -158,5 +158,32 @@
   "finalization_wall_seconds": 429.5746896266937,
   "completed_unix": 1793732145.8915596,
   "results_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261103-c0-continuation-s0",
-  "results_commit": "bcc9ea413d01e6feea67e128327b68b6d2ed3d2f"
+  "results_commit": "bcc9ea413d01e6feea67e128327b68b6d2ed3d2f",
+  "conclusion": {
+    "completed_motions": 32,
+    "normalized_return": 0.7067537398304967,
+    "relative_return_gain_vs_parent_percent": 14.8437879083271,
+    "getups_completed": 3,
+    "running_completed": 4,
+    "parent_successes_retained": 25,
+    "parent_successes_lost": [
+      "fallAndGetUp2_subject3",
+      "fight1_subject5",
+      "fightAndSports1_subject1",
+      "walk3_subject1"
+    ],
+    "parent_failures_now_completed": [
+      "dance2_subject4",
+      "fallAndGetUp1_subject5",
+      "fight1_subject2",
+      "fight1_subject3",
+      "jumps1_subject1",
+      "run2_subject1",
+      "walk2_subject1"
+    ],
+    "training_ended_beijing": "2026-11-04 02:48:36",
+    "lightweight_publication_confirmed_beijing": "2026-11-04 02:55:57",
+    "formal_results_commit": "c7dcdf7",
+    "scope": "One final checkpoint, full 40 training motions; no per-motion best-checkpoint combination."
+  }
 }
