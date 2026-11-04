@@ -4,7 +4,7 @@
 
 ## 当前任务与证据
 
-- 当前入口是 docs/P5_STABILITY_PLAN.md、configs/next_stage_stability_protocol.json 与 docs/NEXT_STAGE_START_PROMPT.md。P5目前仅发布计划，算法/脚本适配和服务器训练尚未启动；收到P5启动指令后按该协议执行。P1–P4为历史，以下旧阶段要求不重复执行。
+- 当前入口是 docs/P5_STABILITY_PLAN.md、configs/next_stage_stability_protocol.json 与 docs/NEXT_STAGE_START_PROMPT.md。P5已于2026-11-04 19:00在指定工作树启动A/B；不要重复启动。后台按原进程继续，实时结果入口为results/20261104-p5-actor-stability-s0/summary.json及各arm目录。P1–P4为历史，以下旧阶段要求不重复执行。
 - P3 20261102-h32-bce-s0 已完成，status=completed、unpublished=[]。C0-9000保留辅助BCE达到29/40、回报0.615404、起身3/6；C1删除BCE为15/40、0.482603。父B6000为13/40、0.409124。继续有效C0，不重跑P3。
 - P4本段已完成：9000→18000，新增9000次联合更新/10.198小时；最终32/40、回报0.706754、起身3/6、跑步4/4。2026-11-04 02:55轻量发布完成，原tmux正常退出；不重复启动或自动追加训练。大产物留服务器待用户备份，不授权阶段自动清理。
 - 原文Eq.(1)没有要求BCE对预测状态detach；k8/H32是默认。不能把BCE回传直接称为错误，也不能称C1是作者原版。
@@ -18,7 +18,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P5实施（当前计划，尚未启动）
+## P5实施（已启动，按现有进程继续）
 
 - 从同一C0-18000恢复两支完整联合训练：A c0_control保持原设置；B actor_half_lr只给Actor学习率乘0.5。两组各新增6000次更新到24000，各自新训练阶段上限16小时，含一次64步replay填充；正式评估和轻量发布另计，不自动追加预算。
 - 在每轮set_schedule应用actor_learning_rate_scale=1.0/0.5；WM/Critic保持原基础LR和全局余弦日程，恢复Adam/sampler/RNG，不重置迭代。不能只改初始化LR，也不能把公共learning_rate减半。完整执行真实采样→WM拟合→Actor/Critic。

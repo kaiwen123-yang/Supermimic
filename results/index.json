@@ -18,7 +18,7 @@
             "ppo_mean_kl": 0.020334435810946162,
             "sim_step_reward": -0.07188412547111511,
             "sim_step_termination_fraction": 0.024322509765625,
-            "learning_rate": 0.00001,
+            "learning_rate": 1e-05,
             "collection_seconds": 0.7751656696200371,
             "policy_critic_seconds": 0.5655711982399225,
             "iteration": 8,
@@ -152,7 +152,7 @@
             "ppo_mean_kl": 0.01182870459742844,
             "sim_step_reward": 0.03070715442299843,
             "sim_step_termination_fraction": 0.0008951823110692203,
-            "learning_rate": 0.00003375000000000001,
+            "learning_rate": 3.375000000000001e-05,
             "collection_seconds": 1.0218255054205656,
             "policy_critic_seconds": 0.6692749932408333,
             "checkpoint_write_seconds": 0.23910709097981453,
@@ -699,6 +699,33 @@
       "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p4-c0/outputs/runs/20261103-c0-continuation-s0-h32_aux_bce",
       "bulk_artifacts_status": "retained_on_server_by_policy",
       "backup_status": "awaiting_user_export_not_confirmed"
+    },
+    "20261104-p5-actor-stability-s0": {
+      "status": "running",
+      "training_started": true,
+      "training_done": false,
+      "full_clip_evaluation_done": false,
+      "lightweight_results_published": false,
+      "summary": "results/20261104-p5-actor-stability-s0/summary.json",
+      "results_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0",
+      "arms": {
+        "c0_control": {
+          "run": "20261104-p5-actor-stability-s0-c0_control",
+          "status": "running",
+          "pid": 237730,
+          "tmux_session": "sm-p5-c0-control",
+          "start_snapshot": "results/20261104-p5-actor-stability-s0/arms/c0_control/start_snapshot.json"
+        },
+        "actor_half_lr": {
+          "run": "20261104-p5-actor-stability-s0-actor_half_lr",
+          "status": "running",
+          "pid": 237732,
+          "tmux_session": "sm-p5-actor-half-lr",
+          "start_snapshot": "results/20261104-p5-actor-stability-s0/arms/actor_half_lr/start_snapshot.json"
+        }
+      },
+      "backup_status": "awaiting_user_export_not_confirmed",
+      "bulk_artifacts_status": "retained_on_server_by_policy"
     }
   },
   "publications": {
@@ -1050,14 +1077,14 @@
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
     "protocol_id": "p5-actor-lr-retention-v1",
-    "status": "planned",
-    "implementation_status": "pending_executor",
+    "status": "running",
+    "implementation_status": "implemented_and_running",
     "document": "docs/P5_STABILITY_PLAN.md",
     "protocol": "configs/next_stage_stability_protocol.json",
     "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
     "planned_date_beijing": "2026-11-04",
     "review_commit": "45843e6ee24a51e48b33c799ee0373d8c1a5d25f",
-    "training_started": false,
+    "training_started": true,
     "completed_parent_campaign": "20261103-c0-continuation-s0",
     "proposed_campaign": "20261104-p5-actor-stability-s0",
     "parent_iteration": 18000,
@@ -1069,20 +1096,22 @@
     "target_iteration": 24000,
     "new_joint_updates_per_arm": 6000,
     "new_training_cap_hours_per_arm": 16,
-    "arms": [
-      {
-        "id": "c0_control",
+    "arms": {
+      "c0_control": {
         "run": "20261104-p5-actor-stability-s0-c0_control",
-        "planned_training_config": "configs/lafan40_p5_c0_control.json",
-        "actor_learning_rate_scale": 1
+        "status": "running",
+        "pid": 237730,
+        "tmux_session": "sm-p5-c0-control",
+        "start_snapshot": "results/20261104-p5-actor-stability-s0/arms/c0_control/start_snapshot.json"
       },
-      {
-        "id": "actor_half_lr",
+      "actor_half_lr": {
         "run": "20261104-p5-actor-stability-s0-actor_half_lr",
-        "planned_training_config": "configs/lafan40_p5_actor_half_lr.json",
-        "actor_learning_rate_scale": 0.5
+        "status": "running",
+        "pid": 237732,
+        "tmux_session": "sm-p5-actor-half-lr",
+        "start_snapshot": "results/20261104-p5-actor-stability-s0/arms/actor_half_lr/start_snapshot.json"
       }
-    ],
+    },
     "codex_interaction_max_hours": 4,
     "background_continues_on_handoff": true,
     "hypothesis": "Only halve Actor LR to compare continued learning and retention against unchanged C0; this is not a demonstrated root-cause fix.",
@@ -1193,11 +1222,26 @@
       "checkpoint_rolling_policy_unchanged": true
     },
     "execution": {
-      "status": "not_started",
-      "actual_configs_created": false,
-      "training_started": false,
+      "status": "running",
+      "actual_configs_created": true,
+      "training_started": true,
       "formal_evaluation_done": false,
-      "key_results_published": false
-    }
+      "key_results_published": false,
+      "source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p5-stability",
+      "implementation_commit": "667bd1e",
+      "arms": {
+        "c0_control": "running",
+        "actor_half_lr": "running"
+      },
+      "summary": "results/20261104-p5-actor-stability-s0/summary.json"
+    },
+    "training_done": false,
+    "full_clip_evaluation_done": false,
+    "lightweight_results_published": false,
+    "summary": "results/20261104-p5-actor-stability-s0/summary.json",
+    "results_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261104-p5-actor-stability-s0",
+    "backup_status": "awaiting_user_export_not_confirmed",
+    "bulk_artifacts_status": "retained_on_server_by_policy",
+    "campaign": "20261104-p5-actor-stability-s0"
   }
 }

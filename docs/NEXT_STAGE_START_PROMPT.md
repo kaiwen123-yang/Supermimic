@@ -1,5 +1,7 @@
 # P5 启动提示词：两组完整联合续训，关键结果优先
 
+> 执行状态：P5已于2026-11-04 19:00启动。下文为原启动指令；交接不得重复执行启动、停止或重启训练。先读 results/20261104-p5-actor-stability-s0/summary.json 和服务器现有进程。
+
 计划日期：2026-11-04（北京时间）。本文件发布时P5尚未实施或启动；最新完成阶段为P4 C0-18000。
 
 将下面全文交给执行端Codex。完整依据见[P5计划](P5_STABILITY_PLAN.md)及[执行协议](../configs/next_stage_stability_protocol.json)；协议不是可以直接传给train.py的训练配置。
