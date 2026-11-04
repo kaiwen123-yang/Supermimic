@@ -186,6 +186,8 @@ def main():
                     torch.cuda.synchronize()
                     metrics.update(collection_seconds=after_collect-start, world_seconds=after_world-after_collect,
                                    policy_critic_seconds=time.monotonic()-after_world)
+                    metrics.update({name + "_learning_rate": getattr(learner, name + "_opt").param_groups[0]["lr"]
+                                    for name in ("actor", "world", "critic")})
                 else:
                     data = learner.collect()
                     torch.cuda.synchronize()

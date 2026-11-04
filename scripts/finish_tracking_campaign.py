@@ -20,8 +20,10 @@ def write(path, value):
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False)+"\n")
 
 
-def training_summary(run):
-    rows=[json.loads(line) for line in (run/"metrics.jsonl").read_text().splitlines()]
+def training_summary(run, first_iteration=None, last_iteration=None):
+    rows=[json.loads(line) for line in (run/"metrics.jsonl").read_text().splitlines(keepends=True) if line.endswith("\n")]
+    rows=[r for r in rows if (first_iteration is None or r["iteration"]>=first_iteration)
+          and (last_iteration is None or r["iteration"]<=last_iteration)]
     groups={}
     for stop in sorted({((r["iteration"]-1)//1000+1)*1000 for r in rows}):
         block=[r for r in rows if stop-1000<r["iteration"]<=stop]
@@ -30,6 +32,10 @@ def training_summary(run):
             "imagined_discounted_return","collection_seconds","world_seconds","policy_critic_seconds","checkpoint_write_seconds")}
         means["wm_termination_bce"]=float(np.mean([r["wm_termination_bce"] for r in block])) if block[0]["wm_termination_bce"] is not None else None
         means["wm_state_components"]={k:float(np.mean([r["wm_state_components"][k] for r in block])) for k in block[0]["wm_state_components"]}
+        for name in ("actor", "world", "critic"):
+            key=name+"_learning_rate"
+            if key in block[0]:
+                means[key]=float(np.mean([r[key] for r in block]))
         families={k:{field:sum(r[field][k] for r in block) for field in ("family_transitions","family_failure_count","family_reset_samples")} for k in block[0]["family_transitions"]}
         total=sum(v["family_transitions"] for v in families.values())
         resets=sum(v["family_reset_samples"] for v in families.values())

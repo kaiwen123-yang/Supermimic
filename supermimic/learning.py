@@ -174,9 +174,10 @@ class SuperMimic:
     def set_schedule(self, iteration):
         progress = min(iteration / self.cfg["cosine_iterations"], 1.)
         multiplier = 0.03 + 0.97 * (1 + math.cos(math.pi * progress)) / 2
-        for optimizer in (self.actor_opt, self.world_opt, self.critic_opt):
+        for optimizer, scale in ((self.actor_opt, self.cfg.get("actor_learning_rate_scale", 1.0)),
+                                 (self.world_opt, 1.0), (self.critic_opt, 1.0)):
             for group in optimizer.param_groups:
-                group["lr"] = self.cfg["learning_rate"] * multiplier
+                group["lr"] = self.cfg["learning_rate"] * multiplier * scale
 
     def checkpoint(self):
         return {"actor": self.actor.state_dict(), "critic": self.critic.state_dict(), "world_model": self.world.state_dict(),
