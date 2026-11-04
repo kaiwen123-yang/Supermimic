@@ -1,7 +1,7 @@
 # P5：保持已学动作的并行联合续训
 
 日期：2026-11-04（北京时间）  
-状态：**有限适配已完成，A/B于2026-11-04 19:00正式启动，后台继续运行。** [运行记录](../results/20261104-p5-actor-stability-s0/summary.json)。不重复启动，正式评分尚未开始。
+状态：**训练、正式评分和关键结果已完成。** 见 [最终分析](../results/20261104-p5-actor-stability-s0/conclusion.md)。
 审阅依据：`45843e6ee24a51e48b33c799ee0373d8c1a5d25f` 的 P4 收尾结果。本文和 [执行协议](../configs/next_stage_stability_protocol.json)、[启动提示词](NEXT_STAGE_START_PROMPT.md) 是下一阶段入口；P4 已完成，不重复执行。
 
 ## 1. 已完成什么，当前问题是什么
