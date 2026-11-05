@@ -2,10 +2,14 @@
 
 日期：2026-11-05（北京时间）。**P6已完成；P7计划已发布，实际适配和训练尚未开始。** P6 B33000回报0.86624655，已超过论文LAFAN全40评估0.82参照，不再按“尚未达标”重新改算法。
 
+**用户最新验收口径：达到作者对应实验指标即算该项复现成功；当前LAFAN1已成功。P7是达标后的巩固与研究，不作为成功前置条件。**
+
 完整依据见[P7计划](P7_CONTINUATION_AND_FRESH_PLAN.md)和[执行协议](../configs/next_stage_reproduction_protocol.json)。协议不是直接传给train.py的训练配置。若接续时同名P7进程已经启动，继续它们，不重复启动。
 
 ~~~text
 请接管 kaiwen123-yang/Supermimic，执行P7。先读最新AGENTS.md、docs/P7_CONTINUATION_AND_FRESH_PLAN.md、configs/next_stage_reproduction_protocol.json，以及results/20261105-p6-position-feedback-s0/的summary.json、conclusion.md、review_20261105.json和b25000_to_b26000_analysis.md。P6已完成，不重跑。完成必要运行/发布适配后直接开始约定正式任务，按节点推送关键结果，不止于重写计划。
+
+用户已确认：追上作者对应实验指标即可认定该项复现成功，当前LAFAN1已成功。不要追加40/40、从零重训、更多seed、H100同等耗时、BONES或实机作为当前验收门槛。按既定P7预算开展达标后的研究，已有B33000达标结论不因新节点回撤而撤销。
 
 当前已达到的成果是P6 B33000：回报0.86624655、37/40、父34成功全部保留，共同完整31动作XY约0.064m。后续研究保持/困难动作与从零学习成本，不改动已经有效的713输入、半ActorLR及完整联合算法，不把40/40冒充论文已有达标门槛。
 

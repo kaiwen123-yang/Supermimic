@@ -2,6 +2,10 @@
 
 本仓库是用户的独立论文复现项目，远端为 https://github.com/kaiwen123-yang/Supermimic 。
 
+## 复现验收标准（用户最新确认）
+
+用户确认验收标准（2026-11-05）：**达到作者对应实验的指标，就算该项复现成功。当前LAFAN1全40正式评估回报目标0.82，P6 B33000为0.86624655，因此已认定LAFAN1指标复现成功。** P7属于达标后的巩固与研究，不是复现成功的前置条件；不追加40/40、从零重训、更多seed、H100同等耗时、BONES或实机等验收要求。已保存B33000的达标结论不因后续研究节点回撤而撤销。
+
 ## 当前任务与证据
 
 - 当前入口为P7：docs/P7_CONTINUATION_AND_FRESH_PLAN.md、configs/next_stage_reproduction_protocol.json、docs/NEXT_STAGE_START_PROMPT.md。计划与复核已发布，服务器适配和训练尚未开始；P1–P6均为历史，不重复启动。
