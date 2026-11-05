@@ -157,7 +157,7 @@ def main():
                     temp.replace(directory / "metrics.jsonl")
             metadata.update(resumed_from=str(args.resume), resume_iteration=first_iteration,
                             previous_elapsed_seconds=elapsed_offset, replay_rebuilt=True,
-                            optimizer_state_restored=True, previous_simulator_state_restored=False,
+                            optimizer_state_restored=True, sampler_state_restored=True, previous_simulator_state_restored=False,
                             parent_world_termination_loss=previous["config"].get("world_termination_loss", "aux_bce"),
                             world_termination_loss=cfg["world_termination_loss"],
                             rng_restored="parent torch CPU and all CUDA states; NumPy initialized with unchanged seed")
@@ -169,7 +169,12 @@ def main():
         initial_actor_updates = actor_updates
         initial_transitions = learner.collected_steps
         metadata.update(stage_started_unix=time.time(), budget_clock="new stage including replay warmup",
-                        start_iteration=first_iteration, target_iteration=cfg["max_iterations"])
+                        start_iteration=first_iteration, target_iteration=cfg["max_iterations"],
+                        previous_elapsed_seconds=elapsed_offset,
+                        initialization="resume" if args.resume else "scratch")
+        if not args.resume:
+            metadata.update(optimizer_state_restored=False, sampler_state_restored=False,
+                            rng_restored=False, replay_initial_fill_steps=cfg["replay_warmup_steps"])
         (directory / "runtime.json").write_text(json.dumps(metadata, indent=2) + "\n")
         if not args.resume_in_place:
             save(learner, cfg, directory, first_iteration, elapsed(), motions.data_definition, actor_updates)
@@ -193,7 +198,7 @@ def main():
                     torch.cuda.synchronize()
                     after_world = time.monotonic()
                     if iteration > cfg["world_only_warmup_iterations"]:
-                        metrics.update(learner.improve_policy())
+                        metrics.update(learner.improve_policy(iteration, directory / "training_evidence"))
                         actor_updates += 1
                     torch.cuda.synchronize()
                     metrics.update(collection_seconds=after_collect-start, world_seconds=after_world-after_collect,
@@ -211,7 +216,9 @@ def main():
                 if iteration % cfg["checkpoint_every_iterations"] == 0:
                     metrics["checkpoint_write_seconds"] = save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates)
                 metrics.update(iteration=iteration, actor_updates=actor_updates, elapsed_seconds=elapsed(),
-                               stage_elapsed_seconds=stage_elapsed(), new_joint_updates=iteration-first_iteration,
+                               stage_elapsed_seconds=stage_elapsed(), new_training_iterations=iteration-first_iteration,
+                               new_joint_updates=actor_updates-initial_actor_updates,
+                               new_wm_only_updates=(iteration-first_iteration)-(actor_updates-initial_actor_updates),
                                new_actor_updates=actor_updates-initial_actor_updates,
                                new_sim_transitions=learner.collected_steps-initial_transitions,
                                learning_rate=learner.actor_opt.param_groups[0]["lr"] if args.method=="supermimic" else learner.optimizer.param_groups[0]["lr"],
@@ -225,7 +232,9 @@ def main():
             save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates)
         status = {"status": "budget_completed", "method": args.method, "iteration": iteration, "actor_updates": actor_updates,
                   "sim_transitions": learner.collected_steps, "wall_seconds": elapsed(),
-                  "stage_wall_seconds": stage_elapsed(), "new_joint_updates": iteration-first_iteration,
+                  "stage_wall_seconds": stage_elapsed(), "new_training_iterations": iteration-first_iteration,
+                  "new_joint_updates": actor_updates-initial_actor_updates,
+                  "new_wm_only_updates":(iteration-first_iteration)-(actor_updates-initial_actor_updates),
                   "new_actor_updates": actor_updates-initial_actor_updates,
                   "new_sim_transitions": learner.collected_steps-initial_transitions,
                   "start_iteration": first_iteration, "target_iteration": cfg["max_iterations"],

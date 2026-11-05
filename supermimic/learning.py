@@ -105,7 +105,7 @@ class SuperMimic:
                 "wm_family_sample_share": dict(zip(self.family_names, (family_counts / family_counts.sum()).tolist())),
                 "wm_gradient_norm_before_clip": sum(norms) / len(norms)}
 
-    def improve_policy(self):
+    def improve_policy(self, iteration=None, evidence_directory=None):
         cfg, env = self.cfg, self.env
         sample = self.replay.sample(cfg["imagination_batch_size"])
         state, context, history = sample["state"][:, 0], sample["context"][:, 0], sample["history"]
@@ -148,6 +148,10 @@ class SuperMimic:
         goal_end = env.motions.goal(clip, frame + horizon,
             goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
         terminal_value = self.critic(state, goal_end, context, env.motions.get(clip, frame + horizon)["qpos"])
+        if cfg.get("record_imagination_evidence", False):
+            reward_sum = objective.detach()
+            bootstrap = (gamma**horizon * survival * terminal_value).detach()
+            terminal_state = state.detach()
         objective = objective + gamma**horizon * survival * terminal_value
         values.append(terminal_value.detach())
         actor_loss = -objective.mean()
@@ -172,10 +176,29 @@ class SuperMimic:
                 loss = F.mse_loss(prediction, targets[ids])
                 optimize(loss, self.critic_opt, self.critic.parameters())
                 losses.append(float(loss.detach()))
-        return {"imagined_discounted_return": -float(actor_loss.detach()),
+        metrics = {"imagined_discounted_return": -float(actor_loss.detach()),
                 "actor_gradient_norm_before_clip": actor_norm,
                 "critic_mse": sum(losses) / len(losses),
                 "imagined_survival_at_horizon": float(survival.detach().mean())}
+        if cfg.get("record_imagination_evidence", False):
+            metrics.update(discounted_survival_reward_sum_mean=float(reward_sum.mean()),
+                discounted_terminal_bootstrap_mean=float(bootstrap.mean()),
+                terminal_value_mean=float(values[-1].mean()), terminal_value_min=float(values[-1].min()),
+                terminal_value_max=float(values[-1].max()),
+                terminal_value_fraction_above10=float((values[-1]>10).float().mean()),
+                lambda_target_mean=float(targets.mean()), lambda_target_min=float(targets.min()),
+                lambda_target_max=float(targets.max()))
+            if cfg["capture_selected_training_rollouts"]:
+                block = ((iteration-1)//1000+1)*1000
+                if getattr(self, "evidence_block", None) != block:
+                    self.evidence_block, self.evidence_best_mse = block, -float("inf")
+                if metrics["critic_mse"] > self.evidence_best_mse:
+                    self.evidence_best_mse = metrics["critic_mse"]
+                    from .rollout_evidence import save_selected_rollouts
+                    save_selected_rollouts(evidence_directory, block, iteration, env.motions,
+                        clip, frame, context, states, terminal_state, critic_references,
+                        rewards, deaths, values, targets, reward_sum, bootstrap, metrics["critic_mse"])
+        return metrics
 
     def set_schedule(self, iteration):
         progress = min(iteration / self.cfg["cosine_iterations"], 1.)

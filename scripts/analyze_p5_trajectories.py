@@ -107,15 +107,15 @@ def final_failure_windows(evaluation_dir):
     score = json.loads((evaluation_dir/"evaluation.json").read_text())
     reports=[]
     for row in score["clips"]:
-        if row["failed"] and row["motion"].startswith(("fallAndGetUp","run")):
+        if row["failed"]:
             with np.load(evaluation_dir/"trajectories"/(row["motion"]+".npz")) as z:
                 reports.append({"motion":row["motion"],"reason":row["reason"],
                     "failure_seconds":row["failure_seconds"],"completion_fraction":row["completion_fraction"],
                     "early_or_late_description":f"Failed at {row['execution_seconds']:.2f}s of {row['full_reference_steps']*.02:.2f}s",
                     "window":window(z,max(0,row["failure_seconds"]-.64),row["failure_seconds"])})
-    return {"iteration":score["iteration"],"actual_failed_running_getups":reports,
+    return {"iteration":score["iteration"],"actual_failed_motions":reports,
         "alignment":"qpos/qvel/reference include frame0; action[k] leads to state[k+1]. No new physics or model prediction.",
-        "scope":"Only actual final failed running/get-up scoring trajectories."}
+        "scope":"All actual failed motions in this formal evaluation."}
 
 
 def main():

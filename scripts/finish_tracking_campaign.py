@@ -24,12 +24,22 @@ def training_summary(run, first_iteration=None, last_iteration=None):
     rows=[json.loads(line) for line in (run/"metrics.jsonl").read_text().splitlines(keepends=True) if line.endswith("\n")]
     rows=[r for r in rows if (first_iteration is None or r["iteration"]>=first_iteration)
           and (last_iteration is None or r["iteration"]<=last_iteration)]
+    cfg=json.loads((run/"config.json").read_text())
+    warmup=cfg["world_only_warmup_iterations"]
+    policy_keys=("imagined_discounted_return","actor_gradient_norm_before_clip","critic_mse",
+                 "imagined_survival_at_horizon", "discounted_survival_reward_sum_mean",
+                 "discounted_terminal_bootstrap_mean", "terminal_value_mean", "terminal_value_min",
+                 "terminal_value_max", "lambda_target_mean", "lambda_target_min", "lambda_target_max",
+                 "terminal_value_fraction_above10")
     groups={}
     for stop in sorted({((r["iteration"]-1)//1000+1)*1000 for r in rows}):
         block=[r for r in rows if stop-1000<r["iteration"]<=stop]
+        policy=[r for r in block if r["iteration"]>warmup]
         means={key:float(np.mean([r[key] for r in block])) for key in (
             "wm_normalized_state_mse","sim_step_reward","sim_step_termination_fraction",
-            "imagined_discounted_return","collection_seconds","world_seconds","policy_critic_seconds","checkpoint_write_seconds")}
+            "collection_seconds","world_seconds","policy_critic_seconds","checkpoint_write_seconds")}
+        if policy:
+            means.update({key:float(np.mean([r[key] for r in policy])) for key in policy_keys if key in policy[0]})
         means["wm_termination_bce"]=float(np.mean([r["wm_termination_bce"] for r in block])) if block[0]["wm_termination_bce"] is not None else None
         means["wm_state_components"]={k:float(np.mean([r["wm_state_components"][k] for r in block])) for k in block[0]["wm_state_components"]}
         for name in ("actor", "world", "critic"):
@@ -42,8 +52,10 @@ def training_summary(run, first_iteration=None, last_iteration=None):
         for value in families.values():
             value["transition_share"]=value["family_transitions"]/total
             value["reset_sample_share"]=value["family_reset_samples"]/resets if resets else None
-        groups[str(stop)]={"first_iteration":block[0]["iteration"],"last_iteration":block[-1]["iteration"],"updates":len(block),"means":means,"families":families}
-    return {"updates":len(rows),"first":rows[0],"last":rows[-1],"blocks":groups,
+        groups[str(stop)]={"first_iteration":block[0]["iteration"],"last_iteration":block[-1]["iteration"],
+            "updates":len(block),"wm_only_updates":len(block)-len(policy),"actor_updates":len(policy),"means":means,"families":families}
+    return {"updates":len(rows),"wm_only_updates":sum(r["iteration"]<=warmup for r in rows),
+            "actor_updates":sum(r["iteration"]>warmup for r in rows),"first":rows[0],"last":rows[-1],"blocks":groups,
             "interpretation":"Training WM errors use each arm's own evolving replay; cross-model same-action errors on identical real failure windows are recorded separately."}
 
 

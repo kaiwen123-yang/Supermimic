@@ -107,7 +107,7 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
                "heading_error_upright_rad": float(arrays["heading_error_rad"][arrays["upright"]].mean()) if arrays["upright"].any() else None}
         for key in ("root_position_error_m", "root_xy_error_m", "root_orientation_error_rad", "relative_body_position_error_m", "joint_rmse_rad"):
             row["mean_"+key] = float(arrays[key].mean())
-        row["root_position_error_before_failure_m"] = row["mean_root_position_error_m"]
+        row["last_frame_root_position_error_m"] = float(arrays["root_position_error_m"][-1])
         np.savez_compressed(trajectory_dir/(name+".npz"), **arrays, motion=name, iteration=iteration,
                             goal_frame=goal_frame, dt=.02, full_reference_steps=length)
         records.append(row)

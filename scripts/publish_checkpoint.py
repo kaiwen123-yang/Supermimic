@@ -152,11 +152,14 @@ def publish(run_name,iteration,final=False):
                 shutil.copy2(run/name,result/name)
             shutil.copy2(evaluation_dir/"evaluation.json",result/"evaluation.json")
             compact_multi_arm=cfg.get("publication_protocol") in (
-                "configs/next_stage_stability_protocol.json", "configs/next_stage_position_feedback_protocol.json")
+                "configs/next_stage_stability_protocol.json", "configs/next_stage_position_feedback_protocol.json",
+                "configs/next_stage_reproduction_protocol.json")
             is_p6=cfg.get("publication_protocol")=="configs/next_stage_position_feedback_protocol.json"
+            is_p7=cfg.get("publication_protocol")=="configs/next_stage_reproduction_protocol.json"
             if compact_multi_arm:
                 from finish_tracking_campaign import training_summary
-                first=max(cfg["parent_iteration"]+1, ((iteration-1)//1000)*1000+1)
+                start=cfg["start_iteration"] if is_p7 else cfg["parent_iteration"]
+                first=max(start+1, ((iteration-1)//1000)*1000+1)
                 training_path=result/"training.json"
                 training = training_summary(run,first,iteration)
                 if is_p6:
@@ -171,47 +174,72 @@ def publish(run_name,iteration,final=False):
             # The existing finalizer provides the same per-motion comparison at every node.
             from finish_c0_continuation import compare_to_parent
             protocol=json.loads((ROOT/cfg.get("publication_protocol","configs/next_stage_continuation_protocol.json")).read_text())
-            parent=json.loads((ROOT/cfg.get("parent_evaluation",protocol["parent"]["evaluation"])).read_text())
-            comparison=compare_to_parent(parent,evaluation)
-            if compact_multi_arm:
-                comparison["parent_failures"]=comparison.pop("original_eleven_failures")
+            if is_p7:
+                from p7_results import node_view
+                parent=json.loads((ROOT/cfg["parent_evaluation"]).read_text()) if cfg["parent_evaluation"] else None
+                comparison=node_view(parent,evaluation,str((result/"evaluation.json").relative_to(ROOT)))
+                block=((iteration-1)//1000+1)*1000
+                if cfg["capture_selected_training_rollouts"]:
+                    for suffix in (".json",".npz"):
+                        shutil.copy2(run/"training_evidence"/f"interval_{block:07d}{suffix}",result/f"selected_rollouts{suffix}")
+            else:
+                parent_path=cfg["parent_evaluation"] if "parent_evaluation" in cfg else protocol["parent"]["evaluation"]
+                parent=json.loads((ROOT/parent_path).read_text())
+                comparison=compare_to_parent(parent,evaluation)
+                if compact_multi_arm:
+                    comparison["parent_failures"]=comparison.pop("original_eleven_failures")
             if is_p6:
                 from position_feedback_metrics import reward_quality
                 from analyze_p5_trajectories import final_failure_windows
                 comparison["reward_quality"] = reward_quality(evaluation)
                 comparison["actor_root_position_feedback"] = cfg["actor_root_position_feedback"]
                 (result/"failure_windows.json").write_text(json.dumps(final_failure_windows(evaluation_dir),indent=2)+"\n")
-            parent_successes=sum(not r["failed"] for r in parent["clips"])
-            parent_failures=len(parent["clips"])-parent_successes
-            comparison.update(parent_iteration=parent["iteration"],parent_completed_count=parent_successes,
-                              parent_failed_count=parent_failures)
+            if is_p7:
+                from analyze_p5_trajectories import final_failure_windows
+                (result/"failure_windows.json").write_text(json.dumps(final_failure_windows(evaluation_dir),indent=2)+"\n")
+            if parent is not None:
+                parent_successes=sum(not r["failed"] for r in parent["clips"])
+                parent_failures=len(parent["clips"])-parent_successes
+                comparison.update(parent_iteration=parent["iteration"],parent_completed_count=parent_successes,
+                                  parent_failed_count=parent_failures)
             comparison["conclusion"]=(f"Iteration {iteration}: {evaluation['completed_motions']}/40 complete; "
-                f"full-duration normalized return {evaluation['mean_normalized_return']:.8f}; "
-                f"retained {len(comparison['parent_successes_retained'])}/{parent_successes} parent successes, "
-                f"completed {len(comparison['newly_completed'])}/{parent_failures} parent failures. "
-                "One fixed checkpoint; no convergence or unseen-motion generalization claim.")
+                f"full-duration normalized return {evaluation['mean_normalized_return']:.8f}. "
+                + (f"Retained {len(comparison['parent_successes_retained'])}/{parent_successes} parent successes; "
+                   f"completed {len(comparison['newly_completed'])}/{parent_failures} parent failures. " if parent is not None
+                   else "Fresh initialization; no inherited parent successes. ")
+                + "One fixed checkpoint; training-motion evaluation.")
             (result/"comparison.json").write_text(json.dumps(comparison,indent=2)+"\n")
-            summary_path=(ROOT/"results"/campaign/"arms"/cfg["arm"]/"summary.json" if compact_multi_arm
+            role_directory="jobs" if is_p7 else "arms"
+            summary_path=(ROOT/"results"/campaign/role_directory/cfg["arm"]/"summary.json" if compact_multi_arm
                           else ROOT/"results"/campaign/"summary.json")
             summary_path.parent.mkdir(parents=True,exist_ok=True)
             summary=json.loads(summary_path.read_text()) if summary_path.exists() else {"run":run_name,"arm":cfg["arm"],"status":"running"}
             summary.update(publication_policy=status["publication_policy"],latest_evaluated_iteration=iteration,
                 latest_evaluation={key:evaluation[key] for key in ("completed_motions","mean_normalized_return","mean_completion_fraction")},
-                latest_parent_successes_retained=len(comparison["parent_successes_retained"]),
-                latest_newly_completed=comparison["newly_completed"],
                 server_artifacts={"worktree":str(ROOT),"run_directory":str(run),
                     "checkpoint":str(checkpoint),"checkpoint_purpose":"model/optimizer/sampler/RNG for continuation",
-                    "parent_checkpoint":cfg.get("parent_checkpoint",str(ROOT/"outputs/parents"/campaign/"checkpoint_0009000.pt")),
                     "trajectories":str(evaluation_dir/"trajectories"),"trajectory_purpose":"full evaluation scoring and on-demand video",
                     "processed_cache":str(ROOT/"data/processed/lafan1_g1_50hz"),
                     "logs":str(ROOT/"outputs/campaigns"/(run_name+".train.log")),
-                    "still_in_use":["run checkpoints","parent checkpoint","processed motion cache","training log"],
+                    "still_in_use":["run checkpoints","processed motion cache","training log"],
                     "backup_status":"awaiting_user_export_not_confirmed","deletion_owner":"user"},
                 bulk_artifacts_status="retained_on_server_by_policy",unpublished=[])
+            if parent is not None:
+                summary.update(latest_parent_successes_retained=len(comparison["parent_successes_retained"]),
+                               latest_newly_completed=comparison["newly_completed"])
+                summary["server_artifacts"]["parent_checkpoint"]=cfg.get("parent_checkpoint",str(ROOT/"outputs/parents"/campaign/"checkpoint_0009000.pt"))
+                summary["server_artifacts"]["still_in_use"].append("parent checkpoint")
+            if is_p7:
+                summary.update(latest_reward_quality=comparison["reward_quality_mean"],
+                    latest_training_cost={k:training["last"][k] for k in ("stage_elapsed_seconds","elapsed_seconds",
+                        "new_actor_updates","new_sim_transitions","collected_sim_transitions")})
             if is_p6:
                 summary.update(actor_root_position_feedback=cfg["actor_root_position_feedback"],
                     latest_reward_quality=comparison["reward_quality"]["mean"])
             summary_path.write_text(json.dumps(summary,indent=2,ensure_ascii=False)+"\n")
+            if is_p7:
+                from p7_results import refresh_campaign, update_index
+                campaign_state=refresh_campaign(protocol)
             result_url=f"https://github.com/{REPO}/tree/main/{result.relative_to(ROOT).as_posix()}"
             status.update(status="published",goal_frame=cfg["goal_frame"],
                 world_termination_loss=cfg.get("world_termination_loss","aux_bce"),
@@ -222,6 +250,9 @@ def publish(run_name,iteration,final=False):
             def update(index):
                 index.setdefault("publications",{})[tag]={key:status[key] for key in
                     ("iteration","goal_frame","world_termination_loss","result_url","status","completed_motions","mean_normalized_return","final","publication_policy")}
+                if is_p7:
+                    update_index(index,campaign_state)
+                    return
                 if compact_multi_arm:
                     record={"run":run_name,"status":"running","latest_evaluated_iteration":iteration,
                             "summary":str(summary_path.relative_to(ROOT)),"server_run_directory":str(run),
@@ -236,6 +267,8 @@ def publish(run_name,iteration,final=False):
                 index["campaigns"][campaign].update(latest_evaluated_iteration=iteration,publication_policy=status["publication_policy"],
                     bulk_artifacts_status="retained_on_server_by_policy",server_run_directory=str(run),backup_status="awaiting_user_export_not_confirmed")
             paths=[result.relative_to(ROOT),summary_path.relative_to(ROOT)]
+            if is_p7:
+                paths.append(Path("results")/campaign/"summary.json")
             if not compact_multi_arm:
                 paths.append(training_path.relative_to(ROOT))
             commit=push_results(tag,paths,update)
