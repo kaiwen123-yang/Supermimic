@@ -107,7 +107,7 @@
         "score_and_video_share_trajectory": true,
         "protocol": {
           "start_frame": 0,
-          "friction": 1.0,
+          "friction": 1,
           "observation_noise": false,
           "domain_randomization": false,
           "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
@@ -250,7 +250,7 @@
         "score_and_video_share_trajectory": true,
         "protocol": {
           "start_frame": 0,
-          "friction": 1.0,
+          "friction": 1,
           "observation_noise": false,
           "domain_randomization": false,
           "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
@@ -308,8 +308,10 @@
   "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/work/p2-publication.lock",
   "formal_evaluation_concurrency": 1,
   "finalization": "Each arm finishes with finish_p5_stability.py; the second completed arm publishes fixed 24000 / tail 22000,23000,24000 comparison and conclusion.md.",
-  "current_scope": "Startup confirmed; no P5 formal score yet. P4 remains the latest completed evaluation.",
-  "interaction_handoff": "End this chat after stable tmux startup; leave both training processes, replay and LR schedule running.",
+  "current_scope": "P5 both arms completed training, full-40 formal evaluation and lightweight publication at iteration24000. P6 position-feedback plan is published; P6 implementation and training have not started in this review.",
+  "interaction_handoff": "P5 is complete; do not restart. For the next authorized stage read docs/P6_POSITION_FEEDBACK_PLAN.md and docs/NEXT_STAGE_START_PROMPT.md.",
   "results_commit": "39f3a462bb62c705976b04039580a02c18ec6084",
-  "decision": "B在固定终点回报/完整数和末三节点覆盖不低于A，同时成功交集与父动作保持更好；本次预算下建议选B。"
+  "decision": "B在固定终点回报/完整数和末三节点覆盖不低于A，同时成功交集与父动作保持更好；本次预算下建议选B。",
+  "gpu_snapshot_scope": "Historical startup snapshot at observed_beijing, not a current server inspection.",
+  "review_20261105": "results/20261104-p5-actor-stability-s0/review_20261105.json"
 }

@@ -4,11 +4,12 @@
 
 ## 当前任务与证据
 
-- 当前入口是 docs/P5_STABILITY_PLAN.md、configs/next_stage_stability_protocol.json 与 docs/NEXT_STAGE_START_PROMPT.md。P5已于2026-11-04 19:00在指定工作树启动A/B；不要重复启动。后台按原进程继续，实时结果入口为results/20261104-p5-actor-stability-s0/summary.json及各arm目录。P1–P4为历史，以下旧阶段要求不重复执行。
+- 当前入口是 docs/P6_POSITION_FEEDBACK_PLAN.md、configs/next_stage_position_feedback_protocol.json 与 docs/NEXT_STAGE_START_PROMPT.md。2026-11-05：P6计划已发布，实际适配和训练尚未开始。本次提交不包含算法实现或启动。P1–P5为历史，不重复执行；当前P6要求优先于下文历史阶段描述。
+- P5 20261104-p5-actor-stability-s0已完成训练、正式评估和轻量发布。A/B均24000：A 34/40、0.713134、起身6/6；B 34/40、0.755425、起身3/6，平均完成96.2842%，保留父32成功中的30条。下一轮从B24000继续，A24000保留作起身参考。复核见results/20261104-p5-actor-stability-s0/review_20261105.json。
 - P3 20261102-h32-bce-s0 已完成，status=completed、unpublished=[]。C0-9000保留辅助BCE达到29/40、回报0.615404、起身3/6；C1删除BCE为15/40、0.482603。父B6000为13/40、0.409124。继续有效C0，不重跑P3。
 - P4本段已完成：9000→18000，新增9000次联合更新/10.198小时；最终32/40、回报0.706754、起身3/6、跑步4/4。2026-11-04 02:55轻量发布完成，原tmux正常退出；不重复启动或自动追加训练。大产物留服务器待用户备份，不授权阶段自动清理。
 - 原文Eq.(1)没有要求BCE对预测状态detach；k8/H32是默认。不能把BCE回传直接称为错误，也不能称C1是作者原版。
-- 当前仍有学习空间，18000轮不是收敛证据。Table A.5为320000轮、LR衰减250000轮，但LAFAN达到0.82的迭代数未公开，不盲跑320000。迭代比例不是复现完成百分比。
+- 当前仍有学习空间，24000轮不是收敛证据。Table A.5为320000轮、LR衰减250000轮，但LAFAN达到0.82的迭代数未公开，不盲跑320000。迭代比例不是复现完成百分比。
 
 ## 工作位置与连续执行
 
@@ -18,7 +19,22 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P5实施（已启动，按现有进程继续）
+## P6实施（计划已发布，尚未实施或启动）
+
+- 一个P6源码工作树 /root/autodl-tmp/robot-repro/supermimic-p6-position-feedback。两支从P5 B24000恢复完整网络/三套Adam/sampler/Torch及CUDA RNG，各初始填充一次64步replay；全局24001–33000，每支新增9000联合更新、新阶段各16小时上限，旧累计耗时不用作预算，正式评估/发布另计。
+- A no_position_feedback原710维；B root_position_feedback仅给Actor encoder追加当前相对根XYZ三维到713。两支Actor LR scale都为0.5；WM/Critic原日程。误差=完整机器人根旋转逆*(当前参考根位置−当前机器人根位置)/0.3；不改公共goal710或Critic已有privileged相对位姿。
+- 真实collection、每一步imagined state及正式evaluate使用同一特征定义。想象中当前误差不detach，不固定为rollout起点。history930、latent32、其他网络层、WM/replay、k8/H32、aux_bce、原奖励/终止/PD/采样器/随机化均保持；始终完整联合更新。
+- 仅反馈支首次710→713恢复时，encoder.0.weight保留旧列、追加3列零；对应Actor Adam exp_avg/exp_avg_sq同步扩零列，保留step和其他状态。713自身恢复不重复扩列，不重置整个Actor或Adam。该输入是本项目假设，不是已公开的作者goal定义。
+- 两路GPU训练尽可能并行，独立run/tmux/log；共享work/p2-publication.lock使正式评估和Git发布总并发1。每训练/评估进程Torch 2线程，最多4个有具体问题的CPU轨迹分析进程。P5实测支持预计约10–12小时训练墙钟，16小时是上限，评估/发布另计；不增开无关实验或benchmark。
+- 必要适配是Actor输入/三条调用路径/有限checkpoint迁移、两份继承配置、薄P6启动收尾及现有轻量发布。publish_checkpoint当前精确匹配P5协议，P6必须复用多arm紧凑分支，不能退回累计metrics.jsonl/单summary。父评分用B24000实际34成功/6失败，节点25000–33000，尾三31000/32000/33000，不沿用P5硬编码。
+- 每1000轮正式全40评估；固定33000与末三节点比较，时限先到发布真实非整千终点并说明进度差。报告全部回报/完成、父34保持、起身/跑步身份、成功交集、奖励项贡献及1−R=(1−C)+(C−R)。XY公平比较取父B24000/A最终/B最终共同完整成功集合，同时保留全40数据。不挑最高节点、不拼接动作。
+- 位置反馈的主要判断是root-position奖励和共同完整集合XY能否改善，同时看总体回报/覆盖/保持。只补P5缺失尾部的条件上界0.792583低于0.82，说明执行段质量也须提高，不是未来策略上限。一次过0.82不等于整篇论文效率/规模/实机已复现。
+- 只在已有JSON不足以回答时间演变时并行读P5保存NPZ：三个大漂移动作、dance1_subject1翻转、B三个失败起身对A24000成功轨迹。复用已完成P4分析，不重仿真、不扫描起点、不阻塞训练；P5没有新的同动作WM展开，不能将P4旧误差当当前B误差。
+- 阶段结束先推关键结果和真实结论，不自动延长、增seed、改H/k/BCE/reward/终止、开BONES/实机或P7。单窗口≤4小时，后台跨窗口继续，不重启replay/LR。以下P5/P4仅为历史，不重复执行。
+
+## P5实施（历史已完成，不重复执行）
+
+P5两支均已完成到24000；本节保留原方案供溯源，当前执行入口为P6。
 
 - 从同一C0-18000恢复两支完整联合训练：A c0_control保持原设置；B actor_half_lr只给Actor学习率乘0.5。两组各新增6000次更新到24000，各自新训练阶段上限16小时，含一次64步replay填充；正式评估和轻量发布另计，不自动追加预算。
 - 在每轮set_schedule应用actor_learning_rate_scale=1.0/0.5；WM/Critic保持原基础LR和全局余弦日程，恢复Adam/sampler/RNG，不重置迭代。不能只改初始化LR，也不能把公共learning_rate减半。完整执行真实采样→WM拟合→Actor/Critic。

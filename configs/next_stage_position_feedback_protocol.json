@@ -1,0 +1,429 @@
+{
+  "protocol_id": "p6-actor-root-position-feedback-v1",
+  "planned_date_beijing": "2026-11-05",
+  "status": "planned",
+  "training_started": false,
+  "implementation_status": "pending",
+  "protocol_is_direct_training_config": false,
+  "document": "docs/P6_POSITION_FEEDBACK_PLAN.md",
+  "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
+  "review": {
+    "repository": "kaiwen123-yang/Supermimic",
+    "source_commit": "6ba476f97611241996e2da586998d65b961ed78c",
+    "paper": "https://arxiv.org/pdf/2610.28480v1",
+    "paper_sections": [
+      "3.1-3.3 and Eq.1-3",
+      "Fig.3-4",
+      "Appendices A-F"
+    ],
+    "evidence": [
+      "results/20261104-p5-actor-stability-s0/summary.json",
+      "results/20261104-p5-actor-stability-s0/comparison.json",
+      "results/20261104-p5-actor-stability-s0/review_20261105.json",
+      "results/20261104-p5-actor-stability-s0/arms/actor_half_lr/failure_windows.json",
+      "results/20261104-p5-actor-stability-s0/p4_trajectory_analysis.md"
+    ],
+    "finding": "P5 B improves overall return and retained successes, but not every precision metric or all return variability. Executed-segment quality, especially root position, is the largest remaining loss.",
+    "tail_only_upper_bound": 0.7925831513855728,
+    "bound_condition": "All currently executed prefixes and their rewards are held fixed; each missing step receives maximum reward. This is not a future policy capability bound.",
+    "hypothesis": "Actor-specific current relative root XYZ feedback may reduce position drift and improve executed-segment return.",
+    "paper_goal_feature_layout_is_fully_public": false,
+    "additional_information_is_project_choice": true,
+    "p5_has_new_same_action_world_model_prediction_evidence": false
+  },
+  "parent": {
+    "iteration": 24000,
+    "run": "20261104-p5-actor-stability-s0-actor_half_lr",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-actor_half_lr/checkpoint_0024000.pt",
+    "evaluation": "results/20261104-p5-actor-stability-s0-actor_half_lr/milestones/iteration_0024000/evaluation.json",
+    "inherited_training_config": "configs/lafan40_p5_actor_half_lr.json",
+    "trajectory_root": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-actor_half_lr/evaluation_0024000/trajectories",
+    "completed_motions": 34,
+    "failed_motions": 6,
+    "mean_normalized_return": 0.7554250030173142,
+    "mean_completion_fraction": 0.9628418516317414,
+    "getups_completed": 3,
+    "running_completed": 4,
+    "restore": [
+      "actor",
+      "world_model",
+      "critic",
+      "actor_optimizer",
+      "world_optimizer",
+      "critic_optimizer",
+      "sampler_returns",
+      "sampler_memory",
+      "torch_rng",
+      "cuda_rng",
+      "global_iteration"
+    ],
+    "replay_saved": false,
+    "simulator_state_saved": false,
+    "replay_warmup_steps_per_new_run": 64,
+    "replay_warmup_on_context_handoff": false,
+    "retain_p5_a_24000_as_successful_getup_reference": true,
+    "per_motion_checkpoint_splicing": false
+  },
+  "campaign": "20261105-p6-position-feedback-s0",
+  "runtime": {
+    "host_alias": "autodl-d57",
+    "planned_source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback",
+    "shared_source_worktree_for_arms": true,
+    "reuse_environment": true,
+    "reuse_robot_assets": true,
+    "reuse_processed_data": true,
+    "rebuild_environment": false,
+    "download_historical_archive": false,
+    "interaction_window_hours_max": 4,
+    "background_continues_on_handoff": true,
+    "preserve_existing_worktrees_and_uncommitted_changes": true
+  },
+  "budget": {
+    "start_iteration": 24000,
+    "first_new_iteration": 24001,
+    "target_iteration": 33000,
+    "new_joint_updates_per_arm": 9000,
+    "max_new_stage_hours_per_arm": 16,
+    "includes_initial_replay_warmup": true,
+    "old_elapsed_time_used_for_budget": false,
+    "evaluation_and_publication_timed_separately": true,
+    "automatic_extension": false,
+    "at_wall_limit": "Publish the actual final checkpoint, including a non-milestone final. Compare common completed iterations and explicitly report unequal progress."
+  },
+  "arms": [
+    {
+      "id": "no_position_feedback",
+      "run": "20261105-p6-position-feedback-s0-no_position_feedback",
+      "planned_training_config": "configs/lafan40_p6_no_position_feedback.json",
+      "actor_learning_rate_scale": 0.5,
+      "actor_root_position_feedback": false,
+      "actor_root_position_scale_m": 0.3,
+      "actor_encoder_input_dimensions": 710
+    },
+    {
+      "id": "root_position_feedback",
+      "run": "20261105-p6-position-feedback-s0-root_position_feedback",
+      "planned_training_config": "configs/lafan40_p6_root_position_feedback.json",
+      "actor_learning_rate_scale": 0.5,
+      "actor_root_position_feedback": true,
+      "actor_root_position_scale_m": 0.3,
+      "actor_encoder_input_dimensions": 713
+    }
+  ],
+  "position_feedback": {
+    "consumer": "actor_encoder_only",
+    "formula": "inverse_full_robot_root_rotation * (current_reference_root_position - current_robot_root_position) / 0.3",
+    "dimensions": 3,
+    "scale_m": 0.3,
+    "reference_frame": "current_t",
+    "coordinate_frame": "full_robot_root",
+    "use_yaw_only": false,
+    "extra_clipping": false,
+    "extra_noise": false,
+    "learned_normalization": false,
+    "common_future_goal_dimensions": 710,
+    "modify_motion_library_goal": false,
+    "critic_goal_dimensions": 710,
+    "modify_critic_privileged_pose": false,
+    "modify_world_model_or_replay_state": false,
+    "actor_history_dimensions": 930,
+    "actor_latent_dimensions": 32,
+    "call_paths": [
+      "real_collection",
+      "each_imagined_step",
+      "formal_evaluation"
+    ],
+    "shared_feature_function": true,
+    "imagined_feature_from_current_predicted_state": true,
+    "imagined_position_and_quaternion_gradients_preserved": true,
+    "use_rollout_initial_error_for_all_steps": false,
+    "silently_zero_missing_feedback_input": false,
+    "evaluation_actor_constructed_from_checkpoint_config": true,
+    "deployment_note": "Simulator root position is available. Deployment would require a corresponding state estimate and is outside P6."
+  },
+  "checkpoint_migration": {
+    "scope": "Only the first 710-parent to enabled-713-Actor restoration.",
+    "parameter": "actor.encoder.0.weight",
+    "old_shape": [
+      2048,
+      710
+    ],
+    "new_shape": [
+      2048,
+      713
+    ],
+    "original_columns": "unchanged",
+    "new_columns": "zero",
+    "optimizer_parameter_id": "saved_actor_optimizer.param_groups[0].params[0]",
+    "optimizer_expand_zero_columns": [
+      "exp_avg",
+      "exp_avg_sq"
+    ],
+    "preserve_optimizer_step": true,
+    "preserve_all_other_parameters_and_optimizer_states": true,
+    "preserve_sampler_rng_and_iteration": true,
+    "repeat_expansion_for_713_resume": false,
+    "reinitialize_whole_actor": false,
+    "reset_actor_adam": false,
+    "rationale": "W_old * goal + 0 * relative_position + bias preserves the initial policy function mathematically.",
+    "additional_equivalence_inference_or_tests": false
+  },
+  "learning_rate": {
+    "base": 0.0002,
+    "cosine_iterations": 250000,
+    "floor_multiplier": 0.03,
+    "global_iteration_continues": true,
+    "actor": "base * cosine_multiplier(global_iteration) * actor_learning_rate_scale",
+    "world": "base * cosine_multiplier(global_iteration)",
+    "critic": "base * cosine_multiplier(global_iteration)",
+    "preserve_adam_state": true,
+    "apply_in_every_set_schedule_call": true,
+    "record_actual_optimizer_lrs": true,
+    "actor_learning_rate_scale_both_arms": 0.5
+  },
+  "preserved": {
+    "full_joint_cycle": true,
+    "world_window": 8,
+    "imagination_horizon": 32,
+    "num_envs_per_arm": 4096,
+    "world_batches": 10,
+    "world_batch_size": 2048,
+    "imagination_batch_size": 4096,
+    "critic_epochs": 5,
+    "critic_minibatches": 4,
+    "max_episode_steps": 500,
+    "world_termination_loss": "aux_bce",
+    "imagination_termination": "analytic_smooth",
+    "termination_smoothing_temperature": 0.05,
+    "goal_frame": "robot_root",
+    "common_goal_dimensions": 710,
+    "seed": 0,
+    "unchanged": [
+      "actor_hidden_layers_and_decoder",
+      "actor_history_and_latent",
+      "world_model_and_critic_architectures",
+      "state_representation_and_scaling",
+      "state_loss_70_dim_mean",
+      "rewards",
+      "physical_termination",
+      "PD_and_action_scale",
+      "reset_sampler",
+      "observation_noise",
+      "domain_randomization",
+      "gamma",
+      "lambda",
+      "checkpoint_every_iteration",
+      "keep_recent_20_and_milestones"
+    ]
+  },
+  "concurrency": {
+    "gpu_training_processes": 2,
+    "gpu_formal_evaluation_processes": 1,
+    "publication_lock": "work/p2-publication.lock",
+    "publication_lock_shared_by_arms": true,
+    "cpu_existing_trajectory_workers_max": 4,
+    "torch_threads_per_training_process": 2,
+    "torch_threads_per_evaluation_process": 2,
+    "render_tasks_max": 1,
+    "render_only_on_demand": true,
+    "synthetic_throughput_or_memory_benchmark": false,
+    "stop_other_projects": false,
+    "resource_estimate": {
+      "basis": "P5 actual concurrent runs: 6000 new updates each, including one replay fill.",
+      "p5_arm_training_hours": [
+        6.68964195,
+        6.80855013
+      ],
+      "estimated_9000_update_training_wall_hours": [
+        10,
+        12
+      ],
+      "formal_evaluation_and_publication_additional": true,
+      "estimate_is_not_guarantee": true,
+      "gpu_capacity_gb": 96,
+      "cpu_cores": 25
+    },
+    "actual_resource_shortage": "Adjust only this project's concurrency/order, keep algorithm and update budgets unchanged, and record the actual execution."
+  },
+  "implementation": {
+    "planned_only": true,
+    "planned_launcher": "scripts/run_position_feedback_d57.sh",
+    "planned_finalizer": "scripts/finish_p6_position_feedback.py",
+    "changes": [
+      "Add an Actor-specific current root position feature function; keep common MotionLibrary.goal at 710.",
+      "Add actor_root_position_feedback and scale=0.3; update real collection, each imagined step, and formal evaluation.",
+      "Perform only the known 710-to-713 parameter and Adam moment expansion on initial feedback-arm restore.",
+      "Create two configs inherited from actual P5 B24000 with Actor LR scale 0.5 in both.",
+      "Create a thin two-arm launcher and reuse the shared evaluation/publication lock.",
+      "Include P6 in the existing compact multi-arm publication path; do not fall back to cumulative metrics.jsonl publication.",
+      "Reuse P5 aggregation with parent24000, dynamic34/6, nodes25000-33000, tail31000/32000/33000, and position-feedback conclusions."
+    ],
+    "publication_code_trap": "publish_checkpoint.py currently selects compact multi-arm handling only for configs/next_stage_stability_protocol.json.",
+    "legacy_entrypoints_not_to_run": [
+      "prior P3/P4/P5 launcher main",
+      "finish_goal_campaign.py main",
+      "finish_c0_continuation.py main",
+      "diagnose_checkpoint.py 120-start scans"
+    ]
+  },
+  "evaluation": {
+    "iterations": [
+      25000,
+      26000,
+      27000,
+      28000,
+      29000,
+      30000,
+      31000,
+      32000,
+      33000
+    ],
+    "final_non_milestone": true,
+    "motions": 40,
+    "start_frame": 0,
+    "friction": 1,
+    "observation_noise": false,
+    "domain_randomization": false,
+    "physical_failure": "reference-relative root height >0.25m OR gravity-z difference >0.8 OR nonfinite",
+    "normalization": "0.1 * full reference transitions; failed tail zero",
+    "reuse_existing_evaluations": true,
+    "re_evaluate_parent": false,
+    "per_motion_best_checkpoint_splicing": false,
+    "report_actor_feedback_flag": true,
+    "positive_reward_weights": [
+      1,
+      1,
+      1,
+      1,
+      0.5,
+      0.5
+    ],
+    "maximum_reward_per_step": 0.1,
+    "report_reward_component_sums_and_normalized_contributions": true,
+    "report_executed_quality_gap": true,
+    "total_gap_decomposition": "1 - mean_return = (1 - mean_completion) + (mean_completion - mean_return)"
+  },
+  "retention": {
+    "baseline_iteration": 24000,
+    "baseline_completed_count": 34,
+    "baseline_evaluation": "results/20261104-p5-actor-stability-s0-actor_half_lr/milestones/iteration_0024000/evaluation.json",
+    "predeclared_tail_iterations": [
+      31000,
+      32000,
+      33000
+    ],
+    "report": [
+      "fixed_final_checkpoint",
+      "all_milestone_scores",
+      "tail_return_mean_and_range",
+      "intersection_of_success_sets_over_tail",
+      "tail_stable_getup_identities",
+      "retained_parent_34_successes",
+      "lost_and_newly_completed_motion_names",
+      "actual_new_updates_and_wall_time"
+    ],
+    "tail_nodes_are_not_independent_seeds": true,
+    "no_composite_score_or_new_success_threshold": true,
+    "xy_subset": "Intersection of full-success motions for parent P5 B24000, P6 A final, and P6 B final; report identities, count, per-motion means, and subset mean alongside all-40 results.",
+    "selection": "Prefer feedback when root-position reward and common-set XY improve together with adequate overall return, completion and retention. Report tradeoffs explicitly. If inconclusive or both regress, retain P5 B24000 and report; do not automatically start another experiment.",
+    "paper_return_reference": 0.82,
+    "crossing_reference_once_is_full_paper_reproduction": false
+  },
+  "existing_trajectory_analysis": {
+    "blocks_training_start": false,
+    "requires_new_physics_rollout": false,
+    "reuse_published_windows_first": true,
+    "state_arrays_include_initial_frame": true,
+    "workers_max": 4,
+    "targets": [
+      {
+        "motions": [
+          "fightAndSports1_subject4",
+          "dance2_subject5",
+          "dance2_subject4"
+        ],
+        "source": "P5 B24000 existing complete physical trajectories",
+        "question": "When does current relative-position drift grow; is it initial or accumulated?"
+      },
+      {
+        "motions": [
+          "dance1_subject1"
+        ],
+        "source": "P5 B24000 existing physical trajectory",
+        "question": "Describe the known flip-stage height failure around 107 s; do not repeat completed P4 analysis."
+      },
+      {
+        "motions": [
+          "fallAndGetUp1_subject1",
+          "fallAndGetUp1_subject5",
+          "fallAndGetUp2_subject2"
+        ],
+        "source": "P5 B24000 failed and A24000 successful existing physical trajectories",
+        "question": "At the same reference time, when do body rotation and vertical progress diverge?"
+      }
+    ],
+    "contacts_are_geometry_not_measured_force": true,
+    "action_rms_is_not_torque_saturation_evidence": true,
+    "raw_arrays_stay_on_server": true,
+    "output": "Compact event times, key values and evidence-based interpretation, only where existing JSON does not answer the question."
+  },
+  "publication": {
+    "policy": "key_analysis_results_to_git_bulk_local_user_managed",
+    "priority": "compute/formal evaluation -> push key code/config/JSON/conclusion -> continue research",
+    "per_node": [
+      "full_40_motion_evaluation_json",
+      "compact_1000_update_training_statistics",
+      "actual_three_optimizer_lrs",
+      "parent_retention_and_regression",
+      "run_config_and_runtime",
+      "server_artifact_paths",
+      "brief_conclusion",
+      "reward_quality_gap_decomposition",
+      "actual_actor_feedback_flag"
+    ],
+    "exclude_by_default": [
+      "full_metrics_jsonl",
+      "large_text_logs",
+      "checkpoints",
+      "full_videos",
+      "raw_arrays",
+      "raw_trajectories",
+      "data_cache"
+    ],
+    "upload_bulk_to_release": false,
+    "bulk_background_queue": false,
+    "tar_archives": false,
+    "client_computer_archive": false,
+    "user_exports_and_deletes": true,
+    "automatic_stage_deletion": false,
+    "backup_status": "awaiting_user_export_not_confirmed",
+    "checkpoint_rolling_policy_unchanged": true,
+    "reuse_compact_multi_arm_path": true
+  },
+  "prohibited": [
+    "defensive_programming",
+    "unit_mock_smoke_import_shape_hash_tests",
+    "digest_recomputation",
+    "restore_drills",
+    "full_disk_scans",
+    "standalone_benchmarks",
+    "generic_monitoring_or_archival_frameworks",
+    "legacy_automatic_cleanup",
+    "unrelated_environment_changes",
+    "unplanned_training_arms",
+    "automatic_budget_extension"
+  ],
+  "execution": {
+    "status": "not_started",
+    "actual_configs_created": false,
+    "training_started": false,
+    "training_done": false,
+    "formal_evaluation_done": false,
+    "key_results_published": false,
+    "plan_and_review_only": true,
+    "arms": {
+      "no_position_feedback": "not_started",
+      "root_position_feedback": "not_started"
+    }
+  }
+}

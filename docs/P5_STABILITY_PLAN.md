@@ -2,7 +2,7 @@
 
 日期：2026-11-04（北京时间）  
 状态：**训练、正式评分和关键结果已完成。** 见 [最终分析](../results/20261104-p5-actor-stability-s0/conclusion.md)。
-审阅依据：`45843e6ee24a51e48b33c799ee0373d8c1a5d25f` 的 P4 收尾结果。本文和 [执行协议](../configs/next_stage_stability_protocol.json)、[启动提示词](NEXT_STAGE_START_PROMPT.md) 是下一阶段入口；P4 已完成，不重复执行。
+原方案依据：`45843e6ee24a51e48b33c799ee0373d8c1a5d25f` 的P4结果。本文与[原执行协议](../configs/next_stage_stability_protocol.json)保留历史设计，不再作为新任务入口。P5两支已完成到24000；A回报0.713134、34/40、起身6/6，B回报0.755425、34/40、起身3/6，选择B作整体续训父版本。当前入口为[P6计划](P6_POSITION_FEEDBACK_PLAN.md)与已切换P6的[启动提示词](NEXT_STAGE_START_PROMPT.md)。[2026-11-05复核数据](../results/20261104-p5-actor-stability-s0/review_20261105.json)补充奖励缺口、共同完整集合和最新失败分析。以下章节是P5执行前的依据和约定，不重复执行。
 
 ## 1. 已完成什么，当前问题是什么
 
