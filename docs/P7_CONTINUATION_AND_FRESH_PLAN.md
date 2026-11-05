@@ -1,7 +1,7 @@
 # P7：巩固位置反馈成果，并行开展固定配方从零训练
 
 日期：2026-11-05（北京时间）  
-状态：**计划与复核结论已发布；P7运行适配和服务器训练尚未开始。**
+状态：**已启动，两路正式训练由独立tmux继续。** 实际任务状态见[结果索引](../results/20261105-p7-feedback-reproduction-s0/summary.json)。
 
 本轮读取的代码与结果固定在 [bccd4c8](https://github.com/kaiwen123-yang/Supermimic/tree/bccd4c8a4cc9249f5738d84799db7da954e68922)。P6两支均已完成33000和全部正式评分。本文、[执行协议](../configs/next_stage_reproduction_protocol.json)与[启动提示词](NEXT_STAGE_START_PROMPT.md)是当前入口，P1–P6为历史，不重复启动。
 

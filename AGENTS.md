@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- 当前入口为P7：docs/P7_CONTINUATION_AND_FRESH_PLAN.md、configs/next_stage_reproduction_protocol.json、docs/NEXT_STAGE_START_PROMPT.md。计划与复核已发布，服务器适配和训练尚未开始；P1–P6均为历史，不重复启动。
+- 当前入口为P7：docs/P7_CONTINUATION_AND_FRESH_PLAN.md、configs/next_stage_reproduction_protocol.json。P7已启动，两路正式训练由独立tmux继续；状态见results/20261105-p7-feedback-reproduction-s0/summary.json。接续既有进程，不重复启动；P1–P6为历史。
 - P6已完成训练、正式评分和轻量发布。B33000回报0.86624655、37/40、完成99.0832%，保留父34条全部成功；5/9节点和末三均值0.837913超过论文LAFAN评估0.82参照。父/A/B共同完整31条XY为2.0013/2.0917/0.0640m，已解决主要位置漂移。不要再将当前状态写成“未达到0.82”；也不把40/40当论文未给出的门槛。来源：results/20261105-p6-position-feedback-s0/summary.json、conclusion.md、review_20261105.json。
 - P5 20261104-p5-actor-stability-s0已完成训练、正式评估和轻量发布。A/B均24000：A 34/40、0.713134、起身6/6；B 34/40、0.755425、起身3/6，平均完成96.2842%，保留父32成功中的30条。P6已从B24000完成续训，A24000作为历史起身参考保留；P7主父改为P6 B33000。复核见results/20261104-p5-actor-stability-s0/review_20261105.json。
 - P3 20261102-h32-bce-s0 已完成，status=completed、unpublished=[]。C0-9000保留辅助BCE达到29/40、回报0.615404、起身3/6；C1删除BCE为15/40、0.482603。父B6000为13/40、0.409124。继续有效C0，不重跑P3。
@@ -24,7 +24,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P7实施（当前计划，运行适配与训练尚未开始）
+## P7实施（已启动，两路正式训练由独立tmux继续）
 
 - 一个源码工作树 /root/autodl-tmp/robot-repro/supermimic-p7-reproduction；campaign=20261105-p7-feedback-reproduction-s0。两个任务共享713/.5有效配方，研究不同问题，不作同初始化A/B胜负比较。
 - continuation从P6 root_position_feedback B33000恢复完整网络、三套Adam、sampler、已保存Torch/CUDA RNG与全局LR，33001–42000，新增9000联合更新。父基线37/3，复用已发布评分；713自身恢复不重复扩列。

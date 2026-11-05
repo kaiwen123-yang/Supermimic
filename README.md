@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7为达标后的巩固与研究，不再作为成功验收的前置条件。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：[P7计划](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)与[启动提示词](docs/NEXT_STAGE_START_PROMPT.md)，已发布，服务器适配/训练尚未开始。P6已完成并达到论文LAFAN1回报参照：B33000为0.86624655，37/40，平均完成99.0832%，父34成功全部保持。** 5/9节点超过0.82，末三均值0.837913；共同完整31动作XY从父2.0013m降至0.0640m。P7并行B33000→42000续训与713/.5配方从零1→9000，分别研究保持/困难动作与从零学习。见[P6独立复核](results/20261105-p6-position-feedback-s0/review_20261105.json)、[最终分析](results/20261105-p6-position-feedback-s0/conclusion.md)和[结果索引](results/20261105-p6-position-feedback-s0/summary.json)。
+> **当前入口：P7已启动，两路正式训练由独立tmux继续。** continuation 33001–42000；from_scratch 1–9000。见[运行状态](results/20261105-p7-feedback-reproduction-s0/summary.json)与[P7计划](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)。不重复启动或自动开P8。
 
 > **P5已完成训练、正式评分和关键结果发布。** 固定24000：A为34/40、回报0.713134、起身6/6；B为34/40、回报0.755425、起身3/6、平均完成96.2842%，保留父32成功中的30条。B是已完成P6的父模型，A保留为历史起身参考；不能说B所有精度/波动都更好。历史[深读复核与P6依据](docs/P6_POSITION_FEEDBACK_PLAN.md)、[分项数据](results/20261104-p5-actor-stability-s0/review_20261105.json)、[P5最终分析](results/20261104-p5-actor-stability-s0/conclusion.md)。
 
