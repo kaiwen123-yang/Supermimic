@@ -1,9 +1,9 @@
 {
   "protocol_id": "p6-actor-root-position-feedback-v1",
   "planned_date_beijing": "2026-11-05",
-  "status": "planned",
-  "training_started": false,
-  "implementation_status": "pending",
+  "status": "running",
+  "training_started": true,
+  "implementation_status": "implemented",
   "protocol_is_direct_training_config": false,
   "document": "docs/P6_POSITION_FEEDBACK_PLAN.md",
   "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
@@ -246,7 +246,7 @@
     "actual_resource_shortage": "Adjust only this project's concurrency/order, keep algorithm and update budgets unchanged, and record the actual execution."
   },
   "implementation": {
-    "planned_only": true,
+    "planned_only": false,
     "planned_launcher": "scripts/run_position_feedback_d57.sh",
     "planned_finalizer": "scripts/finish_p6_position_feedback.py",
     "changes": [
@@ -264,7 +264,10 @@
       "finish_goal_campaign.py main",
       "finish_c0_continuation.py main",
       "diagnose_checkpoint.py 120-start scans"
-    ]
+    ],
+    "implementation_commit": "536b76c487e7522e9ab8f71b29b3c994ebf78197",
+    "launcher": "scripts/run_position_feedback_d57.sh",
+    "finalizer": "scripts/finish_p6_position_feedback.py"
   },
   "evaluation": {
     "iterations": [
@@ -414,16 +417,21 @@
     "automatic_budget_extension"
   ],
   "execution": {
-    "status": "not_started",
-    "actual_configs_created": false,
-    "training_started": false,
+    "status": "running",
+    "actual_configs_created": true,
+    "training_started": true,
     "training_done": false,
     "formal_evaluation_done": false,
     "key_results_published": false,
-    "plan_and_review_only": true,
+    "plan_and_review_only": false,
     "arms": {
-      "no_position_feedback": "not_started",
-      "root_position_feedback": "not_started"
-    }
+      "no_position_feedback": "running",
+      "root_position_feedback": "running"
+    },
+    "started_beijing": {
+      "no_position_feedback": "2026-11-05T10:46:24.140523+08:00",
+      "root_position_feedback": "2026-11-05T10:46:24.140731+08:00"
+    },
+    "summary": "results/20261105-p6-position-feedback-s0/summary.json"
   }
 }

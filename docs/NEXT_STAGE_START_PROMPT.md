@@ -1,6 +1,6 @@
 # P6 启动提示词：当前相对根位置反馈，两支联合续训
 
-计划日期：2026-11-05（北京时间）。**本文件发布时P6尚未实施或启动；最新已完成阶段是P5，两支均到24000。** 本次只发布计划与复核结论，不声称服务器已有P6进程。
+P6已实现并启动。先查看results/20261105-p6-position-feedback-s0/summary.json和服务器现有tmux（sm-p6-no-position、sm-p6-root-position）。接续现有进程，不重复启动、不重建replay、不重置LR。正式训练/评分仍在进行，不能写成实验已完成。下文保留完整授权范围。
 
 将下面全文交给执行端Codex。[P6计划](P6_POSITION_FEEDBACK_PLAN.md)说明依据与具体实现；[执行协议](../configs/next_stage_position_feedback_protocol.json)不是直接传给train.py的训练配置。若后续交接时同名P6任务已启动，接续现有进程，不重复启动或重建replay。
 

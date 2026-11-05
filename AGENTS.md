@@ -4,7 +4,7 @@
 
 ## 当前任务与证据
 
-- 当前入口是 docs/P6_POSITION_FEEDBACK_PLAN.md、configs/next_stage_position_feedback_protocol.json 与 docs/NEXT_STAGE_START_PROMPT.md。2026-11-05：P6计划已发布，实际适配和训练尚未开始。本次提交不包含算法实现或启动。P1–P5为历史，不重复执行；当前P6要求优先于下文历史阶段描述。
+- 当前入口是 docs/P6_POSITION_FEEDBACK_PLAN.md、configs/next_stage_position_feedback_protocol.json 与 docs/NEXT_STAGE_START_PROMPT.md。P6已于2026-11-05T10:47:43.498308+08:00在指定P6工作树启动A/B正式训练；两支从B24000完整恢复且已执行真实联合更新。接续既有tmux，不重复启动。实时结果入口results/20261105-p6-position-feedback-s0/summary.json及各arm目录。P1–P5为历史。
 - P5 20261104-p5-actor-stability-s0已完成训练、正式评估和轻量发布。A/B均24000：A 34/40、0.713134、起身6/6；B 34/40、0.755425、起身3/6，平均完成96.2842%，保留父32成功中的30条。下一轮从B24000继续，A24000保留作起身参考。复核见results/20261104-p5-actor-stability-s0/review_20261105.json。
 - P3 20261102-h32-bce-s0 已完成，status=completed、unpublished=[]。C0-9000保留辅助BCE达到29/40、回报0.615404、起身3/6；C1删除BCE为15/40、0.482603。父B6000为13/40、0.409124。继续有效C0，不重跑P3。
 - P4本段已完成：9000→18000，新增9000次联合更新/10.198小时；最终32/40、回报0.706754、起身3/6、跑步4/4。2026-11-04 02:55轻量发布完成，原tmux正常退出；不重复启动或自动追加训练。大产物留服务器待用户备份，不授权阶段自动清理。
@@ -19,7 +19,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P6实施（计划已发布，尚未实施或启动）
+## P6实施（已实现并启动，按现有进程继续）
 
 - 一个P6源码工作树 /root/autodl-tmp/robot-repro/supermimic-p6-position-feedback。两支从P5 B24000恢复完整网络/三套Adam/sampler/Torch及CUDA RNG，各初始填充一次64步replay；全局24001–33000，每支新增9000联合更新、新阶段各16小时上限，旧累计耗时不用作预算，正式评估/发布另计。
 - A no_position_feedback原710维；B root_position_feedback仅给Actor encoder追加当前相对根XYZ三维到713。两支Actor LR scale都为0.5；WM/Critic原日程。误差=完整机器人根旋转逆*(当前参考根位置−当前机器人根位置)/0.3；不改公共goal710或Critic已有privileged相对位姿。
