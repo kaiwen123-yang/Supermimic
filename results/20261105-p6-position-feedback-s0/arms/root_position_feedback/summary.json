@@ -1,10 +1,10 @@
 {
   "arm": "root_position_feedback",
   "run": "20261105-p6-position-feedback-s0-root_position_feedback",
-  "status": "running",
+  "status": "publishing",
   "training_started": true,
-  "training_done": false,
-  "full_clip_evaluation_done": false,
+  "training_done": true,
+  "full_clip_evaluation_done": true,
   "lightweight_results_published": false,
   "started_beijing": "2026-11-05T10:46:24.140731+08:00",
   "observed_beijing": "2026-11-05T10:47:43.498308+08:00",
@@ -103,5 +103,115 @@
         "executed_quality_gap": 0.002451818289796117
       }
     }
-  }
+  },
+  "training_snapshot": {
+    "status": "budget_completed",
+    "method": "supermimic",
+    "iteration": 33000,
+    "actor_updates": 32995,
+    "sim_transitions": 339230720,
+    "wall_seconds": 132317.0731111113,
+    "stage_wall_seconds": 36311.80990239605,
+    "new_joint_updates": 9000,
+    "new_actor_updates": 9000,
+    "new_sim_transitions": 92422144,
+    "start_iteration": 24000,
+    "target_iteration": 33000,
+    "world_termination_loss": "aux_bce",
+    "full_clip_evaluation_done": false,
+    "qualification_pass": false
+  },
+  "final_iteration": 33000,
+  "evaluated_iterations": [
+    25000,
+    26000,
+    27000,
+    28000,
+    29000,
+    30000,
+    31000,
+    32000,
+    33000
+  ],
+  "previous_elapsed_seconds": 96005.26320979185,
+  "final_scores": {
+    "status": "evaluated",
+    "method": "supermimic",
+    "goal_frame": "robot_root",
+    "actor_root_position_feedback": true,
+    "actor_root_position_scale_m": 0.3,
+    "world_termination_loss": "aux_bce",
+    "iteration": 33000,
+    "actor_updates": 32995,
+    "checkpoint_file": "checkpoint_0033000.pt",
+    "motions": 40,
+    "failed_motions": 3,
+    "completed_motions": 37,
+    "wall_seconds": 304.1319926381111,
+    "trajectory_directory": "trajectories",
+    "score_and_video_share_trajectory": true,
+    "protocol": {
+      "start_frame": 0,
+      "friction": 1.0,
+      "observation_noise": false,
+      "domain_randomization": false,
+      "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
+      "normalization": "0.1 * full reference transitions; failed tail zero",
+      "tracking_coverage": "survived AND position<=0.3m AND SO3<=0.4rad, divided by full reference steps",
+      "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
+      "scope": "training-motion coverage, not generalization"
+    },
+    "mean_normalized_return": 0.8662465543453157,
+    "mean_completion_fraction": 0.9908320078448091,
+    "mean_tracking_coverage": 0.9590755095376847,
+    "mean_execution_seconds": 219.10100000000006
+  },
+  "evaluation_wall_seconds": 3080.4851315692067,
+  "publications": [
+    {
+      "iteration": 25000,
+      "results_commit": "0f106caa5c3407d757e013e1ada43d4239f35114",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0025000"
+    },
+    {
+      "iteration": 26000,
+      "results_commit": "a9264a6129a77d5b030854707bdff9a5ae3e2c72",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0026000"
+    },
+    {
+      "iteration": 27000,
+      "results_commit": "2227ca236f1f131f2fd44cf7b38fe9fa330aadd2",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0027000"
+    },
+    {
+      "iteration": 28000,
+      "results_commit": "64b0a7a571e578a5e75d7c5a573fb85958c1ccc7",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0028000"
+    },
+    {
+      "iteration": 29000,
+      "results_commit": "8a379683882fe5be23be0370238473e571d70ff8",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0029000"
+    },
+    {
+      "iteration": 30000,
+      "results_commit": "f42eebf581d8fb218941c657b13667931895f60b",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0030000"
+    },
+    {
+      "iteration": 31000,
+      "results_commit": "cf5a5953caf2aa37c0e816116aa08dada0187291",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0031000"
+    },
+    {
+      "iteration": 32000,
+      "results_commit": "744687dc887289251d55e872da238f2d3b1dc190",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0032000"
+    },
+    {
+      "iteration": 33000,
+      "results_commit": "fbfccd5f93fdbbf3e674f9ab8610441ea2924e2e",
+      "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0033000"
+    }
+  ]
 }
