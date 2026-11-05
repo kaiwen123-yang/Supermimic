@@ -10,10 +10,10 @@
     "no_position_feedback": {
       "arm": "no_position_feedback",
       "run": "20261105-p6-position-feedback-s0-no_position_feedback",
-      "status": "running",
+      "status": "publishing",
       "training_started": true,
-      "training_done": false,
-      "full_clip_evaluation_done": false,
+      "training_done": true,
+      "full_clip_evaluation_done": true,
       "lightweight_results_published": false,
       "started_beijing": "2026-11-05T10:46:24.140523+08:00",
       "observed_beijing": "2026-11-05T10:47:43.498308+08:00",
@@ -33,7 +33,11 @@
       "server_artifacts": {
         "worktree": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback",
         "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-no_position_feedback",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-no_position_feedback/checkpoint_0033000.pt",
+        "checkpoint_purpose": "model/optimizer/sampler/RNG for continuation",
         "parent_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-actor_half_lr/checkpoint_0024000.pt",
+        "trajectories": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-no_position_feedback/evaluation_0033000/trajectories",
+        "trajectory_purpose": "full evaluation scoring and on-demand video",
         "processed_cache": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/data/processed/lafan1_g1_50hz",
         "logs": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/campaigns/20261105-p6-position-feedback-s0-no_position_feedback.train.log",
         "still_in_use": [
@@ -44,7 +48,183 @@
         ],
         "backup_status": "awaiting_user_export_not_confirmed",
         "deletion_owner": "user"
-      }
+      },
+      "publication_policy": "lightweight_git_first_bulk_artifacts_local",
+      "latest_evaluated_iteration": 33000,
+      "latest_evaluation": {
+        "completed_motions": 36,
+        "mean_normalized_return": 0.7634090104642152,
+        "mean_completion_fraction": 0.9619848479062881
+      },
+      "latest_parent_successes_retained": 31,
+      "latest_newly_completed": [
+        "dance2_subject1",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject5",
+        "fallAndGetUp2_subject2",
+        "jumps1_subject2"
+      ],
+      "bulk_artifacts_status": "retained_on_server_by_policy",
+      "unpublished": [],
+      "latest_reward_quality": {
+        "mean_return": 0.763409010464215,
+        "completion_fraction": 0.961984847906288,
+        "total_gap": 0.2365909895357849,
+        "missing_tail_gap": 0.038015152093711924,
+        "executed_quality_gap": 0.19857583744207297,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.18360759278406025,
+            "executed_available_maximum": 0.19239696958125763,
+            "executed_quality_gap": 0.008789376797197365
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.15472445725846845,
+            "executed_available_maximum": 0.19239696958125763,
+            "executed_quality_gap": 0.03767251232278918
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.17341153858151884,
+            "executed_available_maximum": 0.19239696958125763,
+            "executed_quality_gap": 0.018985430999738782
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.16471076753378275,
+            "executed_available_maximum": 0.19239696958125763,
+            "executed_quality_gap": 0.02768620204747487
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.010253677839160166,
+            "executed_available_maximum": 0.09619848479062881,
+            "executed_quality_gap": 0.08594480695146865
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.09080496125396727,
+            "executed_available_maximum": 0.09619848479062881,
+            "executed_quality_gap": 0.0053935235366615415
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.012335014016958076,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.012335014016958076
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.0017689710645840745,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0017689710645840745
+          }
+        }
+      },
+      "training_snapshot": {
+        "status": "budget_completed",
+        "method": "supermimic",
+        "iteration": 33000,
+        "actor_updates": 32995,
+        "sim_transitions": 339230720,
+        "wall_seconds": 131891.77306880988,
+        "stage_wall_seconds": 35886.509859973565,
+        "new_joint_updates": 9000,
+        "new_actor_updates": 9000,
+        "new_sim_transitions": 92422144,
+        "start_iteration": 24000,
+        "target_iteration": 33000,
+        "world_termination_loss": "aux_bce",
+        "full_clip_evaluation_done": false,
+        "qualification_pass": false
+      },
+      "final_iteration": 33000,
+      "evaluated_iterations": [
+        25000,
+        26000,
+        27000,
+        28000,
+        29000,
+        30000,
+        31000,
+        32000,
+        33000
+      ],
+      "previous_elapsed_seconds": 96005.26320979185,
+      "final_scores": {
+        "status": "evaluated",
+        "method": "supermimic",
+        "goal_frame": "robot_root",
+        "actor_root_position_feedback": false,
+        "actor_root_position_scale_m": 0.3,
+        "world_termination_loss": "aux_bce",
+        "iteration": 33000,
+        "actor_updates": 32995,
+        "checkpoint_file": "checkpoint_0033000.pt",
+        "motions": 40,
+        "failed_motions": 4,
+        "completed_motions": 36,
+        "wall_seconds": 314.3942489884794,
+        "trajectory_directory": "trajectories",
+        "score_and_video_share_trajectory": true,
+        "protocol": {
+          "start_frame": 0,
+          "friction": 1.0,
+          "observation_noise": false,
+          "domain_randomization": false,
+          "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
+          "normalization": "0.1 * full reference transitions; failed tail zero",
+          "tracking_coverage": "survived AND position<=0.3m AND SO3<=0.4rad, divided by full reference steps",
+          "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
+          "scope": "training-motion coverage, not generalization"
+        },
+        "mean_normalized_return": 0.7634090104642152,
+        "mean_completion_fraction": 0.9619848479062881,
+        "mean_tracking_coverage": 0.1116507945615327,
+        "mean_execution_seconds": 212.03050000000007
+      },
+      "evaluation_wall_seconds": 3052.41354970634,
+      "publications": [
+        {
+          "iteration": 25000,
+          "results_commit": "4424c13eb0fdcadd16b9b568f9a72f440824003a",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0025000"
+        },
+        {
+          "iteration": 26000,
+          "results_commit": "e775a6eaab0214e464361e64c89fc2be8f5a4a60",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0026000"
+        },
+        {
+          "iteration": 27000,
+          "results_commit": "c4c01efea9dec3aebb3046f4dad537b09a294950",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0027000"
+        },
+        {
+          "iteration": 28000,
+          "results_commit": "e0a9a187a35b0e9d39909867e79e6f3d5cd9b035",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0028000"
+        },
+        {
+          "iteration": 29000,
+          "results_commit": "1a7f2b7ff8085603595fb8758eaac9b37a274a2f",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0029000"
+        },
+        {
+          "iteration": 30000,
+          "results_commit": "acacbb79c4c742f1502328d6d81a5f433c40a16a",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0030000"
+        },
+        {
+          "iteration": 31000,
+          "results_commit": "75d8d4f41a7825d7be86100e39277690d8447b5b",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0031000"
+        },
+        {
+          "iteration": 32000,
+          "results_commit": "76836a9bff6bd6553c81c21004df66ac1e66c2d1",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0032000"
+        },
+        {
+          "iteration": 33000,
+          "results_commit": "d74abd729d6333dbadd4f1d9abd53fd815a069f8",
+          "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0033000"
+        }
+      ]
     },
     "root_position_feedback": {
       "arm": "root_position_feedback",
@@ -72,7 +252,11 @@
       "server_artifacts": {
         "worktree": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback",
         "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback/checkpoint_0032000.pt",
+        "checkpoint_purpose": "model/optimizer/sampler/RNG for continuation",
         "parent_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-actor_half_lr/checkpoint_0024000.pt",
+        "trajectories": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback/evaluation_0032000/trajectories",
+        "trajectory_purpose": "full evaluation scoring and on-demand video",
         "processed_cache": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/data/processed/lafan1_g1_50hz",
         "logs": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/campaigns/20261105-p6-position-feedback-s0-root_position_feedback.train.log",
         "still_in_use": [
@@ -83,6 +267,71 @@
         ],
         "backup_status": "awaiting_user_export_not_confirmed",
         "deletion_owner": "user"
+      },
+      "publication_policy": "lightweight_git_first_bulk_artifacts_local",
+      "latest_evaluated_iteration": 32000,
+      "latest_evaluation": {
+        "completed_motions": 36,
+        "mean_normalized_return": 0.856324646578282,
+        "mean_completion_fraction": 0.9824024593908657
+      },
+      "latest_parent_successes_retained": 32,
+      "latest_newly_completed": [
+        "dance2_subject1",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject5",
+        "jumps1_subject2"
+      ],
+      "bulk_artifacts_status": "retained_on_server_by_policy",
+      "unpublished": [],
+      "latest_reward_quality": {
+        "mean_return": 0.8563246465782818,
+        "completion_fraction": 0.9824024593908657,
+        "total_gap": 0.14367535342171822,
+        "missing_tail_gap": 0.017597540609134307,
+        "executed_quality_gap": 0.1260778128125839,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.18734609192144405,
+            "executed_available_maximum": 0.19648049187817315,
+            "executed_quality_gap": 0.00913439995672911
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.1570320406471883,
+            "executed_available_maximum": 0.19648049187817315,
+            "executed_quality_gap": 0.03944845123098486
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.17721234887841675,
+            "executed_available_maximum": 0.19648049187817315,
+            "executed_quality_gap": 0.0192681429997564
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.16770484106651662,
+            "executed_available_maximum": 0.19648049187817315,
+            "executed_quality_gap": 0.028775650811656527
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.08915482501925912,
+            "executed_available_maximum": 0.09824024593908658,
+            "executed_quality_gap": 0.009085420919827463
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.09254723964919224,
+            "executed_available_maximum": 0.09824024593908658,
+            "executed_quality_gap": 0.005693006289894336
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.012948153707393679,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.012948153707393679
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.0017245873993638103,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0017245873993638103
+          }
+        }
       }
     }
   },
