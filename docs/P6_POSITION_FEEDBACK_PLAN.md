@@ -1,7 +1,7 @@
 # P6：给 Actor 增加当前相对根位置反馈
 
 日期：2026-11-05（北京时间）  
-状态：**已实现并启动双路正式训练；正式节点评分尚未完成。** 启动观察时间2026-11-05T10:47:43.498308+08:00，见[运行索引](../results/20261105-p6-position-feedback-s0/summary.json)。下文保留预定计划与证据。
+状态：**训练、正式评分和关键结果已完成。** 见 [最终分析](../results/20261105-p6-position-feedback-s0/conclusion.md)。
 
 本轮读取的结果与代码来自提交 [6ba476f](https://github.com/kaiwen123-yang/Supermimic/tree/6ba476f97611241996e2da586998d65b961ed78c)。最新已完成阶段是 P5，两支均完成到 24000。下一轮入口是本文、[机器可读协议](../configs/next_stage_position_feedback_protocol.json)及[启动提示词](NEXT_STAGE_START_PROMPT.md)。P1–P5 不重复执行。
 

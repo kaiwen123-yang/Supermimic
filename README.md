@@ -1,6 +1,6 @@
 # SuperMimic 独立复现
 
-> **当前入口：[P6：Actor当前相对根位置反馈](docs/P6_POSITION_FEEDBACK_PLAN.md)（已实现并启动双路正式训练）。** A原710维，B增加当前相对根XYZ到713维；均从P5 B24000恢复并保留半Actor LR，各新增9000联合更新到33000、各16小时上限。后台跨对话继续，不重启。见[实时结果入口](results/20261105-p6-position-feedback-s0/summary.json)、[执行协议](configs/next_stage_position_feedback_protocol.json)和[交接提示](docs/NEXT_STAGE_START_PROMPT.md)。
+> **当前入口：P6已完成训练、正式评分和关键结果发布。** B在共同完整集合的XY和全40根位置奖励均优于父模型与A，总体回报/完成及后段保持也支持反馈支；本次预算下建议采用B。 见[最终分析](results/20261105-p6-position-feedback-s0/conclusion.md)和[结果索引](results/20261105-p6-position-feedback-s0/summary.json)。不自动追加训练。
 
 > **P5已完成训练、正式评分和关键结果发布。** 固定24000：A为34/40、回报0.713134、起身6/6；B为34/40、回报0.755425、起身3/6、平均完成96.2842%，保留父32成功中的30条。B适合作为整体主线父模型，A保留为起身参考；不能说B所有精度/波动都更好。最新[深读复核与下一步依据](docs/P6_POSITION_FEEDBACK_PLAN.md)、[分项数据](results/20261104-p5-actor-stability-s0/review_20261105.json)、[P5最终分析](results/20261104-p5-actor-stability-s0/conclusion.md)。
 
