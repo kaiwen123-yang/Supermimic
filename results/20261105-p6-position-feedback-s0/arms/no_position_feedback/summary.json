@@ -24,7 +24,11 @@
   "server_artifacts": {
     "worktree": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback",
     "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-no_position_feedback",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-no_position_feedback/checkpoint_0025000.pt",
+    "checkpoint_purpose": "model/optimizer/sampler/RNG for continuation",
     "parent_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-actor_half_lr/checkpoint_0024000.pt",
+    "trajectories": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-no_position_feedback/evaluation_0025000/trajectories",
+    "trajectory_purpose": "full evaluation scoring and on-demand video",
     "processed_cache": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/data/processed/lafan1_g1_50hz",
     "logs": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/campaigns/20261105-p6-position-feedback-s0-no_position_feedback.train.log",
     "still_in_use": [
@@ -35,5 +39,71 @@
     ],
     "backup_status": "awaiting_user_export_not_confirmed",
     "deletion_owner": "user"
+  },
+  "publication_policy": "lightweight_git_first_bulk_artifacts_local",
+  "latest_evaluated_iteration": 25000,
+  "latest_evaluation": {
+    "completed_motions": 37,
+    "mean_normalized_return": 0.7343873686297869,
+    "mean_completion_fraction": 0.9576374815618294
+  },
+  "latest_parent_successes_retained": 32,
+  "latest_newly_completed": [
+    "dance2_subject1",
+    "fallAndGetUp1_subject1",
+    "fallAndGetUp1_subject5",
+    "fallAndGetUp2_subject2",
+    "jumps1_subject2"
+  ],
+  "bulk_artifacts_status": "retained_on_server_by_policy",
+  "unpublished": [],
+  "latest_reward_quality": {
+    "mean_return": 0.734387368629787,
+    "completion_fraction": 0.9576374815618295,
+    "total_gap": 0.265612631370213,
+    "missing_tail_gap": 0.04236251843817049,
+    "executed_quality_gap": 0.2232501129320425,
+    "components": {
+      "relative_body_position": {
+        "normalized_contribution": 0.18031608021869094,
+        "executed_available_maximum": 0.1915274963123659,
+        "executed_quality_gap": 0.011211416093674983
+      },
+      "body_orientation": {
+        "normalized_contribution": 0.14441445708484263,
+        "executed_available_maximum": 0.1915274963123659,
+        "executed_quality_gap": 0.04711303922752327
+      },
+      "body_linear_velocity": {
+        "normalized_contribution": 0.16676021719793319,
+        "executed_available_maximum": 0.1915274963123659,
+        "executed_quality_gap": 0.024767279114432737
+      },
+      "body_angular_velocity": {
+        "normalized_contribution": 0.15986540260724857,
+        "executed_available_maximum": 0.1915274963123659,
+        "executed_quality_gap": 0.03166209370511733
+      },
+      "global_root_position": {
+        "normalized_contribution": 0.007705502593079142,
+        "executed_available_maximum": 0.09576374815618295,
+        "executed_quality_gap": 0.08805824556310382
+      },
+      "global_root_orientation": {
+        "normalized_contribution": 0.08988632240311836,
+        "executed_available_maximum": 0.09576374815618295,
+        "executed_quality_gap": 0.005877425753064597
+      },
+      "action_difference_penalty": {
+        "normalized_contribution": -0.01219986641953115,
+        "executed_available_maximum": 0.0,
+        "executed_quality_gap": 0.01219986641953115
+      },
+      "soft_joint_limit_penalty": {
+        "normalized_contribution": -0.002360747428210466,
+        "executed_available_maximum": 0.0,
+        "executed_quality_gap": 0.002360747428210466
+      }
+    }
   }
 }
