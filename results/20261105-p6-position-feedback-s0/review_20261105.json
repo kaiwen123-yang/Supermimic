@@ -1,0 +1,1577 @@
+{
+  "analysis_date_beijing": "2026-11-05",
+  "source_commit": "bccd4c8a4cc9249f5738d84799db7da954e68922",
+  "scope": "Read-only source and published-score analysis. No new training, physics, model inference, tests or hashes. P7 is planned, not running.",
+  "sources": [
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0025000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0026000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0027000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0028000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0029000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0030000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0031000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0032000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-no_position_feedback/milestones/iteration_0033000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0025000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0026000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0027000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0028000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0029000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0030000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0031000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0032000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0033000/evaluation.json",
+    "results/20261104-p5-actor-stability-s0-actor_half_lr/milestones/iteration_0024000/evaluation.json",
+    "results/20261105-p6-position-feedback-s0/b25000_to_b26000_analysis.md",
+    "results/20261105-p6-position-feedback-s0/b25000_to_b26000_analysis.json",
+    "results/20261105-p6-position-feedback-s0/arms/root_position_feedback/failure_windows.json"
+  ],
+  "baseline_and_fixed_final": {
+    "parent": {
+      "iteration": 24000,
+      "R": 0.7554250030173142,
+      "C": 0.9628418516317414,
+      "completed": 34,
+      "coverage": 0.11946628279231342,
+      "getup_complete": 3,
+      "run_complete": 4,
+      "retained_parent": 34,
+      "lost_parent": [],
+      "newly_completed": [],
+      "reward": {
+        "n": 40,
+        "R": 0.7554250030173142,
+        "C": 0.9628418516317414,
+        "total_gap": 0.2445749969826858,
+        "tail_gap": 0.03715814836825859,
+        "executed_gap": 0.20741684861442722,
+        "tail_only_bound": 0.7925831513855728,
+        "components": [
+          {
+            "name": "relative_body_position",
+            "contribution": 0.18226219184260817,
+            "available": 0.1925683703263483,
+            "gap": 0.01030617848374013
+          },
+          {
+            "name": "body_orientation",
+            "contribution": 0.1510766952790644,
+            "available": 0.1925683703263483,
+            "gap": 0.041491675047283905
+          },
+          {
+            "name": "body_linear_velocity",
+            "contribution": 0.17174218875220412,
+            "available": 0.1925683703263483,
+            "gap": 0.020826181574144176
+          },
+          {
+            "name": "body_angular_velocity",
+            "contribution": 0.16346862524382413,
+            "available": 0.1925683703263483,
+            "gap": 0.029099745082524164
+          },
+          {
+            "name": "global_root_position",
+            "contribution": 0.01048375822688857,
+            "available": 0.09628418516317415,
+            "gap": 0.08580042693628558
+          },
+          {
+            "name": "global_root_orientation",
+            "contribution": 0.09042819768259994,
+            "available": 0.09628418516317415,
+            "gap": 0.005855987480574212
+          },
+          {
+            "name": "action_difference_penalty",
+            "contribution": -0.012123932513570815,
+            "available": 0,
+            "gap": 0.012123932513570815
+          },
+          {
+            "name": "soft_joint_limit_penalty",
+            "contribution": -0.0019127217171923925,
+            "available": 0,
+            "gap": 0.0019127217171923925
+          }
+        ]
+      },
+      "failed": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 107.08,
+          "full_reference_steps": 6573,
+          "completion_fraction": 0.814544348090674,
+          "normalized_return": 0.6437457175977799,
+          "tracking_coverage": 0.1033013844515442,
+          "mean_root_xy_error_m": 2.1337172985076904,
+          "mean_root_orientation_error_rad": 0.0734892189502716
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 195.6,
+          "full_reference_steps": 11283,
+          "completion_fraction": 0.8667907471417177,
+          "normalized_return": 0.636423541106734,
+          "tracking_coverage": 0.12151023663919171,
+          "mean_root_xy_error_m": 5.052342891693115,
+          "mean_root_orientation_error_rad": 0.09130297601222992
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 117.26,
+          "full_reference_steps": 8410,
+          "completion_fraction": 0.6971462544589774,
+          "normalized_return": 0.4344813462220298,
+          "tracking_coverage": 0.08442330558858502,
+          "mean_root_xy_error_m": 2.0927295684814453,
+          "mean_root_orientation_error_rad": 0.24181751906871796
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 63.42,
+          "full_reference_steps": 8410,
+          "completion_fraction": 0.37705112960761,
+          "normalized_return": 0.22989426821111877,
+          "tracking_coverage": 0.043638525564803805,
+          "mean_root_xy_error_m": 1.5184895992279053,
+          "mean_root_orientation_error_rad": 0.19741012156009674
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 127.8,
+          "full_reference_steps": 8195,
+          "completion_fraction": 0.7797437461866992,
+          "normalized_return": 0.4995093086249806,
+          "tracking_coverage": 0.18242830994508846,
+          "mean_root_xy_error_m": 1.159639835357666,
+          "mean_root_orientation_error_rad": 0.17449986934661865
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 239.14000000000001,
+          "full_reference_steps": 12221,
+          "completion_fraction": 0.9783978397839784,
+          "normalized_return": 0.6771340162791867,
+          "tracking_coverage": 0.054005400540054004,
+          "mean_root_xy_error_m": 1.7300974130630493,
+          "mean_root_orientation_error_rad": 0.4766910672187805
+        }
+      ]
+    },
+    "A": {
+      "iteration": 33000,
+      "R": 0.7634090104642152,
+      "C": 0.9619848479062881,
+      "completed": 36,
+      "coverage": 0.1116507945615327,
+      "getup_complete": 5,
+      "run_complete": 4,
+      "retained_parent": 31,
+      "lost_parent": [
+        "fallAndGetUp2_subject3",
+        "fightAndSports1_subject4",
+        "jumps1_subject5"
+      ],
+      "newly_completed": [
+        "dance2_subject1",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject5",
+        "fallAndGetUp2_subject2",
+        "jumps1_subject2"
+      ],
+      "reward": {
+        "n": 40,
+        "R": 0.7634090104642152,
+        "C": 0.9619848479062881,
+        "total_gap": 0.23659098953578483,
+        "tail_gap": 0.03801515209371187,
+        "executed_gap": 0.19857583744207297,
+        "tail_only_bound": 0.8014241625579269,
+        "components": [
+          {
+            "name": "relative_body_position",
+            "contribution": 0.18360759278406028,
+            "available": 0.19239696958125763,
+            "gap": 0.008789376797197351
+          },
+          {
+            "name": "body_orientation",
+            "contribution": 0.15472445725846845,
+            "available": 0.19239696958125763,
+            "gap": 0.037672512322789176
+          },
+          {
+            "name": "body_linear_velocity",
+            "contribution": 0.17341153858151886,
+            "available": 0.19239696958125763,
+            "gap": 0.01898543099973876
+          },
+          {
+            "name": "body_angular_velocity",
+            "contribution": 0.16471076753378275,
+            "available": 0.19239696958125763,
+            "gap": 0.027686202047474878
+          },
+          {
+            "name": "global_root_position",
+            "contribution": 0.010253677839160164,
+            "available": 0.09619848479062881,
+            "gap": 0.08594480695146865
+          },
+          {
+            "name": "global_root_orientation",
+            "contribution": 0.09080496125396728,
+            "available": 0.09619848479062881,
+            "gap": 0.005393523536661532
+          },
+          {
+            "name": "action_difference_penalty",
+            "contribution": -0.012335014016958074,
+            "available": 0,
+            "gap": 0.012335014016958074
+          },
+          {
+            "name": "soft_joint_limit_penalty",
+            "contribution": -0.0017689710645840742,
+            "available": 0,
+            "gap": 0.0017689710645840742
+          }
+        ]
+      },
+      "failed": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 107.08,
+          "full_reference_steps": 6573,
+          "completion_fraction": 0.814544348090674,
+          "normalized_return": 0.6579651007853549,
+          "tracking_coverage": 0.07637304122927126,
+          "mean_root_xy_error_m": 2.3092598915100098,
+          "mean_root_orientation_error_rad": 0.0688096284866333
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 142.36,
+          "full_reference_steps": 8195,
+          "completion_fraction": 0.8685784014643075,
+          "normalized_return": 0.5487015623178946,
+          "tracking_coverage": 0.14252593044539352,
+          "mean_root_xy_error_m": 1.3483630418777466,
+          "mean_root_orientation_error_rad": 0.24424460530281067
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 19.400000000000002,
+          "full_reference_steps": 12256,
+          "completion_fraction": 0.07914490861618799,
+          "normalized_return": 0.07041973941737552,
+          "tracking_coverage": 0.07734986945169713,
+          "mean_root_xy_error_m": 0.04058236628770828,
+          "mean_root_orientation_error_rad": 0.08557972311973572
+        },
+        {
+          "motion": "jumps1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 175.28,
+          "full_reference_steps": 12221,
+          "completion_fraction": 0.7171262580803535,
+          "normalized_return": 0.5674995325603125,
+          "tracking_coverage": 0.08223549627690041,
+          "mean_root_xy_error_m": 3.165848731994629,
+          "mean_root_orientation_error_rad": 0.07656441628932953
+        }
+      ]
+    },
+    "B": {
+      "iteration": 33000,
+      "R": 0.8662465543453157,
+      "C": 0.9908320078448091,
+      "completed": 37,
+      "coverage": 0.9590755095376847,
+      "getup_complete": 5,
+      "run_complete": 4,
+      "retained_parent": 34,
+      "lost_parent": [],
+      "newly_completed": [
+        "dance2_subject1",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject5"
+      ],
+      "reward": {
+        "n": 40,
+        "R": 0.8662465543453157,
+        "C": 0.9908320078448091,
+        "total_gap": 0.13375344565468428,
+        "tail_gap": 0.00916799215519093,
+        "executed_gap": 0.12458545349949335,
+        "tail_only_bound": 0.8754145465005067,
+        "components": [
+          {
+            "name": "relative_body_position",
+            "contribution": 0.1887675645263727,
+            "available": 0.19816640156896181,
+            "gap": 0.00939883704258912
+          },
+          {
+            "name": "body_orientation",
+            "contribution": 0.15968023448591123,
+            "available": 0.19816640156896181,
+            "gap": 0.03848616708305058
+          },
+          {
+            "name": "body_linear_velocity",
+            "contribution": 0.1792486568747399,
+            "available": 0.19816640156896181,
+            "gap": 0.018917744694221916
+          },
+          {
+            "name": "body_angular_velocity",
+            "contribution": 0.1697268307944698,
+            "available": 0.19816640156896181,
+            "gap": 0.028439570774492023
+          },
+          {
+            "name": "global_root_position",
+            "contribution": 0.09028939734978877,
+            "available": 0.09908320078448091,
+            "gap": 0.008793803434692132
+          },
+          {
+            "name": "global_root_orientation",
+            "contribution": 0.09349190693205241,
+            "available": 0.09908320078448091,
+            "gap": 0.0055912938524285
+          },
+          {
+            "name": "action_difference_penalty",
+            "contribution": -0.012506218883475783,
+            "available": 0,
+            "gap": 0.012506218883475783
+          },
+          {
+            "name": "soft_joint_limit_penalty",
+            "contribution": -0.0024518182897961174,
+            "available": 0,
+            "gap": 0.0024518182897961174
+          }
+        ]
+      },
+      "failed": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 107.12,
+          "full_reference_steps": 6573,
+          "completion_fraction": 0.8148486231553325,
+          "normalized_return": 0.7232055565869107,
+          "tracking_coverage": 0.814544348090674,
+          "mean_root_xy_error_m": 0.05581715330481529,
+          "mean_root_orientation_error_rad": 0.0690017119050026
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 142,
+          "full_reference_steps": 8195,
+          "completion_fraction": 0.8663819402074435,
+          "normalized_return": 0.6177518600888305,
+          "tracking_coverage": 0.7322757779133618,
+          "mean_root_xy_error_m": 0.1435486376285553,
+          "mean_root_orientation_error_rad": 0.17112740874290466
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 232.70000000000002,
+          "full_reference_steps": 12221,
+          "completion_fraction": 0.9520497504295884,
+          "normalized_return": 0.7621740527517666,
+          "tracking_coverage": 0.7820963914573276,
+          "mean_root_xy_error_m": 0.1515095978975296,
+          "mean_root_orientation_error_rad": 0.3203766644001007
+        }
+      ]
+    }
+  },
+  "milestones": {
+    "A": [
+      {
+        "iteration": 25000,
+        "R": 0.7343873686297869,
+        "C": 0.9576374815618294,
+        "completed": 37,
+        "coverage": 0.08299853109638991,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 32
+      },
+      {
+        "iteration": 26000,
+        "R": 0.741435634878583,
+        "C": 0.9407234437523616,
+        "completed": 33,
+        "coverage": 0.10685885196938325,
+        "getup_complete": 3,
+        "run_complete": 3,
+        "retained_parent": 30
+      },
+      {
+        "iteration": 27000,
+        "R": 0.7042410376320967,
+        "C": 0.9166656532304225,
+        "completed": 34,
+        "coverage": 0.06699975982052983,
+        "getup_complete": 2,
+        "run_complete": 4,
+        "retained_parent": 32
+      },
+      {
+        "iteration": 28000,
+        "R": 0.7795244434464906,
+        "C": 0.9847063402502274,
+        "completed": 37,
+        "coverage": 0.1403611336023607,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 34
+      },
+      {
+        "iteration": 29000,
+        "R": 0.7463372947529178,
+        "C": 0.9486003002041901,
+        "completed": 34,
+        "coverage": 0.12129283654446579,
+        "getup_complete": 2,
+        "run_complete": 3,
+        "retained_parent": 31
+      },
+      {
+        "iteration": 30000,
+        "R": 0.7541172544429788,
+        "C": 0.9720027933945398,
+        "completed": 37,
+        "coverage": 0.10353208014424838,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 34
+      },
+      {
+        "iteration": 31000,
+        "R": 0.7422590755138313,
+        "C": 0.9316549877542855,
+        "completed": 35,
+        "coverage": 0.10604916067086541,
+        "getup_complete": 4,
+        "run_complete": 4,
+        "retained_parent": 32
+      },
+      {
+        "iteration": 32000,
+        "R": 0.7795065524367271,
+        "C": 0.9773810297524713,
+        "completed": 33,
+        "coverage": 0.16402124344503738,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 29
+      },
+      {
+        "iteration": 33000,
+        "R": 0.7634090104642152,
+        "C": 0.9619848479062881,
+        "completed": 36,
+        "coverage": 0.1116507945615327,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 31
+      }
+    ],
+    "B": [
+      {
+        "iteration": 25000,
+        "R": 0.8377488738633142,
+        "C": 0.9743084230668757,
+        "completed": 37,
+        "coverage": 0.9233362982089,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 34
+      },
+      {
+        "iteration": 26000,
+        "R": 0.7071332991625072,
+        "C": 0.8501787324891762,
+        "completed": 28,
+        "coverage": 0.781365326614597,
+        "getup_complete": 3,
+        "run_complete": 3,
+        "retained_parent": 27
+      },
+      {
+        "iteration": 27000,
+        "R": 0.811411567783628,
+        "C": 0.9435904851032575,
+        "completed": 33,
+        "coverage": 0.9044762161238236,
+        "getup_complete": 4,
+        "run_complete": 4,
+        "retained_parent": 31
+      },
+      {
+        "iteration": 28000,
+        "R": 0.8425381626576781,
+        "C": 0.9859859457413286,
+        "completed": 35,
+        "coverage": 0.9214259872392871,
+        "getup_complete": 3,
+        "run_complete": 4,
+        "retained_parent": 33
+      },
+      {
+        "iteration": 29000,
+        "R": 0.8078830381305142,
+        "C": 0.9338311063134481,
+        "completed": 35,
+        "coverage": 0.8931032614934942,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 31
+      },
+      {
+        "iteration": 30000,
+        "R": 0.844701319739541,
+        "C": 0.970298982535947,
+        "completed": 36,
+        "coverage": 0.9304116732175958,
+        "getup_complete": 5,
+        "run_complete": 3,
+        "retained_parent": 32
+      },
+      {
+        "iteration": 31000,
+        "R": 0.7911677630082252,
+        "C": 0.9002622195718104,
+        "completed": 32,
+        "coverage": 0.8730180641538986,
+        "getup_complete": 3,
+        "run_complete": 4,
+        "retained_parent": 28
+      },
+      {
+        "iteration": 32000,
+        "R": 0.856324646578282,
+        "C": 0.9824024593908657,
+        "completed": 36,
+        "coverage": 0.9511928678977979,
+        "getup_complete": 3,
+        "run_complete": 4,
+        "retained_parent": 32
+      },
+      {
+        "iteration": 33000,
+        "R": 0.8662465543453157,
+        "C": 0.9908320078448091,
+        "completed": 37,
+        "coverage": 0.9590755095376847,
+        "getup_complete": 5,
+        "run_complete": 4,
+        "retained_parent": 34
+      }
+    ]
+  },
+  "tails": {
+    "A": {
+      "iterations": [
+        31000,
+        32000,
+        33000
+      ],
+      "mean_R": 0.7617248794715912,
+      "min_R": 0.7422590755138313,
+      "max_R": 0.7795065524367271,
+      "mean_C": 0.9570069551376816,
+      "mean_coverage": 0.12724039955914515,
+      "stable_success_count": 27,
+      "stable_success": [
+        "dance1_subject3",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject4",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject4",
+        "fallAndGetUp3_subject1",
+        "fight1_subject2",
+        "fight1_subject3",
+        "fight1_subject5",
+        "jumps1_subject1",
+        "jumps1_subject2",
+        "run1_subject2",
+        "run1_subject5",
+        "run2_subject1",
+        "run2_subject4",
+        "sprint1_subject2",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk1_subject5",
+        "walk2_subject1",
+        "walk2_subject3",
+        "walk2_subject4",
+        "walk3_subject2",
+        "walk3_subject4",
+        "walk3_subject5",
+        "walk4_subject1"
+      ],
+      "stable_getups": [
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject4",
+        "fallAndGetUp3_subject1"
+      ],
+      "stable_parent_count": 25
+    },
+    "B": {
+      "iterations": [
+        31000,
+        32000,
+        33000
+      ],
+      "mean_R": 0.8379129879772743,
+      "min_R": 0.7911677630082252,
+      "max_R": 0.8662465543453157,
+      "mean_C": 0.9578322289358283,
+      "mean_coverage": 0.9277621471964604,
+      "stable_success_count": 31,
+      "stable_success": [
+        "dance1_subject2",
+        "dance1_subject3",
+        "dance2_subject1",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject4",
+        "dance2_subject5",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject4",
+        "fallAndGetUp1_subject5",
+        "fight1_subject3",
+        "fight1_subject5",
+        "fightAndSports1_subject4",
+        "jumps1_subject1",
+        "run1_subject2",
+        "run1_subject5",
+        "run2_subject1",
+        "run2_subject4",
+        "sprint1_subject2",
+        "sprint1_subject4",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk1_subject5",
+        "walk2_subject3",
+        "walk2_subject4",
+        "walk3_subject1",
+        "walk3_subject2",
+        "walk3_subject3",
+        "walk3_subject4",
+        "walk3_subject5",
+        "walk4_subject1"
+      ],
+      "stable_getups": [
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject4",
+        "fallAndGetUp1_subject5"
+      ],
+      "stable_parent_count": 28
+    }
+  },
+  "B_nodes_above_paper_return_reference": [
+    25000,
+    28000,
+    30000,
+    32000,
+    33000
+  ],
+  "common_full_success": {
+    "motions": [
+      "dance1_subject2",
+      "dance1_subject3",
+      "dance2_subject2",
+      "dance2_subject3",
+      "dance2_subject4",
+      "dance2_subject5",
+      "fallAndGetUp1_subject4",
+      "fallAndGetUp3_subject1",
+      "fight1_subject2",
+      "fight1_subject3",
+      "fight1_subject5",
+      "fightAndSports1_subject1",
+      "jumps1_subject1",
+      "run1_subject2",
+      "run1_subject5",
+      "run2_subject1",
+      "run2_subject4",
+      "sprint1_subject2",
+      "sprint1_subject4",
+      "walk1_subject1",
+      "walk1_subject2",
+      "walk1_subject5",
+      "walk2_subject1",
+      "walk2_subject3",
+      "walk2_subject4",
+      "walk3_subject1",
+      "walk3_subject2",
+      "walk3_subject3",
+      "walk3_subject4",
+      "walk3_subject5",
+      "walk4_subject1"
+    ],
+    "n": 31,
+    "data": {
+      "parent": {
+        "R": 0.8036285875234692,
+        "XY": 2.0013236211192225,
+        "root_rotation": 0.06928172719574743,
+        "body_position": 0.048535147321320346,
+        "joint_rmse": 0.1401799205810793,
+        "reward": {
+          "n": 31,
+          "R": 0.8036285875234692,
+          "C": 1,
+          "total_gap": 0.19637141247653078,
+          "tail_gap": 0,
+          "executed_gap": 0.19637141247653078,
+          "tail_only_bound": 0.8036285875234692,
+          "components": [
+            {
+              "name": "relative_body_position",
+              "contribution": 0.19260176064922938,
+              "available": 0.2,
+              "gap": 0.007398239350770636
+            },
+            {
+              "name": "body_orientation",
+              "contribution": 0.16423582237413192,
+              "available": 0.2,
+              "gap": 0.03576417762586809
+            },
+            {
+              "name": "body_linear_velocity",
+              "contribution": 0.18054656149022655,
+              "available": 0.2,
+              "gap": 0.019453438509773463
+            },
+            {
+              "name": "body_angular_velocity",
+              "contribution": 0.1727661878620065,
+              "available": 0.2,
+              "gap": 0.0272338121379935
+            },
+            {
+              "name": "global_root_position",
+              "contribution": 0.011120751291080538,
+              "available": 0.1,
+              "gap": 0.08887924870891947
+            },
+            {
+              "name": "global_root_orientation",
+              "contribution": 0.09588601410244806,
+              "available": 0.1,
+              "gap": 0.00411398589755195
+            },
+            {
+              "name": "action_difference_penalty",
+              "contribution": -0.012181883050325398,
+              "available": 0,
+              "gap": 0.012181883050325398
+            },
+            {
+              "name": "soft_joint_limit_penalty",
+              "contribution": -0.001346627425544808,
+              "available": 0,
+              "gap": 0.001346627425544808
+            }
+          ]
+        }
+      },
+      "A": {
+        "R": 0.8134275785172962,
+        "XY": 2.0917192937866336,
+        "root_rotation": 0.06687819957733154,
+        "body_position": 0.04568787435850789,
+        "joint_rmse": 0.1304232665608006,
+        "reward": {
+          "n": 31,
+          "R": 0.8134275785172962,
+          "C": 1,
+          "total_gap": 0.1865724214827038,
+          "tail_gap": 0,
+          "executed_gap": 0.1865724214827038,
+          "tail_only_bound": 0.8134275785172962,
+          "components": [
+            {
+              "name": "relative_body_position",
+              "contribution": 0.19353980169153417,
+              "available": 0.2,
+              "gap": 0.0064601983084658365
+            },
+            {
+              "name": "body_orientation",
+              "contribution": 0.1685144602838929,
+              "available": 0.2,
+              "gap": 0.031485539716107125
+            },
+            {
+              "name": "body_linear_velocity",
+              "contribution": 0.18285163672820795,
+              "available": 0.2,
+              "gap": 0.01714836327179206
+            },
+            {
+              "name": "body_angular_velocity",
+              "contribution": 0.1748616730650066,
+              "available": 0.2,
+              "gap": 0.025138326934993405
+            },
+            {
+              "name": "global_root_position",
+              "contribution": 0.010883835607014548,
+              "available": 0.1,
+              "gap": 0.08911616439298546
+            },
+            {
+              "name": "global_root_orientation",
+              "contribution": 0.09621365290168019,
+              "available": 0.1,
+              "gap": 0.00378634709831982
+            },
+            {
+              "name": "action_difference_penalty",
+              "contribution": -0.012304291423181095,
+              "available": 0,
+              "gap": 0.012304291423181095
+            },
+            {
+              "name": "soft_joint_limit_penalty",
+              "contribution": -0.0011331906852923344,
+              "available": 0,
+              "gap": 0.0011331906852923344
+            }
+          ]
+        }
+      },
+      "B": {
+        "R": 0.8965681724634863,
+        "XY": 0.06401239119229778,
+        "root_rotation": 0.06596246385766615,
+        "body_position": 0.045473969631618066,
+        "joint_rmse": 0.12740305546791322,
+        "reward": {
+          "n": 31,
+          "R": 0.8965681724634863,
+          "C": 1,
+          "total_gap": 0.1034318275365137,
+          "tail_gap": 0,
+          "executed_gap": 0.1034318275365137,
+          "tail_only_bound": 0.8965681724634864,
+          "components": [
+            {
+              "name": "relative_body_position",
+              "contribution": 0.19351079628722698,
+              "available": 0.2,
+              "gap": 0.006489203712773034
+            },
+            {
+              "name": "body_orientation",
+              "contribution": 0.16906489007949727,
+              "available": 0.2,
+              "gap": 0.030935109920502746
+            },
+            {
+              "name": "body_linear_velocity",
+              "contribution": 0.18336415513375243,
+              "available": 0.2,
+              "gap": 0.016635844866247584
+            },
+            {
+              "name": "body_angular_velocity",
+              "contribution": 0.17478034314500823,
+              "available": 0.2,
+              "gap": 0.02521965685499178
+            },
+            {
+              "name": "global_root_position",
+              "contribution": 0.09325450074341997,
+              "available": 0.1,
+              "gap": 0.006745499256580037
+            },
+            {
+              "name": "global_root_orientation",
+              "contribution": 0.09624857211327208,
+              "available": 0.1,
+              "gap": 0.003751427886727929
+            },
+            {
+              "name": "action_difference_penalty",
+              "contribution": -0.012232043926144121,
+              "available": 0,
+              "gap": 0.012232043926144121
+            },
+            {
+              "name": "soft_joint_limit_penalty",
+              "contribution": -0.0014230417420000355,
+              "available": 0,
+              "gap": 0.0014230417420000355
+            }
+          ]
+        }
+      }
+    }
+  },
+  "B_final_failure_histories": {
+    "dance1_subject1": {
+      "A": [
+        {
+          "iteration": 25000,
+          "reason": "root_height",
+          "execution_seconds": 101.22,
+          "normalized_return": 0.5886767738149588
+        },
+        {
+          "iteration": 26000,
+          "reason": "root_height",
+          "execution_seconds": 107.06,
+          "normalized_return": 0.6473209371057189
+        },
+        {
+          "iteration": 27000,
+          "reason": "root_height",
+          "execution_seconds": 107.08,
+          "normalized_return": 0.6333944761977404
+        },
+        {
+          "iteration": 28000,
+          "reason": "root_height",
+          "execution_seconds": 107.10000000000001,
+          "normalized_return": 0.6479331731065715
+        },
+        {
+          "iteration": 29000,
+          "reason": "root_height",
+          "execution_seconds": 107.16,
+          "normalized_return": 0.6424905871774076
+        },
+        {
+          "iteration": 30000,
+          "reason": "root_height",
+          "execution_seconds": 107.12,
+          "normalized_return": 0.6394848736873295
+        },
+        {
+          "iteration": 31000,
+          "reason": "root_height",
+          "execution_seconds": 107.06,
+          "normalized_return": 0.6577152390473375
+        },
+        {
+          "iteration": 32000,
+          "reason": "root_height",
+          "execution_seconds": 107.12,
+          "normalized_return": 0.659075784568516
+        },
+        {
+          "iteration": 33000,
+          "reason": "root_height",
+          "execution_seconds": 107.08,
+          "normalized_return": 0.6579651007853549
+        }
+      ],
+      "B": [
+        {
+          "iteration": 25000,
+          "reason": "root_height",
+          "execution_seconds": 107.10000000000001,
+          "normalized_return": 0.7085072618075906
+        },
+        {
+          "iteration": 26000,
+          "reason": "root_height",
+          "execution_seconds": 107.06,
+          "normalized_return": 0.6819163344007154
+        },
+        {
+          "iteration": 27000,
+          "reason": "root_height",
+          "execution_seconds": 107.08,
+          "normalized_return": 0.7064157475347698
+        },
+        {
+          "iteration": 28000,
+          "reason": "root_height",
+          "execution_seconds": 107.16,
+          "normalized_return": 0.7095278731374293
+        },
+        {
+          "iteration": 29000,
+          "reason": "root_height",
+          "execution_seconds": 107.14,
+          "normalized_return": 0.6987399008160418
+        },
+        {
+          "iteration": 30000,
+          "reason": "root_height",
+          "execution_seconds": 107.12,
+          "normalized_return": 0.7056170856213402
+        },
+        {
+          "iteration": 31000,
+          "reason": "root_height",
+          "execution_seconds": 107.10000000000001,
+          "normalized_return": 0.7240317502833656
+        },
+        {
+          "iteration": 32000,
+          "reason": "root_height",
+          "execution_seconds": 107.10000000000001,
+          "normalized_return": 0.7155158635833601
+        },
+        {
+          "iteration": 33000,
+          "reason": "root_height",
+          "execution_seconds": 107.12,
+          "normalized_return": 0.7232055565869107
+        }
+      ]
+    },
+    "fallAndGetUp2_subject2": {
+      "A": [
+        {
+          "iteration": 25000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.618924394626872
+        },
+        {
+          "iteration": 26000,
+          "reason": "root_tilt",
+          "execution_seconds": 127.64,
+          "normalized_return": 0.4974734919715144
+        },
+        {
+          "iteration": 27000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.597316647148221
+        },
+        {
+          "iteration": 28000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6149166430432399
+        },
+        {
+          "iteration": 29000,
+          "reason": "root_height",
+          "execution_seconds": 127.5,
+          "normalized_return": 0.5042302164106152
+        },
+        {
+          "iteration": 30000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6125357229248094
+        },
+        {
+          "iteration": 31000,
+          "reason": "root_tilt",
+          "execution_seconds": 30.96,
+          "normalized_return": 0.1209132910729899
+        },
+        {
+          "iteration": 32000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6317926544313321
+        },
+        {
+          "iteration": 33000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6387750836622995
+        }
+      ],
+      "B": [
+        {
+          "iteration": 25000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.676265552772571
+        },
+        {
+          "iteration": 26000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6191645954234952
+        },
+        {
+          "iteration": 27000,
+          "reason": "root_tilt",
+          "execution_seconds": 6.62,
+          "normalized_return": 0.03580383382381927
+        },
+        {
+          "iteration": 28000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6718678989418461
+        },
+        {
+          "iteration": 29000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6764595880618369
+        },
+        {
+          "iteration": 30000,
+          "reason": "completed",
+          "execution_seconds": 163.9,
+          "normalized_return": 0.6774045670883814
+        },
+        {
+          "iteration": 31000,
+          "reason": "root_tilt",
+          "execution_seconds": 32.480000000000004,
+          "normalized_return": 0.13194987857717136
+        },
+        {
+          "iteration": 32000,
+          "reason": "root_tilt",
+          "execution_seconds": 131.02,
+          "normalized_return": 0.5718111745544235
+        },
+        {
+          "iteration": 33000,
+          "reason": "root_height",
+          "execution_seconds": 142,
+          "normalized_return": 0.6177518600888305
+        }
+      ]
+    },
+    "jumps1_subject2": {
+      "A": [
+        {
+          "iteration": 25000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7019537466103399
+        },
+        {
+          "iteration": 26000,
+          "reason": "root_tilt",
+          "execution_seconds": 241.1,
+          "normalized_return": 0.6881282188471174
+        },
+        {
+          "iteration": 27000,
+          "reason": "root_tilt",
+          "execution_seconds": 238.84,
+          "normalized_return": 0.6694099264883084
+        },
+        {
+          "iteration": 28000,
+          "reason": "root_tilt",
+          "execution_seconds": 240.34,
+          "normalized_return": 0.6999177642263489
+        },
+        {
+          "iteration": 29000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7030055979774584
+        },
+        {
+          "iteration": 30000,
+          "reason": "root_tilt",
+          "execution_seconds": 240.26,
+          "normalized_return": 0.6821354025944144
+        },
+        {
+          "iteration": 31000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7151306576165954
+        },
+        {
+          "iteration": 32000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7265162157339773
+        },
+        {
+          "iteration": 33000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7314184196012198
+        }
+      ],
+      "B": [
+        {
+          "iteration": 25000,
+          "reason": "root_tilt",
+          "execution_seconds": 238.92000000000002,
+          "normalized_return": 0.7552093597066978
+        },
+        {
+          "iteration": 26000,
+          "reason": "root_tilt",
+          "execution_seconds": 240.78,
+          "normalized_return": 0.733485900715231
+        },
+        {
+          "iteration": 27000,
+          "reason": "root_tilt",
+          "execution_seconds": 241.54,
+          "normalized_return": 0.7557512551802672
+        },
+        {
+          "iteration": 28000,
+          "reason": "root_tilt",
+          "execution_seconds": 239.1,
+          "normalized_return": 0.7546948852860297
+        },
+        {
+          "iteration": 29000,
+          "reason": "root_tilt",
+          "execution_seconds": 234.62,
+          "normalized_return": 0.7592674957930825
+        },
+        {
+          "iteration": 30000,
+          "reason": "root_tilt",
+          "execution_seconds": 240.96,
+          "normalized_return": 0.7637785066146748
+        },
+        {
+          "iteration": 31000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7856076044386963
+        },
+        {
+          "iteration": 32000,
+          "reason": "completed",
+          "execution_seconds": 244.42000000000002,
+          "normalized_return": 0.7929328280564611
+        },
+        {
+          "iteration": 33000,
+          "reason": "root_tilt",
+          "execution_seconds": 232.70000000000002,
+          "normalized_return": 0.7621740527517666
+        }
+      ]
+    }
+  },
+  "B_return_improved_vs_parent_motion_count": 40,
+  "B_return_improved_vs_A_motion_count": 39,
+  "B_common31_XY_improved_vs_parent_count": 31,
+  "B_common31_XY_improved_vs_A_count": 31,
+  "B_family_metrics": {
+    "dance": {
+      "n": 8,
+      "R": 0.8637796342281708,
+      "C": 0.9768560778944165,
+      "completed": 7,
+      "coverage": 0.9745063499115512,
+      "executed_gap": 0.1130764436662457
+    },
+    "fallAndGetUp": {
+      "n": 6,
+      "R": 0.706544844186359,
+      "C": 0.9777303233679072,
+      "completed": 5,
+      "coverage": 0.8123651524764637,
+      "executed_gap": 0.27118547918154823
+    },
+    "fight": {
+      "n": 3,
+      "R": 0.8901975655797365,
+      "C": 1,
+      "completed": 3,
+      "coverage": 0.9954259576901086,
+      "executed_gap": 0.1098024344202635
+    },
+    "fightAndSports": {
+      "n": 2,
+      "R": 0.87924917395392,
+      "C": 1,
+      "completed": 2,
+      "coverage": 0.9878018929503917,
+      "executed_gap": 0.12075082604608
+    },
+    "jumps": {
+      "n": 3,
+      "R": 0.8509438118489147,
+      "C": 0.9840165834765294,
+      "completed": 2,
+      "coverage": 0.9273654638191092,
+      "executed_gap": 0.13307277162761477
+    },
+    "run": {
+      "n": 4,
+      "R": 0.891401822835185,
+      "C": 1,
+      "completed": 4,
+      "coverage": 0.9983047385620916,
+      "executed_gap": 0.10859817716481501
+    },
+    "sprint": {
+      "n": 2,
+      "R": 0.8907281126734841,
+      "C": 1,
+      "completed": 2,
+      "coverage": 0.9865250823874039,
+      "executed_gap": 0.10927188732651594
+    },
+    "walk": {
+      "n": 12,
+      "R": 0.930947503165633,
+      "C": 1,
+      "completed": 12,
+      "coverage": 0.9985442914920492,
+      "executed_gap": 0.06905249683436698
+    }
+  },
+  "B_executed_gap_shares": {
+    "relative_body_position": 0.07544088638427875,
+    "body_orientation": 0.30891380977480726,
+    "body_linear_velocity": 0.15184553383111335,
+    "body_angular_velocity": 0.22827360639344366,
+    "global_root_position": 0.07058451197697727,
+    "global_root_orientation": 0.0448791868984226,
+    "action_difference_penalty": 0.10038265730217567,
+    "soft_joint_limit_penalty": 0.01967981189558449
+  },
+  "B25_to_B26": {
+    "source": "results/20261105-p6-position-feedback-s0/b25000_to_b26000_analysis.json",
+    "return_drop": 0.130615574700807,
+    "actual_tail_reward_loss": 0.102446543,
+    "common_prefix_reward_loss": 0.028169031,
+    "actual_tail_share": 0.7843,
+    "interpretation": "Existing matched-time trajectory decomposition;25987 event is temporal association, not a proven unique cause. Preclip gradient is not the Adam parameter update."
+  },
+  "B30_to_B31": {
+    "R30000": 0.844701319739541,
+    "R31000": 0.7911677630082252,
+    "delta": -0.05353355673131577,
+    "motions_with_improved_return": 30,
+    "common_complete_count": 30,
+    "common_complete_metrics": {
+      "B30000": {
+        "R": 0.8836207258527153,
+        "XY_m": 0.09080908559262753
+      },
+      "B31000": {
+        "R": 0.888432243918847,
+        "XY_m": 0.06555682284136613
+      }
+    },
+    "top_four_regressions": [
+      {
+        "motion": "fightAndSports1_subject1",
+        "pre": 0.8673277276512794,
+        "current": 0.1582986882821727,
+        "next": 0.8602318606021113,
+        "delta": -0.7090290393691068,
+        "loss_contribution": 0.01772572598422767,
+        "pre_sec": 245.12,
+        "current_sec": 47.04,
+        "next_sec": 245.12,
+        "reason": "root_height",
+        "pre_completed": true,
+        "current_completed": false,
+        "next_completed": true
+      },
+      {
+        "motion": "jumps1_subject5",
+        "pre": 0.8884466118655172,
+        "current": 0.25126706063241583,
+        "next": 0.8878775520308881,
+        "delta": -0.6371795512331013,
+        "loss_contribution": 0.015929488780827533,
+        "pre_sec": 244.42000000000002,
+        "current_sec": 71.92,
+        "next_sec": 244.42000000000002,
+        "reason": "root_height",
+        "pre_completed": true,
+        "current_completed": false,
+        "next_completed": true
+      },
+      {
+        "motion": "fallAndGetUp3_subject1",
+        "pre": 0.7871511273858496,
+        "current": 0.2007850128523949,
+        "next": 0.651275472847034,
+        "delta": -0.5863661145334547,
+        "loss_contribution": 0.014659152863336366,
+        "pre_sec": 102.16,
+        "current_sec": 25.1,
+        "next_sec": 84.16,
+        "reason": "root_height",
+        "pre_completed": true,
+        "current_completed": false,
+        "next_completed": false
+      },
+      {
+        "motion": "fallAndGetUp2_subject2",
+        "pre": 0.6774045670883814,
+        "current": 0.13194987857717136,
+        "next": 0.5718111745544235,
+        "delta": -0.54545468851121,
+        "loss_contribution": 0.013636367212780252,
+        "pre_sec": 163.9,
+        "current_sec": 32.480000000000004,
+        "next_sec": 131.02,
+        "reason": "root_tilt",
+        "pre_completed": true,
+        "current_completed": false,
+        "next_completed": false
+      }
+    ],
+    "top_four_negative_contribution_sum": 0.06195073484117182,
+    "other_improvements_offset_part_of_top_four_loss": true,
+    "published_training_evidence": "iteration0031000/training.json has only first/last full scalar rows plus block means; no local middle-event series",
+    "end_update31000": {
+      "actor_gradient_norm_before_clip": 3.30971622467041,
+      "critic_mse": 0.009006684739142656,
+      "wm_normalized_state_mse": 0.0005057038448285312,
+      "imagined_discounted_return": 8.362632751464844
+    },
+    "no_new_WM_same_action_prediction": true
+  },
+  "requested_existing_regression_windows": [
+    {
+      "motion": "fightAndSports1_subject1",
+      "failed_checkpoint": 31000,
+      "successful_checkpoint": 30000,
+      "start_s": 44.4,
+      "end_s": 47.04,
+      "state_frames_inclusive": [
+        2220,
+        2352
+      ],
+      "reason": "root_height"
+    },
+    {
+      "motion": "jumps1_subject5",
+      "failed_checkpoint": 31000,
+      "successful_checkpoint": 30000,
+      "start_s": 69.28,
+      "end_s": 71.92,
+      "state_frames_inclusive": [
+        3464,
+        3596
+      ],
+      "reason": "root_height"
+    },
+    {
+      "motion": "fallAndGetUp3_subject1",
+      "failed_checkpoint": 31000,
+      "successful_checkpoint": 30000,
+      "start_s": 22.46,
+      "end_s": 25.1,
+      "state_frames_inclusive": [
+        1123,
+        1255
+      ],
+      "reason": "root_height"
+    },
+    {
+      "motion": "fallAndGetUp2_subject2",
+      "failed_checkpoint": 31000,
+      "successful_checkpoint": 30000,
+      "start_s": 29.84,
+      "end_s": 32.48,
+      "state_frames_inclusive": [
+        1492,
+        1624
+      ],
+      "reason": "root_tilt"
+    }
+  ],
+  "first_reference_crossing_cost": {
+    "R": 0.8377488738633142,
+    "new_joint_updates": 1000,
+    "stage_elapsed_seconds": 4038.2910692431033,
+    "cumulative_elapsed_seconds": 100043.55427777767,
+    "interpretation": "1.12175 hours is this warm-start P6 stage only; the recorded lineage cumulative time is27.7899 hours, not a from-scratch1.2h replication."
+  },
+  "gains": {
+    "return_B_vs_parent": 0.11082155132800153,
+    "return_B_vs_A": 0.10283754388110056,
+    "root_reward_share_of_B_vs_parent_gain": 0.7201274315922297,
+    "root_reward_share_of_B_vs_A_gain": 0.778273347360035,
+    "common_complete31_root_reward_share_of_B_vs_A_gain": 0.9907394357769083,
+    "root_position_executed_available_reward_fraction_B": 0.9112482906782572,
+    "root_position_gap_reduction_vs_parent": 0.8975086284684538,
+    "getup_class_share_of_all40_executed_quality_gap": 0.3265053883469442
+  },
+  "B33_getup2s2_failure_sequence": {
+    "source": "results/20261105-p6-position-feedback-s0/arms/root_position_feedback/failure_windows.json",
+    "at141_36": {
+      "signed_height_error_m": 0.02545750141143799,
+      "root_orientation_error_rad": 0.8226433297607653,
+      "gravity_z_difference_abs": 0.07079141452863169,
+      "root_xy_error_m": 0.12998531758785248
+    },
+    "at141_68": {
+      "signed_height_error_m": -0.009546846151351929,
+      "root_orientation_error_rad": 1.6952393422438274,
+      "gravity_z_difference_abs": 0.5848019729456557,
+      "root_xy_error_m": 0.17814016342163086
+    },
+    "at142": {
+      "signed_height_error_m": -0.2569061815738678,
+      "root_orientation_error_rad": 1.4385221724719621,
+      "gravity_z_difference_abs": 0.11689654859868337,
+      "root_xy_error_m": 0.39993733167648315,
+      "robot_vz_m_s": -0.17716659605503082,
+      "reference_vz_m_s": 1.0338000059127808
+    },
+    "interpretation": "Full orientation error precedes terminal height mismatch. gravity-z alone is not full relative orientation; no torque-saturation or WM-error causal claim."
+  },
+  "known_publication_issues": [
+    {
+      "file": "scripts/analyze_p5_trajectories.py",
+      "issue": "final_failure_windows filters only fallAndGetUp/run, omitting actual dance and jump failures."
+    },
+    {
+      "file": "scripts/finish_p6_position_feedback.py",
+      "issue": "Repeated nested per-motion reward_quality objects inflate comparison.json to about3.7MB; preserve independent full evaluations and link them from compact views."
+    },
+    {
+      "file": "scripts/evaluate.py",
+      "issue": "root_position_error_before_failure_m currently aliases full-executed-trajectory mean, not last-frame error. Scores themselves are unaffected."
+    }
+  ],
+  "interpretation": {
+    "milestone": "LAFAN full-40 return exceeds paper0.82 reference at5/9nodes and fixed B33000; recognize this achieved milestone.",
+    "mechanism": "Current relative root-position feedback resolves the dominant prior drift loss. It is an evidenced project implementation choice, not a recovered unpublished author goal layout.",
+    "remaining": "Intermittent skill retention, persistent dance flip failure, body orientation/angular-velocity quality, and clean from-scratch learning/cost evidence.",
+    "not_established": [
+      "Exact author implementation parity",
+      "H100 efficiency parity",
+      "BONES scale or hardware transfer",
+      "Unique cause of25987 or31k regression",
+      "Current same-action WM prediction error near the three final failures"
+    ],
+    "next_stage": "Continuation B33→42k and fresh713/.5 seed0→9k answer different questions. They are not matched-initialization A/B, so report inherited cumulative/new cost and separate initial conditions."
+  }
+}

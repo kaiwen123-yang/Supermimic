@@ -105,12 +105,12 @@
           },
           "action_difference_penalty": {
             "normalized_contribution": -0.012335014016958076,
-            "executed_available_maximum": 0.0,
+            "executed_available_maximum": 0,
             "executed_quality_gap": 0.012335014016958076
           },
           "soft_joint_limit_penalty": {
             "normalized_contribution": -0.0017689710645840745,
-            "executed_available_maximum": 0.0,
+            "executed_available_maximum": 0,
             "executed_quality_gap": 0.0017689710645840745
           }
         }
@@ -163,7 +163,7 @@
         "score_and_video_share_trajectory": true,
         "protocol": {
           "start_frame": 0,
-          "friction": 1.0,
+          "friction": 1,
           "observation_noise": false,
           "domain_randomization": false,
           "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
@@ -324,12 +324,12 @@
           },
           "action_difference_penalty": {
             "normalized_contribution": -0.012506218883475785,
-            "executed_available_maximum": 0.0,
+            "executed_available_maximum": 0,
             "executed_quality_gap": 0.012506218883475785
           },
           "soft_joint_limit_penalty": {
             "normalized_contribution": -0.002451818289796117,
-            "executed_available_maximum": 0.0,
+            "executed_available_maximum": 0,
             "executed_quality_gap": 0.002451818289796117
           }
         }
@@ -382,7 +382,7 @@
         "score_and_video_share_trajectory": true,
         "protocol": {
           "start_frame": 0,
-          "friction": 1.0,
+          "friction": 1,
           "observation_noise": false,
           "domain_randomization": false,
           "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
@@ -482,12 +482,15 @@
   ],
   "parent_restoration": "Full networks/Adam/sampler/Torch/CUDA RNG; only B encoder and two Adam moments append three zero columns.",
   "finalization": "Each arm automatically runs finish_p6_position_feedback.py after training. The second completed arm publishes the fixed33000/tail comparison, all-40 reward decomposition, common full-success XY and conclusion.",
-  "interaction_handoff": "Both tmux sessions continue. Do not restart training, replay or LR. No automatic P7 or budget extension.",
+  "interaction_handoff": "P6 training, all formal evaluations and key-result publication are complete. Do not restart P6. P7 review and plan are published, but P7 runtime adaptation, evidence backfill and training have not started. Follow docs/P7_CONTINUATION_AND_FRESH_PLAN.md for the next authorized task.",
   "bulk_artifacts_status": "retained_on_server_by_policy",
   "backup_status": "awaiting_user_export_not_confirmed",
   "automatic_stage_cleanup": false,
   "p5_getup_reference": "/root/autodl-tmp/robot-repro/supermimic-p5-stability/outputs/runs/20261104-p5-actor-stability-s0-c0_control/evaluation_0024000/trajectories",
   "results_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p6-position-feedback-s0",
   "results_commit": "697ebab8100e74323313e7300988965655516e3c",
-  "decision": "B在共同完整集合的XY和全40根位置奖励均优于父模型与A，总体回报/完成及后段保持也支持反馈支；本次预算下建议采用B。"
+  "decision": "B在共同完整集合的XY和全40根位置奖励均优于父模型与A，总体回报/完成及后段保持也支持反馈支；本次预算下建议采用B。",
+  "latest_review": "results/20261105-p6-position-feedback-s0/review_20261105.json",
+  "followup_evidence_status": "planned_not_generated",
+  "next_stage_plan": "docs/P7_CONTINUATION_AND_FRESH_PLAN.md"
 }

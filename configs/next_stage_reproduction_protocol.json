@@ -1,0 +1,599 @@
+{
+  "protocol_id": "p7-established-feedback-reproduction-v1",
+  "planned_date_beijing": "2026-11-05",
+  "status": "planned",
+  "implementation_status": "pending",
+  "training_started": false,
+  "document": "docs/P7_CONTINUATION_AND_FRESH_PLAN.md",
+  "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
+  "protocol_is_direct_training_config": false,
+  "campaign": "20261105-p7-feedback-reproduction-s0",
+  "study_design": "Two parallel research jobs with different initialization histories, not matched-initialization A/B and no cross-job winner.",
+  "review": {
+    "source_commit": "bccd4c8a4cc9249f5738d84799db7da954e68922",
+    "paper": "https://arxiv.org/pdf/2610.28480v1",
+    "evidence": [
+      "results/20261105-p6-position-feedback-s0/conclusion.md",
+      "results/20261105-p6-position-feedback-s0/review_20261105.json",
+      "results/20261105-p6-position-feedback-s0/b25000_to_b26000_analysis.md"
+    ],
+    "milestone": "P6 achieved the paper LAFAN full40 return reference0.82 at5/9nodes; fixed B33000=0.86624655.",
+    "common_complete_motions": 31,
+    "common_xy_parent_A_B_m": [
+      2.0013236211192225,
+      2.0917192937866336,
+      0.06401239119229778
+    ],
+    "interpretation": "Root-position feedback resolved the main previous drift bottleneck; retain the successful recipe.",
+    "remaining": [
+      "intermittent_skill_retention",
+      "persistent_dance_flip_failure",
+      "body_orientation_and_velocity_quality",
+      "from_scratch_learning_curve_and_cost"
+    ],
+    "no_proven_core_algorithm_bug": true,
+    "existing_p6_has_same_action_world_model_predictions": false,
+    "paper_lafan_final_failure_count_public": false,
+    "no_new_40_of_40_gate_for_recognizing_082_milestone": true
+  },
+  "jobs": [
+    {
+      "id": "continuation",
+      "initialization": "resume",
+      "question": "Improve and retain the established policy, including the three current failures.",
+      "run": "20261105-p7-feedback-reproduction-s0-continuation",
+      "planned_training_config": "configs/lafan40_p7_continuation.json",
+      "parent": {
+        "iteration": 33000,
+        "run": "20261105-p6-position-feedback-s0-root_position_feedback",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback/checkpoint_0033000.pt",
+        "evaluation": "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0033000/evaluation.json",
+        "completed_motions": 37,
+        "failed_motions": 3,
+        "mean_normalized_return": 0.8662465543453157,
+        "mean_completion_fraction": 0.9908320078448091
+      },
+      "start_iteration": 33000,
+      "target_iteration": 42000,
+      "new_training_iterations": 9000,
+      "expected_new_actor_updates": 9000,
+      "world_only_updates_in_this_stage": 0,
+      "max_new_stage_hours": 16,
+      "global_lr_schedule": "continue",
+      "seed": 0,
+      "restore_saved_rng": true,
+      "evaluation_iterations": [
+        34000,
+        35000,
+        36000,
+        37000,
+        38000,
+        39000,
+        40000,
+        41000,
+        42000
+      ],
+      "tail_iterations": [
+        40000,
+        41000,
+        42000
+      ],
+      "baseline_retention": true,
+      "capture_selected_training_rollouts": true
+    },
+    {
+      "id": "from_scratch",
+      "initialization": "scratch",
+      "question": "Measure learning and cost of the fixed713/.5 recipe without inherited training.",
+      "run": "20261105-p7-feedback-reproduction-s0-from_scratch",
+      "planned_training_config": "configs/lafan40_p7_from_scratch.json",
+      "parent": null,
+      "start_iteration": 0,
+      "target_iteration": 9000,
+      "new_training_iterations": 9000,
+      "expected_new_actor_updates": 8995,
+      "world_only_updates_in_this_stage": 5,
+      "max_new_stage_hours": 16,
+      "global_lr_schedule": "start_from_iteration1",
+      "seed": 0,
+      "restore_saved_rng": false,
+      "previous_elapsed_seconds": 0,
+      "resume_argument": false,
+      "load_parent_optimizer_or_sampler": false,
+      "apply_710_to_713_migration": false,
+      "evaluation_iterations": [
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000
+      ],
+      "tail_iterations": [
+        7000,
+        8000,
+        9000
+      ],
+      "baseline_retention": false,
+      "capture_selected_training_rollouts": false
+    }
+  ],
+  "runtime": {
+    "host_alias": "autodl-d57",
+    "planned_source_worktree": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction",
+    "shared_source_worktree_for_jobs": true,
+    "reuse_environment": true,
+    "reuse_robot_assets": true,
+    "reuse_processed_data": true,
+    "rebuild_environment": false,
+    "download_historical_archive": false,
+    "preserve_existing_worktrees_and_uncommitted_changes": true,
+    "interaction_window_hours_max": 4,
+    "background_continues_on_handoff": true,
+    "automatic_budget_extension": false,
+    "automatic_next_campaign": false
+  },
+  "budget": {
+    "replay_warmup_steps_per_new_run": 64,
+    "replay_warmup_on_context_handoff": false,
+    "replay_and_simulator_state_saved_in_parent": false,
+    "includes_initial_replay_warmup": true,
+    "old_elapsed_time_used_for_stage_budget": false,
+    "formal_evaluation_and_publication_timed_separately": true,
+    "at_wall_limit": "Publish the actual final checkpoint, including non-milestone. Report each job against its own specified endpoint; do not invent matched progress."
+  },
+  "preserved": {
+    "full_joint_cycle": true,
+    "world_window": 8,
+    "imagination_horizon": 32,
+    "num_envs_per_arm": 4096,
+    "world_batches": 10,
+    "world_batch_size": 2048,
+    "imagination_batch_size": 4096,
+    "critic_epochs": 5,
+    "critic_minibatches": 4,
+    "max_episode_steps": 500,
+    "world_termination_loss": "aux_bce",
+    "imagination_termination": "analytic_smooth",
+    "termination_smoothing_temperature": 0.05,
+    "goal_frame": "robot_root",
+    "common_goal_dimensions": 710,
+    "seed": 0,
+    "unchanged": [
+      "actor_hidden_layers_and_decoder",
+      "actor_history_and_latent",
+      "world_model_and_critic_architectures",
+      "state_representation_and_scaling",
+      "state_loss_70_dim_mean",
+      "rewards",
+      "physical_termination",
+      "PD_and_action_scale",
+      "reset_sampler",
+      "observation_noise",
+      "domain_randomization",
+      "gamma",
+      "lambda",
+      "checkpoint_every_iteration",
+      "keep_recent_20_and_milestones"
+    ],
+    "actor_encoder_input_dimensions": 713,
+    "actor_root_position_feedback": true,
+    "actor_root_position_scale_m": 0.3,
+    "actor_learning_rate_scale": 0.5,
+    "world_only_warmup_iterations": 5,
+    "policy": "Keep the actual P6 B algorithm configuration; change only job runtime/init/budget and specified evidence/publication."
+  },
+  "position_feedback": {
+    "consumer": "actor_encoder_only",
+    "formula": "inverse_full_robot_root_rotation * (current_reference_root_position - current_robot_root_position) / 0.3",
+    "dimensions": 3,
+    "scale_m": 0.3,
+    "reference_frame": "current_t",
+    "coordinate_frame": "full_robot_root",
+    "use_yaw_only": false,
+    "extra_clipping": false,
+    "extra_noise": false,
+    "learned_normalization": false,
+    "common_future_goal_dimensions": 710,
+    "modify_motion_library_goal": false,
+    "critic_goal_dimensions": 710,
+    "modify_critic_privileged_pose": false,
+    "modify_world_model_or_replay_state": false,
+    "actor_history_dimensions": 930,
+    "actor_latent_dimensions": 32,
+    "call_paths": [
+      "real_collection",
+      "each_imagined_step",
+      "formal_evaluation"
+    ],
+    "shared_feature_function": true,
+    "imagined_feature_from_current_predicted_state": true,
+    "imagined_position_and_quaternion_gradients_preserved": true,
+    "use_rollout_initial_error_for_all_steps": false,
+    "silently_zero_missing_feedback_input": false,
+    "evaluation_actor_constructed_from_checkpoint_config": true,
+    "deployment_note": "Simulator root position is available. Deployment would require a corresponding state estimate and is outside P6."
+  },
+  "learning_rate": {
+    "base": 0.0002,
+    "actor_scale": 0.5,
+    "world_scale": 1,
+    "critic_scale": 1,
+    "cosine_iterations": 250000,
+    "floor_multiplier": 0.03,
+    "per_job_global_iteration": true,
+    "apply_each_update": true
+  },
+  "concurrency": {
+    "gpu_training_processes": 2,
+    "gpu_evaluation_or_selected_model_analysis_processes": 1,
+    "publication_lock": "work/p2-publication.lock",
+    "shared_by_both_jobs_and_model_evidence": true,
+    "cpu_existing_data_workers_max": 4,
+    "torch_threads_per_training_process": 2,
+    "torch_threads_per_evaluation_process": 2,
+    "gpu_capacity_gb": 96,
+    "cpu_cores": 25,
+    "p6_observed_training_hours": [
+      9.968,
+      10.087
+    ],
+    "estimated_training_wall_hours": [
+      10,
+      12
+    ],
+    "formal_evaluation_publication_additional": true,
+    "estimate_is_not_guarantee": true,
+    "synthetic_benchmark": false,
+    "stop_other_projects": false,
+    "resource_conflict": "Adjust only this project's concurrency or ordering based on actual conflict; do not change the algorithm."
+  },
+  "evidence_backfill": {
+    "output_root": "results/20261105-p6-position-feedback-s0/followup_evidence",
+    "blocks_training_start": false,
+    "source_server_run": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback",
+    "actual_new_physics_rollouts": 0,
+    "current_failure_windows": [
+      {
+        "motion": "dance1_subject1",
+        "failed_iteration": 33000,
+        "successful_iteration": null,
+        "time_seconds": [
+          104.48,
+          107.12
+        ],
+        "state_frames_inclusive": [
+          5224,
+          5356
+        ]
+      },
+      {
+        "motion": "fallAndGetUp2_subject2",
+        "failed_iteration": 33000,
+        "successful_iteration": 30000,
+        "time_seconds": [
+          139.36,
+          142
+        ],
+        "state_frames_inclusive": [
+          6968,
+          7100
+        ]
+      },
+      {
+        "motion": "jumps1_subject2",
+        "failed_iteration": 33000,
+        "successful_iteration": 32000,
+        "time_seconds": [
+          230.06,
+          232.7
+        ],
+        "state_frames_inclusive": [
+          11503,
+          11635
+        ]
+      }
+    ],
+    "current_physical_windows_total": 5,
+    "window_format": "One small NPZ per physical window plus readable JSON values/source/meaning; preserve original50Hz data.",
+    "window_arrays": [
+      "integer_state_frames",
+      "qpos",
+      "qvel",
+      "reference_qpos",
+      "reference_qvel",
+      "action",
+      "previous_action",
+      "reward",
+      "reward_components",
+      "existing_failure_and_error_metrics"
+    ],
+    "state_samples": 133,
+    "transition_samples": 132,
+    "dt": 0.02,
+    "transition_alignment": "action[k] produces state[k+1]; qpos/qvel/reference arrays include initial state.",
+    "evaluation_context": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "context_provenance": "Derived explicitly from the published deterministic evaluation definition; not falsely labeled as originally stored in old NPZ.",
+    "force_evidence": "Existing NPZ has no measured actuator/contact forces; do not infer saturation from action RMS.",
+    "model_windows": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback/checkpoint_0033000.pt",
+      "world_model_only": true,
+      "closed_loop_actor": false,
+      "starts_before_failure_seconds": [
+        1.28,
+        0.64
+      ],
+      "horizon": 32,
+      "window_count": 6,
+      "actions": "recorded executed physical actions",
+      "state_initialization": "qpos[i], qvel[i], action[i-1]",
+      "compare_next_states": "actual state[i+1:i+33]",
+      "initial_action_slice": "action[i:i+32]",
+      "report_horizons": [
+        8,
+        16,
+        32
+      ],
+      "metrics": [
+        "root_position_m",
+        "root_SO3_rad",
+        "joint_position_rad",
+        "linear_velocity",
+        "angular_velocity",
+        "predicted_and_actual_reward_components",
+        "analytic_smooth_failure_probability",
+        "actual_termination"
+      ],
+      "publish_short_prediction_arrays": true,
+      "interpretation": "Earlier window ends0.64s before failure; later window reaches failure. These are same-action WM predictions, not new physics or proof of correct Jacobians."
+    },
+    "regression_31000": {
+      "failed_iteration": 31000,
+      "successful_iteration": 30000,
+      "paired_physical_windows_total": 8,
+      "targets": [
+        {
+          "motion": "fightAndSports1_subject1",
+          "time_seconds": [
+            44.4,
+            47.04
+          ],
+          "state_frames_inclusive": [
+            2220,
+            2352
+          ]
+        },
+        {
+          "motion": "jumps1_subject5",
+          "time_seconds": [
+            69.28,
+            71.92
+          ],
+          "state_frames_inclusive": [
+            3464,
+            3596
+          ]
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "time_seconds": [
+            22.46,
+            25.1
+          ],
+          "state_frames_inclusive": [
+            1123,
+            1255
+          ]
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "time_seconds": [
+            29.84,
+            32.48
+          ],
+          "state_frames_inclusive": [
+            1492,
+            1624
+          ]
+        }
+      ],
+      "training_log_interval": [
+        30001,
+        31000
+      ],
+      "select_log_centers": [
+        "maximum_critic_mse",
+        "maximum_actor_gradient_norm_before_clip"
+      ],
+      "neighboring_rows_each_side": 10,
+      "merge_overlapping_windows": true,
+      "maximum_log_windows": 2,
+      "replay_or_historical_model_loading": false,
+      "no_claim_to_reconstruct_past_imagined_samples": true,
+      "do_not_repeat_completed_25000_26000_analysis": true
+    }
+  },
+  "training_evidence": {
+    "source": "Existing normal H32 rollout and fixed lambda targets; no additional neural forward/backward.",
+    "per_update_scalars": [
+      "discounted_survival_reward_sum_mean",
+      "discounted_terminal_bootstrap_mean",
+      "terminal_value_mean_min_max",
+      "lambda_target_mean_min_max",
+      "terminal_value_fraction_above10",
+      "existing_survival_gradient_norm_critic_mse_world_errors_actual_lrs"
+    ],
+    "value_upper_bound": 10,
+    "value_upper_bound_usage": "Description only; no clipping, rejection, rollback or policy change.",
+    "raw_rollout_job": "continuation",
+    "selected_updates_per_1000_iteration_block": 1,
+    "update_selection": "Highest existing critic_mse averaged over normal critic fitting in this block.",
+    "maximum_rollouts_per_selected_update": 4,
+    "rollout_selection": "Top4 max_t absolute(lambda_target_t - old_stored_V_t); pre-fit target residual, not Actor-gradient attribution.",
+    "fields": [
+      "iteration",
+      "motion",
+      "start_frame",
+      "context",
+      "33_predicted_states",
+      "33_reference_qpos",
+      "reference_qvel_for_selected_samples",
+      "32_actions",
+      "32_rewards",
+      "32_termination_probabilities",
+      "32_current_survival_weights",
+      "33_old_values",
+      "32_lambda_targets",
+      "S",
+      "bootstrap",
+      "objective",
+      "selection_score"
+    ],
+    "action_recovery": "Each action from next state's previous-action coordinates71:100, last from terminal_state.",
+    "survival_recovery": "Selected samples only, cumulative products of already recorded deaths.",
+    "heading_condition_metric": "D=(2*(w*z+x*y))^2+(1-2*(y*y+z*z))^2 for selected predicted root quaternions; descriptive only.",
+    "parameter_phase": "Rollout uses WM after this iteration's normal fit, Actor before this iteration's policy step, and stored Critic values before fitting; not an exact saved checkpoint snapshot.",
+    "replace_candidate_within_block": true,
+    "retain_only_final_candidate": true,
+    "from_scratch_raw_rollout_capture": false,
+    "no_extra_parameter_copies": true,
+    "no_extra_rng_samples": true,
+    "full_log_stays_on_server": true
+  },
+  "implementation": {
+    "planned_only": true,
+    "planned_launcher": "scripts/run_reproduction_d57.sh",
+    "planned_finalizer": "scripts/finish_p7_reproduction.py",
+    "changes": [
+      "Create continuation and scratch configs inherited from actual713/.5 P6 B, with explicit initialization/start_iteration and independent run metadata.",
+      "P7 compact publication branches by known job; continuation compares existing B33000 parent37/3, scratch has no parent.",
+      "Remove eager default-parent lookup and historical parent path fallbacks for scratch; previous_elapsed_seconds=0 and no claimed restored state.",
+      "Training summary uses all rows for WM/collection/timing, actual policy-update rows for Actor/Critic/imagination; explicitly report first5 WM-only, no zero filling.",
+      "Reuse reward decomposition with compact mean-only node views and original evaluation paths; do not repeat per-motion objects across aggregations.",
+      "Export summaries for all actual failed motions rather than only fallAndGetUp/run, and correct misleading before_failure mean alias in new outputs.",
+      "Add bounded evidence exports from existing physical NPZ/logs and six specified WM-only predictions.",
+      "Add the specified normal-rollout scalars and at most four selected samples from one highest-Critic-MSE update per main-job block.",
+      "Finalize each role separately with its own nodes, initialization, cost and research conclusion; no cross-job A/B winner."
+    ],
+    "legacy_main_not_to_run": [
+      "P3/P4/P5/P6 launchers",
+      "legacy full-package cleanup finalizers",
+      "diagnose_checkpoint120-start scan"
+    ]
+  },
+  "evaluation": {
+    "motions": 40,
+    "start_frame": 0,
+    "friction": 1,
+    "observation_noise": false,
+    "domain_randomization": false,
+    "physical_failure": "reference-relative root height >0.25m OR gravity-z difference >0.8 OR nonfinite",
+    "normalization": "0.1 * full reference transitions; failed tail zero; equal40-motion mean",
+    "no_changed_reward_or_termination": true,
+    "re_evaluate_parent": false,
+    "per_motion_checkpoint_splicing": false,
+    "final_non_milestone": true,
+    "continuation_xy_subset": "Parent B33000 and continuation final both complete; report identities/count alongside all40 results.",
+    "scratch_first_reference_crossing": "First scheduled full40 evaluation with return>=0.82, with actual stage/total cost and subsequent nodes; not exact crossing time.",
+    "scratch_no_parent_retention": true,
+    "report_first5_wm_only_and_actor_update_count": true,
+    "single_seed_and_temporal_nodes_not_independent_replicates": true
+  },
+  "publication": {
+    "policy": "key_analysis_results_and_selected_short_evidence_to_git_bulk_local_user_managed",
+    "order": "Compute/formal evaluation -> push code/config/full40JSON/compact stats/selected evidence/conclusions -> continue agreed research.",
+    "per_node": [
+      "actual_configs_and_runtime",
+      "full40_evaluation_json",
+      "compact_training_block_statistics",
+      "reward_quality_means",
+      "all_actual_failure_summaries",
+      "per_job_progress_and_sources",
+      "continuation_selected_block_rollout_evidence_when_applicable"
+    ],
+    "permitted_small_evidence": [
+      "specified_physical_window_NPZ_and_JSON",
+      "six_same_action_WM_short_predictions",
+      "selected_local_training_log_rows",
+      "bounded_existing_imagined_rollout_samples"
+    ],
+    "no_repeated_full_metrics_jsonl": true,
+    "no_repeated_per_motion_reward_objects_in_summary": true,
+    "full_40_trajectory_arrays_uploaded": false,
+    "upload_bulk_to_release": false,
+    "bulk_background_queue": false,
+    "tar_archives": false,
+    "client_computer_archive": false,
+    "user_exports_and_deletes": true,
+    "automatic_stage_deletion": false,
+    "backup_status": "awaiting_user_export_not_confirmed",
+    "checkpoint_rolling_policy_unchanged": true,
+    "preserve_parent_milestone_and_final_checkpoints": true
+  },
+  "prohibited": [
+    "defensive_programming",
+    "unit_mock_smoke_import_shape_hash_tests",
+    "digest_recomputation",
+    "restore_drills",
+    "full_disk_scans",
+    "standalone_benchmarks",
+    "extra_physics_replays",
+    "120_start_scans",
+    "unplanned_algorithm_variants",
+    "automatic_budget_extension",
+    "generic_monitoring_or_archival_frameworks",
+    "automatic_stage_cleanup",
+    "unrelated_environment_changes"
+  ],
+  "execution": {
+    "status": "not_started",
+    "actual_configs_created": false,
+    "training_started": false,
+    "training_done": false,
+    "formal_evaluation_done": false,
+    "key_results_published": false,
+    "evidence_backfill_done": false,
+    "plan_and_review_only": true,
+    "jobs": {
+      "continuation": "not_started",
+      "from_scratch": "not_started"
+    }
+  }
+}

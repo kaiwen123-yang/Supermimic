@@ -3,7 +3,7 @@
 日期：2026-11-05（北京时间）  
 状态：**训练、正式评分和关键结果已完成。** 见 [最终分析](../results/20261105-p6-position-feedback-s0/conclusion.md)。
 
-本轮读取的结果与代码来自提交 [6ba476f](https://github.com/kaiwen123-yang/Supermimic/tree/6ba476f97611241996e2da586998d65b961ed78c)。最新已完成阶段是 P5，两支均完成到 24000。下一轮入口是本文、[机器可读协议](../configs/next_stage_position_feedback_protocol.json)及[启动提示词](NEXT_STAGE_START_PROMPT.md)。P1–P5 不重复执行。
+本文保留P6原设计，设计依据为提交[6ba476f](https://github.com/kaiwen123-yang/Supermimic/tree/6ba476f97611241996e2da586998d65b961ed78c)的P5结果。P6现已完成：B33000回报0.86624655、37/40，超过论文LAFAN1评估0.82；共同完整31动作XY为0.0640m。当前入口改为[P7计划](P7_CONTINUATION_AND_FRESH_PLAN.md)、[P7协议](../configs/next_stage_reproduction_protocol.json)与[启动提示词](NEXT_STAGE_START_PROMPT.md)。[P6协议](../configs/next_stage_position_feedback_protocol.json)和下文仅供历史溯源，不重复启动。
 
 ## 1. 研究判断
 
