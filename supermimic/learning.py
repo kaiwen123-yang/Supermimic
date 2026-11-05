@@ -5,7 +5,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .networks import Actor, Critic, WorldModel, state_prediction_squared_coordinates
+from .networks import Actor, Critic, WorldModel, state_prediction_squared_coordinates, actor_root_position_error
 from .replay import Replay
 from .task import reward_and_termination
 
@@ -28,7 +28,8 @@ def optimize(loss, optimizer, parameters, element_clip=None):
 class SuperMimic:
     def __init__(self, env, cfg):
         self.env, self.cfg = env, cfg
-        self.actor, self.critic, self.world = Actor().to(env.device), Critic().to(env.device), WorldModel().to(env.device)
+        self.actor = Actor(cfg.get("actor_root_position_feedback", False)).to(env.device)
+        self.critic, self.world = Critic().to(env.device), WorldModel().to(env.device)
         self.actor_opt = torch.optim.Adam(self.actor.parameters(), lr=cfg["learning_rate"], betas=(0.9, 0.95))
         self.critic_opt = torch.optim.Adam(self.critic.parameters(), lr=cfg["learning_rate"])
         self.world_opt = torch.optim.Adam(self.world.parameters(), lr=cfg["learning_rate"])
@@ -48,7 +49,10 @@ class SuperMimic:
         for _ in range(steps):
             goal = self.env.motions.goal(self.env.clip, self.env.frame,
                 goal_frame=self.cfg.get("goal_frame", "reference_heading"), root_quaternion=self.env.sim.qpos[:, 3:7])
-            action = self.actor(self.env.history, goal)
+            position_error = actor_root_position_error(self.env.sim.qpos,
+                self.env.motions.get(self.env.clip, self.env.frame)["qpos"],
+                self.cfg["actor_root_position_scale_m"]) if self.actor.root_position_feedback else None
+            action = self.actor(self.env.history, goal, position_error)
             executed = action + 0.1 * torch.randn_like(action)
             transition = self.env.step(executed)
             self.replay.add(transition)
@@ -121,7 +125,9 @@ class SuperMimic:
             critic_references.append(current_ref)
             with torch.no_grad():
                 values.append(self.critic(state, goal, context, current_ref))
-            action = self.actor(history, goal)
+            position_error = actor_root_position_error(state, current_ref,
+                cfg["actor_root_position_scale_m"]) if self.actor.root_position_feedback else None
+            action = self.actor(history, goal, position_error)
             predicted = self.world(state, action, context)
             ref = env.motions.get(clip, frame + step + 1)
             reward, _, _ = reward_and_termination(env.fk(predicted[:, :36], predicted[:, 36:71]), ref,

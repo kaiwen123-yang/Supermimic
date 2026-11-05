@@ -35,14 +35,23 @@ def context_features(context):
                       context[..., 30:] / 0.05), -1)
 
 
+def actor_root_position_error(robot_qpos, reference_qpos, scale_m=0.3):
+    """Current reference displacement in the full robot-root frame (P6 choice)."""
+    return quat_apply(quat_inv(robot_qpos[..., 3:7]),
+                      reference_qpos[..., :3] - robot_qpos[..., :3]) / scale_m
+
+
 class Actor(nn.Module):
-    def __init__(self):
+    def __init__(self, root_position_feedback=False):
         super().__init__()
-        self.encoder = mlp([710, 2048, 1024, 512, 256, 32])
+        self.root_position_feedback = root_position_feedback
+        self.encoder = mlp([713 if root_position_feedback else 710, 2048, 1024, 512, 256, 32])
         self.decoder = mlp([930 + 32, 2048, 1024, 512, 256, 29], final_gain=0.01)
         self.register_buffer("observation_scale", torch.tensor([1.] * 29 + [0.1] * 29 + [0.1] * 3 + [1.] * 3 + [1.] * 29))
 
-    def forward(self, history, goal):
+    def forward(self, history, goal, root_position_error=None):
+        if self.root_position_feedback:
+            goal = torch.cat((goal, root_position_error), -1)
         latent = torch.tanh(self.encoder(goal))
         observation = (history * self.observation_scale).flatten(-2)
         return self.decoder(torch.cat((latent, observation), -1))
@@ -54,8 +63,8 @@ class Critic(nn.Module):
         self.network = mlp([100 + 710 + 33 + 9, 256, 128, 1], final_gain=0.01)
 
     def forward(self, state, goal, context, reference_qpos):
-        # The critic sees the state-relative reference pose; the deployed actor
-        # does not. Without this privileged part of g, canonicalization erases
+        # The critic retains its state-relative reference pose independently of
+        # the optional P6 Actor position input. Canonicalization alone erases
         # the XY/yaw errors needed to predict the global root-tracking return.
         relative_pos = quat_apply(quat_inv(yaw_quat(state[..., 3:7])), reference_qpos[..., :3] - state[..., :3]) / 0.3
         relative_rot = rotation_6d(quat_mul(quat_inv(state[..., 3:7]), reference_qpos[..., 3:7]))

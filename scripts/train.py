@@ -112,6 +112,18 @@ def main():
                 raise ValueError("Resume method/dataset mismatch")
             if previous["config"].get("goal_frame", "reference_heading") != cfg.get("goal_frame", "reference_heading"):
                 raise ValueError("Resume cannot change goal semantics")
+            if (cfg.get("actor_root_position_feedback", False) and
+                    previous["actor"]["encoder.0.weight"].shape[1] == 710):
+                # Only the known P5 710 -> P6 713 migration; retain Adam step.
+                weight = previous["actor"]["encoder.0.weight"]
+                previous["actor"]["encoder.0.weight"] = torch.cat((weight, weight.new_zeros((2048, 3))), dim=1)
+                actor_optimizer = previous["actor_optimizer"]
+                parameter_id = actor_optimizer["param_groups"][0]["params"][0]
+                for key in ("exp_avg", "exp_avg_sq"):
+                    moment = actor_optimizer["state"][parameter_id][key]
+                    actor_optimizer["state"][parameter_id][key] = torch.cat((moment, moment.new_zeros((2048, 3))), dim=1)
+                metadata["actor_input_migration"] = "710->713: three zero weight/Adam moment columns; all other state retained"
+                print("ACTOR_POSITION_MIGRATION", metadata["actor_input_migration"], flush=True)
             learner.actor.load_state_dict(previous["actor"])
             learner.critic.load_state_dict(previous["critic"])
             if args.method == "supermimic":

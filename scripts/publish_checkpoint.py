@@ -151,12 +151,17 @@ def publish(run_name,iteration,final=False):
             for name in ("config.json","runtime.json"):
                 shutil.copy2(run/name,result/name)
             shutil.copy2(evaluation_dir/"evaluation.json",result/"evaluation.json")
-            is_p5=cfg.get("publication_protocol")=="configs/next_stage_stability_protocol.json"
-            if is_p5:
+            compact_multi_arm=cfg.get("publication_protocol") in (
+                "configs/next_stage_stability_protocol.json", "configs/next_stage_position_feedback_protocol.json")
+            is_p6=cfg.get("publication_protocol")=="configs/next_stage_position_feedback_protocol.json"
+            if compact_multi_arm:
                 from finish_tracking_campaign import training_summary
                 first=max(cfg["parent_iteration"]+1, ((iteration-1)//1000)*1000+1)
                 training_path=result/"training.json"
-                training_path.write_text(json.dumps(training_summary(run,first,iteration),indent=2)+"\n")
+                training = training_summary(run,first,iteration)
+                if is_p6:
+                    training["interpretation"] = "Actual joint updates, category sampling and global WM errors; no new same-action WM predictions."
+                training_path.write_text(json.dumps(training,indent=2)+"\n")
             else:
                 lines=[line for line in (run/"metrics.jsonl").read_text().splitlines(keepends=True)
                        if line.endswith("\n") and json.loads(line)["iteration"]<=iteration]
@@ -168,8 +173,14 @@ def publish(run_name,iteration,final=False):
             protocol=json.loads((ROOT/cfg.get("publication_protocol","configs/next_stage_continuation_protocol.json")).read_text())
             parent=json.loads((ROOT/cfg.get("parent_evaluation",protocol["parent"]["evaluation"])).read_text())
             comparison=compare_to_parent(parent,evaluation)
-            if is_p5:
+            if compact_multi_arm:
                 comparison["parent_failures"]=comparison.pop("original_eleven_failures")
+            if is_p6:
+                from position_feedback_metrics import reward_quality
+                from analyze_p5_trajectories import final_failure_windows
+                comparison["reward_quality"] = reward_quality(evaluation)
+                comparison["actor_root_position_feedback"] = cfg["actor_root_position_feedback"]
+                (result/"failure_windows.json").write_text(json.dumps(final_failure_windows(evaluation_dir),indent=2)+"\n")
             parent_successes=sum(not r["failed"] for r in parent["clips"])
             parent_failures=len(parent["clips"])-parent_successes
             comparison.update(parent_iteration=parent["iteration"],parent_completed_count=parent_successes,
@@ -180,7 +191,7 @@ def publish(run_name,iteration,final=False):
                 f"completed {len(comparison['newly_completed'])}/{parent_failures} parent failures. "
                 "One fixed checkpoint; no convergence or unseen-motion generalization claim.")
             (result/"comparison.json").write_text(json.dumps(comparison,indent=2)+"\n")
-            summary_path=(ROOT/"results"/campaign/"arms"/cfg["arm"]/"summary.json" if is_p5
+            summary_path=(ROOT/"results"/campaign/"arms"/cfg["arm"]/"summary.json" if compact_multi_arm
                           else ROOT/"results"/campaign/"summary.json")
             summary_path.parent.mkdir(parents=True,exist_ok=True)
             summary=json.loads(summary_path.read_text()) if summary_path.exists() else {"run":run_name,"arm":cfg["arm"],"status":"running"}
@@ -197,6 +208,9 @@ def publish(run_name,iteration,final=False):
                     "still_in_use":["run checkpoints","parent checkpoint","processed motion cache","training log"],
                     "backup_status":"awaiting_user_export_not_confirmed","deletion_owner":"user"},
                 bulk_artifacts_status="retained_on_server_by_policy",unpublished=[])
+            if is_p6:
+                summary.update(actor_root_position_feedback=cfg["actor_root_position_feedback"],
+                    latest_reward_quality=comparison["reward_quality"]["mean"])
             summary_path.write_text(json.dumps(summary,indent=2,ensure_ascii=False)+"\n")
             result_url=f"https://github.com/{REPO}/tree/main/{result.relative_to(ROOT).as_posix()}"
             status.update(status="published",goal_frame=cfg["goal_frame"],
@@ -208,7 +222,7 @@ def publish(run_name,iteration,final=False):
             def update(index):
                 index.setdefault("publications",{})[tag]={key:status[key] for key in
                     ("iteration","goal_frame","world_termination_loss","result_url","status","completed_motions","mean_normalized_return","final","publication_policy")}
-                if is_p5:
+                if compact_multi_arm:
                     record={"run":run_name,"status":"running","latest_evaluated_iteration":iteration,
                             "summary":str(summary_path.relative_to(ROOT)),"server_run_directory":str(run),
                             "backup_status":"awaiting_user_export_not_confirmed"}
@@ -222,7 +236,7 @@ def publish(run_name,iteration,final=False):
                 index["campaigns"][campaign].update(latest_evaluated_iteration=iteration,publication_policy=status["publication_policy"],
                     bulk_artifacts_status="retained_on_server_by_policy",server_run_directory=str(run),backup_status="awaiting_user_export_not_confirmed")
             paths=[result.relative_to(ROOT),summary_path.relative_to(ROOT)]
-            if not is_p5:
+            if not compact_multi_arm:
                 paths.append(training_path.relative_to(ROOT))
             commit=push_results(tag,paths,update)
             status.update(results_commit=commit,completed_unix=time.time())

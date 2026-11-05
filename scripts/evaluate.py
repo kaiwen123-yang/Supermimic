@@ -11,7 +11,7 @@ import torch
 from supermimic.motion import MotionLibrary, checkpoint_data_definition
 from supermimic.simulator import G1Simulator
 from supermimic.kinematics import ForwardKinematics
-from supermimic.networks import Actor
+from supermimic.networks import Actor, actor_root_position_error
 from supermimic.task import observation, reward_and_termination
 from supermimic.geometry import quat_apply, quat_inv, quat_mul, quat_to_rotvec, yaw_quat
 from supermimic.checkpointing import pin_checkpoint
@@ -28,7 +28,7 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
     cfg, iteration = checkpoint["config"], checkpoint["iteration"]
     goal_frame = cfg.get("goal_frame", "reference_heading")
     started = time.monotonic()
-    actor = Actor().cuda().eval()
+    actor = Actor(cfg.get("actor_root_position_feedback", False)).cuda().eval()
     actor.load_state_dict(checkpoint["actor"])
     actor_updates = checkpoint["actor_updates"]
     del checkpoint
@@ -51,7 +51,9 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
                        "reference_qpos": [initial["qpos"][i].cpu().numpy().copy()],
                        "reference_qvel": [initial["qvel"][i].cpu().numpy().copy()]})
     while bool(active.any()):
-        action = actor(history, motions.goal(clip, frame, goal_frame=goal_frame, root_quaternion=sim.qpos[:, 3:7]))
+        position_error = actor_root_position_error(sim.qpos, motions.get(clip, frame)["qpos"],
+            cfg["actor_root_position_scale_m"]) if actor.root_position_feedback else None
+        action = actor(history, motions.goal(clip, frame, goal_frame=goal_frame, root_quaternion=sim.qpos[:, 3:7]), position_error)
         qpos, qvel = sim.step(action)
         reference = motions.get(clip, frame + 1)
         reward, done, metrics = reward_and_termination(fk(qpos, qvel), reference, qpos, action,
@@ -110,6 +112,8 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
                             goal_frame=goal_frame, dt=.02, full_reference_steps=length)
         records.append(row)
     result = {"status": "evaluated", "method": cfg["method"], "goal_frame": goal_frame,
+              "actor_root_position_feedback": cfg.get("actor_root_position_feedback", False),
+              "actor_root_position_scale_m": cfg.get("actor_root_position_scale_m", 0.3),
               "world_termination_loss": cfg.get("world_termination_loss", "aux_bce"),
               "iteration": iteration, "actor_updates": actor_updates, "data_definition": motions.data_definition,
               "checkpoint_file": f"checkpoint_{iteration:07d}.pt", "motions": 40,
