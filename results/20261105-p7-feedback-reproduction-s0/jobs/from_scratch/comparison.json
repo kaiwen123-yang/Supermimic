@@ -1,0 +1,3456 @@
+{
+  "job": "from_scratch",
+  "initialization": "scratch",
+  "question": "Measure learning and cost of the fixed713/.5 recipe without inherited training.",
+  "fixed_endpoint": 9000,
+  "actual_endpoint": 9000,
+  "fixed_endpoint_reached": true,
+  "all_milestones": {
+    "1000": {
+      "iteration": 1000,
+      "completed_motions": 0,
+      "mean_normalized_return": 0.004644739096335258,
+      "mean_completion_fraction": 0.009115281589429241,
+      "mean_tracking_coverage": 0.003614219531640228,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0001000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.004644739096335259,
+        "completion_fraction": 0.009115281589429243,
+        "total_gap": 0.9953552609036648,
+        "missing_tail_gap": 0.9908847184105708,
+        "executed_quality_gap": 0.004470542493093982,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.0009116512486315696,
+            "executed_available_maximum": 0.0018230563178858485,
+            "executed_quality_gap": 0.0009114050692542789
+          },
+          "body_orientation": {
+            "normalized_contribution": 6.847377915020236e-05,
+            "executed_available_maximum": 0.0018230563178858485,
+            "executed_quality_gap": 0.0017545825387356461
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.0013021193231391134,
+            "executed_available_maximum": 0.0018230563178858485,
+            "executed_quality_gap": 0.000520936994746735
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.001376394153344946,
+            "executed_available_maximum": 0.0018230563178858485,
+            "executed_quality_gap": 0.0004466621645409023
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.0006989974209610483,
+            "executed_available_maximum": 0.0009115281589429242,
+            "executed_quality_gap": 0.000212530737981876
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.0003019724552023606,
+            "executed_available_maximum": 0.0009115281589429242,
+            "executed_quality_gap": 0.0006095557037405637
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -1.486927745838033e-05,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 1.486927745838033e-05
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": 0.0,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0
+          }
+        }
+      },
+      "completed_motion_names": [],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.6400000000000001,
+          "completion_fraction": 0.012475277650996501,
+          "normalized_return": 0.0061262714726575225
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 3.68,
+          "completion_fraction": 0.027993305948577515,
+          "normalized_return": 0.016557522083802814
+        },
+        {
+          "motion": "dance1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.28,
+          "completion_fraction": 0.00973680206907044,
+          "normalized_return": 0.004175419107455832
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.48,
+          "completion_fraction": 0.006558539395550829,
+          "normalized_return": 0.003043734325309135
+        },
+        {
+          "motion": "dance2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.72,
+          "completion_fraction": 0.007622086324559072,
+          "normalized_return": 0.0037819739531183842
+        },
+        {
+          "motion": "dance2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.8,
+          "completion_fraction": 0.007976601967561819,
+          "normalized_return": 0.003946507071443434
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.44,
+          "completion_fraction": 0.006381281574049455,
+          "normalized_return": 0.002901458390189815
+        },
+        {
+          "motion": "dance2_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.46,
+          "completion_fraction": 0.006469910484800142,
+          "normalized_return": 0.0030326361917431426
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.0,
+          "completion_fraction": 0.011890606420927468,
+          "normalized_return": 0.005908244493219217
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.98,
+          "completion_fraction": 0.011771700356718193,
+          "normalized_return": 0.0058616419066979545
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.3800000000000001,
+          "completion_fraction": 0.008204518430439952,
+          "normalized_return": 0.0037758413770908267
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.52,
+          "completion_fraction": 0.01537522879804759,
+          "normalized_return": 0.00839044140166557
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.46,
+          "completion_fraction": 0.008907870652837095,
+          "normalized_return": 0.004064147300959143
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.28,
+          "completion_fraction": 0.012529365700861394,
+          "normalized_return": 0.005688820790554876
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.18,
+          "completion_fraction": 0.008903046638895696,
+          "normalized_return": 0.004736596781872733
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.44,
+          "completion_fraction": 0.0058809115412889,
+          "normalized_return": 0.002686651568106116
+        },
+        {
+          "motion": "fight1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.56,
+          "completion_fraction": 0.006370987503062975,
+          "normalized_return": 0.00306651525045448
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.84,
+          "completion_fraction": 0.007506527415143603,
+          "normalized_return": 0.0037210418945470185
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.52,
+          "completion_fraction": 0.006201044386422976,
+          "normalized_return": 0.002876875701563447
+        },
+        {
+          "motion": "jumps1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.46,
+          "completion_fraction": 0.005973324605187792,
+          "normalized_return": 0.0028368621135173044
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.2,
+          "completion_fraction": 0.009000900090009001,
+          "normalized_return": 0.005211318878807653
+        },
+        {
+          "motion": "jumps1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.3800000000000001,
+          "completion_fraction": 0.005646019147369282,
+          "normalized_return": 0.0026188127113684974
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.72,
+          "completion_fraction": 0.011438183347350715,
+          "normalized_return": 0.00635012223356293
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.6600000000000001,
+          "completion_fraction": 0.006980656013456686,
+          "normalized_return": 0.0034649486601026846
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 3.02,
+          "completion_fraction": 0.012336601307189542,
+          "normalized_return": 0.007046020635421954
+        },
+        {
+          "motion": "run2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 2.14,
+          "completion_fraction": 0.008741830065359477,
+          "normalized_return": 0.004618146677434542
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 5.42,
+          "completion_fraction": 0.019846210179421456,
+          "normalized_return": 0.011608887477448815
+        },
+        {
+          "motion": "sprint1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.34,
+          "completion_fraction": 0.004906627608934456,
+          "normalized_return": 0.002192646567854677
+        },
+        {
+          "motion": "walk1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.58,
+          "completion_fraction": 0.009873708381171067,
+          "normalized_return": 0.005349755233707576
+        },
+        {
+          "motion": "walk1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.12,
+          "completion_fraction": 0.0081132797550708,
+          "normalized_return": 0.004227167636960163
+        },
+        {
+          "motion": "walk1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.68,
+          "completion_fraction": 0.00642939150401837,
+          "normalized_return": 0.0031893563275416145
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.58,
+          "completion_fraction": 0.006634195498824319,
+          "normalized_return": 0.0031630778996487234
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.42,
+          "completion_fraction": 0.005962378233120591,
+          "normalized_return": 0.00277159991775798
+        },
+        {
+          "motion": "walk2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.7,
+          "completion_fraction": 0.007138058448102116,
+          "normalized_return": 0.0034485229653602564
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.32,
+          "completion_fraction": 0.009407948094079481,
+          "normalized_return": 0.005051958231166283
+        },
+        {
+          "motion": "walk3_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.48,
+          "completion_fraction": 0.006001622060016221,
+          "normalized_return": 0.0029330427840726704
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.36,
+          "completion_fraction": 0.00551500405515004,
+          "normalized_return": 0.0024155528863947853
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.74,
+          "completion_fraction": 0.007055961070559611,
+          "normalized_return": 0.0033933970131529894
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.58,
+          "completion_fraction": 0.006407137064071371,
+          "normalized_return": 0.003103945446589664
+        },
+        {
+          "motion": "walk4_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.04,
+          "completion_fraction": 0.012446613788895668,
+          "normalized_return": 0.006452080493087155
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 0
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.0,
+          "normalized_return": 0.005908244493219217
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.98,
+          "normalized_return": 0.0058616419066979545
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.3800000000000001,
+          "normalized_return": 0.0037758413770908267
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.52,
+          "normalized_return": 0.00839044140166557
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.46,
+          "normalized_return": 0.004064147300959143
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.28,
+          "normalized_return": 0.005688820790554876
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.72,
+          "normalized_return": 0.00635012223356293
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.6600000000000001,
+          "normalized_return": 0.0034649486601026846
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 3.02,
+          "normalized_return": 0.007046020635421954
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.14,
+          "normalized_return": 0.004618146677434542
+        }
+      ],
+      "conclusion": "Iteration 1000: 0/40 complete; full-duration normalized return 0.00464474. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "2000": {
+      "iteration": 2000,
+      "completed_motions": 0,
+      "mean_normalized_return": 0.004259155121002056,
+      "mean_completion_fraction": 0.00944386819863387,
+      "mean_tracking_coverage": 0.005921819352314433,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0002000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.004259155121002056,
+        "completion_fraction": 0.009443868198633869,
+        "total_gap": 0.9957408448789979,
+        "missing_tail_gap": 0.9905561318013661,
+        "executed_quality_gap": 0.005184713077631813,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.0010763706949441039,
+            "executed_available_maximum": 0.0018887736397267738,
+            "executed_quality_gap": 0.00081240294478267
+          },
+          "body_orientation": {
+            "normalized_contribution": 6.484007434872139e-05,
+            "executed_available_maximum": 0.0018887736397267738,
+            "executed_quality_gap": 0.0018239335653780526
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.0011903849555501837,
+            "executed_available_maximum": 0.0018887736397267738,
+            "executed_quality_gap": 0.0006983886841765901
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.000988047835559825,
+            "executed_available_maximum": 0.0018887736397267738,
+            "executed_quality_gap": 0.0009007258041669487
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.0006214800299769982,
+            "executed_available_maximum": 0.0009443868198633869,
+            "executed_quality_gap": 0.00032290678988638875
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.0005141596905682476,
+            "executed_available_maximum": 0.0009443868198633869,
+            "executed_quality_gap": 0.0004302271292951394
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.00014887572125395286,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.00014887572125395286
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -4.725244071578565e-05,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 4.725244071578565e-05
+          }
+        }
+      },
+      "completed_motion_names": [],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.56,
+          "completion_fraction": 0.01947360413814088,
+          "normalized_return": 0.008319412456862497
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.94,
+          "completion_fraction": 0.014757340635934885,
+          "normalized_return": 0.008272979191434849
+        },
+        {
+          "motion": "dance1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.98,
+          "completion_fraction": 0.015061615700593337,
+          "normalized_return": 0.00807896491934153
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 3.54,
+          "completion_fraction": 0.015687317202871576,
+          "normalized_return": 0.0068852584520167496
+        },
+        {
+          "motion": "dance2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.06,
+          "completion_fraction": 0.009128777807320748,
+          "normalized_return": 0.005066752567329982
+        },
+        {
+          "motion": "dance2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.82,
+          "completion_fraction": 0.008065230878312506,
+          "normalized_return": 0.003934479720951934
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.3800000000000001,
+          "completion_fraction": 0.0061153948417973945,
+          "normalized_return": 0.0027475091095095585
+        },
+        {
+          "motion": "dance2_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.22,
+          "completion_fraction": 0.0054063635557918995,
+          "normalized_return": 0.002347782970189277
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.0,
+          "completion_fraction": 0.011890606420927468,
+          "normalized_return": 0.002704643454196709
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 2.6,
+          "completion_fraction": 0.015457788347205707,
+          "normalized_return": 0.003906766958639921
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.32,
+          "completion_fraction": 0.007847800237812128,
+          "normalized_return": 0.00357647387667445
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.46,
+          "completion_fraction": 0.008907870652837095,
+          "normalized_return": 0.004518748841193335
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.52,
+          "completion_fraction": 0.009273947528981086,
+          "normalized_return": 0.0044883556096900375
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.2,
+          "completion_fraction": 0.02153484729835552,
+          "normalized_return": 0.009131315832493787
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 3.06,
+          "completion_fraction": 0.012496937025238911,
+          "normalized_return": 0.005369775645653329
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 3.36,
+          "completion_fraction": 0.0137221269296741,
+          "normalized_return": 0.005684303980332521
+        },
+        {
+          "motion": "fight1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.3800000000000001,
+          "completion_fraction": 0.0056358735604018625,
+          "normalized_return": 0.0025933813481712367
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.98,
+          "completion_fraction": 0.012157310704960836,
+          "normalized_return": 0.005666289286895876
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.3,
+          "completion_fraction": 0.005303524804177545,
+          "normalized_return": 0.00233081369581766
+        },
+        {
+          "motion": "jumps1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 3.0,
+          "completion_fraction": 0.012273954668194092,
+          "normalized_return": 0.007066467110695244
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.36,
+          "completion_fraction": 0.005564192782914655,
+          "normalized_return": 0.0026832404555965487
+        },
+        {
+          "motion": "jumps1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.36,
+          "completion_fraction": 0.005564192782914655,
+          "normalized_return": 0.00252666415413632
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 2.72,
+          "completion_fraction": 0.011438183347350715,
+          "normalized_return": 0.0064075188010247995
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.24,
+          "completion_fraction": 0.005214465937762826,
+          "normalized_return": 0.0022830365850731943
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 2.66,
+          "completion_fraction": 0.010866013071895424,
+          "normalized_return": 0.004983394647555828
+        },
+        {
+          "motion": "run2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.24,
+          "completion_fraction": 0.005065359477124183,
+          "normalized_return": 0.0022268771053918827
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 3.04,
+          "completion_fraction": 0.011131453679970706,
+          "normalized_return": 0.006402467936754816
+        },
+        {
+          "motion": "sprint1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 2.54,
+          "completion_fraction": 0.009300622482607103,
+          "normalized_return": 0.0028031049844021464
+        },
+        {
+          "motion": "walk1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.5,
+          "completion_fraction": 0.0057405281285878304,
+          "normalized_return": 0.002891645720103806
+        },
+        {
+          "motion": "walk1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.6400000000000001,
+          "completion_fraction": 0.0062763107539226945,
+          "normalized_return": 0.003359997733412371
+        },
+        {
+          "motion": "walk1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.26,
+          "completion_fraction": 0.004822043628013777,
+          "normalized_return": 0.002137556814663811
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.44,
+          "completion_fraction": 0.006046355391333557,
+          "normalized_return": 0.002803206615457183
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 3.24,
+          "completion_fraction": 0.013604299630500504,
+          "normalized_return": 0.005538935865198467
+        },
+        {
+          "motion": "walk2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.24,
+          "completion_fraction": 0.0052065838092038965,
+          "normalized_return": 0.0023141910924538997
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.68,
+          "completion_fraction": 0.006812652068126521,
+          "normalized_return": 0.0034933533453037364
+        },
+        {
+          "motion": "walk3_subject2",
+          "reason": "root_height",
+          "execution_seconds": 1.6,
+          "completion_fraction": 0.006488240064882401,
+          "normalized_return": 0.0011358210921639897
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 1.9000000000000001,
+          "completion_fraction": 0.007704785077047851,
+          "normalized_return": 0.003989491091296379
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_height",
+          "execution_seconds": 1.44,
+          "completion_fraction": 0.00583941605839416,
+          "normalized_return": 0.002786391590693958
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_height",
+          "execution_seconds": 1.32,
+          "completion_fraction": 0.00535279805352798,
+          "normalized_return": 0.0023433992099877983
+        },
+        {
+          "motion": "walk4_subject1",
+          "reason": "root_height",
+          "execution_seconds": 1.56,
+          "completion_fraction": 0.009517998779743747,
+          "normalized_return": 0.00456543497132084
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 0
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.0,
+          "normalized_return": 0.002704643454196709
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.6,
+          "normalized_return": 0.003906766958639921
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.32,
+          "normalized_return": 0.00357647387667445
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.46,
+          "normalized_return": 0.004518748841193335
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.52,
+          "normalized_return": 0.0044883556096900375
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.2,
+          "normalized_return": 0.009131315832493787
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.72,
+          "normalized_return": 0.0064075188010247995
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.24,
+          "normalized_return": 0.0022830365850731943
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 2.66,
+          "normalized_return": 0.004983394647555828
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 1.24,
+          "normalized_return": 0.0022268771053918827
+        }
+      ],
+      "conclusion": "Iteration 2000: 0/40 complete; full-duration normalized return 0.00425916. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "3000": {
+      "iteration": 3000,
+      "completed_motions": 0,
+      "mean_normalized_return": 0.013397362793308294,
+      "mean_completion_fraction": 0.03616119378480778,
+      "mean_tracking_coverage": 0.009153515031397708,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0003000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.013397362793308294,
+        "completion_fraction": 0.036161193784807796,
+        "total_gap": 0.9866026372066917,
+        "missing_tail_gap": 0.9638388062151922,
+        "executed_quality_gap": 0.022763830991499503,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.005041244977233023,
+            "executed_available_maximum": 0.00723223875696156,
+            "executed_quality_gap": 0.0021909937797285365
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.0005347313667882867,
+            "executed_available_maximum": 0.00723223875696156,
+            "executed_quality_gap": 0.006697507390173273
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.0034101339741093874,
+            "executed_available_maximum": 0.00723223875696156,
+            "executed_quality_gap": 0.0038221047828521726
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.0027711809821365143,
+            "executed_available_maximum": 0.00723223875696156,
+            "executed_quality_gap": 0.004461057774825045
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.0008666462086463132,
+            "executed_available_maximum": 0.00361611937848078,
+            "executed_quality_gap": 0.0027494731698344665
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.002030491104561167,
+            "executed_available_maximum": 0.00361611937848078,
+            "executed_quality_gap": 0.0015856282739196129
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.0011647029004061555,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0011647029004061555
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -9.236291224084968e-05,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 9.236291224084968e-05
+          }
+        }
+      },
+      "completed_motion_names": [],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 5.48,
+          "completion_fraction": 0.04168568385820782,
+          "normalized_return": 0.015943290537127435
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 24.64,
+          "completion_fraction": 0.18743343982960597,
+          "normalized_return": 0.06883997221759432
+        },
+        {
+          "motion": "dance1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 9.0,
+          "completion_fraction": 0.06846188954815152,
+          "normalized_return": 0.022794101647239735
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 6.5,
+          "completion_fraction": 0.028804395993973234,
+          "normalized_return": 0.01049512441869598
+        },
+        {
+          "motion": "dance2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 6.640000000000001,
+          "completion_fraction": 0.029424798369228043,
+          "normalized_return": 0.0065942948329335855
+        },
+        {
+          "motion": "dance2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 7.7,
+          "completion_fraction": 0.034122130639014446,
+          "normalized_return": 0.009769382658772363
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 6.16,
+          "completion_fraction": 0.027297704511211558,
+          "normalized_return": 0.008317856415518318
+        },
+        {
+          "motion": "dance2_subject5",
+          "reason": "root_height",
+          "execution_seconds": 11.42,
+          "completion_fraction": 0.050607108038642205,
+          "normalized_return": 0.021681457285040315
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 5.5,
+          "completion_fraction": 0.032699167657550536,
+          "normalized_return": 0.012203096932738213
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 5.4,
+          "completion_fraction": 0.03210463733650416,
+          "normalized_return": 0.010455475052270216
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 6.42,
+          "completion_fraction": 0.03816884661117717,
+          "normalized_return": 0.015691538482121504
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 5.68,
+          "completion_fraction": 0.034655277608297744,
+          "normalized_return": 0.012495897992234507
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 5.36,
+          "completion_fraction": 0.03270286760219646,
+          "normalized_return": 0.012296587605207058
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 4.42,
+          "completion_fraction": 0.043265465935787,
+          "normalized_return": 0.01929990737212389
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 9.1,
+          "completion_fraction": 0.037164093767867355,
+          "normalized_return": 0.01054372855218335
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 5.66,
+          "completion_fraction": 0.02311524953034387,
+          "normalized_return": 0.008651963054193901
+        },
+        {
+          "motion": "fight1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 4.9,
+          "completion_fraction": 0.020011435105774727,
+          "normalized_return": 0.008089016737105603
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 4.48,
+          "completion_fraction": 0.018276762402088774,
+          "normalized_return": 0.007540793141111391
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 11.34,
+          "completion_fraction": 0.046263054830287205,
+          "normalized_return": 0.01550357163698123
+        },
+        {
+          "motion": "jumps1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 8.52,
+          "completion_fraction": 0.03485803125767122,
+          "normalized_return": 0.014193761837461053
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 20.080000000000002,
+          "completion_fraction": 0.08215366991244578,
+          "normalized_return": 0.028627478227072803
+        },
+        {
+          "motion": "jumps1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 7.140000000000001,
+          "completion_fraction": 0.02921201211030194,
+          "normalized_return": 0.011073362811103282
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 7.74,
+          "completion_fraction": 0.032548359966358284,
+          "normalized_return": 0.0144480903831403
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 5.18,
+          "completion_fraction": 0.02178301093355761,
+          "normalized_return": 0.009633603652753562
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 6.18,
+          "completion_fraction": 0.025245098039215687,
+          "normalized_return": 0.010095296682979382
+        },
+        {
+          "motion": "run2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 4.96,
+          "completion_fraction": 0.020261437908496733,
+          "normalized_return": 0.007386999139277155
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 4.76,
+          "completion_fraction": 0.0174295129989015,
+          "normalized_return": 0.00822854009449686
+        },
+        {
+          "motion": "sprint1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 5.5600000000000005,
+          "completion_fraction": 0.020358842914683265,
+          "normalized_return": 0.00785591351864972
+        },
+        {
+          "motion": "walk1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 7.18,
+          "completion_fraction": 0.027477994642173747,
+          "normalized_return": 0.010748278252692046
+        },
+        {
+          "motion": "walk1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 6.68,
+          "completion_fraction": 0.025564485265977804,
+          "normalized_return": 0.011851794257477764
+        },
+        {
+          "motion": "walk1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 5.26,
+          "completion_fraction": 0.020130118637581323,
+          "normalized_return": 0.008797464846869324
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 4.84,
+          "completion_fraction": 0.02032247228753779,
+          "normalized_return": 0.008174925488928977
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 8.06,
+          "completion_fraction": 0.03384279475982533,
+          "normalized_return": 0.011702971332723718
+        },
+        {
+          "motion": "walk2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 9.82,
+          "completion_fraction": 0.041232784682566345,
+          "normalized_return": 0.014953808599334057
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 8.02,
+          "completion_fraction": 0.03252230332522303,
+          "normalized_return": 0.011344507370842432
+        },
+        {
+          "motion": "walk3_subject2",
+          "reason": "root_height",
+          "execution_seconds": 3.64,
+          "completion_fraction": 0.014760746147607461,
+          "normalized_return": 0.004186941673416442
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 9.42,
+          "completion_fraction": 0.038199513381995134,
+          "normalized_return": 0.013711886795517887
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_height",
+          "execution_seconds": 3.8000000000000003,
+          "completion_fraction": 0.015409570154095702,
+          "normalized_return": 0.006186717392654677
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_height",
+          "execution_seconds": 6.5,
+          "completion_fraction": 0.026358475263584754,
+          "normalized_return": 0.009092872083941585
+        },
+        {
+          "motion": "walk4_subject1",
+          "reason": "root_height",
+          "execution_seconds": 6.640000000000001,
+          "completion_fraction": 0.040512507626601586,
+          "normalized_return": 0.016392240719805808
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 0
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.5,
+          "normalized_return": 0.012203096932738213
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.4,
+          "normalized_return": 0.010455475052270216
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 6.42,
+          "normalized_return": 0.015691538482121504
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.68,
+          "normalized_return": 0.012495897992234507
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 5.36,
+          "normalized_return": 0.012296587605207058
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 4.42,
+          "normalized_return": 0.01929990737212389
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 7.74,
+          "normalized_return": 0.0144480903831403
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.18,
+          "normalized_return": 0.009633603652753562
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 6.18,
+          "normalized_return": 0.010095296682979382
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 4.96,
+          "normalized_return": 0.007386999139277155
+        }
+      ],
+      "conclusion": "Iteration 3000: 0/40 complete; full-duration normalized return 0.01339736. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "4000": {
+      "iteration": 4000,
+      "completed_motions": 0,
+      "mean_normalized_return": 0.12331259207756443,
+      "mean_completion_fraction": 0.22258571934304722,
+      "mean_tracking_coverage": 0.017715066230623536,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0004000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.12331259207756441,
+        "completion_fraction": 0.2225857193430472,
+        "total_gap": 0.8766874079224356,
+        "missing_tail_gap": 0.7774142806569528,
+        "executed_quality_gap": 0.09927312726548279,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.038235665454502694,
+            "executed_available_maximum": 0.04451714386860944,
+            "executed_quality_gap": 0.00628147841410675
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.011336936354526374,
+            "executed_available_maximum": 0.04451714386860944,
+            "executed_quality_gap": 0.03318020751408307
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.030011396796191987,
+            "executed_available_maximum": 0.04451714386860944,
+            "executed_quality_gap": 0.014505747072417455
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.026261909778536974,
+            "executed_available_maximum": 0.04451714386860944,
+            "executed_quality_gap": 0.018255234090072466
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.001662546182625403,
+            "executed_available_maximum": 0.02225857193430472,
+            "executed_quality_gap": 0.02059602575167932
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.01911201796982787,
+            "executed_available_maximum": 0.02225857193430472,
+            "executed_quality_gap": 0.0031465539644768524
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.0031517312616222808,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0031517312616222808
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.00015614920204441924,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.00015614920204441924
+          }
+        }
+      },
+      "completed_motion_names": [],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 15.02,
+          "completion_fraction": 0.11425528677924844,
+          "normalized_return": 0.0683516881318106
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 22.56,
+          "completion_fraction": 0.1716111364673665,
+          "normalized_return": 0.0820480680494085
+        },
+        {
+          "motion": "dance1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 28.400000000000002,
+          "completion_fraction": 0.21603529590750037,
+          "normalized_return": 0.11588495660080661
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 60.08,
+          "completion_fraction": 0.26624124789506337,
+          "normalized_return": 0.12226759531648611
+        },
+        {
+          "motion": "dance2_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 69.66,
+          "completion_fraction": 0.3086944961446424,
+          "normalized_return": 0.16932812348251408
+        },
+        {
+          "motion": "dance2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 125.44,
+          "completion_fraction": 0.555880528228308,
+          "normalized_return": 0.29677861336385186
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 28.7,
+          "completion_fraction": 0.12718248692723566,
+          "normalized_return": 0.05785055995332473
+        },
+        {
+          "motion": "dance2_subject5",
+          "reason": "root_height",
+          "execution_seconds": 101.76,
+          "completion_fraction": 0.4509438978994948,
+          "normalized_return": 0.23889205806274794
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 5.46,
+          "completion_fraction": 0.032461355529131986,
+          "normalized_return": 0.018429185831908237
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 6.0,
+          "completion_fraction": 0.0356718192627824,
+          "normalized_return": 0.021675412426841102
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 7.36,
+          "completion_fraction": 0.04375743162901308,
+          "normalized_return": 0.02397540731130746
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 5.88,
+          "completion_fraction": 0.03587553386211104,
+          "normalized_return": 0.02137571682811438
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 5.28,
+          "completion_fraction": 0.032214765100671144,
+          "normalized_return": 0.01960300468249318
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 4.96,
+          "completion_fraction": 0.0485512920908379,
+          "normalized_return": 0.028033151746260407
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 20.04,
+          "completion_fraction": 0.08184268561627052,
+          "normalized_return": 0.028398264483035993
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 11.66,
+          "completion_fraction": 0.047619047619047616,
+          "normalized_return": 0.01896101240249806
+        },
+        {
+          "motion": "fight1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 15.84,
+          "completion_fraction": 0.0646900269541779,
+          "normalized_return": 0.022686978461273197
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 21.84,
+          "completion_fraction": 0.08909921671018277,
+          "normalized_return": 0.03700427016445735
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 9.32,
+          "completion_fraction": 0.03802219321148825,
+          "normalized_return": 0.01829964627810694
+        },
+        {
+          "motion": "jumps1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 51.06,
+          "completion_fraction": 0.20890270845266345,
+          "normalized_return": 0.10432872864068589
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 36.2,
+          "completion_fraction": 0.1481057196628754,
+          "normalized_return": 0.07630794957346572
+        },
+        {
+          "motion": "jumps1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 8.28,
+          "completion_fraction": 0.03387611488421569,
+          "normalized_return": 0.014054750204765876
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 26.12,
+          "completion_fraction": 0.10984020185029436,
+          "normalized_return": 0.06414072807835959
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 12.82,
+          "completion_fraction": 0.05391084945332212,
+          "normalized_return": 0.020087183424112247
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 21.740000000000002,
+          "completion_fraction": 0.08880718954248366,
+          "normalized_return": 0.031030430681501017
+        },
+        {
+          "motion": "run2_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 45.82,
+          "completion_fraction": 0.1871732026143791,
+          "normalized_return": 0.07025283469704614
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 21.2,
+          "completion_fraction": 0.07762724276821677,
+          "normalized_return": 0.04178713411642438
+        },
+        {
+          "motion": "sprint1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 53.160000000000004,
+          "completion_fraction": 0.1946539729036983,
+          "normalized_return": 0.09696299519081417
+        },
+        {
+          "motion": "walk1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 107.02,
+          "completion_fraction": 0.40956754688097974,
+          "normalized_return": 0.2526256124830013
+        },
+        {
+          "motion": "walk1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 94.9,
+          "completion_fraction": 0.36318407960199006,
+          "normalized_return": 0.2317334117216252
+        },
+        {
+          "motion": "walk1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 50.56,
+          "completion_fraction": 0.19349406812093378,
+          "normalized_return": 0.0933135736126003
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 35.84,
+          "completion_fraction": 0.15048706751763521,
+          "normalized_return": 0.0894863622810572
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 104.32000000000001,
+          "completion_fraction": 0.43802485723883106,
+          "normalized_return": 0.2445329627830525
+        },
+        {
+          "motion": "walk2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 68.3,
+          "completion_fraction": 0.28678199529727916,
+          "normalized_return": 0.1852754771699842
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 168.64000000000001,
+          "completion_fraction": 0.683860502838605,
+          "normalized_return": 0.35766945958780677
+        },
+        {
+          "motion": "walk3_subject2",
+          "reason": "root_height",
+          "execution_seconds": 222.8,
+          "completion_fraction": 0.9034874290348743,
+          "normalized_return": 0.5590445169241597
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 137.46,
+          "completion_fraction": 0.5574209245742092,
+          "normalized_return": 0.36793942381152706
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_height",
+          "execution_seconds": 194.82,
+          "completion_fraction": 0.7900243309002433,
+          "normalized_return": 0.47462031350033745
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_height",
+          "execution_seconds": 15.280000000000001,
+          "completion_fraction": 0.061962692619626926,
+          "normalized_return": 0.019970791274832752
+        },
+        {
+          "motion": "walk4_subject1",
+          "reason": "root_height",
+          "execution_seconds": 33.04,
+          "completion_fraction": 0.2015863331299573,
+          "normalized_return": 0.12749532976817005
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 0
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.46,
+          "normalized_return": 0.018429185831908237
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 6.0,
+          "normalized_return": 0.021675412426841102
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 7.36,
+          "normalized_return": 0.02397540731130746
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.88,
+          "normalized_return": 0.02137571682811438
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.28,
+          "normalized_return": 0.01960300468249318
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 4.96,
+          "normalized_return": 0.028033151746260407
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 26.12,
+          "normalized_return": 0.06414072807835959
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 12.82,
+          "normalized_return": 0.020087183424112247
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 21.740000000000002,
+          "normalized_return": 0.031030430681501017
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 45.82,
+          "normalized_return": 0.07025283469704614
+        }
+      ],
+      "conclusion": "Iteration 4000: 0/40 complete; full-duration normalized return 0.12331259. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "5000": {
+      "iteration": 5000,
+      "completed_motions": 0,
+      "mean_normalized_return": 0.05937818799020085,
+      "mean_completion_fraction": 0.14860708049844523,
+      "mean_tracking_coverage": 0.0087119660564943,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0005000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.059378187990200844,
+        "completion_fraction": 0.1486070804984452,
+        "total_gap": 0.9406218120097991,
+        "missing_tail_gap": 0.8513929195015548,
+        "executed_quality_gap": 0.08922889250824437,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.02408110758322822,
+            "executed_available_maximum": 0.029721416099689046,
+            "executed_quality_gap": 0.005640308516460822
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.0056563741606487335,
+            "executed_available_maximum": 0.029721416099689046,
+            "executed_quality_gap": 0.02406504193904031
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.011658132919218443,
+            "executed_available_maximum": 0.029721416099689046,
+            "executed_quality_gap": 0.018063283180470603
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.013128650616569232,
+            "executed_available_maximum": 0.029721416099689046,
+            "executed_quality_gap": 0.016592765483119814
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.000761258785925809,
+            "executed_available_maximum": 0.014860708049844523,
+            "executed_quality_gap": 0.014099449263918713
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.008618132926485137,
+            "executed_available_maximum": 0.014860708049844523,
+            "executed_quality_gap": 0.0062425751233593845
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.003978102258440275,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.003978102258440275
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.0005473667527494467,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0005473667527494467
+          }
+        }
+      },
+      "completed_motion_names": [],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 36.04,
+          "completion_fraction": 0.27415183325726455,
+          "normalized_return": 0.11283182788676023
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 6.62,
+          "completion_fraction": 0.05035752320097368,
+          "normalized_return": 0.011987395857343689
+        },
+        {
+          "motion": "dance1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 4.34,
+          "completion_fraction": 0.03301384451544196,
+          "normalized_return": 0.007409676212513365
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 6.12,
+          "completion_fraction": 0.027120446689710184,
+          "normalized_return": 0.006601216239690652
+        },
+        {
+          "motion": "dance2_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 4.76,
+          "completion_fraction": 0.021093680758663476,
+          "normalized_return": 0.0038093931918972168
+        },
+        {
+          "motion": "dance2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 78.04,
+          "completion_fraction": 0.34583000974918016,
+          "normalized_return": 0.09282483943482045
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 31.02,
+          "completion_fraction": 0.13746344057431534,
+          "normalized_return": 0.030444874253532914
+        },
+        {
+          "motion": "dance2_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 104.96000000000001,
+          "completion_fraction": 0.4651245236196047,
+          "normalized_return": 0.13889010533776106
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 5.46,
+          "completion_fraction": 0.032461355529131986,
+          "normalized_return": 0.008216456565167783
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 6.0,
+          "completion_fraction": 0.0356718192627824,
+          "normalized_return": 0.012972068464866308
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 7.36,
+          "completion_fraction": 0.04375743162901308,
+          "normalized_return": 0.01465705669386474
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 5.88,
+          "completion_fraction": 0.03587553386211104,
+          "normalized_return": 0.007740739316950439
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 4.32,
+          "completion_fraction": 0.0263575350823673,
+          "normalized_return": 0.0061443392656054694
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 9.040000000000001,
+          "completion_fraction": 0.08848864526233359,
+          "normalized_return": 0.04627885897523529
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 11.5,
+          "completion_fraction": 0.04696561300334885,
+          "normalized_return": 0.012833251653675373
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 3.64,
+          "completion_fraction": 0.014865637507146942,
+          "normalized_return": 0.004860733054733354
+        },
+        {
+          "motion": "fight1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 5.88,
+          "completion_fraction": 0.024013722126929673,
+          "normalized_return": 0.007824565209006372
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 10.42,
+          "completion_fraction": 0.042509791122715405,
+          "normalized_return": 0.011630439564853394
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 6.62,
+          "completion_fraction": 0.027007180156657963,
+          "normalized_return": 0.008374406021702847
+        },
+        {
+          "motion": "jumps1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 52.24,
+          "completion_fraction": 0.21373046395548645,
+          "normalized_return": 0.09785253242258796
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 12.98,
+          "completion_fraction": 0.05310531053105311,
+          "normalized_return": 0.015428220190438281
+        },
+        {
+          "motion": "jumps1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 5.46,
+          "completion_fraction": 0.02233859749611325,
+          "normalized_return": 0.007469473141468257
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 35.22,
+          "completion_fraction": 0.148107653490328,
+          "normalized_return": 0.062983199275686
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 8.120000000000001,
+          "completion_fraction": 0.03414634146341464,
+          "normalized_return": 0.012824412917299383
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 6.54,
+          "completion_fraction": 0.026715686274509803,
+          "normalized_return": 0.010252708315033636
+        },
+        {
+          "motion": "run2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 9.200000000000001,
+          "completion_fraction": 0.03758169934640523,
+          "normalized_return": 0.01372963766681732
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 3.64,
+          "completion_fraction": 0.013328451116807031,
+          "normalized_return": 0.004523766165832313
+        },
+        {
+          "motion": "sprint1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 15.9,
+          "completion_fraction": 0.05822043207616258,
+          "normalized_return": 0.02919205409331102
+        },
+        {
+          "motion": "walk1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 100.66,
+          "completion_fraction": 0.3852277076157673,
+          "normalized_return": 0.21211357467306483
+        },
+        {
+          "motion": "walk1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 117.56,
+          "completion_fraction": 0.4499043245311902,
+          "normalized_return": 0.17121370594104574
+        },
+        {
+          "motion": "walk1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 61.2,
+          "completion_fraction": 0.23421354764638347,
+          "normalized_return": 0.11124663039919472
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 21.78,
+          "completion_fraction": 0.09145112529392005,
+          "normalized_return": 0.04605014288375759
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 63.46,
+          "completion_fraction": 0.26645952300974135,
+          "normalized_return": 0.12727246589237162
+        },
+        {
+          "motion": "walk2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 91.3,
+          "completion_fraction": 0.38335572724219014,
+          "normalized_return": 0.1647943368718526
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 36.86,
+          "completion_fraction": 0.14947283049472831,
+          "normalized_return": 0.07387958947741537
+        },
+        {
+          "motion": "walk3_subject2",
+          "reason": "root_height",
+          "execution_seconds": 7.5200000000000005,
+          "completion_fraction": 0.03049472830494728,
+          "normalized_return": 0.01149650335139863
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 172.38,
+          "completion_fraction": 0.6990267639902676,
+          "normalized_return": 0.26460710162225304
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_height",
+          "execution_seconds": 194.8,
+          "completion_fraction": 0.7899432278994323,
+          "normalized_return": 0.3660040068635752
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 3.86,
+          "completion_fraction": 0.01565287915652879,
+          "normalized_return": 0.005590471566501976
+        },
+        {
+          "motion": "walk4_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 11.42,
+          "completion_fraction": 0.06967663209273947,
+          "normalized_return": 0.0202707426771474
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 0
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.46,
+          "normalized_return": 0.008216456565167783
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 6.0,
+          "normalized_return": 0.012972068464866308
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 7.36,
+          "normalized_return": 0.01465705669386474
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.88,
+          "normalized_return": 0.007740739316950439
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 4.32,
+          "normalized_return": 0.0061443392656054694
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 9.040000000000001,
+          "normalized_return": 0.04627885897523529
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 35.22,
+          "normalized_return": 0.062983199275686
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 8.120000000000001,
+          "normalized_return": 0.012824412917299383
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 6.54,
+          "normalized_return": 0.010252708315033636
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 9.200000000000001,
+          "normalized_return": 0.01372963766681732
+        }
+      ],
+      "conclusion": "Iteration 5000: 0/40 complete; full-duration normalized return 0.05937819. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "6000": {
+      "iteration": 6000,
+      "completed_motions": 11,
+      "mean_normalized_return": 0.3501658852102812,
+      "mean_completion_fraction": 0.5503839825048439,
+      "mean_tracking_coverage": 0.18827267020849586,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0006000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.3501658852102812,
+        "completion_fraction": 0.550383982504844,
+        "total_gap": 0.6498341147897189,
+        "missing_tail_gap": 0.44961601749515606,
+        "executed_quality_gap": 0.20021809729456277,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.09773806299619703,
+            "executed_available_maximum": 0.1100767965009688,
+            "executed_quality_gap": 0.012338733504771767
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.046064190760190506,
+            "executed_available_maximum": 0.1100767965009688,
+            "executed_quality_gap": 0.0640126057407783
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.07778342328033791,
+            "executed_available_maximum": 0.1100767965009688,
+            "executed_quality_gap": 0.03229337322063089
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.07092660989451448,
+            "executed_available_maximum": 0.1100767965009688,
+            "executed_quality_gap": 0.03915018660645432
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.015415585173914332,
+            "executed_available_maximum": 0.0550383982504844,
+            "executed_quality_gap": 0.03962281307657007
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.04881616900982464,
+            "executed_available_maximum": 0.0550383982504844,
+            "executed_quality_gap": 0.006222229240659757
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.006263138622496108,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.006263138622496108
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.00031501738539276827,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.00031501738539276827
+          }
+        }
+      },
+      "completed_motion_names": [
+        "dance1_subject3",
+        "dance2_subject3",
+        "fight1_subject5",
+        "jumps1_subject1",
+        "jumps1_subject5",
+        "sprint1_subject4",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk2_subject4",
+        "walk3_subject2",
+        "walk4_subject1"
+      ],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 104.12,
+          "completion_fraction": 0.7920279933059485,
+          "normalized_return": 0.43844934949175873
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 73.48,
+          "completion_fraction": 0.558953293777575,
+          "normalized_return": 0.27977676116801803
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 28.8,
+          "completion_fraction": 0.1276256314809891,
+          "normalized_return": 0.08308217083206514
+        },
+        {
+          "motion": "dance2_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 161.8,
+          "completion_fraction": 0.7170078879730568,
+          "normalized_return": 0.3894747659274319
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 59.6,
+          "completion_fraction": 0.2641141540370469,
+          "normalized_return": 0.14928911065597422
+        },
+        {
+          "motion": "dance2_subject5",
+          "reason": "root_height",
+          "execution_seconds": 97.38,
+          "completion_fraction": 0.4315341664450944,
+          "normalized_return": 0.2995094483503708
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 5.74,
+          "completion_fraction": 0.03412604042806183,
+          "normalized_return": 0.022998116103163727
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 7.38,
+          "completion_fraction": 0.043876337693222356,
+          "normalized_return": 0.02580955761593327
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 8.76,
+          "completion_fraction": 0.052080856123662304,
+          "normalized_return": 0.03142934623611792
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 15.08,
+          "completion_fraction": 0.09200732153752288,
+          "normalized_return": 0.04681465268485098
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 15.48,
+          "completion_fraction": 0.09444783404514948,
+          "normalized_return": 0.05166084359128931
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 10.3,
+          "completion_fraction": 0.10082223962411903,
+          "normalized_return": 0.06625414504041835
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 45.82,
+          "completion_fraction": 0.18712733807073428,
+          "normalized_return": 0.08191819489769582
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_height",
+          "execution_seconds": 22.72,
+          "completion_fraction": 0.09278771542922486,
+          "normalized_return": 0.046709348274482435
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 13.48,
+          "completion_fraction": 0.054993472584856394,
+          "normalized_return": 0.02942994342029551
+        },
+        {
+          "motion": "fightAndSports1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 59.7,
+          "completion_fraction": 0.24355417754569192,
+          "normalized_return": 0.12244778527216757
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 175.34,
+          "completion_fraction": 0.7173717371737174,
+          "normalized_return": 0.3911448459713421
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 33.42,
+          "completion_fraction": 0.14053826745164003,
+          "normalized_return": 0.10224986112351694
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 20.080000000000002,
+          "completion_fraction": 0.08444070647603028,
+          "normalized_return": 0.04140347156765852
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 28.28,
+          "completion_fraction": 0.11552287581699347,
+          "normalized_return": 0.062040134422478015
+        },
+        {
+          "motion": "run2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 191.0,
+          "completion_fraction": 0.7802287581699346,
+          "normalized_return": 0.43315595333647816
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 184.18,
+          "completion_fraction": 0.6744049798608568,
+          "normalized_return": 0.4101143233349846
+        },
+        {
+          "motion": "walk1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 69.2,
+          "completion_fraction": 0.26482969766551856,
+          "normalized_return": 0.1854844429144536
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 179.8,
+          "completion_fraction": 0.754954652334565,
+          "normalized_return": 0.48987709165595233
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 174.64000000000001,
+          "completion_fraction": 0.7332885455156197,
+          "normalized_return": 0.508263421258782
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 186.82,
+          "completion_fraction": 0.7575831305758313,
+          "normalized_return": 0.5510314364233246
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 173.58,
+          "completion_fraction": 0.7038929440389294,
+          "normalized_return": 0.5375237410339706
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_height",
+          "execution_seconds": 218.48000000000002,
+          "completion_fraction": 0.8859691808596918,
+          "normalized_return": 0.6178310792137841
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_height",
+          "execution_seconds": 127.06,
+          "completion_fraction": 0.5152473641524736,
+          "normalized_return": 0.27517069804815264
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 0
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 5.74,
+          "normalized_return": 0.022998116103163727
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 7.38,
+          "normalized_return": 0.02580955761593327
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 8.76,
+          "normalized_return": 0.03142934623611792
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 15.08,
+          "normalized_return": 0.04681465268485098
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 15.48,
+          "normalized_return": 0.05166084359128931
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 10.3,
+          "normalized_return": 0.06625414504041835
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 33.42,
+          "normalized_return": 0.10224986112351694
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 20.080000000000002,
+          "normalized_return": 0.04140347156765852
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 28.28,
+          "normalized_return": 0.062040134422478015
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 191.0,
+          "normalized_return": 0.43315595333647816
+        }
+      ],
+      "conclusion": "Iteration 6000: 11/40 complete; full-duration normalized return 0.35016589. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "7000": {
+      "iteration": 7000,
+      "completed_motions": 16,
+      "mean_normalized_return": 0.411903392651649,
+      "mean_completion_fraction": 0.6217180377699504,
+      "mean_tracking_coverage": 0.2918578570639959,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0007000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.41190339265164905,
+        "completion_fraction": 0.6217180377699504,
+        "total_gap": 0.5880966073483509,
+        "missing_tail_gap": 0.3782819622300497,
+        "executed_quality_gap": 0.20981464511830128,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.1125039056062411,
+            "executed_available_maximum": 0.12434360755399007,
+            "executed_quality_gap": 0.011839701947748978
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.0602448370436832,
+            "executed_available_maximum": 0.12434360755399007,
+            "executed_quality_gap": 0.06409877051030688
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.08676196235635807,
+            "executed_available_maximum": 0.12434360755399007,
+            "executed_quality_gap": 0.037581645197632005
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.08199279751657448,
+            "executed_available_maximum": 0.12434360755399007,
+            "executed_quality_gap": 0.042350810037415594
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.023951098898182525,
+            "executed_available_maximum": 0.062171803776995035,
+            "executed_quality_gap": 0.03822070487881251
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.05558389183130341,
+            "executed_available_maximum": 0.062171803776995035,
+            "executed_quality_gap": 0.006587911945691625
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.00807973169258062,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.00807973169258062
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.0010553689880424177,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.0010553689880424177
+          }
+        }
+      },
+      "completed_motion_names": [
+        "dance1_subject3",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject5",
+        "fight1_subject5",
+        "fightAndSports1_subject4",
+        "jumps1_subject1",
+        "jumps1_subject5",
+        "run1_subject5",
+        "run2_subject4",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk1_subject5",
+        "walk2_subject1",
+        "walk3_subject2",
+        "walk4_subject1"
+      ],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 33.1,
+          "completion_fraction": 0.2517876160048684,
+          "normalized_return": 0.185621812929088
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 72.72,
+          "completion_fraction": 0.5531720675490643,
+          "normalized_return": 0.324581015339051
+        },
+        {
+          "motion": "dance2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 97.8,
+          "completion_fraction": 0.43339537357085883,
+          "normalized_return": 0.24966842739399225
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 59.56,
+          "completion_fraction": 0.2639368962155455,
+          "normalized_return": 0.1612345038356114
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 8.5,
+          "completion_fraction": 0.050535077288941736,
+          "normalized_return": 0.02974681504121699
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 7.66,
+          "completion_fraction": 0.0455410225921522,
+          "normalized_return": 0.02881544173708505
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 8.78,
+          "completion_fraction": 0.05219976218787158,
+          "normalized_return": 0.03282806019195744
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 6.78,
+          "completion_fraction": 0.041366687004270895,
+          "normalized_return": 0.03095645898896222
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 14.64,
+          "completion_fraction": 0.08932275777913362,
+          "normalized_return": 0.05451190707122065
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 10.4,
+          "completion_fraction": 0.10180109631949882,
+          "normalized_return": 0.06775947693320478
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 107.72,
+          "completion_fraction": 0.43992485501919465,
+          "normalized_return": 0.23977343530278244
+        },
+        {
+          "motion": "fight1_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 200.76,
+          "completion_fraction": 0.8198970840480274,
+          "normalized_return": 0.46410151771753166
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 90.14,
+          "completion_fraction": 0.3677382506527415,
+          "normalized_return": 0.17303167243915762
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 190.20000000000002,
+          "completion_fraction": 0.7781687259635054,
+          "normalized_return": 0.5193950819198635
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 84.06,
+          "completion_fraction": 0.35349032800672836,
+          "normalized_return": 0.24027574197106225
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 73.54,
+          "completion_fraction": 0.30040849673202613,
+          "normalized_return": 0.17235409587346961
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 32.660000000000004,
+          "completion_fraction": 0.11958989381179055,
+          "normalized_return": 0.07980997625582623
+        },
+        {
+          "motion": "sprint1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 16.88,
+          "completion_fraction": 0.06180886122299524,
+          "normalized_return": 0.0398647656716961
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 178.5,
+          "completion_fraction": 0.7494961370507222,
+          "normalized_return": 0.5472974899975126
+        },
+        {
+          "motion": "walk2_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 133.8,
+          "completion_fraction": 0.561807188444743,
+          "normalized_return": 0.4428579793297187
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 186.82,
+          "completion_fraction": 0.7575831305758313,
+          "normalized_return": 0.5850611583829011
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 176.20000000000002,
+          "completion_fraction": 0.7145174371451744,
+          "normalized_return": 0.5697907976694186
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 211.14000000000001,
+          "completion_fraction": 0.8562043795620438,
+          "normalized_return": 0.6210002925734189
+        },
+        {
+          "motion": "walk3_subject5",
+          "reason": "root_height",
+          "execution_seconds": 25.900000000000002,
+          "completion_fraction": 0.10502838605028386,
+          "normalized_return": 0.06210453916036668
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 2
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 8.5,
+          "normalized_return": 0.02974681504121699
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 7.66,
+          "normalized_return": 0.02881544173708505
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 8.78,
+          "normalized_return": 0.03282806019195744
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 6.78,
+          "normalized_return": 0.03095645898896222
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 14.64,
+          "normalized_return": 0.05451190707122065
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 10.4,
+          "normalized_return": 0.06775947693320478
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 84.06,
+          "normalized_return": 0.24027574197106225
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 237.8,
+          "normalized_return": 0.46531012292530305
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 73.54,
+          "normalized_return": 0.17235409587346961
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 244.8,
+          "normalized_return": 0.5700727925858153
+        }
+      ],
+      "conclusion": "Iteration 7000: 16/40 complete; full-duration normalized return 0.41190339. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "8000": {
+      "iteration": 8000,
+      "completed_motions": 25,
+      "mean_normalized_return": 0.5372268647830852,
+      "mean_completion_fraction": 0.7947997192228691,
+      "mean_tracking_coverage": 0.43089249495411525,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0008000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.5372268647830851,
+        "completion_fraction": 0.794799719222869,
+        "total_gap": 0.4627731352169149,
+        "missing_tail_gap": 0.20520028077713104,
+        "executed_quality_gap": 0.25757285443978384,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.14453041520819768,
+            "executed_available_maximum": 0.1589599438445738,
+            "executed_quality_gap": 0.014429528636376131
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.08237023393652876,
+            "executed_available_maximum": 0.1589599438445738,
+            "executed_quality_gap": 0.07658970990804505
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.11298902286342535,
+            "executed_available_maximum": 0.1589599438445738,
+            "executed_quality_gap": 0.04597092098114845
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.10525938555727504,
+            "executed_available_maximum": 0.1589599438445738,
+            "executed_quality_gap": 0.05370055828729876
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.03647354680334316,
+            "executed_available_maximum": 0.0794799719222869,
+            "executed_quality_gap": 0.04300642511894374
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.06941713901021254,
+            "executed_available_maximum": 0.0794799719222869,
+            "executed_quality_gap": 0.010062832912074365
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.011744343673153952,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.011744343673153952
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.002068535013230636,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.002068535013230636
+          }
+        }
+      },
+      "completed_motion_names": [
+        "dance1_subject2",
+        "dance1_subject3",
+        "dance2_subject1",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject5",
+        "fight1_subject2",
+        "fight1_subject3",
+        "fight1_subject5",
+        "fightAndSports1_subject1",
+        "fightAndSports1_subject4",
+        "jumps1_subject1",
+        "jumps1_subject5",
+        "run1_subject2",
+        "run1_subject5",
+        "run2_subject4",
+        "sprint1_subject4",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk1_subject5",
+        "walk2_subject1",
+        "walk2_subject4",
+        "walk3_subject2",
+        "walk3_subject5",
+        "walk4_subject1"
+      ],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 106.8,
+          "completion_fraction": 0.8124144226380648,
+          "normalized_return": 0.5220391966807619
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_height",
+          "execution_seconds": 59.7,
+          "completion_fraction": 0.2645572985908003,
+          "normalized_return": 0.1674550802926554
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 6.48,
+          "completion_fraction": 0.03852556480380499,
+          "normalized_return": 0.026938584063968464
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 8.38,
+          "completion_fraction": 0.049821640903686085,
+          "normalized_return": 0.029974435207347622
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 13.52,
+          "completion_fraction": 0.08038049940546968,
+          "normalized_return": 0.042550719570350254
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 15.06,
+          "completion_fraction": 0.09188529591214155,
+          "normalized_return": 0.050317610895273666
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 15.06,
+          "completion_fraction": 0.09188529591214155,
+          "normalized_return": 0.05542547688742758
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 10.32,
+          "completion_fraction": 0.10101801096319499,
+          "normalized_return": 0.0726303330258656
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_tilt",
+          "execution_seconds": 221.70000000000002,
+          "completion_fraction": 0.9070452499795434,
+          "normalized_return": 0.581275736522573
+        },
+        {
+          "motion": "run2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 69.16,
+          "completion_fraction": 0.28251633986928104,
+          "normalized_return": 0.1643658997734485
+        },
+        {
+          "motion": "sprint1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 198.72,
+          "completion_fraction": 0.7276455510801904,
+          "normalized_return": 0.5115815486569
+        },
+        {
+          "motion": "walk2_subject3",
+          "reason": "root_height",
+          "execution_seconds": 202.12,
+          "completion_fraction": 0.8486731609002351,
+          "normalized_return": 0.6173428184940772
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_height",
+          "execution_seconds": 186.8,
+          "completion_fraction": 0.7575020275750203,
+          "normalized_return": 0.5935560811344242
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_height",
+          "execution_seconds": 210.88,
+          "completion_fraction": 0.8551500405515005,
+          "normalized_return": 0.6330857185363359
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 217.74,
+          "completion_fraction": 0.8829683698296837,
+          "normalized_return": 0.6836009505435232
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 3
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 6.48,
+          "normalized_return": 0.026938584063968464
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 8.38,
+          "normalized_return": 0.029974435207347622
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 13.52,
+          "normalized_return": 0.042550719570350254
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 15.06,
+          "normalized_return": 0.050317610895273666
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 15.06,
+          "normalized_return": 0.05542547688742758
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 10.32,
+          "normalized_return": 0.0726303330258656
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 237.8,
+          "normalized_return": 0.6099398438897081
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 237.8,
+          "normalized_return": 0.5268584426817979
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 69.16,
+          "normalized_return": 0.1643658997734485
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 244.8,
+          "normalized_return": 0.5828614027620871
+        }
+      ],
+      "conclusion": "Iteration 8000: 25/40 complete; full-duration normalized return 0.53722686. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    },
+    "9000": {
+      "iteration": 9000,
+      "completed_motions": 20,
+      "mean_normalized_return": 0.5256211987537707,
+      "mean_completion_fraction": 0.7337884707818294,
+      "mean_tracking_coverage": 0.44530537303361306,
+      "evaluation": "results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0009000/evaluation.json",
+      "reward_quality_mean": {
+        "mean_return": 0.5256211987537709,
+        "completion_fraction": 0.7337884707818294,
+        "total_gap": 0.47437880124622916,
+        "missing_tail_gap": 0.2662115292181706,
+        "executed_quality_gap": 0.20816727202805857,
+        "components": {
+          "relative_body_position": {
+            "normalized_contribution": 0.13563066981844787,
+            "executed_available_maximum": 0.1467576941563659,
+            "executed_quality_gap": 0.011127024337918024
+          },
+          "body_orientation": {
+            "normalized_contribution": 0.08237569199136296,
+            "executed_available_maximum": 0.1467576941563659,
+            "executed_quality_gap": 0.06438200216500292
+          },
+          "body_linear_velocity": {
+            "normalized_contribution": 0.11126705070082105,
+            "executed_available_maximum": 0.1467576941563659,
+            "executed_quality_gap": 0.03549064345554485
+          },
+          "body_angular_velocity": {
+            "normalized_contribution": 0.10352651042023908,
+            "executed_available_maximum": 0.1467576941563659,
+            "executed_quality_gap": 0.043231183736126805
+          },
+          "global_root_position": {
+            "normalized_contribution": 0.03719722053707287,
+            "executed_available_maximum": 0.07337884707818294,
+            "executed_quality_gap": 0.036181626541110075
+          },
+          "global_root_orientation": {
+            "normalized_contribution": 0.06660841974719926,
+            "executed_available_maximum": 0.07337884707818294,
+            "executed_quality_gap": 0.006770427330983681
+          },
+          "action_difference_penalty": {
+            "normalized_contribution": -0.009700941746934045,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.009700941746934045
+          },
+          "soft_joint_limit_penalty": {
+            "normalized_contribution": -0.001283422787068388,
+            "executed_available_maximum": 0.0,
+            "executed_quality_gap": 0.001283422787068388
+          }
+        }
+      },
+      "completed_motion_names": [
+        "dance1_subject3",
+        "dance2_subject1",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject5",
+        "fight1_subject3",
+        "fightAndSports1_subject4",
+        "jumps1_subject1",
+        "jumps1_subject5",
+        "run2_subject1",
+        "run2_subject4",
+        "sprint1_subject2",
+        "sprint1_subject4",
+        "walk1_subject1",
+        "walk1_subject5",
+        "walk2_subject3",
+        "walk2_subject4",
+        "walk3_subject2",
+        "walk3_subject5",
+        "walk4_subject1"
+      ],
+      "failed_motions": [
+        {
+          "motion": "dance1_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 106.84,
+          "completion_fraction": 0.8127186977027233,
+          "normalized_return": 0.5502041152512795
+        },
+        {
+          "motion": "dance1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 68.78,
+          "completion_fraction": 0.5232009736802069,
+          "normalized_return": 0.3405740769116125
+        },
+        {
+          "motion": "dance2_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 58.96,
+          "completion_fraction": 0.2612780288930249,
+          "normalized_return": 0.176772530015905
+        },
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 9.700000000000001,
+          "completion_fraction": 0.05766944114149822,
+          "normalized_return": 0.029831001321053163
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "reason": "root_height",
+          "execution_seconds": 9.96,
+          "completion_fraction": 0.059215219976218786,
+          "normalized_return": 0.03565646283213364
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "reason": "root_tilt",
+          "execution_seconds": 7.86,
+          "completion_fraction": 0.04673008323424495,
+          "normalized_return": 0.036433396347124
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "reason": "root_height",
+          "execution_seconds": 15.200000000000001,
+          "completion_fraction": 0.09273947528981086,
+          "normalized_return": 0.05303948639214148
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 24.98,
+          "completion_fraction": 0.15241000610128128,
+          "normalized_return": 0.0776814453203238
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 9.94,
+          "completion_fraction": 0.09729835552075176,
+          "normalized_return": 0.0754413078912771
+        },
+        {
+          "motion": "fight1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 151.9,
+          "completion_fraction": 0.6203544882790166,
+          "normalized_return": 0.35421991430350136
+        },
+        {
+          "motion": "fight1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 145.5,
+          "completion_fraction": 0.594217103651066,
+          "normalized_return": 0.4185408911375314
+        },
+        {
+          "motion": "fightAndSports1_subject1",
+          "reason": "root_height",
+          "execution_seconds": 64.72,
+          "completion_fraction": 0.26403394255874674,
+          "normalized_return": 0.15297128127599235
+        },
+        {
+          "motion": "jumps1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 190.66,
+          "completion_fraction": 0.7800507323459619,
+          "normalized_return": 0.5159602811579924
+        },
+        {
+          "motion": "run1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 180.1,
+          "completion_fraction": 0.7573591253153911,
+          "normalized_return": 0.5234776290575636
+        },
+        {
+          "motion": "run1_subject5",
+          "reason": "root_height",
+          "execution_seconds": 92.48,
+          "completion_fraction": 0.38889823380992433,
+          "normalized_return": 0.22826340462002465
+        },
+        {
+          "motion": "walk1_subject2",
+          "reason": "root_height",
+          "execution_seconds": 158.72,
+          "completion_fraction": 0.6074244163796403,
+          "normalized_return": 0.4855871576414605
+        },
+        {
+          "motion": "walk2_subject1",
+          "reason": "root_height",
+          "execution_seconds": 196.48000000000002,
+          "completion_fraction": 0.8249916022841787,
+          "normalized_return": 0.6043445691550163
+        },
+        {
+          "motion": "walk3_subject1",
+          "reason": "root_tilt",
+          "execution_seconds": 186.4,
+          "completion_fraction": 0.7558799675587997,
+          "normalized_return": 0.6066211088932899
+        },
+        {
+          "motion": "walk3_subject3",
+          "reason": "root_tilt",
+          "execution_seconds": 197.34,
+          "completion_fraction": 0.8002433090024331,
+          "normalized_return": 0.6343059525179747
+        },
+        {
+          "motion": "walk3_subject4",
+          "reason": "root_tilt",
+          "execution_seconds": 210.8,
+          "completion_fraction": 0.8548256285482563,
+          "normalized_return": 0.6756506302837352
+        }
+      ],
+      "categories": {
+        "fallAndGetUp": {
+          "total": 6,
+          "completed": 0
+        },
+        "run": {
+          "total": 4,
+          "completed": 2
+        }
+      },
+      "running_and_getups": [
+        {
+          "motion": "fallAndGetUp1_subject1",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 9.700000000000001,
+          "normalized_return": 0.029831001321053163
+        },
+        {
+          "motion": "fallAndGetUp1_subject4",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 9.96,
+          "normalized_return": 0.03565646283213364
+        },
+        {
+          "motion": "fallAndGetUp1_subject5",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 7.86,
+          "normalized_return": 0.036433396347124
+        },
+        {
+          "motion": "fallAndGetUp2_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 15.200000000000001,
+          "normalized_return": 0.05303948639214148
+        },
+        {
+          "motion": "fallAndGetUp2_subject3",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 24.98,
+          "normalized_return": 0.0776814453203238
+        },
+        {
+          "motion": "fallAndGetUp3_subject1",
+          "failed": true,
+          "reason": "root_tilt",
+          "execution_seconds": 9.94,
+          "normalized_return": 0.0754413078912771
+        },
+        {
+          "motion": "run1_subject2",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 180.1,
+          "normalized_return": 0.5234776290575636
+        },
+        {
+          "motion": "run1_subject5",
+          "failed": true,
+          "reason": "root_height",
+          "execution_seconds": 92.48,
+          "normalized_return": 0.22826340462002465
+        },
+        {
+          "motion": "run2_subject1",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 244.8,
+          "normalized_return": 0.6194892768579925
+        },
+        {
+          "motion": "run2_subject4",
+          "failed": false,
+          "reason": "completed",
+          "execution_seconds": 244.8,
+          "normalized_return": 0.6452269496174006
+        }
+      ],
+      "conclusion": "Iteration 9000: 20/40 complete; full-duration normalized return 0.52562120. Fresh initialization; no inherited parent successes. One fixed checkpoint; training-motion evaluation."
+    }
+  },
+  "actual_final_node": "9000",
+  "tail": {
+    "prescribed_iterations": [
+      7000,
+      8000,
+      9000
+    ],
+    "available_iterations": [
+      7000,
+      8000,
+      9000
+    ],
+    "missing_iterations": [],
+    "mean_return": 0.49158381872950163,
+    "return_range": [
+      0.411903392651649,
+      0.5372268647830852
+    ],
+    "available_success_intersection": [
+      "dance1_subject3",
+      "dance2_subject2",
+      "dance2_subject3",
+      "dance2_subject5",
+      "fightAndSports1_subject4",
+      "jumps1_subject1",
+      "jumps1_subject5",
+      "run2_subject4",
+      "walk1_subject1",
+      "walk1_subject5",
+      "walk3_subject2",
+      "walk4_subject1"
+    ],
+    "three_node_success_intersection": [
+      "dance1_subject3",
+      "dance2_subject2",
+      "dance2_subject3",
+      "dance2_subject5",
+      "fightAndSports1_subject4",
+      "jumps1_subject1",
+      "jumps1_subject5",
+      "run2_subject4",
+      "walk1_subject1",
+      "walk1_subject5",
+      "walk3_subject2",
+      "walk4_subject1"
+    ]
+  },
+  "cost": {
+    "new_training_iterations": 9000,
+    "wm_only_updates": 5,
+    "actor_updates": 8995,
+    "new_sim_transitions": 92422144,
+    "cumulative_sim_transitions": 92422144,
+    "stage_wall_seconds": 35966.43220591545,
+    "cumulative_wall_seconds": 35972.21255154535,
+    "previous_elapsed_seconds": 0.0,
+    "runtime": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch/runtime.json",
+    "shared_gpu": true
+  },
+  "interpretation": "Different initialization histories; no cross-job A/B winner. Temporal nodes are not independent seeds.",
+  "first_observed_reference_crossing": {
+    "reference_return": 0.82,
+    "iteration": null,
+    "cost": null,
+    "subsequent_nodes": [],
+    "meaning": "First observed saved full40 node, not the precise crossing time; no automatic extension if absent."
+  }
+}
