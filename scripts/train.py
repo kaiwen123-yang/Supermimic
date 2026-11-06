@@ -20,10 +20,10 @@ from supermimic.learning import SuperMimic, PPOSim
 from supermimic.checkpointing import save_checkpoint
 
 
-def save(learner, cfg, directory, iteration, elapsed, dataset_definition, actor_updates):
+def save(learner, cfg, directory, iteration, elapsed, dataset_definition, actor_updates, stage_seconds=0):
     checkpoint = learner.checkpoint()
     checkpoint.update(config=cfg, iteration=iteration, actor_updates=actor_updates,
-                      data_definition=dataset_definition, elapsed_seconds=elapsed,
+                      data_definition=dataset_definition, elapsed_seconds=elapsed, stage_elapsed_seconds=stage_seconds,
                       sampler_returns=learner.env.sampler.returns, sampler_memory=learner.env.sampler.memory,
                       torch_rng=torch.get_rng_state(), cuda_rng=torch.cuda.get_rng_state_all())
     return save_checkpoint(checkpoint, directory, cfg.get("keep_recent_checkpoints", 20),
@@ -32,12 +32,13 @@ def save(learner, cfg, directory, iteration, elapsed, dataset_definition, actor_
 
 def request_publication(directory, iteration, cfg):
     every = cfg.get("publish_every_iterations", 0)
-    if every <= 0 or iteration <= 0 or iteration % every:
+    if every <= 0 or iteration % every or (iteration == 0 and cfg.get("initialization") != "weights_transfer"):
         return
     session = f"sm-pub-{directory.name}-{iteration:07d}"
     if subprocess.run(["tmux", "has-session", "-t", session], capture_output=True).returncode == 0:
         return
-    command = shlex.join([str(ROOT / "scripts/publish_checkpoint_d57.sh"), directory.name, str(iteration)])
+    publisher = "publish_p8_d57.sh" if cfg.get("campaign") == "20261106-p8-stability-scale-s0" else "publish_checkpoint_d57.sh"
+    command = shlex.join([str(ROOT / "scripts" / publisher), directory.name, str(iteration)])
     subprocess.run(["tmux", "new-session", "-d", "-s", session, "bash " + command], check=True)
     subprocess.run(["tmux", "set-option", "-t", session, "remain-on-exit", "on"], check=True)
     print("PUBLICATION_QUEUED", iteration, session, flush=True)
@@ -50,6 +51,7 @@ def main():
     parser.add_argument("--run", required=True)
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--resume-in-place", action="store_true")
+    parser.add_argument("--weights-transfer", type=Path)
     args = parser.parse_args()
     cfg = json.loads(args.config.read_text())
     cfg["method"] = args.method
@@ -58,6 +60,8 @@ def main():
     if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run):
         raise ValueError("Unsafe run name")
     directory = ROOT / "outputs/runs" / args.run
+    old_runtime = json.loads((directory / "runtime.json").read_text()) if args.resume_in_place else {}
+    stage_consumed = json.loads((directory / "budget.json").read_text())["stage_elapsed_seconds"] if args.resume_in_place else 0.0
     if args.resume_in_place:
         if not args.resume or args.resume.resolve().parent != directory.resolve():
             raise ValueError("In-place resume requires a checkpoint from this run")
@@ -94,10 +98,10 @@ def main():
     actor_updates = 0
     elapsed_offset = 0.0
     stage_started = started
-    stage_elapsed = lambda: time.monotonic() - stage_started
+    stage_elapsed = lambda: stage_consumed + time.monotonic() - stage_started
     elapsed = lambda: elapsed_offset + time.monotonic() - started
     try:
-        motions = MotionLibrary(ROOT / "data/processed/lafan1_g1_50hz", "cuda:0")
+        motions = MotionLibrary(ROOT / cfg.get("data_directory", "data/processed/lafan1_g1_50hz"), "cuda:0")
         env = TrackingEnvironment(motions, cfg["num_envs"], cfg["max_episode_steps"])
         if cfg["compile_fk"]:
             env.fk.forward = torch.compile(env.fk.forward, dynamic=True)
@@ -106,6 +110,15 @@ def main():
         torch.manual_seed(cfg["seed"] + 1000)
         learner = SuperMimic(env, cfg) if args.method == "supermimic" else PPOSim(env, cfg)
         first_iteration = 0
+        if args.weights_transfer:
+            previous = torch.load(args.weights_transfer, map_location="cpu", weights_only=False)
+            learner.actor.load_state_dict(previous["actor"])
+            learner.world.load_state_dict(previous["world_model"])
+            learner.critic.load_state_dict(previous["critic"])
+            metadata.update(weights_source=str(args.weights_transfer), source_iteration=previous["iteration"],
+                inherited_training_seconds=previous["elapsed_seconds"], optimizer_state_restored=False,
+                sampler_state_restored=False, rng_restored=False)
+            del previous
         if args.resume:
             previous = torch.load(args.resume, map_location="cuda", weights_only=False)
             if previous["config"]["method"] != args.method or checkpoint_data_definition(previous) != motions.data_definition:
@@ -140,6 +153,7 @@ def main():
             iteration = first_iteration
             actor_updates = previous["actor_updates"]
             elapsed_offset = float(previous["elapsed_seconds"])
+            previous_stage_seconds = previous.get("stage_elapsed_seconds", 0.0)
             torch.set_rng_state(previous["torch_rng"].cpu())
             torch.cuda.set_rng_state_all([value.cpu() for value in previous["cuda_rng"]])
             if args.resume_in_place and (directory / "metrics.jsonl").exists():
@@ -166,18 +180,26 @@ def main():
         stage_started = time.monotonic()
         if args.resume:
             started = stage_started
-        initial_actor_updates = actor_updates
-        initial_transitions = learner.collected_steps
+            if args.resume_in_place:
+                elapsed_offset += max(0.0, stage_consumed - float(previous_stage_seconds))
+        initial_actor_updates = old_runtime.get("stage_base_actor_updates", actor_updates)
+        initial_transitions = old_runtime.get("stage_base_transitions", learner.collected_steps)
+        stage_first_iteration = cfg.get("start_iteration", first_iteration)
         metadata.update(stage_started_unix=time.time(), budget_clock="new stage including replay warmup",
+                        stage_consumed_before_process=stage_consumed,
+                        stage_base_actor_updates=initial_actor_updates, stage_base_transitions=initial_transitions,
                         start_iteration=first_iteration, target_iteration=cfg["max_iterations"],
                         previous_elapsed_seconds=elapsed_offset,
-                        initialization="resume" if args.resume else "scratch")
+                        initialization="resume" if args.resume else ("weights_transfer" if args.weights_transfer else "scratch"))
         if not args.resume:
             metadata.update(optimizer_state_restored=False, sampler_state_restored=False,
                             rng_restored=False, replay_initial_fill_steps=cfg["replay_warmup_steps"])
         (directory / "runtime.json").write_text(json.dumps(metadata, indent=2) + "\n")
+        (directory / "budget.json").write_text(json.dumps({"stage_elapsed_seconds": stage_elapsed(), "iteration": iteration})+"\n")
         if not args.resume_in_place:
-            save(learner, cfg, directory, first_iteration, elapsed(), motions.data_definition, actor_updates)
+            save(learner, cfg, directory, first_iteration, elapsed(), motions.data_definition, actor_updates, stage_elapsed())
+            if args.weights_transfer:
+                request_publication(directory, 0, cfg)
         if args.method == "supermimic":
             print("REPLAY_WARMUP", cfg["replay_warmup_steps"], flush=True)
             warmup = learner.collect(cfg["replay_warmup_steps"])
@@ -214,38 +236,41 @@ def main():
                     torch.cuda.synchronize()
                     metrics.update(collection_seconds=after_collect-start, policy_critic_seconds=time.monotonic()-after_collect)
                 if iteration % cfg["checkpoint_every_iterations"] == 0:
-                    metrics["checkpoint_write_seconds"] = save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates)
+                    metrics["checkpoint_write_seconds"] = save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates, stage_elapsed())
                 metrics.update(iteration=iteration, actor_updates=actor_updates, elapsed_seconds=elapsed(),
-                               stage_elapsed_seconds=stage_elapsed(), new_training_iterations=iteration-first_iteration,
+                               stage_elapsed_seconds=stage_elapsed(), new_training_iterations=iteration-stage_first_iteration,
                                new_joint_updates=actor_updates-initial_actor_updates,
-                               new_wm_only_updates=(iteration-first_iteration)-(actor_updates-initial_actor_updates),
+                               new_wm_only_updates=(iteration-stage_first_iteration)-(actor_updates-initial_actor_updates),
                                new_actor_updates=actor_updates-initial_actor_updates,
                                new_sim_transitions=learner.collected_steps-initial_transitions,
                                learning_rate=learner.actor_opt.param_groups[0]["lr"] if args.method=="supermimic" else learner.optimizer.param_groups[0]["lr"],
                                collected_sim_transitions=learner.collected_steps,
                                torch_peak_allocated_mib=torch.cuda.max_memory_allocated()/1024**2)
                 log.write(json.dumps(metrics, allow_nan=False) + "\n")
+                (directory / "budget.json").write_text(json.dumps({"stage_elapsed_seconds": stage_elapsed(), "iteration": iteration})+"\n")
                 request_publication(directory, iteration, cfg)
                 if iteration % cfg["log_every_iterations"] == 0:
                     print(json.dumps(metrics, allow_nan=False), flush=True)
         if not (directory / f"checkpoint_{iteration:07d}.pt").exists():
-            save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates)
+            save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates, stage_elapsed())
         status = {"status": "budget_completed", "method": args.method, "iteration": iteration, "actor_updates": actor_updates,
                   "sim_transitions": learner.collected_steps, "wall_seconds": elapsed(),
-                  "stage_wall_seconds": stage_elapsed(), "new_training_iterations": iteration-first_iteration,
+                  "stage_wall_seconds": stage_elapsed(), "new_training_iterations": iteration-stage_first_iteration,
                   "new_joint_updates": actor_updates-initial_actor_updates,
-                  "new_wm_only_updates":(iteration-first_iteration)-(actor_updates-initial_actor_updates),
+                  "new_wm_only_updates":(iteration-stage_first_iteration)-(actor_updates-initial_actor_updates),
                   "new_actor_updates": actor_updates-initial_actor_updates,
                   "new_sim_transitions": learner.collected_steps-initial_transitions,
-                  "start_iteration": first_iteration, "target_iteration": cfg["max_iterations"],
+                  "start_iteration": stage_first_iteration, "target_iteration": cfg["max_iterations"],
                   "world_termination_loss": cfg["world_termination_loss"],
                   "full_clip_evaluation_done": False, "qualification_pass": False}
         (directory / "status.json").write_text(json.dumps(status, indent=2) + "\n")
         print("TRAINING_BUDGET_COMPLETE", json.dumps(status), flush=True)
     except Exception as exc:
         failure = {"status": "failed", "iteration": iteration, "actor_updates": actor_updates,
-                   "exception": repr(exc), "traceback": traceback.format_exc(), "wall_seconds": time.monotonic()-started}
+                   "exception": repr(exc), "traceback": traceback.format_exc(), "wall_seconds": time.monotonic()-started,
+                   "stage_elapsed_seconds": stage_elapsed()}
         (directory / "failure.json").write_text(json.dumps(failure, indent=2) + "\n")
+        (directory / "budget.json").write_text(json.dumps({"stage_elapsed_seconds": stage_elapsed(), "iteration": iteration})+"\n")
         raise
 
 

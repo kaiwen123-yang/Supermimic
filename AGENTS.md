@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- 当前入口为P8：docs/P8_STABILITY_AND_SCALE_PLAN.md、configs/next_stage_stability_scale_protocol.json、docs/P8_CODEX_START_PROMPT.md。2026-11-06用户已明确授权制定并推送下一阶段计划；当前状态为计划已发布、实施与训练尚未启动。旧阶段“不自动开P8”不阻止本次明确安排，按P8入口执行；不重复启动P7。
+- 当前入口为P8：docs/P8_STABILITY_AND_SCALE_PLAN.md、configs/next_stage_stability_scale_protocol.json、docs/P8_CODEX_START_PROMPT.md。P8两路LAFAN已从C42000正式联合更新；BONES按实际数据状态继续，见results/20261106-p8-stability-scale-s0/summary.json。接续已有tmux，不重复启动P7/P8，不重建活跃replay或重置LR。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
 - P6已完成训练、正式评分和轻量发布。B33000回报0.86624655、37/40、完成99.0832%，保留父34条全部成功；5/9节点和末三均值0.837913超过论文LAFAN评估0.82参照。父/A/B共同完整31条XY为2.0013/2.0917/0.0640m，已解决主要位置漂移。不要再将当前状态写成“未达到0.82”；也不把40/40当论文未给出的门槛。来源：results/20261105-p6-position-feedback-s0/summary.json、conclusion.md、review_20261105.json。
 - P5 20261104-p5-actor-stability-s0已完成训练、正式评估和轻量发布。A/B均24000：A 34/40、0.713134、起身6/6；B 34/40、0.755425、起身3/6，平均完成96.2842%，保留父32成功中的30条。P6已从B24000完成续训，A24000作为历史起身参考保留；P7主父改为P6 B33000。复核见results/20261104-p5-actor-stability-s0/review_20261105.json。
@@ -25,7 +25,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P8实施（计划已发布，实施与训练尚未启动）
+## P8实施（LAFAN正式训练已启动，BONES按实际数据状态推进）
 
 - 用户顺序：稳定性与大规模训练同步推进，效率优化后置。campaign=20261106-p8-stability-scale-s0，工作树 /root/autodl-tmp/robot-repro/supermimic-p8-stability-scale；完整细节按P8计划和协议。P1–P7以下为历史约定，不重复执行，也不让旧阶段范围禁止覆盖本次明确授权。
 - 两路LAFAN正式联合训练都从P7 continuation C42000完整恢复网络、三套Adam、sampler、已保存Torch/CUDA RNG与全局LR；A保持H32，B仅H16。各42001–51000、9000联合更新或累计新阶段16h上限。父基线为36成功/4失败，B33000的37条是历史锚点。

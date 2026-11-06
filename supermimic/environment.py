@@ -10,13 +10,15 @@ class ReturnSampler:
     def __init__(self, motions, environments, max_episode_steps=500, gamma=0.99):
         device = motions.device
         clip, frame = [], []
+        bin_offsets = []
         for i, length in enumerate(motions.lengths.tolist()):
+            bin_offsets.append(len(clip))
             for start in range(0, length - 1, 50):
                 clip.append(i)
                 frame.append(start)
         self.clip = torch.tensor(clip, device=device)
         self.frame = torch.tensor(frame, device=device)
-        self.bin_offsets = torch.tensor([sum(c < i for c in clip) for i in range(len(motions.names))], device=device)
+        self.bin_offsets = torch.tensor(bin_offsets, device=device)
         self.lengths = motions.lengths
         self.returns = torch.zeros(len(clip), device=device)
         self.memory = torch.full((len(clip),), 1 / len(clip), device=device)

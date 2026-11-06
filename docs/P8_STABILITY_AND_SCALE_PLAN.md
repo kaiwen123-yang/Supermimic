@@ -1,6 +1,6 @@
 # P8：能力保持与 BONES 规模训练并行推进
 
-状态：**计划已发布，实施与训练尚未启动**。日期：2026-11-06（北京时间）。本计划基于 P7 已完成的训练、正式评估和证据，审查版本为 `a7ae3267977f064938dbdbfefaf0af49938ac757`。本次用户授权制定并推送下一阶段计划，后续 Codex 按本计划实施；P7 的“不自动开 P8”不再阻止这次明确安排的新阶段。
+状态：**两路LAFAN正式训练已启动，BONES按实际数据状态推进。** 实际运行与数据状态见[结果索引](../results/20261106-p8-stability-scale-s0/summary.json)。下文保留已授权的固定预算。
 
 执行协议：[next_stage_stability_scale_protocol.json](../configs/next_stage_stability_scale_protocol.json)。启动提示词：[P8_CODEX_START_PROMPT.md](P8_CODEX_START_PROMPT.md)。
 

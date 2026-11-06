@@ -36,9 +36,10 @@ class SuperMimic:
         self.replay = Replay(cfg["replay_steps_per_environment"], env.num_envs, env.device)
         self.collected_steps = 0
         self.phase_times = {}
-        families = [re.match(r"[A-Za-z]+", name)[0] for name in env.motions.names]
+        families = env.motions.families
         self.family_names = sorted(set(families))
-        self.clip_family = torch.tensor([self.family_names.index(f) for f in families], device=env.device)
+        family_ids = {name: i for i, name in enumerate(self.family_names)}
+        self.clip_family = torch.tensor([family_ids[f] for f in families], device=env.device)
 
     @torch.no_grad()
     def collect(self, steps):

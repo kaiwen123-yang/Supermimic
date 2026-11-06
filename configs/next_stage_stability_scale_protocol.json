@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "P8",
-  "status": "planned_not_launched",
+  "status": "running_or_waiting_for_data",
   "planned_beijing": "2026-11-06",
   "evidence_commit": "a7ae3267977f064938dbdbfefaf0af49938ac757",
   "campaign": "20261106-p8-stability-scale-s0",
@@ -25,7 +25,13 @@
     "tmux_survives_handoff": true,
     "do_not_stop_other_projects": true,
     "restart_budget": "Accumulate consumed P8 job time across actual process restarts; do not reset the16h allowance. Exclude source C42000 historical cost from each new-stage cap.",
-    "replay_handoff": "Live tmux training continues with existing replay. Actual process restart from checkpoint without replay requires one necessary64-step refill, recorded as recovery; no recovery drills."
+    "replay_handoff": "Live tmux training continues with existing replay. Actual process restart from checkpoint without replay requires one necessary64-step refill, recorded as recovery; no recovery drills.",
+    "observed_beijing": "2026-11-06T17:38:59.164103+08:00",
+    "jobs": {
+      "lafan_h32": "running",
+      "lafan_h16": "running",
+      "bones40_transfer_h32": "downloading"
+    }
   },
   "source": {
     "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
@@ -365,5 +371,6 @@
     "unrelated_benchmarks_or_monitoring",
     "repeated_old_full_checkpoint_replays",
     "changing_reward_or_physical_success_thresholds_to_raise_scores"
-  ]
+  ],
+  "training_started": true
 }

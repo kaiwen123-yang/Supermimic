@@ -1,6 +1,7 @@
 """Complete fixed motion library with clip boundaries and physical timestamps."""
 from pathlib import Path
 import json
+import re
 
 import numpy as np
 import torch
@@ -31,17 +32,18 @@ class MotionLibrary:
         manifest = json.loads(self.manifest_path.read_text())
         self.data_definition = data_definition(manifest)
         self.names = [c["name"] for c in manifest["clips"]]
-        arrays = {key: [] for key in ("qpos", "qvel", "body_pos", "body_quat", "body_lin_vel", "body_ang_vel")}
-        offsets, lengths = [], []
-        for clip in manifest["clips"]:
+        self.families = [c["category"] if "category" in c else re.match(r"[A-Za-z]+", c["name"])[0] for c in manifest["clips"]]
+        lengths = [c["frames"] for c in manifest["clips"]]
+        offsets = np.concatenate(([0], np.cumsum(lengths[:-1], dtype=np.int64)))
+        keys = ("qpos", "qvel", "body_pos", "body_quat", "body_lin_vel", "body_ang_vel")
+        with np.load(directory / (manifest["clips"][0]["name"] + ".npz")) as first:
+            self.values = {key: torch.empty((sum(lengths), *first[key].shape[1:]), dtype=torch.float32, device=device) for key in keys}
+        for clip, offset in zip(manifest["clips"], offsets):
             with np.load(directory / (clip["name"] + ".npz")) as data:
                 if len(data["qpos"]) != clip["frames"]:
                     raise ValueError(f"Changed length: {clip['name']}")
-                offsets.append(sum(lengths))
-                lengths.append(clip["frames"])
-                for key in arrays:
-                    arrays[key].append(data[key])
-        self.values = {key: torch.from_numpy(np.concatenate(value)).to(device) for key, value in arrays.items()}
+                for key in keys:
+                    self.values[key][int(offset):int(offset)+clip["frames"]].copy_(torch.from_numpy(data[key]))
         self.offsets = torch.tensor(offsets, device=device)
         self.lengths = torch.tensor(lengths, device=device)
         self.device = torch.device(device)

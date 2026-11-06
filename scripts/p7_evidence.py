@@ -67,7 +67,7 @@ def saved_windows(spec, output):
     return current,regression,centers
 
 
-def world_windows(spec, output):
+def world_windows(spec, output, evaluation_iteration=33000):
     sys.path.insert(0,str(ROOT))
     import torch
     from supermimic.networks import WorldModel
@@ -95,7 +95,7 @@ def world_windows(spec, output):
     with torch.no_grad():
         for target in spec["current_failure_windows"]:
             name=target["motion"]
-            source=Path(spec["source_server_run"])/"evaluation_0033000/trajectories"/(name+".npz")
+            source=Path(spec["source_server_run"])/f"evaluation_{evaluation_iteration:07d}/trajectories"/(name+".npz")
             with np.load(source) as z:
                 failure_frame=target["state_frames_inclusive"][1]
                 for before_steps in (64,32):

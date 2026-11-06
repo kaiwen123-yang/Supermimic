@@ -1,5 +1,6 @@
 # P8 Codex启动提示词
 
+实际状态：P8已开始执行。先读results/20261106-p8-stability-scale-s0/summary.json并检查已有tmux，再处理未完任务；不要再次运行start_p8.py。
 你正在接续 kaiwen123-yang/Supermimic。请直接执行已授权的P8实施与正式训练，不只给建议，也不重复P7。先读当前AGENTS.md、docs/P8_STABILITY_AND_SCALE_PLAN.md、configs/next_stage_stability_scale_protocol.json；P7已完成，结果在results/20261105-p7-feedback-reproduction-s0。
 
 本轮目标是稳定性与BONES规模训练同步推进，效率优化后置。D57为96GB显存、25vCPU；使用已有独立环境/G1资产，不setup、升级、重建、清理正常环境，不影响其他项目。

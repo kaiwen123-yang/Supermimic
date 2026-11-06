@@ -39,4 +39,5 @@ def save_selected_rollouts(directory, block, iteration, motions, clip, frame, co
         "selection":"Highest normal-update critic_mse in block; top max_t abs(lambda_target-old_V).",
         "parameter_phase":"WM after normal fit; Actor before policy step; stored Critic before fitting.",
         "state_layout":"world root XYZ, root quaternion wxyz, 29 joints, 35 velocities, previous action; dt=.02",
+        "imagination_horizon":horizon,"data_manifest":str(motions.manifest_path),
         "interpretation":"Existing imagined samples, not Actor-gradient attribution or an exact checkpoint snapshot; yaw D is descriptive."},indent=2)+"\n")

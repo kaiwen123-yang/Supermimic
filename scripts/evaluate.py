@@ -18,34 +18,36 @@ from supermimic.checkpointing import pin_checkpoint
 
 
 @torch.no_grad()
-def evaluate(checkpoint_path, output_dir, record_motions=None):
+def evaluate(checkpoint_path, output_dir, record_motions=None, cross_dataset=None):
     torch.set_num_threads(2)
     torch.set_float32_matmul_precision("high")
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
-    motions = MotionLibrary(ROOT / "data/processed/lafan1_g1_50hz", "cuda")
-    if checkpoint_data_definition(checkpoint) != motions.data_definition:
-        raise ValueError("Evaluation data semantics differ from training")
     cfg, iteration = checkpoint["config"], checkpoint["iteration"]
+    training_definition = checkpoint_data_definition(checkpoint)
+    motions = MotionLibrary(ROOT / (cross_dataset or cfg.get("data_directory", "data/processed/lafan1_g1_50hz")), "cuda")
+    if cross_dataset is None and training_definition != motions.data_definition:
+        raise ValueError("Evaluation data semantics differ from training")
+    count = len(motions.names)
     goal_frame = cfg.get("goal_frame", "reference_heading")
     started = time.monotonic()
     actor = Actor(cfg.get("actor_root_position_feedback", False)).cuda().eval()
     actor.load_state_dict(checkpoint["actor"])
     actor_updates = checkpoint["actor_updates"]
     del checkpoint
-    sim = G1Simulator(40)
+    sim = G1Simulator(count)
     fk = ForwardKinematics(sim.host_model).float().cuda()
-    clip = torch.arange(40, device="cuda")
-    frame = torch.zeros(40, device="cuda", dtype=torch.long)
+    clip = torch.arange(count, device="cuda")
+    frame = torch.zeros(count, device="cuda", dtype=torch.long)
     initial = motions.get(clip, frame)
     sim.reset(initial["qpos"], initial["qvel"])
-    previous_action = torch.zeros((40, 29), device="cuda")
+    previous_action = torch.zeros((count, 29), device="cuda")
     obs = observation(sim.qpos, sim.qvel, previous_action, sim.q0, sim.context[:, 1:30])
     history = obs[:, None].repeat(1, 10, 1)
-    active = torch.ones(40, dtype=torch.bool, device="cuda")
+    active = torch.ones(count, dtype=torch.bool, device="cuda")
     failed = torch.zeros_like(active)
-    reasons = ["completed"] * 40
+    reasons = ["completed"] * count
     tracks = []
-    for i in range(40):
+    for i in range(count):
         tracks.append({"qpos": [sim.qpos[i].cpu().numpy().copy()],
                        "qvel": [sim.qvel[i].cpu().numpy().copy()],
                        "reference_qpos": [initial["qpos"][i].cpu().numpy().copy()],
@@ -60,7 +62,7 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
                                                      previous_action, sim.soft_lower, sim.soft_upper)
         invalid = ~(torch.isfinite(qpos).all(-1) & torch.isfinite(qvel).all(-1) & torch.isfinite(reward))
         done |= invalid
-        gravity = torch.zeros((40, 3), device="cuda"); gravity[:, 2] = -1
+        gravity = torch.zeros((count, 3), device="cuda"); gravity[:, 2] = -1
         robot_gz = quat_apply(quat_inv(qpos[:, 3:7]), gravity)[:, 2]
         ref_gz = quat_apply(quat_inv(reference["qpos"][:, 3:7]), gravity)[:, 2]
         values = {"qpos": qpos, "qvel": qvel, "reference_qpos": reference["qpos"],
@@ -116,7 +118,8 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
               "actor_root_position_scale_m": cfg.get("actor_root_position_scale_m", 0.3),
               "world_termination_loss": cfg.get("world_termination_loss", "aux_bce"),
               "iteration": iteration, "actor_updates": actor_updates, "data_definition": motions.data_definition,
-              "checkpoint_file": f"checkpoint_{iteration:07d}.pt", "motions": 40,
+              "checkpoint_file": f"checkpoint_{iteration:07d}.pt", "motions": count,
+              "training_data_definition": training_definition, "cross_dataset_evaluation": cross_dataset is not None,
               "failed_motions": sum(r["failed"] for r in records), "completed_motions": sum(not r["failed"] for r in records),
               "wall_seconds": time.monotonic()-started, "clips": records,
               "trajectory_directory": "trajectories", "score_and_video_share_trajectory": True,
@@ -127,7 +130,7 @@ def evaluate(checkpoint_path, output_dir, record_motions=None):
                            "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
                            "scope": "training-motion coverage, not generalization"}}
     for key in ("normalized_return", "completion_fraction", "tracking_coverage", "execution_seconds"):
-        result["mean_"+key] = sum(r[key] for r in records)/40
+        result["mean_"+key] = sum(r[key] for r in records)/count
     (output_dir/"evaluation.json").write_text(json.dumps(result,indent=2)+"\n")
     print("FULL_EVALUATION_COMPLETE", json.dumps({k:v for k,v in result.items() if k not in ("clips","protocol","data_definition")}),flush=True)
 
@@ -137,12 +140,13 @@ def main():
     parser.add_argument("checkpoint",type=Path)
     parser.add_argument("--output-dir",type=Path)
     parser.add_argument("--record-motions",nargs="+")
+    parser.add_argument("--cross-dataset", help="Explicit evaluation-only dataset directory; never changes training/resume semantics")
     args=parser.parse_args()
     source=args.checkpoint.resolve(strict=True)
     output=args.output_dir or source.parent/("evaluation_"+source.stem.split("_")[-1])
     output.mkdir(parents=True,exist_ok=False)
     with pin_checkpoint(source) as stable:
-        evaluate(stable,output,args.record_motions)
+        evaluate(stable,output,args.record_motions,args.cross_dataset)
 
 if __name__ == "__main__":
     main()
