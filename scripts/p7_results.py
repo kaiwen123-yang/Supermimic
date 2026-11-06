@@ -56,6 +56,8 @@ def refresh_campaign(protocol):
     campaign.update(jobs=jobs,status="completed" if complete else "running",training_done=all_done,
         full_clip_evaluation_done=all_evaluated,lightweight_results_published=published,
         evidence_backfill={"status":evidence["status"],"manifest":str(evidence_path.relative_to(ROOT))})
+    if complete:
+        campaign["interaction_handoff"]="P7 endpoints42000/9000, formal evaluations, prescribed evidence and lightweight publication are complete. Do not restart or automatically extend/open P8. Bulk artifacts remain on D57 for user-managed backup and deletion."
     write(result/"summary.json",campaign)
     return campaign
 

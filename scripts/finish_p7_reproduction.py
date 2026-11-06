@@ -12,13 +12,14 @@ from p7_results import ROOT, PROTOCOL, read, write, success, refresh_campaign, u
 def update_documents(campaign):
     complete=campaign["status"]=="completed"
     status="已完成训练、正式评分、关键证据和轻量发布" if complete else "已启动，两路正式训练由独立tmux继续"
+    handoff="本段已结束，不重复启动或自动开P8" if complete else "接续已有tmux，不重复启动、不重建replay或重置LR，不自动扩预算或开P8"
     paths=[Path("AGENTS.md"),Path("README.md"),Path("docs/P7_CONTINUATION_AND_FRESH_PLAN.md"),Path("docs/NEXT_STAGE_START_PROMPT.md")]
     for path in paths:
         lines=(ROOT/path).read_text().splitlines()
         if path.name=="AGENTS.md":
             for i,line in enumerate(lines):
                 if line.startswith("- 当前入口为P7："):
-                    lines[i]=f"- 当前入口为P7：docs/P7_CONTINUATION_AND_FRESH_PLAN.md、configs/next_stage_reproduction_protocol.json。P7{status}；状态见results/{campaign['campaign']}/summary.json。接续既有进程，不重复启动；P1–P6为历史。"
+                    lines[i]=f"- 当前入口为P7：docs/P7_CONTINUATION_AND_FRESH_PLAN.md、configs/next_stage_reproduction_protocol.json。P7{status}；状态见results/{campaign['campaign']}/summary.json。{handoff}；P1–P6为历史。"
                 elif line.startswith("## P7实施"):
                     lines[i]=f"## P7实施（{status}）"
         elif path.name=="README.md":
@@ -32,7 +33,7 @@ def update_documents(campaign):
                     lines[i]=f"状态：**{status}。** 实际任务状态见[结果索引](../results/{campaign['campaign']}/summary.json)。"
                     break
         else:
-            lines[2]=f"P7{status}。先读results/{campaign['campaign']}/summary.json。下文保留授权范围；接续已有tmux，不重复启动、不重建replay或重置LR，不自动扩预算或开P8。"
+            lines[2]=f"P7{status}。先读results/{campaign['campaign']}/summary.json。下文保留授权范围；{handoff}。"
         (ROOT/path).write_text("\n".join(lines)+"\n")
     return paths
 
@@ -100,6 +101,19 @@ def finish(job_id):
                     "at_or_above_reference":scores[i]["mean_normalized_return"]>=.82} for i in nodes if first is not None and i>first],
                 "meaning":"First observed saved full40 node, not the precise crossing time; no automatic extension if absent."}
         write(jobdir/"comparison.json",comparison)
+        # Earlier failed Git pushes can be republished after the final node.
+        # Bind completion metadata to the fixed actual endpoint, not retry order.
+        final_view=views[str(final)]
+        summary.update(latest_evaluated_iteration=final,
+            latest_evaluation={key:final_score[key] for key in ("completed_motions","mean_normalized_return","mean_completion_fraction")},
+            latest_reward_quality=final_view["reward_quality_mean"],
+            latest_training_cost={key:training["last"][key] for key in ("stage_elapsed_seconds","elapsed_seconds",
+                "new_actor_updates","new_sim_transitions","collected_sim_transitions")})
+        summary["server_artifacts"].update(checkpoint=str(run/f"checkpoint_{final:07d}.pt"),
+            trajectories=str(run/f"evaluation_{final:07d}"/"trajectories"))
+        if job["parent"] is not None:
+            summary.update(latest_parent_successes_retained=len(final_view["parent_successes_retained"]),
+                latest_newly_completed=final_view["newly_completed"])
         summary.update(status="publishing",training_done=True,full_clip_evaluation_done=True,
             final_iteration=final,evaluated_iterations=nodes,training_snapshot=status,cost=comparison["cost"],
             final_scores={k:v for k,v in final_score.items() if k not in ("clips","data_definition")},
