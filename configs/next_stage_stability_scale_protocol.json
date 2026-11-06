@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "stage": "P8",
+  "status": "planned_not_launched",
+  "planned_beijing": "2026-11-06",
+  "evidence_commit": "a7ae3267977f064938dbdbfefaf0af49938ac757",
+  "campaign": "20261106-p8-stability-scale-s0",
+  "plan": "docs/P8_STABILITY_AND_SCALE_PLAN.md",
+  "startup_prompt": "docs/P8_CODEX_START_PROMPT.md",
+  "objective": "Study capability retention with a fixed H16/H32 comparison while beginning BONES40 scale transfer; preserve existing LAFAN achievement.",
+  "execution": {
+    "host": "autodl-d57",
+    "worktree": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale",
+    "reuse_environment_from": "/root/autodl-tmp/robot-repro/supermimic",
+    "gpu_training_target_concurrency": 3,
+    "torch_threads_per_job": 2,
+    "cpu_preprocessing_workers": 16,
+    "cpu_preprocessing_workers_before_third_job_and_without_evaluation": 20,
+    "cpu_numeric_threads_per_worker": 1,
+    "logical_cpu_budget": 25,
+    "shared_gpu": true,
+    "evaluation_evidence_publication_concurrency": 1,
+    "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
+    "codex_window_max_hours": 4,
+    "tmux_survives_handoff": true,
+    "do_not_stop_other_projects": true,
+    "restart_budget": "Accumulate consumed P8 job time across actual process restarts; do not reset the16h allowance. Exclude source C42000 historical cost from each new-stage cap.",
+    "replay_handoff": "Live tmux training continues with existing replay. Actual process restart from checkpoint without replay requires one necessary64-step refill, recorded as recovery; no recovery drills."
+  },
+  "source": {
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+    "evaluation": "results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0042000/evaluation.json",
+    "iteration": 42000,
+    "normalized_return": 0.8591209871914103,
+    "completed_motions": 36,
+    "failed_motions": 4,
+    "mean_completion_fraction": 0.966162576952635,
+    "cumulative_wall_seconds": 169723.5169276595,
+    "source_failures": [
+      "dance1_subject1",
+      "fallAndGetUp1_subject1",
+      "fallAndGetUp2_subject3",
+      "jumps1_subject2"
+    ],
+    "historical_anchor": {
+      "iteration": 33000,
+      "normalized_return": 0.8662465543453157,
+      "completed_motions": 37,
+      "evaluation": "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0033000/evaluation.json",
+      "meaning": "Historical accepted LAFAN result; not the immediate parent36 baseline."
+    }
+  },
+  "common_training": {
+    "seed": 0,
+    "supermimic_num_envs": 4096,
+    "imagination_batch_size": 4096,
+    "world_window": 8,
+    "world_batches": 10,
+    "world_batch_size": 2048,
+    "replay_steps_per_environment": 1000,
+    "replay_warmup_steps": 64,
+    "max_episode_steps": 500,
+    "learning_rate": 0.0002,
+    "actor_learning_rate_scale": 0.5,
+    "cosine_iterations": 250000,
+    "gamma": 0.99,
+    "lambda": 0.95,
+    "critic_epochs": 5,
+    "critic_minibatches": 4,
+    "actor_root_position_feedback": true,
+    "actor_root_position_scale_m": 0.3,
+    "goal_frame": "robot_root",
+    "world_termination_loss": "aux_bce",
+    "imagination_termination": "analytic_smooth",
+    "termination_smoothing_temperature": 0.05,
+    "collect_steps": "2 and 3 alternating per environment per update",
+    "checkpoint_every_iterations": 1,
+    "keep_recent_checkpoints": 20,
+    "record_imagination_evidence": true,
+    "capture_selected_training_rollouts": true,
+    "update_sequence": [
+      "real_collect",
+      "fit_world",
+      "actor_bptt",
+      "fit_critic"
+    ],
+    "change_only_H_in_lafan_comparison": true
+  },
+  "jobs": {
+    "lafan_h32": {
+      "run": "20261106-p8-stability-scale-s0-lafan_h32",
+      "tmux": "sm-p8-lafan-h32",
+      "planned_config": "configs/lafan40_p8_h32.json",
+      "data_directory": "data/processed/lafan1_g1_50hz",
+      "initialization": "full_resume",
+      "restore": [
+        "actor",
+        "world_model",
+        "critic",
+        "three_Adam_states",
+        "sampler",
+        "saved_Torch_CUDA_RNG",
+        "global_learning_rate_schedule"
+      ],
+      "imagination_horizon": 32,
+      "start_iteration": 42000,
+      "target_iteration": 51000,
+      "new_joint_updates": 9000,
+      "max_new_stage_hours": 16,
+      "evaluation_iterations": [
+        43000,
+        44000,
+        45000,
+        46000,
+        47000,
+        48000,
+        49000,
+        50000,
+        51000
+      ],
+      "tail_iterations": [
+        49000,
+        50000,
+        51000
+      ],
+      "baseline_completed_motions": 36
+    },
+    "lafan_h16": {
+      "run": "20261106-p8-stability-scale-s0-lafan_h16",
+      "tmux": "sm-p8-lafan-h16",
+      "planned_config": "configs/lafan40_p8_h16.json",
+      "data_directory": "data/processed/lafan1_g1_50hz",
+      "initialization": "full_resume",
+      "restore": [
+        "actor",
+        "world_model",
+        "critic",
+        "three_Adam_states",
+        "sampler",
+        "saved_Torch_CUDA_RNG",
+        "global_learning_rate_schedule"
+      ],
+      "imagination_horizon": 16,
+      "start_iteration": 42000,
+      "target_iteration": 51000,
+      "new_joint_updates": 9000,
+      "max_new_stage_hours": 16,
+      "evaluation_iterations": [
+        43000,
+        44000,
+        45000,
+        46000,
+        47000,
+        48000,
+        49000,
+        50000,
+        51000
+      ],
+      "tail_iterations": [
+        49000,
+        50000,
+        51000
+      ],
+      "baseline_completed_motions": 36
+    },
+    "bones40_transfer_h32": {
+      "run": "20261106-p8-stability-scale-s0-bones40_transfer_h32",
+      "tmux": "sm-p8-bones40-h32",
+      "planned_config": "configs/bones40_p8_transfer_h32.json",
+      "data_directory": "data/processed/bones_g1_50hz_40h_s0",
+      "initialization": "weights_transfer",
+      "load_only": [
+        "actor",
+        "world_model",
+        "critic"
+      ],
+      "initialize_new": [
+        "three_Adam_states",
+        "BONES_sampler",
+        "replay",
+        "seed0_RNG",
+        "dataset_stage_counters"
+      ],
+      "imagination_horizon": 32,
+      "start_iteration": 0,
+      "target_iteration": 9000,
+      "world_only_warmup_iterations": 5,
+      "new_actor_updates_target": 8995,
+      "max_new_stage_hours": 16,
+      "baseline": "Save weights-initialized checkpoint_0000000.pt before updates with frozenBONES40 data definition and C42000 provenance; one full evaluation of it, concurrent with training.",
+      "evaluation_iterations": [
+        0,
+        3000,
+        6000,
+        9000
+      ],
+      "evaluation_all_selected_motions": true,
+      "evaluation_batch_size": 1024,
+      "lafan_retention_evaluation": "Only at actual endpoint via explicit cross-dataset evaluation recording both training and evaluation data definitions; preserve same-data resume semantics.",
+      "inherited_training_cost_must_be_reported": true,
+      "forbid_from_scratch_or_three_hour_claim": true
+    }
+  },
+  "bones_data": {
+    "dataset": "bones-studio/seed",
+    "url": "https://huggingface.co/datasets/bones-studio/seed",
+    "official_files_observed": [
+      "g1.tar.gz",
+      "metadata/seed_metadata_v004.parquet",
+      "metadata/seed_metadata_v004.csv"
+    ],
+    "g1_archive_size_gb_observed": 23.5,
+    "download_scope": "G1 archive and one usable metadata format; no SOMA archives.",
+    "access": "Reuse existing authorized HF access; if gated, report exact access requirement and continue unblocked tasks.",
+    "revision": null,
+    "full_preprocessing_target": "All actually acquired G1 motions filtered according to paper-known rules plus explicit project gates.",
+    "paper_raw_clips": 142220,
+    "paper_filtered_clips": 129514,
+    "paper_filtered_hours": 264.56,
+    "require_exact_author_count": false,
+    "subset_target_hours": 40,
+    "subset_whole_clips": true,
+    "subset_seed": 0,
+    "subset_order": "Fixed metadata category-stratified/round-robin seeded order; retain feasible complete clips until about 40h.",
+    "freeze_subset_before_training": true,
+    "do_not_modify_active_manifest": true,
+    "source_fps_and_columns": "Resolve from actual G1 MuJoCo CSV and official format/time metadata; do not inherit LAFAN30Hz/36-no-header assumption.",
+    "target_control_hz": 50,
+    "preprocessing_workers": 16,
+    "full_processed_directory": "data/processed/bones_g1_50hz_full",
+    "record_exclusion_reason_per_clip": true,
+    "paper_known_filter_thresholds": {
+      "elevated_support_min_z_m": 0.2,
+      "elevated_support_min_seconds": 0.6,
+      "penetration_any_min_z_m": -0.12,
+      "penetration_fraction_min_z_m": -0.08,
+      "penetration_fraction": 0.8,
+      "floating_feet_geom_distance_m": 0.02,
+      "floating_min_seconds": 0.5,
+      "floating_gates": "Upright, standing height, nearly stationary; undisclosed exact gates must be explicit project choices frozen before training."
+    },
+    "predicted_reference_array_gib": {
+      "hours40": 6.785988807678223,
+      "hours264_56": 44.882529973983765
+    },
+    "gpu_reference_scope": "Frozen40h only; do not load complete264h alongside all three jobs."
+  },
+  "required_scale_implementation": [
+    "Configurable dataset directory/manifest and actual clip count",
+    "Prefix-sum clip and reset-bin offsets",
+    "Preallocated or memory-mapped bounded reference loading instead of whole-library list plus concatenate copies",
+    "Chunked complete-subset evaluation with online per-clip metrics and eight reward sums",
+    "Metadata-based bounded family labels instead of LAFAN filename regex",
+    "Explicit weights-transfer path distinct from same-data resume",
+    "Three-job compact publication using one shared existing lock"
+  ],
+  "evidence": {
+    "fixed_training_anomalies": {
+      "source_milestones": [
+        39000,
+        42000
+      ],
+      "source_update_iterations": [
+        38089,
+        41379
+      ],
+      "rollouts_per_update": 4,
+      "total_rollouts": 8,
+      "control_steps": 32,
+      "physical_initialization": "Stored state/context; apply context to sim.context and actual foot friction/torso COM; keep stored actions.",
+      "no_new_actor_actions": true,
+      "context_layout": "33 dimensions: recorded friction coefficient(1), calibration offsets(29), torso COM offsets(3); do not replace recorded friction with1.0.",
+      "valid_comparison": "Through first physical termination inclusive; posttermination arrays separately marked.",
+      "outputs": [
+        "real_and_predicted_state",
+        "action",
+        "context",
+        "reference",
+        "reward_components",
+        "height_and_tilt",
+        "hard_done",
+        "predicted_death",
+        "survival",
+        "errors_at_8_16_32"
+      ]
+    },
+    "current_final_failures": {
+      "checkpoint_iteration": 42000,
+      "motions": [
+        "dance1_subject1",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp2_subject3",
+        "jumps1_subject2"
+      ],
+      "starts_control_steps_before_failure": [
+        64,
+        32
+      ],
+      "horizon": 32,
+      "total_world_model_windows": 8,
+      "physics_source": "Existing C42000 evaluation trajectories; no new full physical replay.",
+      "model_source": "Retained C42000 checkpoint."
+    },
+    "normal_training_capture": {
+      "selection": "Highest normal-update critic_mse in each1000 block; at most4 largest max_t abs(lambda_target-old_V) samples.",
+      "additional_forward_backward": false,
+      "use_actual_job_horizon": true,
+      "source_and_array_semantics_required": true
+    },
+    "final_lafan_failure_windows": "At most one existing2.64s tail window per actually failed motion at endpoint.",
+    "final_bones_failure_windows": "At most8 selected failure tails by fixed metadata-category/motion order, kept from a bounded active-environment tail ring in the same formal endpoint evaluation; no subsequent full replays."
+  },
+  "evaluation": {
+    "deterministic": true,
+    "start_frame": 0,
+    "friction": 1,
+    "observation_noise": false,
+    "domain_randomization": false,
+    "failure": "Reference-relative root height >0.25m OR gravity-z difference >0.8; existing nonfinite handling unchanged.",
+    "normalized_return": "sum rewards / (0.1*full_reference_transition_count) per clip; arithmetic mean over actual N.",
+    "compare_lafan_fixed_endpoint_and_tail": true,
+    "report_parent36_retention": true,
+    "do_not_pool_best_motion_checkpoints": true,
+    "do_not_use_training_return_as_full_episode_score": true,
+    "no_training_timeout_in_full_evaluation": true
+  },
+  "publication": {
+    "policy": "lightweight_git_first",
+    "include": [
+      "code",
+      "actual_configs",
+      "data_manifest_and_filter_statistics",
+      "all_per_motion_evaluation_metrics",
+      "compact_training_statistics",
+      "specified_small_NPZ_JSON_evidence",
+      "conclusions",
+      "server_artifact_paths"
+    ],
+    "retain_on_server": [
+      "large_checkpoints",
+      "full_trajectories",
+      "full_videos",
+      "raw_and_processed_data",
+      "full_training_logs"
+    ],
+    "github_release": false,
+    "make_tar_for_upload": false,
+    "archive_on_user_computer": false,
+    "automatic_stage_cleanup": false,
+    "backup_confirmation_required_before_marking_backed_up": true,
+    "existing_checkpoint_rolling_retention_unchanged": true
+  },
+  "stop": {
+    "each_job": "Target iterations or16h new-stage cap, whichever first; evaluate and publish actual endpoint.",
+    "no_automatic_extension": true,
+    "no_automatic_p9": true,
+    "no_additional_sweeps_or_seeds": true
+  },
+  "prohibited": [
+    "defensive_programming",
+    "unit_mock_smoke_import_shape_hash_tests",
+    "hash_recomputation",
+    "restore_drills",
+    "whole_disk_scans",
+    "unrelated_benchmarks_or_monitoring",
+    "repeated_old_full_checkpoint_replays",
+    "changing_reward_or_physical_success_thresholds_to_raise_scores"
+  ]
+}
