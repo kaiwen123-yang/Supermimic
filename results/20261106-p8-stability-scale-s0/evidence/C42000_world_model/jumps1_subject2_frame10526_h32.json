@@ -1,0 +1,134 @@
+{
+  "motion": "jumps1_subject2",
+  "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+  "source_trajectory": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/evaluation_0042000/trajectories/jumps1_subject2.npz",
+  "npz": "results/20261106-p8-stability-scale-s0/evidence/C42000_world_model/jumps1_subject2_frame10526_h32.npz",
+  "start_frame": 10526,
+  "state_frames_inclusive": [
+    10526,
+    10558
+  ],
+  "seconds_before_failure_at_start": 0.64,
+  "covers_terminal_step": true,
+  "initial_previous_action_index": 10525,
+  "action_indices": [
+    10526,
+    10557
+  ],
+  "horizons": {
+    "8": {
+      "root_position_m": 0.06174148619174957,
+      "root_SO3_rad": 0.09164521843194962,
+      "joint_position_rmse_rad": 0.04517805576324463,
+      "root_linear_velocity_error_m_s": 0.28081247210502625,
+      "root_local_angular_velocity_error_rad_s": 0.7154036164283752,
+      "joint_velocity_rmse_rad_s": 0.4502550959587097,
+      "predicted_reward_at_step": 0.0494796521961689,
+      "actual_reward_at_step": 0.04772455617785454,
+      "predicted_cumulative_reward": 0.39518044143915176,
+      "actual_cumulative_reward": 0.38470499962568283,
+      "predicted_component_sums": [
+        0.07598123513162136,
+        1.0923669492513e-05,
+        0.15221174247562885,
+        0.14899778924882412,
+        4.754630526804249e-05,
+        0.018677870742976665,
+        -0.0007466689930879511,
+        0.0
+      ],
+      "actual_component_sums": [
+        0.0691616265103221,
+        1.0766440027509816e-05,
+        0.15373666398227215,
+        0.147329393774271,
+        3.8339388083841186e-05,
+        0.015174888540059328,
+        -0.0007466689930879511,
+        0.0
+      ],
+      "predicted_analytic_smooth_probability": 0.0001850128173828125,
+      "actual_termination": false
+    },
+    "16": {
+      "root_position_m": 0.11638050526380539,
+      "root_SO3_rad": 0.13254223763942719,
+      "joint_position_rmse_rad": 0.09580422192811966,
+      "root_linear_velocity_error_m_s": 0.3449374735355377,
+      "root_local_angular_velocity_error_rad_s": 0.5128191113471985,
+      "joint_velocity_rmse_rad_s": 0.5174493193626404,
+      "predicted_reward_at_step": 0.046212926506996155,
+      "actual_reward_at_step": 0.04461188241839409,
+      "predicted_cumulative_reward": 0.7765175849199295,
+      "actual_cumulative_reward": 0.7549977749586105,
+      "predicted_component_sums": [
+        0.15295269526541233,
+        1.8526111830396985e-05,
+        0.2962993159890175,
+        0.2887446768581867,
+        0.00011619696124398615,
+        0.04086817125789821,
+        -0.0024819903119350784,
+        0.0
+      ],
+      "actual_component_sums": [
+        0.13181276945397258,
+        1.73557062908003e-05,
+        0.3045050986111164,
+        0.2924653720110655,
+        6.667399952675623e-05,
+        0.028612507856450975,
+        -0.0024819903119350784,
+        0.0
+      ],
+      "predicted_analytic_smooth_probability": 6.479024887084961e-05,
+      "actual_termination": false
+    },
+    "32": {
+      "root_position_m": 0.14890824258327484,
+      "root_SO3_rad": 0.14745168387889862,
+      "joint_position_rmse_rad": 0.14927799999713898,
+      "root_linear_velocity_error_m_s": 0.20117492973804474,
+      "root_local_angular_velocity_error_rad_s": 0.17533698678016663,
+      "joint_velocity_rmse_rad_s": 0.361576646566391,
+      "predicted_reward_at_step": 0.04782338812947273,
+      "actual_reward_at_step": 0.04687481001019478,
+      "predicted_cumulative_reward": 1.5449462942779064,
+      "actual_cumulative_reward": 1.4986591078341007,
+      "predicted_component_sums": [
+        0.3009081017225981,
+        2.6890357418096755e-05,
+        0.5874243211001158,
+        0.5782281402498484,
+        0.0004101096546946792,
+        0.08182127540931106,
+        -0.003872530855005607,
+        0.0
+      ],
+      "actual_component_sums": [
+        0.25498345121741295,
+        2.6888389527357504e-05,
+        0.6127930767834187,
+        0.5861271601170301,
+        0.00010677913155632268,
+        0.04849430487956852,
+        -0.003872530855005607,
+        0.0
+      ],
+      "predicted_analytic_smooth_probability": 0.00048720836639404297,
+      "actual_termination": true
+    }
+  },
+  "reward_component_order": [
+    "relative_body_position",
+    "body_orientation",
+    "body_linear_velocity",
+    "body_angular_velocity",
+    "global_root_position",
+    "global_root_orientation",
+    "action_difference_penalty",
+    "soft_joint_limit_penalty"
+  ],
+  "context_provenance": "Constructed deterministic evaluation [1,0x32].",
+  "interpretation": "New same-recorded-action WM prediction versus saved physics, not Actor closed-loop rollout. Analytic_smooth probability is not learned BCE-head output or proof of correct Jacobians."
+}

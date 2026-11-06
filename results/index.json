@@ -1300,6 +1300,71 @@
       "summary": "results/20261105-p7-feedback-reproduction-s0/summary.json",
       "backup_status": "awaiting_user_export_not_confirmed",
       "automatic_stage_cleanup": false
+    },
+    "20261106-p8-stability-scale-s0": {
+      "status": "running_or_waiting_for_data",
+      "training_started": false,
+      "training_done": false,
+      "full_clip_evaluation_done": false,
+      "summary": "results/20261106-p8-stability-scale-s0/summary.json",
+      "jobs": {
+        "lafan_h32": {
+          "job": "lafan_h32",
+          "run": "20261106-p8-stability-scale-s0-lafan_h32",
+          "tmux": "sm-p8-lafan-h32",
+          "status": "starting",
+          "training_started": false,
+          "training_done": false,
+          "full_clip_evaluation_done": false,
+          "lightweight_results_published": false,
+          "initialization": "full_resume",
+          "start_iteration": 42000,
+          "target_iteration": 51000,
+          "max_accumulated_stage_hours": 16,
+          "started_beijing": "2026-11-06T17:30:51.034730+08:00",
+          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+          "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32",
+          "backup_status": "awaiting_user_export_not_confirmed"
+        },
+        "lafan_h16": {
+          "job": "lafan_h16",
+          "run": "20261106-p8-stability-scale-s0-lafan_h16",
+          "tmux": "sm-p8-lafan-h16",
+          "status": "starting",
+          "training_started": false,
+          "training_done": false,
+          "full_clip_evaluation_done": false,
+          "lightweight_results_published": false,
+          "initialization": "full_resume",
+          "start_iteration": 42000,
+          "target_iteration": 51000,
+          "max_accumulated_stage_hours": 16,
+          "started_beijing": "2026-11-06T17:30:51.034730+08:00",
+          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+          "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h16",
+          "backup_status": "awaiting_user_export_not_confirmed"
+        },
+        "bones40_transfer_h32": {
+          "job": "bones40_transfer_h32",
+          "run": "20261106-p8-stability-scale-s0-bones40_transfer_h32",
+          "tmux": "sm-p8-bones40-h32",
+          "status": "blocked_hf_access",
+          "training_started": false,
+          "training_done": false,
+          "full_clip_evaluation_done": false,
+          "lightweight_results_published": false,
+          "initialization": "weights_transfer",
+          "start_iteration": 0,
+          "target_iteration": 9000,
+          "max_accumulated_stage_hours": 16,
+          "started_beijing": null,
+          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+          "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-bones40_transfer_h32",
+          "backup_status": "awaiting_user_export_not_confirmed"
+        }
+      },
+      "automatic_stage_cleanup": false,
+      "backup_status": "awaiting_user_export_not_confirmed"
     }
   },
   "publications": {
@@ -2179,7 +2244,7 @@
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
     "protocol_id": "p7-established-feedback-reproduction-v1",
-    "status": "completed",
+    "status": "running_or_waiting_for_data",
     "implementation_status": "not_started",
     "document": "docs/P7_CONTINUATION_AND_FRESH_PLAN.md",
     "protocol": "configs/next_stage_reproduction_protocol.json",
@@ -2188,8 +2253,8 @@
     "review_commit": "bccd4c8a4cc9249f5738d84799db7da954e68922",
     "review": "results/20261105-p6-position-feedback-s0/review_20261105.json",
     "plan_and_review_published": true,
-    "training_started": true,
-    "training_done": true,
+    "training_started": false,
+    "training_done": false,
     "formal_evaluation_done": false,
     "key_results_published": false,
     "evidence_backfill_done": false,
@@ -2197,524 +2262,59 @@
     "proposed_campaign": "20261105-p7-feedback-reproduction-s0",
     "study_design": "Two parallel research jobs with different initialization histories, not matched-initialization A/B and no cross-job winner.",
     "jobs": {
-      "continuation": {
-        "job": "continuation",
-        "run": "20261105-p7-feedback-reproduction-s0-continuation",
-        "initialization": "resume",
-        "status": "completed",
-        "training_started": true,
-        "training_done": true,
-        "full_clip_evaluation_done": true,
-        "lightweight_results_published": true,
-        "started_beijing": "2026-11-05T22:01:14.408438+08:00",
-        "start_iteration": 33000,
-        "target_iteration": 42000,
-        "max_new_stage_hours": 16,
-        "tmux_session": "sm-p7-continuation",
-        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation",
-        "parent": {
-          "iteration": 33000,
-          "run": "20261105-p6-position-feedback-s0-root_position_feedback",
-          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback/checkpoint_0033000.pt",
-          "evaluation": "results/20261105-p6-position-feedback-s0-root_position_feedback/milestones/iteration_0033000/evaluation.json",
-          "completed_motions": 37,
-          "failed_motions": 3,
-          "mean_normalized_return": 0.8662465543453157,
-          "mean_completion_fraction": 0.9908320078448091
-        },
-        "backup_status": "awaiting_user_export_not_confirmed",
-        "automatic_stage_cleanup": false,
-        "pid": 309930,
-        "observed_beijing": "2026-11-05T22:05:16.873261+08:00",
-        "observed_training_iteration": 33054,
-        "observed_new_actor_updates": 54,
-        "observed_new_wm_only_updates": 0,
-        "previous_elapsed_seconds": 132316.60771548748,
-        "evaluation_iterations": [
-          34000,
-          35000,
-          36000,
-          37000,
-          38000,
-          39000,
-          40000,
-          41000,
-          42000
-        ],
-        "tail_iterations": [
-          40000,
-          41000,
-          42000
-        ],
-        "actor_encoder_input_dimensions": 713,
-        "actor_learning_rate_scale": 0.5,
-        "question": "Improve and retain the established policy, including the three current failures.",
-        "start_snapshot": "results/20261105-p7-feedback-reproduction-s0/jobs/continuation/start_snapshot.json",
-        "publication_policy": "lightweight_git_first_bulk_artifacts_local",
-        "latest_evaluated_iteration": 42000,
-        "latest_evaluation": {
-          "completed_motions": 36,
-          "mean_normalized_return": 0.8591209871914103,
-          "mean_completion_fraction": 0.966162576952635
-        },
-        "server_artifacts": {
-          "worktree": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction",
-          "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation",
-          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
-          "checkpoint_purpose": "model/optimizer/sampler/RNG for continuation",
-          "trajectories": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/evaluation_0042000/trajectories",
-          "trajectory_purpose": "full evaluation scoring and on-demand video",
-          "processed_cache": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/data/processed/lafan1_g1_50hz",
-          "logs": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/campaigns/20261105-p7-feedback-reproduction-s0-continuation.train.log",
-          "still_in_use": [
-            "run checkpoints",
-            "processed motion cache",
-            "training log",
-            "parent checkpoint"
-          ],
-          "backup_status": "awaiting_user_export_not_confirmed",
-          "deletion_owner": "user",
-          "parent_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/outputs/runs/20261105-p6-position-feedback-s0-root_position_feedback/checkpoint_0033000.pt"
-        },
-        "bulk_artifacts_status": "retained_on_server_by_policy",
-        "unpublished": [],
-        "latest_parent_successes_retained": 35,
-        "latest_newly_completed": [
-          "fallAndGetUp2_subject2"
-        ],
-        "latest_reward_quality": {
-          "mean_return": 0.85912098719141,
-          "completion_fraction": 0.9661625769526349,
-          "total_gap": 0.14087901280859,
-          "missing_tail_gap": 0.03383742304736519,
-          "executed_quality_gap": 0.10704158976122483,
-          "components": {
-            "relative_body_position": {
-              "normalized_contribution": 0.18639721307255347,
-              "executed_available_maximum": 0.19323251539052697,
-              "executed_quality_gap": 0.006835302317973492
-            },
-            "body_orientation": {
-              "normalized_contribution": 0.16034341304211475,
-              "executed_available_maximum": 0.19323251539052697,
-              "executed_quality_gap": 0.03288910234841224
-            },
-            "body_linear_velocity": {
-              "normalized_contribution": 0.1769079263711016,
-              "executed_available_maximum": 0.19323251539052697,
-              "executed_quality_gap": 0.016324589019425385
-            },
-            "body_angular_velocity": {
-              "normalized_contribution": 0.16828413608450646,
-              "executed_available_maximum": 0.19323251539052697,
-              "executed_quality_gap": 0.024948379306020507
-            },
-            "global_root_position": {
-              "normalized_contribution": 0.08897381367049287,
-              "executed_available_maximum": 0.09661625769526348,
-              "executed_quality_gap": 0.007642444024770618
-            },
-            "global_root_orientation": {
-              "normalized_contribution": 0.09220956912952885,
-              "executed_available_maximum": 0.09661625769526348,
-              "executed_quality_gap": 0.0044066885657346394
-            },
-            "action_difference_penalty": {
-              "normalized_contribution": -0.012369125928042372,
-              "executed_available_maximum": 0.0,
-              "executed_quality_gap": 0.012369125928042372
-            },
-            "soft_joint_limit_penalty": {
-              "normalized_contribution": -0.0016259588119112922,
-              "executed_available_maximum": 0.0,
-              "executed_quality_gap": 0.0016259588119112922
-            }
-          }
-        },
-        "latest_training_cost": {
-          "stage_elapsed_seconds": 37406.89262061566,
-          "elapsed_seconds": 169723.5003349539,
-          "new_actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "collected_sim_transitions": 431652864
-        },
-        "final_iteration": 42000,
-        "evaluated_iterations": [
-          34000,
-          35000,
-          36000,
-          37000,
-          38000,
-          39000,
-          40000,
-          41000,
-          42000
-        ],
-        "training_snapshot": {
-          "status": "budget_completed",
-          "method": "supermimic",
-          "iteration": 42000,
-          "actor_updates": 41995,
-          "sim_transitions": 431652864,
-          "wall_seconds": 169723.5169276595,
-          "stage_wall_seconds": 37406.90921359137,
-          "new_training_iterations": 9000,
-          "new_joint_updates": 9000,
-          "new_wm_only_updates": 0,
-          "new_actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "start_iteration": 33000,
-          "target_iteration": 42000,
-          "world_termination_loss": "aux_bce",
-          "full_clip_evaluation_done": false,
-          "qualification_pass": false
-        },
-        "cost": {
-          "new_training_iterations": 9000,
-          "wm_only_updates": 0,
-          "actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "cumulative_sim_transitions": 431652864,
-          "stage_wall_seconds": 37406.90921359137,
-          "cumulative_wall_seconds": 169723.5169276595,
-          "previous_elapsed_seconds": 132316.60771548748,
-          "runtime": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/runtime.json",
-          "shared_gpu": true
-        },
-        "final_scores": {
-          "status": "evaluated",
-          "method": "supermimic",
-          "goal_frame": "robot_root",
-          "actor_root_position_feedback": true,
-          "actor_root_position_scale_m": 0.3,
-          "world_termination_loss": "aux_bce",
-          "iteration": 42000,
-          "actor_updates": 41995,
-          "checkpoint_file": "checkpoint_0042000.pt",
-          "motions": 40,
-          "failed_motions": 4,
-          "completed_motions": 36,
-          "wall_seconds": 307.2065851408988,
-          "trajectory_directory": "trajectories",
-          "score_and_video_share_trajectory": true,
-          "protocol": {
-            "start_frame": 0,
-            "friction": 1.0,
-            "observation_noise": false,
-            "domain_randomization": false,
-            "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
-            "normalization": "0.1 * full reference transitions; failed tail zero",
-            "tracking_coverage": "survived AND position<=0.3m AND SO3<=0.4rad, divided by full reference steps",
-            "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
-            "scope": "training-motion coverage, not generalization"
-          },
-          "mean_normalized_return": 0.8591209871914103,
-          "mean_completion_fraction": 0.966162576952635,
-          "mean_tracking_coverage": 0.9468247977762371,
-          "mean_execution_seconds": 214.85550000000006
-        },
-        "evaluation_wall_seconds": 3065.0202568657696,
-        "publications": [
-          {
-            "iteration": 34000,
-            "results_commit": "dbd74ea8025e4e7af31694282444ccc00d9767bc",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0034000"
-          },
-          {
-            "iteration": 35000,
-            "results_commit": "25f23aeafdea4fc3268993a8dfa4b806214e50bc",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0035000"
-          },
-          {
-            "iteration": 36000,
-            "results_commit": "519ed1c1c0552a452c765e5387b8a43034e2e3a3",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0036000"
-          },
-          {
-            "iteration": 37000,
-            "results_commit": "e344426067c2f7bf8d578611d4a32c55d3df0fab",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0037000"
-          },
-          {
-            "iteration": 38000,
-            "results_commit": "0040123900ffe3be09804f61eb0f870464f376c1",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0038000"
-          },
-          {
-            "iteration": 39000,
-            "results_commit": "6d6359f8ecb1f159cd4beb9e6062d655279429ee",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0039000"
-          },
-          {
-            "iteration": 40000,
-            "results_commit": "2c0120d2bf9a678d10ffa0ebb829f57cc9793583",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0040000"
-          },
-          {
-            "iteration": 41000,
-            "results_commit": "71a874a4e20953ae33411de3a5f35a10dddb6579",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0041000"
-          },
-          {
-            "iteration": 42000,
-            "results_commit": "1dd2a63c0bbd4a9124ac27ee0756913309c9551f",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-continuation/milestones/iteration_0042000"
-          }
-        ],
-        "results_commit": "ea92c8b678de6e6ee4be271a9597439dfd684727",
-        "completed_unix": 1793925059.5267367
+      "lafan_h32": {
+        "job": "lafan_h32",
+        "run": "20261106-p8-stability-scale-s0-lafan_h32",
+        "tmux": "sm-p8-lafan-h32",
+        "status": "starting",
+        "training_started": false,
+        "training_done": false,
+        "full_clip_evaluation_done": false,
+        "lightweight_results_published": false,
+        "initialization": "full_resume",
+        "start_iteration": 42000,
+        "target_iteration": 51000,
+        "max_accumulated_stage_hours": 16,
+        "started_beijing": "2026-11-06T17:30:51.034730+08:00",
+        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32",
+        "backup_status": "awaiting_user_export_not_confirmed"
       },
-      "from_scratch": {
-        "job": "from_scratch",
-        "run": "20261105-p7-feedback-reproduction-s0-from_scratch",
-        "initialization": "scratch",
-        "status": "completed",
-        "training_started": true,
-        "training_done": true,
-        "full_clip_evaluation_done": true,
-        "lightweight_results_published": true,
-        "started_beijing": "2026-11-05T22:01:14.408438+08:00",
+      "lafan_h16": {
+        "job": "lafan_h16",
+        "run": "20261106-p8-stability-scale-s0-lafan_h16",
+        "tmux": "sm-p8-lafan-h16",
+        "status": "starting",
+        "training_started": false,
+        "training_done": false,
+        "full_clip_evaluation_done": false,
+        "lightweight_results_published": false,
+        "initialization": "full_resume",
+        "start_iteration": 42000,
+        "target_iteration": 51000,
+        "max_accumulated_stage_hours": 16,
+        "started_beijing": "2026-11-06T17:30:51.034730+08:00",
+        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h16",
+        "backup_status": "awaiting_user_export_not_confirmed"
+      },
+      "bones40_transfer_h32": {
+        "job": "bones40_transfer_h32",
+        "run": "20261106-p8-stability-scale-s0-bones40_transfer_h32",
+        "tmux": "sm-p8-bones40-h32",
+        "status": "blocked_hf_access",
+        "training_started": false,
+        "training_done": false,
+        "full_clip_evaluation_done": false,
+        "lightweight_results_published": false,
+        "initialization": "weights_transfer",
         "start_iteration": 0,
         "target_iteration": 9000,
-        "max_new_stage_hours": 16,
-        "tmux_session": "sm-p7-from-scratch",
-        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch",
-        "parent": null,
-        "backup_status": "awaiting_user_export_not_confirmed",
-        "automatic_stage_cleanup": false,
-        "pid": 309932,
-        "observed_beijing": "2026-11-05T22:05:16.873261+08:00",
-        "observed_training_iteration": 61,
-        "observed_new_actor_updates": 56,
-        "observed_new_wm_only_updates": 5,
-        "previous_elapsed_seconds": 0.0,
-        "evaluation_iterations": [
-          1000,
-          2000,
-          3000,
-          4000,
-          5000,
-          6000,
-          7000,
-          8000,
-          9000
-        ],
-        "tail_iterations": [
-          7000,
-          8000,
-          9000
-        ],
-        "actor_encoder_input_dimensions": 713,
-        "actor_learning_rate_scale": 0.5,
-        "question": "Measure learning and cost of the fixed713/.5 recipe without inherited training.",
-        "start_snapshot": "results/20261105-p7-feedback-reproduction-s0/jobs/from_scratch/start_snapshot.json",
-        "publication_policy": "lightweight_git_first_bulk_artifacts_local",
-        "latest_evaluated_iteration": 9000,
-        "latest_evaluation": {
-          "completed_motions": 20,
-          "mean_normalized_return": 0.5256211987537707,
-          "mean_completion_fraction": 0.7337884707818294
-        },
-        "server_artifacts": {
-          "worktree": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction",
-          "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch",
-          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch/checkpoint_0009000.pt",
-          "checkpoint_purpose": "model/optimizer/sampler/RNG for continuation",
-          "trajectories": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch/evaluation_0009000/trajectories",
-          "trajectory_purpose": "full evaluation scoring and on-demand video",
-          "processed_cache": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/data/processed/lafan1_g1_50hz",
-          "logs": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/campaigns/20261105-p7-feedback-reproduction-s0-from_scratch.train.log",
-          "still_in_use": [
-            "run checkpoints",
-            "processed motion cache",
-            "training log"
-          ],
-          "backup_status": "awaiting_user_export_not_confirmed",
-          "deletion_owner": "user"
-        },
-        "bulk_artifacts_status": "retained_on_server_by_policy",
-        "unpublished": [],
-        "latest_reward_quality": {
-          "mean_return": 0.5256211987537709,
-          "completion_fraction": 0.7337884707818294,
-          "total_gap": 0.47437880124622916,
-          "missing_tail_gap": 0.2662115292181706,
-          "executed_quality_gap": 0.20816727202805857,
-          "components": {
-            "relative_body_position": {
-              "normalized_contribution": 0.13563066981844787,
-              "executed_available_maximum": 0.1467576941563659,
-              "executed_quality_gap": 0.011127024337918024
-            },
-            "body_orientation": {
-              "normalized_contribution": 0.08237569199136296,
-              "executed_available_maximum": 0.1467576941563659,
-              "executed_quality_gap": 0.06438200216500292
-            },
-            "body_linear_velocity": {
-              "normalized_contribution": 0.11126705070082105,
-              "executed_available_maximum": 0.1467576941563659,
-              "executed_quality_gap": 0.03549064345554485
-            },
-            "body_angular_velocity": {
-              "normalized_contribution": 0.10352651042023908,
-              "executed_available_maximum": 0.1467576941563659,
-              "executed_quality_gap": 0.043231183736126805
-            },
-            "global_root_position": {
-              "normalized_contribution": 0.03719722053707287,
-              "executed_available_maximum": 0.07337884707818294,
-              "executed_quality_gap": 0.036181626541110075
-            },
-            "global_root_orientation": {
-              "normalized_contribution": 0.06660841974719926,
-              "executed_available_maximum": 0.07337884707818294,
-              "executed_quality_gap": 0.006770427330983681
-            },
-            "action_difference_penalty": {
-              "normalized_contribution": -0.009700941746934045,
-              "executed_available_maximum": 0.0,
-              "executed_quality_gap": 0.009700941746934045
-            },
-            "soft_joint_limit_penalty": {
-              "normalized_contribution": -0.001283422787068388,
-              "executed_available_maximum": 0.0,
-              "executed_quality_gap": 0.001283422787068388
-            }
-          }
-        },
-        "latest_training_cost": {
-          "stage_elapsed_seconds": 35966.41345689073,
-          "elapsed_seconds": 35972.19380339421,
-          "new_actor_updates": 8995,
-          "new_sim_transitions": 92422144,
-          "collected_sim_transitions": 92422144
-        },
-        "final_iteration": 9000,
-        "evaluated_iterations": [
-          1000,
-          2000,
-          3000,
-          4000,
-          5000,
-          6000,
-          7000,
-          8000,
-          9000
-        ],
-        "training_snapshot": {
-          "status": "budget_completed",
-          "method": "supermimic",
-          "iteration": 9000,
-          "actor_updates": 8995,
-          "sim_transitions": 92422144,
-          "wall_seconds": 35972.21255154535,
-          "stage_wall_seconds": 35966.43220591545,
-          "new_training_iterations": 9000,
-          "new_joint_updates": 8995,
-          "new_wm_only_updates": 5,
-          "new_actor_updates": 8995,
-          "new_sim_transitions": 92422144,
-          "start_iteration": 0,
-          "target_iteration": 9000,
-          "world_termination_loss": "aux_bce",
-          "full_clip_evaluation_done": false,
-          "qualification_pass": false
-        },
-        "cost": {
-          "new_training_iterations": 9000,
-          "wm_only_updates": 5,
-          "actor_updates": 8995,
-          "new_sim_transitions": 92422144,
-          "cumulative_sim_transitions": 92422144,
-          "stage_wall_seconds": 35966.43220591545,
-          "cumulative_wall_seconds": 35972.21255154535,
-          "previous_elapsed_seconds": 0.0,
-          "runtime": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch/runtime.json",
-          "shared_gpu": true
-        },
-        "final_scores": {
-          "status": "evaluated",
-          "method": "supermimic",
-          "goal_frame": "robot_root",
-          "actor_root_position_feedback": true,
-          "actor_root_position_scale_m": 0.3,
-          "world_termination_loss": "aux_bce",
-          "iteration": 9000,
-          "actor_updates": 8995,
-          "checkpoint_file": "checkpoint_0009000.pt",
-          "motions": 40,
-          "failed_motions": 20,
-          "completed_motions": 20,
-          "wall_seconds": 313.3887966927141,
-          "trajectory_directory": "trajectories",
-          "score_and_video_share_trajectory": true,
-          "protocol": {
-            "start_frame": 0,
-            "friction": 1.0,
-            "observation_noise": false,
-            "domain_randomization": false,
-            "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
-            "normalization": "0.1 * full reference transitions; failed tail zero",
-            "tracking_coverage": "survived AND position<=0.3m AND SO3<=0.4rad, divided by full reference steps",
-            "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
-            "scope": "training-motion coverage, not generalization"
-          },
-          "mean_normalized_return": 0.5256211987537707,
-          "mean_completion_fraction": 0.7337884707818294,
-          "mean_tracking_coverage": 0.44530537303361306,
-          "mean_execution_seconds": 169.80150000000006
-        },
-        "evaluation_wall_seconds": 1867.7160785086453,
-        "publications": [
-          {
-            "iteration": 1000,
-            "results_commit": "af8dd9c13b8eed49ebc4eb99aab995f0f0356af8",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0001000"
-          },
-          {
-            "iteration": 2000,
-            "results_commit": "fab8de3c9b527a59b3f46f878ff38316de4f7b49",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0002000"
-          },
-          {
-            "iteration": 3000,
-            "results_commit": "0d8d6da4883c1c4a05b5df289ccf99600ac7f105",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0003000"
-          },
-          {
-            "iteration": 4000,
-            "results_commit": "833f714248863f4a450455eb90d74b4e24088ae5",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0004000"
-          },
-          {
-            "iteration": 5000,
-            "results_commit": "ccf201fbed1501bdd068482092afd6142ce9d603",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0005000"
-          },
-          {
-            "iteration": 6000,
-            "results_commit": "fd6c3dea9e53767f2be65042c622a0753bc5489d",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0006000"
-          },
-          {
-            "iteration": 7000,
-            "results_commit": "9a31e2c5aac7d8a2250b1fc7946f9e3b9ca0015d",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0007000"
-          },
-          {
-            "iteration": 8000,
-            "results_commit": "db313b78a620d9639dfb4cc2c110b0fc78496a2b",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0008000"
-          },
-          {
-            "iteration": 9000,
-            "results_commit": "df55151a323d0787fb172377cdc30c2c15d352c8",
-            "url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261105-p7-feedback-reproduction-s0-from_scratch/milestones/iteration_0009000"
-          }
-        ],
-        "results_commit": "b8e4f72f4f6275233ec5af12cf353f62e884006a",
-        "completed_unix": 1793923618.822859
+        "max_accumulated_stage_hours": 16,
+        "started_beijing": null,
+        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-continuation/checkpoint_0042000.pt",
+        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-bones40_transfer_h32",
+        "backup_status": "awaiting_user_export_not_confirmed"
       }
     },
     "concurrency": {
@@ -2790,14 +2390,14 @@
     "automatic_stage_cleanup": false,
     "required_for_lafan1_reproduction_acceptance": false,
     "research_purpose": "巩固已达标模型并研究固定配方从零学习；当前LAFAN1复现已成功。",
-    "full_clip_evaluation_done": true,
+    "full_clip_evaluation_done": false,
     "lightweight_results_published": true,
     "evidence_backfill": {
       "status": "published",
       "manifest": "results/20261105-p6-position-feedback-s0/followup_evidence/manifest.json"
     },
-    "summary": "results/20261105-p7-feedback-reproduction-s0/summary.json",
-    "campaign": "20261105-p7-feedback-reproduction-s0"
+    "summary": "results/20261106-p8-stability-scale-s0/summary.json",
+    "campaign": "20261106-p8-stability-scale-s0"
   },
   "reproduction_acceptance": {
     "scope": "SuperMimic / G1 / LAFAN1 full40 evaluation",
