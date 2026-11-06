@@ -27,7 +27,7 @@ def save(learner, cfg, directory, iteration, elapsed, dataset_definition, actor_
                       sampler_returns=learner.env.sampler.returns, sampler_memory=learner.env.sampler.memory,
                       torch_rng=torch.get_rng_state(), cuda_rng=torch.cuda.get_rng_state_all())
     return save_checkpoint(checkpoint, directory, cfg.get("keep_recent_checkpoints", 20),
-                           cfg.get("publish_every_iterations", 1000))
+                           cfg.get("retain_every_iterations", 1000))
 
 
 def request_publication(directory, iteration, cfg):

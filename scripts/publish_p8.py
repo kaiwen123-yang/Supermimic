@@ -45,6 +45,9 @@ def publish(run_name, iteration, final=False):
         parent = read(parent_path) if iteration > 0 else None
         comparison = node_view(parent, score, str((result / "evaluation.json").relative_to(ROOT)))
         comparison["motions"] = score["motions"]
+        if job_id == "bones40_transfer_h32":
+            comparison["categories"] = score["categories"]
+            comparison.pop("running_and_getups")
         comparison["interpretation"] = "Full fixed-set equal-clip score; actual parent data definition. No best-node selection."
         write(result / "comparison.json", comparison)
         if iteration > job["start_iteration"]:
@@ -56,6 +59,11 @@ def publish(run_name, iteration, final=False):
                     destination = f"selected_rollouts.{suffix}" if cfg["publish_every_iterations"] == 1000 else f"selected_rollouts_{block:07d}.{suffix}"
                     shutil.copy2(run / "training_evidence" / f"interval_{block:07d}.{suffix}", result / destination)
         summary = read(jobdir / "summary.json")
+        runtime = read(run / "runtime.json")
+        summary.update(training_started=(run / "metrics.jsonl").exists(), pid=runtime["pid"],
+            initialization=runtime["initialization"])
+        if not summary.get("training_done"):
+            summary["status"] = "running"
         if iteration >= summary.get("latest_evaluated_iteration", -1):
             summary.update(latest_evaluated_iteration=iteration, latest_evaluation={key: score[key] for key in
                 ("motions", "completed_motions", "mean_normalized_return", "mean_completion_fraction")},

@@ -8,5 +8,6 @@ while (( $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | he
     echo "Frozen40h ready; waiting for32GiB free on the shared GPU"
     sleep 30
 done
-python -u scripts/publish_bones_data.py starting
+tmux new-session -d -s sm-p8-bones-manifest "bash -lc 'cd /root/autodl-tmp/robot-repro/supermimic-p8-stability-scale && source activate.sh && python -u scripts/publish_bones_data.py starting > outputs/campaigns/p8-bones-manifest.log 2>&1'"
+tmux set-option -t sm-p8-bones-manifest remain-on-exit on
 bash scripts/run_p8_d57.sh bones40_transfer_h32

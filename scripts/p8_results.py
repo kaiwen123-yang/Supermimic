@@ -60,4 +60,18 @@ def compare_lafan(protocol):
                 for key in ("normalized_return", "mean_root_xy_error_m", "mean_root_orientation_error_rad")}
                 for label, s in {"parent_C42000": parent, **scores}.items()}}
     write(result / "lafan_comparison.json", comparison)
+    if "common_full_success" in comparison:
+        lines = ["# P8 LAFAN H32/H16 固定预算比较", "",
+            "两路从同一C42000完整恢复，研究变量仅为想象H。下表使用各自真实终点；共同更新节点全部保留于lafan_comparison.json。", "",
+            "| 分支 | 实际终点 | 全40回报 | 完整成功 | C42000父36保持 | 阶段小时 |",
+            "|---|---:|---:|---:|---:|---:|"]
+        for j in views:
+            s = summaries[j]
+            i = s["final_iteration"]
+            v = views[j][i]
+            lines.append(f"| {j} | {i} | {v['mean_normalized_return']:.8f} | {v['completed_motions']}/40 | {len(v['parent_successes_retained'])}/36 | {s['training_snapshot']['stage_wall_seconds']/3600:.4f} |")
+        lines += ["", "尾三49000/50000/51000的可用节点、均值与交集见各分支comparison.json；若时限导致终点不同，不能将终点差当相同更新预算效果。",
+            "", "共同完整集合的XY/SO3是条件比较；主成绩仍为全40。H16减少想象步数并增加对Critic的依赖，单个父节点和固定预算不建立普适机制或收敛结论。",
+            "", "BONES迁移有不同数据与初始化成本，状态单列于summary.json。大产物留D57；不自动延长预算或启动P9。"]
+        (result / "conclusion.md").write_text("\n".join(lines)+"\n")
     return comparison
