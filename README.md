@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7为达标后的巩固与研究，不再作为成功验收的前置条件。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：P7已启动，两路正式训练由独立tmux继续。** continuation 33001–42000；from_scratch 1–9000。见[运行状态](results/20261105-p7-feedback-reproduction-s0/summary.json)与[P7计划](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)。不重复启动或自动开P8。
+> **当前入口：P7已完成训练、正式评分、关键证据和轻量发布。** continuation 33001–42000；from_scratch 1–9000。见[运行状态](results/20261105-p7-feedback-reproduction-s0/summary.json)与[P7计划](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)。不重复启动或自动开P8。
 
 > **P5已完成训练、正式评分和关键结果发布。** 固定24000：A为34/40、回报0.713134、起身6/6；B为34/40、回报0.755425、起身3/6、平均完成96.2842%，保留父32成功中的30条。B是已完成P6的父模型，A保留为历史起身参考；不能说B所有精度/波动都更好。历史[深读复核与P6依据](docs/P6_POSITION_FEEDBACK_PLAN.md)、[分项数据](results/20261104-p5-actor-stability-s0/review_20261105.json)、[P5最终分析](results/20261104-p5-actor-stability-s0/conclusion.md)。
 
