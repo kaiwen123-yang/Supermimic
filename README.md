@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：P8稳定性与规模训练。** LAFAN H32/H16已从C42000正式联合更新，BONES依已获准的官方数据推进；实际状态见[结果索引](results/20261106-p8-stability-scale-s0/summary.json)。接续既有tmux，不重复启动。
+> **P8已完成训练、正式评分和轻量发布。** H32终点0.86980516/37成功，H16为0.73023952/31成功；BONES40迁移增加完整数但降低回报，最终LAFAN保持10/40。见[完整结论](results/20261106-p8-stability-scale-s0/conclusion.md)与[结果索引](results/20261106-p8-stability-scale-s0/summary.json)。不重复启动或自动开P9。
 
 > **P7已完成训练、正式评分、关键证据和轻量发布。** continuation C42000为回报0.85912099、36/40、完成96.6163%、起身4/6；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。续训33/40动作回报提高，末三共同成功31→33，但两个起身丢失使终点整体回报低于B33000。见[完成状态](results/20261105-p7-feedback-reproduction-s0/summary.json)、[全部节点结论](results/20261105-p7-feedback-reproduction-s0/conclusion.md)与[P7历史计划](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)。不重复启动P7。
 

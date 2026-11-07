@@ -17,3 +17,9 @@
 大产物保留在 /root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-bones40_transfer_h32；用户备份未确认，不自动清理。
 
 C42000 weights transfer with inherited cost retained; not from scratch or a three-hour reproduction.
+
+## 固定终点判断与跨数据保持
+
+相对于迁移初始化0，终点完整成功16378→16631，新增477条、丢失224条，但全子集回报0.81325239→0.78952191。三个训练后节点均未超过初始化回报；完整数提高不能代替回报改善。
+
+同一终点额外一次LAFAN40保持评分为10/40、回报0.35465644、完成51.6866%，对照源C42000的36/40、0.85912099，说明本轮纯BONES迁移明显丢失原LAFAN能力。结果位于lafan_retention.json；仅此终点保持评分，不能推断遗忘发生时刻。

@@ -1,6 +1,6 @@
 # P8：能力保持与 BONES 规模训练并行推进
 
-状态：**两路LAFAN正式训练已启动，BONES按实际数据状态推进。** 实际运行与数据状态见[结果索引](../results/20261106-p8-stability-scale-s0/summary.json)。下文保留已授权的固定预算。
+状态：**P8已完成训练、全部正式评分、指定证据和轻量发布。** 实际结论见[结果总论](../results/20261106-p8-stability-scale-s0/conclusion.md)。下文保留历史授权范围，不重复执行、不自动扩预算或启动P9。
 
 执行协议：[next_stage_stability_scale_protocol.json](../configs/next_stage_stability_scale_protocol.json)。启动提示词：[P8_CODEX_START_PROMPT.md](P8_CODEX_START_PROMPT.md)。
 
