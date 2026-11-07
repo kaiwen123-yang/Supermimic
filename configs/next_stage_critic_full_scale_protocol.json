@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "P9",
-  "status": "planned_not_launched",
+  "status": "running",
   "planned_beijing": "2026-11-07",
   "evidence_commit": "ec870270f56cac91c7bf50b86ced0a8b17cc01ec",
   "campaign": "20261107-p9-critic-full-scale-s0",
@@ -26,7 +26,13 @@
     "codex_window_max_hours": 4,
     "tmux_survives_handoff": true,
     "stage_budget": "Accumulate consumed P9 training time across actual restarts; include necessary replay fill, exclude inherited historical cost. Record preparation/evaluation/publication separately.",
-    "replay_handoff": "Keep a live tmux process and its replay/LR across windows. Only actual process exit followed by checkpoint recovery requires one necessary 64-step refill, recorded without recovery drills."
+    "replay_handoff": "Keep a live tmux process and its replay/LR across windows. Only actual process exit followed by checkpoint recovery requires one necessary 64-step refill, recorded without recovery drills.",
+    "observed_beijing": "2026-11-07T10:49:35.421271+08:00",
+    "jobs": {
+      "lafan_h32_control": "running",
+      "lafan_h32_survival_critic": "running",
+      "bones_full_lafan_survival": "preparing_corrected_full_library"
+    }
   },
   "source": {
     "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
@@ -263,8 +269,8 @@
     "paper_filtered_clips": 129514,
     "paper_filtered_hours": 264.56,
     "require_exact_author_count": false,
-    "actual_corrected_count": null,
-    "actual_corrected_hours": null,
+    "actual_corrected_count": 130394,
+    "actual_corrected_hours": 264.4306333333385,
     "zmin_definition": "Minimum FK body-origin world z over all non-world G1 robot bodies; publish actual body names.",
     "foot_distance": "Both feet collision geom-to-plane distance, retain existing exact sphere/capsule distance and stated standing/upright/stationary gates.",
     "paper_known_thresholds": {
@@ -485,5 +491,6 @@
     "generic_monitoring_cache_framework",
     "unrelated_benchmark"
   ],
-  "stop": "End at each fixed update/time budget, complete required formal evaluation and lightweight publication, no automaticP10."
+  "stop": "End at each fixed update/time budget, complete required formal evaluation and lightweight publication, no automaticP10.",
+  "training_started": true
 }

@@ -1,5 +1,6 @@
 # P9 Codex 启动提示词
 
+实际状态：P9已实施，先读results/20261107-p9-critic-full-scale-s0/summary.json并检查现有tmux，不要再次运行start_p9.py。
 继续 kaiwen123-yang/Supermimic，直接实施已授权P9并启动正式训练。先读AGENTS.md、docs/P8_REVIEW_20261107.md、docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md、configs/next_stage_critic_full_scale_protocol.json。P8已经完成，不重复启动。当前仅发布了P9计划，执行端适配尚需完成。
 
 目标：保留H32，处理已观察到的终止后Critic污染；稳定性对照与修正后的BONES完整库训练并行。效率专项后置。D57是96GB显存、25vCPU，复用现有独立环境/G1资产，不setup、升级、重建或清理正常环境，不影响其他项目。

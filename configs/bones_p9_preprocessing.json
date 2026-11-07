@@ -1,0 +1,105 @@
+{
+  "dataset": "bones-studio/seed",
+  "revision": "2f59b2077b9da34dd4e43618e705c7cb962c9a66",
+  "metadata": "metadata/seed_metadata_v004.csv",
+  "actual_metadata_path_field": "move_g1_path",
+  "source_hz": 120,
+  "source_time": "(Frame-first Frame)/120; metadata duration is documented at120fps",
+  "source_root_translation": "root_translateX/Y/Z centimeters, Z-up; multiply0.01",
+  "source_root_rotation": "root_rotateX/Y/Z degrees; Rz(rz) Ry(ry) Rx(rx), scipy extrinsic xyz",
+  "source_joint_rotation": "<joint_name>_dof degrees, mapped by existing G1 joint names",
+  "official_format_source": "https://github.com/bones-studio/seed-viewer/blob/d9963c21bee413e7eb63c1b88ae01cdcb2cf3601/docs/models-and-animation.md",
+  "official_rotation_source": "https://github.com/bones-studio/seed-viewer/blob/d9963c21bee413e7eb63c1b88ae01cdcb2cf3601/frontend/public/src/models.ts",
+  "target_hz": 50,
+  "workers": 16,
+  "numeric_threads_per_worker": 1,
+  "subset_seed": 0,
+  "subset_target_hours": 40,
+  "subset_order": "sorted categories; seed0 shuffle within category; round-robin; complete feasible clips until>=40h",
+  "paper_known_thresholds": {
+    "elevated_minimum_z_m": 0.2,
+    "elevated_continuous_seconds": 0.6,
+    "penetration_any_minimum_z_m": -0.12,
+    "penetration_fraction_minimum_z_m": -0.08,
+    "penetration_fraction": 0.8,
+    "floating_feet_minimum_distance_m": 0.02,
+    "floating_continuous_seconds": 0.5
+  },
+  "project_choices_frozen_before_training": {
+    "minimum_z_definition": "Minimum world z of every non-world robot body origin after FK; floating feet separately use exact collision geometry distance.",
+    "floating_upright_max_tilt_degrees": 30,
+    "floating_standing_root_min_z_m": 0.65,
+    "floating_root_linear_speed_max_m_s": 0.1,
+    "floating_root_angular_speed_max_rad_s": 0.2,
+    "name_filter_scope": "External support/object/terrain terms from SuperMimic Appendix E and SONIC official list; token/phrase matches, preserve ground acrobatics.",
+    "do_not_tune_to_author_count": true,
+    "name_token_patterns": [
+      "stairs?",
+      "stairway",
+      "ladder",
+      "box",
+      "chair",
+      "sit",
+      "sitting",
+      "seat",
+      "climb",
+      "climbing",
+      "bed",
+      "bike",
+      "table",
+      "crutch",
+      "ride",
+      "riding",
+      "scooter",
+      "swim",
+      "swimming"
+    ],
+    "name_phrases": [
+      "jump_off_50cm",
+      "look_over_fence",
+      "com_up_50cm",
+      "step_on",
+      "stepdown",
+      "box_hspu",
+      "50cm_box",
+      "on_box",
+      "fall_from",
+      "on_1m",
+      "form_box",
+      "off_1m",
+      "230m",
+      "lift_crate_come_up",
+      "box_jump",
+      "box_dips",
+      "walking_on_edge",
+      "push_obstacle",
+      "hanging_from",
+      "hang_from"
+    ],
+    "project_name_exceptions": {
+      "sit": [
+        "sit_up",
+        "sit_ups"
+      ],
+      "climb": [
+        "mountain_climber",
+        "mountain_climbers"
+      ]
+    },
+    "preserved_difficulty_terms": [
+      "acrobatics",
+      "flip",
+      "side_roll",
+      "cartwheel",
+      "handstand",
+      "jump_to_shoulder_roll",
+      "kozak_dance",
+      "safety_roll"
+    ]
+  },
+  "preprocessing_version": "bones-g1-v004-corrected-body-origin-support-names-p9-v1",
+  "name_sources": [
+    "SuperMimic Appendix E; docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md section4.1",
+    "SONIC official list terms reproduced in the approved P9 plan; difficulty exclusions omitted"
+  ]
+}

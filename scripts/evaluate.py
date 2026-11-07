@@ -18,12 +18,14 @@ from supermimic.checkpointing import pin_checkpoint
 
 
 @torch.no_grad()
-def evaluate(checkpoint_path, output_dir, record_motions=None, cross_dataset=None):
+def evaluate(checkpoint_path, output_dir, record_motions=None, cross_dataset=None, source=None):
     torch.set_num_threads(2)
     torch.set_float32_matmul_precision("high")
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     cfg, iteration = checkpoint["config"], checkpoint["iteration"]
     training_definition = checkpoint_data_definition(checkpoint)
+    if source is not None:
+        cross_dataset = cfg["evaluation_sources"][source]
     motions = MotionLibrary(ROOT / (cross_dataset or cfg.get("data_directory", "data/processed/lafan1_g1_50hz")), "cuda")
     if cross_dataset is None and training_definition != motions.data_definition:
         raise ValueError("Evaluation data semantics differ from training")
@@ -131,6 +133,11 @@ def evaluate(checkpoint_path, output_dir, record_motions=None, cross_dataset=Non
                            "scope": "training-motion coverage, not generalization"}}
     for key in ("normalized_return", "completion_fraction", "tracking_coverage", "execution_seconds"):
         result["mean_"+key] = sum(r[key] for r in records)/count
+    if source is not None:
+        result["evaluation_source"] = source
+        result["training_manifest"] = str(ROOT/cfg["data_directory"]/"manifest.json")
+        result["training_clip_count"] = len(training_definition["clips"])
+        result["training_data_definition"] = {k:v for k,v in training_definition.items() if k != "clips"}
     (output_dir/"evaluation.json").write_text(json.dumps(result,indent=2)+"\n")
     print("FULL_EVALUATION_COMPLETE", json.dumps({k:v for k,v in result.items() if k not in ("clips","protocol","data_definition")}),flush=True)
 
@@ -141,12 +148,13 @@ def main():
     parser.add_argument("--output-dir",type=Path)
     parser.add_argument("--record-motions",nargs="+")
     parser.add_argument("--cross-dataset", help="Explicit evaluation-only dataset directory; never changes training/resume semantics")
+    parser.add_argument("--source", choices=("lafan",), help="Explicit P9 source sublibrary")
     args=parser.parse_args()
     source=args.checkpoint.resolve(strict=True)
     output=args.output_dir or source.parent/("evaluation_"+source.stem.split("_")[-1])
     output.mkdir(parents=True,exist_ok=False)
     with pin_checkpoint(source) as stable:
-        evaluate(stable,output,args.record_motions,args.cross_dataset)
+        evaluate(stable,output,args.record_motions,args.cross_dataset,args.source)
 
 if __name__ == "__main__":
     main()

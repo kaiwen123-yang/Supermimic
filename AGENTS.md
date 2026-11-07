@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- 当前入口为P9已发布计划（尚未实施/启动）：docs/P8_REVIEW_20261107.md、docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md、configs/next_stage_critic_full_scale_protocol.json、docs/P9_CODEX_START_PROMPT.md。用户2026-11-07明确要求制定并推送下一步，按本轮P9执行；旧P8“不自动开P9”为历史边界，不阻止本次明确安排。
+- 当前P9已实施并启动，实际状态见results/20261107-p9-critic-full-scale-s0/summary.json。接续既有tmux，不重复启动，不重建活跃replay/LR。
 - P8已经全部完成：results/20261106-p8-stability-scale-s0/summary.json、conclusion.md。H32/H16均51000，分别0.86980516/37成功、0.73023952/31成功；BONES9000为0.78952191、16631/17301，LAFAN保持10/40、0.35465644。三个训练tmux正常退出，不重复启动或延长P8。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
 - P6已完成训练、正式评分和轻量发布。B33000回报0.86624655、37/40、完成99.0832%，保留父34条全部成功；5/9节点和末三均值0.837913超过论文LAFAN评估0.82参照。父/A/B共同完整31条XY为2.0013/2.0917/0.0640m，已解决主要位置漂移。不要再将当前状态写成“未达到0.82”；也不把40/40当论文未给出的门槛。来源：results/20261105-p6-position-feedback-s0/summary.json、conclusion.md、review_20261105.json。
@@ -26,7 +26,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P9实施（计划已发布，尚未启动）
+## P9实施（已实施，按现有进程继续）
 
 - campaign=20261107-p9-critic-full-scale-s0；工作树 /root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale。稳定性与修正后的完整BONES训练同步，效率专项后置；细节以P9计划与协议为准。
 - 两路LAFAN均从P8 H32-51000完整恢复三网络、三套Adam、sampler、已保存Torch/CUDA RNG、全局迭代与LR。control原Critic，survival_critic仅改变Critic存活权重；均51001–60000或累计本阶段16h，9000联合更新。713/.5、k8/H32、aux_bce、原奖励/终止/PD/采样不变。
