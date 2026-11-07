@@ -30,7 +30,9 @@ def training_summary(run, first_iteration=None, last_iteration=None):
                  "imagined_survival_at_horizon", "discounted_survival_reward_sum_mean",
                  "discounted_terminal_bootstrap_mean", "terminal_value_mean", "terminal_value_min",
                  "terminal_value_max", "lambda_target_mean", "lambda_target_min", "lambda_target_max",
-                 "terminal_value_fraction_above10")
+                 "terminal_value_fraction_above10", "critic_optimization_objective", "raw_critic_mse",
+                 "survival_weighted_critic_mse", "survival_mean", "exact_zero_survival_fraction",
+                 "zero_survival_suffix_squared_error_sum", "all_squared_error_sum")
     groups={}
     for stop in sorted({((r["iteration"]-1)//1000+1)*1000 for r in rows}):
         block=[r for r in rows if stop-1000<r["iteration"]<=stop]
@@ -52,6 +54,9 @@ def training_summary(run, first_iteration=None, last_iteration=None):
         for value in families.values():
             value["transition_share"]=value["family_transitions"]/total
             value["reset_sample_share"]=value["family_reset_samples"]/resets if resets else None
+        for key in ("real_geometric_terminations", "real_natural_ends"):
+            if key in block[0]:
+                means[key+"_total"] = sum(r[key] for r in block)
         groups[str(stop)]={"first_iteration":block[0]["iteration"],"last_iteration":block[-1]["iteration"],
             "updates":len(block),"wm_only_updates":len(block)-len(policy),"actor_updates":len(policy),"means":means,"families":families}
     return {"updates":len(rows),"wm_only_updates":sum(r["iteration"]<=warmup for r in rows),

@@ -7,7 +7,8 @@ import torch
 @torch.no_grad()
 def save_selected_rollouts(directory, block, iteration, motions, clip, frame, context,
                            states, terminal_state, references, rewards, deaths, values,
-                           targets, reward_sum, bootstrap, critic_mse):
+                           targets, reward_sum, bootstrap, critic_mse,
+                           pre_survivals, natural_ends, geometric_probabilities):
     horizon, batch = len(rewards), len(clip)
     target = targets.reshape(horizon, batch)
     old = torch.stack(values)
@@ -24,7 +25,10 @@ def save_selected_rollouts(directory, block, iteration, motions, clip, frame, co
     arrays = {"predicted_state":selected_states, "reference_qpos":selected_ref,
         "reference_qvel":ref_vel, "action":selected_states[1:,:,71:100],
         "reward":torch.stack(rewards)[:,ids], "termination_probability":death,
-        "current_survival_weight":survival[:-1], "terminal_survival":survival[-1],
+        "current_survival_weight":torch.stack(pre_survivals)[:,ids], "terminal_survival":survival[-1],
+        "natural_end":torch.stack(natural_ends)[:,ids],
+        "geometric_termination_probability":torch.stack(geometric_probabilities)[:,ids],
+        "source_id":motions.source_ids[clip[ids]],
         "old_value":old[:,ids], "lambda_target":target[:,ids], "context":context[ids],
         "clip":clip[ids], "start_frame":frame[ids], "selection_score":residual[ids],
         "discounted_survival_reward_sum":reward_sum[ids], "discounted_terminal_bootstrap":bootstrap[ids],
@@ -38,6 +42,8 @@ def save_selected_rollouts(directory, block, iteration, motions, clip, frame, co
         "critic_mse":critic_mse,"rollout_count":len(ids),"arrays":str(path),
         "selection":"Highest normal-update critic_mse in block; top max_t abs(lambda_target-old_V).",
         "parameter_phase":"WM after normal fit; Actor before policy step; stored Critic before fitting.",
+        "source_names":motions.source_names,
+        "termination_semantics":"current_survival_weight is pre-transition; natural_end is boolean; geometric_termination_probability is analytic soft probability before natural-end override, without threshold.",
         "state_layout":"world root XYZ, root quaternion wxyz, 29 joints, 35 velocities, previous action; dt=.02",
         "imagination_horizon":horizon,"data_manifest":str(motions.manifest_path),
         "interpretation":"Existing imagined samples, not Actor-gradient attribution or an exact checkpoint snapshot; yaw D is descriptive."},indent=2)+"\n")

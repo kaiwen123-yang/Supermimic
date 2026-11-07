@@ -32,6 +32,8 @@ class MotionLibrary:
         manifest = json.loads(self.manifest_path.read_text())
         self.data_definition = data_definition(manifest)
         self.names = [c["name"] for c in manifest["clips"]]
+        self.source_names = list(manifest.get("sources", {"lafan": {}}))
+        self.source_ids = torch.tensor([self.source_names.index(c.get("source", "lafan")) for c in manifest["clips"]], device=device)
         self.families = [c["category"] if "category" in c else re.match(r"[A-Za-z]+", c["name"])[0] for c in manifest["clips"]]
         lengths = [c["frames"] for c in manifest["clips"]]
         offsets = np.concatenate(([0], np.cumsum(lengths[:-1], dtype=np.int64)))

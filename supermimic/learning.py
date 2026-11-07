@@ -40,10 +40,33 @@ class SuperMimic:
         self.family_names = sorted(set(families))
         family_ids = {name: i for i, name in enumerate(self.family_names)}
         self.clip_family = torch.tensor([family_ids[f] for f in families], device=env.device)
+        self.record_sampling = cfg.get("record_source_remaining_statistics", False)
+        if self.record_sampling:
+            self.source_names = env.motions.source_names
+            self.sampling_counts = torch.zeros((3, len(self.source_names), 5), dtype=torch.long, device=env.device)
+            self.count_samples(0, env.clip, env.frame)
+
+    def count_samples(self, phase, clip, frame):
+        if self.record_sampling:
+            remaining = self.env.motions.lengths[clip] - 1 - frame
+            bins = torch.bucketize(remaining, remaining.new_tensor([16, 32, 50, 250]), right=False)
+            ids = self.env.motions.source_ids[clip] * 5 + bins
+            self.sampling_counts[phase].add_(torch.bincount(ids, minlength=len(self.source_names)*5).reshape(-1, 5))
+
+    def save_sampling_counts(self, directory, iteration):
+        import json
+        directory.mkdir(parents=True, exist_ok=True)
+        counts = self.sampling_counts.cpu().tolist()
+        result = {"through_iteration": iteration, "remaining_steps_bins": [[1,16],[17,32],[33,50],[51,250],[251,None]],
+            "counts": {phase: dict(zip(self.source_names, values)) for phase, values in
+                zip(("real_reset", "wm_valid_window_start", "actor_start"), counts)}}
+        (directory / f"sampling_{iteration:07d}.json").write_text(json.dumps(result, indent=2)+"\n")
+        self.sampling_counts.zero_()
 
     @torch.no_grad()
     def collect(self, steps):
         rewards, failures = [], []
+        geometric_count = natural_count = 0
         counts = torch.zeros(len(self.family_names), device=self.env.device)
         failed = torch.zeros_like(counts)
         reset_counts = torch.zeros_like(counts)
@@ -63,12 +86,16 @@ class SuperMimic:
             counts.add_(torch.bincount(family, minlength=len(counts)))
             failed.add_(torch.bincount(family[transition["terminated"]], minlength=len(counts)))
             reset_counts.add_(torch.bincount(self.clip_family[self.env.clip[transition["boundary"]]], minlength=len(counts)))
+            self.count_samples(0, self.env.clip[transition["boundary"]], self.env.frame[transition["boundary"]])
+            geometric_count += int(transition["terminated"].sum())
+            natural_count += int(transition["natural_end"].sum())
             self.collected_steps += self.env.num_envs
         return {"sim_step_reward": float(torch.stack(rewards).mean()), "sim_step_termination_fraction": float(torch.stack(failures).mean()),
                 "family_transitions": dict(zip(self.family_names, counts.long().tolist())),
                 "family_sample_share": dict(zip(self.family_names, (counts / counts.sum()).tolist())),
                 "family_failure_count": dict(zip(self.family_names, failed.long().tolist())),
-                "family_reset_samples": dict(zip(self.family_names, reset_counts.long().tolist()))}
+                "family_reset_samples": dict(zip(self.family_names, reset_counts.long().tolist())),
+                "real_geometric_terminations": geometric_count, "real_natural_ends": natural_count}
 
     def fit_world(self):
         cfg = self.cfg
@@ -78,6 +105,7 @@ class SuperMimic:
         family_counts = torch.zeros(len(self.family_names), device=self.env.device)
         for _ in range(cfg["world_batches"]):
             sample = self.replay.sample(cfg["world_batch_size"], cfg["world_window"])
+            self.count_samples(1, sample["clip"][:, 0], sample["frame"][:, 0])
             state = sample["state"][:, 0]
             family_counts.add_(torch.bincount(self.clip_family[sample["clip"].flatten()], minlength=len(family_counts)))
             state_loss = term_loss = 0
@@ -111,13 +139,16 @@ class SuperMimic:
         sample = self.replay.sample(cfg["imagination_batch_size"])
         state, context, history = sample["state"][:, 0], sample["context"][:, 0], sample["history"]
         clip, frame = sample["clip"][:, 0], sample["frame"][:, 0]
+        self.count_samples(2, clip, frame)
         horizon, gamma, lam = cfg["imagination_horizon"], cfg["gamma"], cfg["lambda"]
         self.world.requires_grad_(False)
         self.critic.requires_grad_(False)
         survival = torch.ones(len(state), device=state.device)
         objective = torch.zeros_like(survival)
         states, goals, critic_references, rewards, deaths, values = [], [], [], [], [], []
+        pre_survivals, natural_ends, geometric_probabilities = [], [], []
         for step in range(horizon):
+            pre_survivals.append(survival.detach())
             goal = env.motions.goal(clip, frame + step,
                 goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
             states.append(state.detach())
@@ -138,6 +169,8 @@ class SuperMimic:
                 predicted, ref["qpos"], cfg.get("imagination_termination", "learned"),
                 cfg.get("termination_smoothing_temperature", 0.05))
             natural_end = frame + step + 1 >= env.motions.lengths[clip] - 1
+            natural_ends.append(natural_end)
+            geometric_probabilities.append(probability.detach())
             probability = torch.where(natural_end, torch.ones_like(probability), probability)
             objective = objective + gamma**step * survival * reward
             survival = survival * (1 - probability)
@@ -169,17 +202,34 @@ class SuperMimic:
         critic_references = torch.stack(critic_references).flatten(0, 1)
         contexts = context.unsqueeze(0).expand(horizon, -1, -1).reshape(-1, context.shape[-1])
         targets = torch.stack(targets).flatten()
+        weights = torch.stack(pre_survivals).flatten().detach()
+        survival_mean = weights.mean().detach()
         losses = []
+        raw_losses, weighted_losses, zero_sse, total_sse = [], [], [], []
         for _ in range(cfg["critic_epochs"]):
             indices = torch.randperm(len(targets), device=targets.device)
             for ids in indices.tensor_split(cfg["critic_minibatches"]):
                 prediction = self.critic(states[ids], goals[ids], contexts[ids], critic_references[ids])
-                loss = F.mse_loss(prediction, targets[ids])
+                squared = (prediction - targets[ids]).square()
+                raw = squared.mean()
+                weighted = (weights[ids] * squared).mean() / survival_mean
+                loss = weighted if cfg.get("critic_loss_mode", "unweighted") == "survival_weighted" else raw
                 optimize(loss, self.critic_opt, self.critic.parameters())
                 losses.append(float(loss.detach()))
+                raw_losses.append(float(raw.detach()))
+                weighted_losses.append(float(weighted.detach()))
+                zero_sse.append(float(squared.detach()[weights[ids] == 0].sum()))
+                total_sse.append(float(squared.detach().sum()))
         metrics = {"imagined_discounted_return": -float(actor_loss.detach()),
                 "actor_gradient_norm_before_clip": actor_norm,
-                "critic_mse": sum(losses) / len(losses),
+                "critic_mse": sum(raw_losses) / len(raw_losses),
+                "critic_optimization_objective": sum(losses) / len(losses),
+                "raw_critic_mse": sum(raw_losses) / len(raw_losses),
+                "survival_weighted_critic_mse": sum(weighted_losses) / len(weighted_losses),
+                "survival_mean": float(survival_mean),
+                "exact_zero_survival_fraction": float((weights == 0).float().mean()),
+                "zero_survival_suffix_squared_error_sum": sum(zero_sse),
+                "all_squared_error_sum": sum(total_sse),
                 "imagined_survival_at_horizon": float(survival.detach().mean())}
         if cfg.get("record_imagination_evidence", False):
             metrics.update(discounted_survival_reward_sum_mean=float(reward_sum.mean()),
@@ -198,7 +248,8 @@ class SuperMimic:
                     from .rollout_evidence import save_selected_rollouts
                     save_selected_rollouts(evidence_directory, block, iteration, env.motions,
                         clip, frame, context, states, terminal_state, critic_references,
-                        rewards, deaths, values, targets, reward_sum, bootstrap, metrics["critic_mse"])
+                        rewards, deaths, values, targets, reward_sum, bootstrap, metrics["critic_mse"],
+                        pre_survivals, natural_ends, geometric_probabilities)
         return metrics
 
     def set_schedule(self, iteration):

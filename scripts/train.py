@@ -38,6 +38,8 @@ def request_publication(directory, iteration, cfg):
     if subprocess.run(["tmux", "has-session", "-t", session], capture_output=True).returncode == 0:
         return
     publisher = "publish_p8_d57.sh" if cfg.get("campaign") == "20261106-p8-stability-scale-s0" else "publish_checkpoint_d57.sh"
+    if cfg.get("campaign") == "20261107-p9-critic-full-scale-s0":
+        publisher = "publish_p9_d57.sh"
     command = shlex.join([str(ROOT / "scripts" / publisher), directory.name, str(iteration)])
     subprocess.run(["tmux", "new-session", "-d", "-s", session, "bash " + command], check=True)
     subprocess.run(["tmux", "set-option", "-t", session, "remain-on-exit", "on"], check=True)
@@ -248,9 +250,13 @@ def main():
                                torch_peak_allocated_mib=torch.cuda.max_memory_allocated()/1024**2)
                 log.write(json.dumps(metrics, allow_nan=False) + "\n")
                 (directory / "budget.json").write_text(json.dumps({"stage_elapsed_seconds": stage_elapsed(), "iteration": iteration})+"\n")
+                if cfg.get("record_source_remaining_statistics") and iteration % 1000 == 0:
+                    learner.save_sampling_counts(directory / "training_evidence", iteration)
                 request_publication(directory, iteration, cfg)
                 if iteration % cfg["log_every_iterations"] == 0:
                     print(json.dumps(metrics, allow_nan=False), flush=True)
+        if cfg.get("record_source_remaining_statistics") and iteration % 1000:
+            learner.save_sampling_counts(directory / "training_evidence", iteration)
         if not (directory / f"checkpoint_{iteration:07d}.pt").exists():
             save(learner, cfg, directory, iteration, elapsed(), motions.data_definition, actor_updates, stage_elapsed())
         status = {"status": "budget_completed", "method": args.method, "iteration": iteration, "actor_updates": actor_updates,
