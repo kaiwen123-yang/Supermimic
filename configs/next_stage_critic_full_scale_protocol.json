@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "stage": "P9",
+  "status": "planned_not_launched",
+  "planned_beijing": "2026-11-07",
+  "evidence_commit": "ec870270f56cac91c7bf50b86ced0a8b17cc01ec",
+  "campaign": "20261107-p9-critic-full-scale-s0",
+  "review": "docs/P8_REVIEW_20261107.md",
+  "plan": "docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md",
+  "startup_prompt": "docs/P9_CODEX_START_PROMPT.md",
+  "objective": "Isolate cumulative-survival weighting of the H32 critic on LAFAN while training the corrected complete BONES library with explicit LAFAN rehearsal.",
+  "execution": {
+    "host": "autodl-d57",
+    "worktree": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale",
+    "reuse_environment_from": "/root/autodl-tmp/robot-repro/supermimic",
+    "gpu_training_target_concurrency": 3,
+    "torch_threads_per_training_and_evaluation": 2,
+    "logical_cpu_budget": 25,
+    "cpu_preprocessing_workers": 16,
+    "cpu_workers_during_data_only_without_evaluation": 20,
+    "cpu_numeric_threads_per_worker": 1,
+    "shared_gpu": true,
+    "do_not_stop_other_projects": true,
+    "evaluation_evidence_publication_concurrency": 1,
+    "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
+    "codex_window_max_hours": 4,
+    "tmux_survives_handoff": true,
+    "stage_budget": "Accumulate consumed P9 training time across actual restarts; include necessary replay fill, exclude inherited historical cost. Record preparation/evaluation/publication separately.",
+    "replay_handoff": "Keep a live tmux process and its replay/LR across windows. Only actual process exit followed by checkpoint recovery requires one necessary 64-step refill, recorded without recovery drills."
+  },
+  "source": {
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
+    "iteration": 51000,
+    "normalized_return": 0.8698051556653722,
+    "completed_motions": 37,
+    "mean_completion_fraction": 0.9616473229727225,
+    "evaluation": "results/20261106-p8-stability-scale-s0-lafan_h32/milestones/iteration_0051000/evaluation.json",
+    "total_known_training_seconds": 208333.7795431018,
+    "source_failures": [
+      "dance1_subject1",
+      "fallAndGetUp1_subject1",
+      "fallAndGetUp2_subject3"
+    ],
+    "preserve_historical_anchors": [
+      "P6_B33000",
+      "P7_C42000",
+      "P7_F9000",
+      "P8_H16_50000_dance_success",
+      "P8_BONES9000"
+    ]
+  },
+  "common_training": {
+    "seed": 0,
+    "supermimic_num_envs": 4096,
+    "imagination_batch_size": 4096,
+    "imagination_horizon": 32,
+    "world_window": 8,
+    "world_batches": 10,
+    "world_batch_size": 2048,
+    "replay_steps_per_environment": 1000,
+    "replay_warmup_steps": 64,
+    "max_episode_steps": 500,
+    "learning_rate": 0.0002,
+    "actor_learning_rate_scale": 0.5,
+    "cosine_iterations": 250000,
+    "gamma": 0.99,
+    "lambda": 0.95,
+    "critic_epochs": 5,
+    "critic_minibatches": 4,
+    "actor_root_position_feedback": true,
+    "actor_root_position_scale_m": 0.3,
+    "goal_frame": "robot_root",
+    "goal_future_frames": 10,
+    "world_termination_loss": "aux_bce",
+    "imagination_termination": "analytic_smooth",
+    "termination_smoothing_temperature": 0.05,
+    "collect_steps": "2 and 3 alternating",
+    "checkpoint_every_iterations": 1,
+    "keep_recent_checkpoints": 20,
+    "record_imagination_evidence": true,
+    "capture_selected_training_rollouts": true,
+    "update_sequence": [
+      "real_collect",
+      "fit_world",
+      "actor_bptt",
+      "fit_critic"
+    ],
+    "preserve_reward_PD_termination_noise_randomization": true,
+    "return_sampler_gmax_and_timeout_algorithm": "unchanged; remaining-horizon statistics only"
+  },
+  "critic_candidate": {
+    "name": "survival_weighted",
+    "weight": "pre-transition cumulative S_t, detached",
+    "loss": "mean(S_t * (V_t-Rlambda_t)^2) / global_rollout_mean(S_t)",
+    "normalization": "Compute full B*H S mean once, detach, reuse for all equal-length shuffled minibatches.",
+    "first_terminal_transition_included": true,
+    "lambda_targets": "existing recursion, fixed once per rollout",
+    "actor_objective": "unchanged",
+    "probability_hard_threshold": null,
+    "value_or_target_clipping": false,
+    "epsilon_added": false,
+    "positive_denominator_reason": "S_0=1 for every rollout",
+    "paper_relation": "Explicit project method modification: paper Eq3 itself is unweighted; P8 posttermination imagined suffixes are empirically unstable.",
+    "normal_statistics_without_extra_forward": [
+      "raw_critic_mse",
+      "survival_weighted_critic_mse",
+      "survival_mean",
+      "exact_zero_survival_fraction",
+      "zero_survival_suffix_squared_error_sum",
+      "all_squared_error_sum"
+    ],
+    "natural_end": "frame + step + 1 >= lengths[clip] - 1, using original clip frame; do not add collector500-step timeout as an imagination terminal."
+  },
+  "jobs": {
+    "lafan_h32_control": {
+      "initialization": "full_resume",
+      "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
+      "restore": [
+        "actor",
+        "world_model",
+        "critic",
+        "three_Adam_states",
+        "sampler",
+        "saved_Torch_CUDA_RNG",
+        "global_iteration_and_LR"
+      ],
+      "data_directory": "data/processed/lafan1_g1_50hz",
+      "reference_storage": "existing_cuda",
+      "start_iteration": 51000,
+      "target_iteration": 60000,
+      "new_joint_updates": 9000,
+      "max_accumulated_new_stage_hours": 16,
+      "evaluation_iterations": [
+        52000,
+        53000,
+        54000,
+        55000,
+        56000,
+        57000,
+        58000,
+        59000,
+        60000
+      ],
+      "tail_iterations": [
+        58000,
+        59000,
+        60000
+      ],
+      "parent_completed_motions": 37,
+      "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
+      "tmux": "sm-p9-lafan-control",
+      "planned_config": "configs/lafan40_p9_control.json",
+      "critic_loss_mode": "unweighted"
+    },
+    "lafan_h32_survival_critic": {
+      "initialization": "full_resume",
+      "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
+      "restore": [
+        "actor",
+        "world_model",
+        "critic",
+        "three_Adam_states",
+        "sampler",
+        "saved_Torch_CUDA_RNG",
+        "global_iteration_and_LR"
+      ],
+      "data_directory": "data/processed/lafan1_g1_50hz",
+      "reference_storage": "existing_cuda",
+      "start_iteration": 51000,
+      "target_iteration": 60000,
+      "new_joint_updates": 9000,
+      "max_accumulated_new_stage_hours": 16,
+      "evaluation_iterations": [
+        52000,
+        53000,
+        54000,
+        55000,
+        56000,
+        57000,
+        58000,
+        59000,
+        60000
+      ],
+      "tail_iterations": [
+        58000,
+        59000,
+        60000
+      ],
+      "parent_completed_motions": 37,
+      "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
+      "tmux": "sm-p9-lafan-survival",
+      "planned_config": "configs/lafan40_p9_survival_critic.json",
+      "critic_loss_mode": "survival_weighted"
+    },
+    "bones_full_lafan_survival": {
+      "run": "20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
+      "tmux": "sm-p9-bones-full-lafan",
+      "planned_config": "configs/bones_full_lafan_p9_survival.json",
+      "initialization": "weights_transfer",
+      "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
+      "load_only": [
+        "actor",
+        "world_model",
+        "critic"
+      ],
+      "initialize_new": [
+        "three_Adam_states",
+        "two_source_sampler",
+        "replay",
+        "seed0_RNG",
+        "dataset_stage_counters"
+      ],
+      "data_directory": "data/processed/bones_full_lafan_p9",
+      "critic_loss_mode": "survival_weighted",
+      "reference_storage": "cpu_contiguous_or_readonly_memmap_with_phase_windows",
+      "start_iteration": 0,
+      "target_iteration": 9000,
+      "world_only_warmup_iterations": 5,
+      "new_actor_updates_target": 8995,
+      "max_accumulated_new_stage_hours": 16,
+      "environment_groups": {
+        "lafan": {
+          "environments": 1024,
+          "ratio": 0.25
+        },
+        "bones": {
+          "environments": 3072,
+          "ratio": 0.75
+        }
+      },
+      "group_assignment": "Fixed environment source; every reset samples inside that source with existing 50/40/10 scheme normalized separately.",
+      "replay_group_fraction": "Preserve normal environment-based replay/window sampling; report actual valid WM and Actor proportions, do not claim exact25/75.",
+      "baseline": "Save fixed checkpoint_0000000.pt before updates with joint training data definition and source provenance; evaluate every corrected BONES clip.",
+      "bones_evaluation_iterations": [
+        0,
+        3000,
+        6000,
+        9000
+      ],
+      "lafan_retention_evaluation_iterations": [
+        3000,
+        6000,
+        9000
+      ],
+      "evaluate_actual_endpoint_if_not_already_evaluated": true,
+      "evaluation_batch_size": 1024,
+      "lafan_baseline": "Reuse H32-51000 existing evaluation: initialized network weights identical.",
+      "cross_dataset_evaluation": "Explicit training and evaluation data definitions; preserve ordinary same-data resume checks.",
+      "inherited_training_cost_must_be_reported": true,
+      "forbid_from_scratch_or_author_three_hour_claim": true,
+      "interpretation": "Full-library scale and retention study, not the single-variable LAFAN critic comparison."
+    }
+  },
+  "bones_correction": {
+    "source_repository": "bones-studio/seed",
+    "source_revision": "2f59b2077b9da34dd4e43618e705c7cb962c9a66",
+    "reuse_acquired_metadata_csv_npz": true,
+    "redownload": false,
+    "planned_config": "configs/bones_p9_preprocessing.json",
+    "corrected_full_directory": "data/processed/bones_g1_50hz_full_p9",
+    "old_p8_data_unchanged": true,
+    "paper_raw_clips": 142220,
+    "paper_filtered_clips": 129514,
+    "paper_filtered_hours": 264.56,
+    "require_exact_author_count": false,
+    "actual_corrected_count": null,
+    "actual_corrected_hours": null,
+    "zmin_definition": "Minimum FK body-origin world z over all non-world G1 robot bodies; publish actual body names.",
+    "foot_distance": "Both feet collision geom-to-plane distance, retain existing exact sphere/capsule distance and stated standing/upright/stationary gates.",
+    "paper_known_thresholds": {
+      "elevated_min_z_m": 0.2,
+      "elevated_min_seconds": 0.6,
+      "penetration_any_min_z_m": -0.12,
+      "penetration_fraction_min_z_m": -0.08,
+      "penetration_fraction": 0.8,
+      "floating_feet_distance_m": 0.02,
+      "floating_min_seconds": 0.5
+    },
+    "name_rules": "Freeze explicit external-support/object/terrain terms adapted from Appendix E and SONIC official list; use token/phrase semantics; record matched terms and project exceptions.",
+    "paper_explicit_terms": [
+      "stair",
+      "ladder",
+      "box",
+      "chair",
+      "sit",
+      "climb",
+      "jump_off_50cm",
+      "look_over_fence"
+    ],
+    "do_not_import_sonic_difficulty_exclusions": [
+      "acrobatics_",
+      "cartwheel",
+      "handstand_ff_",
+      "handstand",
+      "jump_to_shoulder_roll",
+      "kozak_dance",
+      "safety_roll"
+    ],
+    "preserve_ground_acrobatics_and_rolls": true,
+    "do_not_filter_by_policy_results": true,
+    "reuse_strategy": "Apply corrected name rules to all original metadata candidates. For existing valid NPZ use qpos for corrected FK filtering and preserve six correct reference arrays. Convert candidates without valid NPZ from existing extracted CSV, including previously name- or physics-excluded candidates now allowed by the new name rules.",
+    "format_unchanged": "120Hz Frame-based time, cm->m, degrees->radians, xyz extrinsic rotation, SLERP and current XBODY velocities.",
+    "monitor_subset": {
+      "target_hours": 40,
+      "seed": 0,
+      "whole_clips": true,
+      "order": "same sorted-category round-robin seeded ordering, corrected acceptance",
+      "training": "No separate40h job",
+      "scoring": "Extract from the same full-library evaluation, no additional physics"
+    },
+    "two_source_definition": "Record both revisions/manifests, source ids, unique clip ids and filter version; do not relabel as ordinary old-data resume."
+  },
+  "reference_windows": {
+    "store_full_reference_on_gpu": false,
+    "training_and_evaluation_use_same_window_semantics": true,
+    "actor_horizon": 32,
+    "goal_future_frames": 10,
+    "actor_reference_frames": 43,
+    "actor_all_six_arrays_window_mib": 170,
+    "actor_goal": "Transform reference on GPU at every imagined state using differentiable predicted root quaternion; do not freeze robot_root goal or current position feedback.",
+    "world": "Per k8 batch reference qpos; ground truth next_state already in replay.",
+    "real_collection": "Current/next/future10 reference per step, refreshed after reset.",
+    "evaluation": "1024 active environments with bounded reference windows, never full-library CUDA duplication.",
+    "no_generic_cache_or_benchmark": true
+  },
+  "evaluation": {
+    "normalization": "Per clip sum(reward)/[0.1*(reference_frames-1)], then equal-clip mean.",
+    "start_frame": 0,
+    "observation_noise": false,
+    "domain_randomization": false,
+    "friction": 1,
+    "full_reference_duration": true,
+    "training_timeout_not_eval_limit": true,
+    "report_datasets_separately": true,
+    "do_not_use_success_union_as_single_policy": true,
+    "primary_lafan": [
+      "full40_return",
+      "completion_fraction",
+      "parent37_retention",
+      "skill_id_changes",
+      "tail3_intersection",
+      "common_complete_set_quality",
+      "eight_reward_components"
+    ],
+    "primary_bones": [
+      "all_corrected_clips_return",
+      "failure_count",
+      "completion_fraction",
+      "per_category_quality",
+      "fixed_name_skill_groups",
+      "lafan_retention",
+      "monitor40_subset"
+    ],
+    "fixed_name_skill_groups": [
+      "flip",
+      "side_roll",
+      "cartwheel",
+      "handstand"
+    ],
+    "no_best_checkpoint_selection": true,
+    "explicit_source_selection": "Both BONES and LAFAN evaluation of the combined-data checkpoint explicitly choose the source sublibrary. Record combined training and actual evaluation definitions. BONES enumerates corrected BONES clips only. Ordinary same-data training resume constraints stay unchanged."
+  },
+  "evidence": {
+    "existing_success_windows": [
+      {
+        "run": "20261106-p8-stability-scale-s0-lafan_h16",
+        "iteration": 50000,
+        "motion": "dance1_subject1",
+        "reference_frames": [
+          5225,
+          5357
+        ],
+        "seconds": [
+          104.5,
+          107.14
+        ]
+      },
+      {
+        "run": "20261106-p8-stability-scale-s0-lafan_h32",
+        "iteration": 49000,
+        "motion": "fallAndGetUp1_subject1",
+        "reference_frames": [
+          335,
+          467
+        ],
+        "seconds": [
+          6.7,
+          9.34
+        ]
+      }
+    ],
+    "existing_success_window_action": "Read existing formal trajectories only; reuse already-published matching H32-51000 failure windows. No new model/physics/full-clip replay.",
+    "normal_training_max_selected_rollouts_per1000": 4,
+    "selection": "Same raw Critic MSE rule in both modes; max normal update per1000 then largest stored residuals.",
+    "include": [
+      "pre_transition_survival",
+      "natural_end_flag",
+      "geometric_termination_source",
+      "source_id",
+      "motion",
+      "start_frame",
+      "parameter_phase",
+      "array_semantics"
+    ],
+    "extra_forward_backward": false,
+    "remaining_steps_bins": [
+      [
+        1,
+        16
+      ],
+      [
+        17,
+        32
+      ],
+      [
+        33,
+        50
+      ],
+      [
+        51,
+        250
+      ],
+      [
+        251,
+        null
+      ]
+    ],
+    "sampling_statistics": "Existing real resets, actual WM valid windows and Actor starts, grouped by source and remaining reference steps; thousand-update summaries only.",
+    "endpoint_lafan_tails": "One existing2.64s tail per actual failure.",
+    "endpoint_bones_tails": {
+      "maximum": 8,
+      "quotas": {
+        "flip": 2,
+        "side_roll": 2,
+        "ground_getup_or_roll": 2,
+        "other": 2
+      },
+      "selection": "Frozen manifest order within predefined groups; empty slots remain empty.",
+      "capture": "Bounded tail buffer during the same formal endpoint evaluation."
+    },
+    "termination_semantics": "Count real geometric termination and natural ends separately. Save imagined natural_end booleans and analytic termination probability before natural-end override; do not invent a hard threshold for soft probability."
+  },
+  "publication": {
+    "policy": "lightweight_git_first",
+    "include": [
+      "review",
+      "plan",
+      "code",
+      "actual_configs",
+      "both_source_definitions",
+      "filter_records_and_statistics",
+      "all_per_clip_metrics",
+      "compact_training_statistics",
+      "specified_small_NPZ_JSON",
+      "conclusions",
+      "server_artifact_paths"
+    ],
+    "full_metric_chunk_clips": 2000,
+    "full_metric_format": "compact CSV or JSONL plus field definitions and small summary/index",
+    "retain_on_server": [
+      "large_checkpoints",
+      "full_trajectories",
+      "full_videos",
+      "raw_and_processed_motion_arrays",
+      "full_training_logs"
+    ],
+    "github_release": false,
+    "make_tar_for_upload": false,
+    "archive_on_user_computer": false,
+    "automatic_stage_cleanup": false,
+    "existing_checkpoint_rolling_retention_unchanged": true
+  },
+  "not_in_scope": [
+    "additional_H_sweep",
+    "fresh_rerun",
+    "PPO",
+    "additional_seeds",
+    "hardware_deployment",
+    "return_sampler_algorithm_change",
+    "value_target_clipping",
+    "defensive_programming",
+    "unit_mock_smoke_import_shape_hash_tests",
+    "recovery_drills",
+    "whole_disk_scan",
+    "generic_monitoring_cache_framework",
+    "unrelated_benchmark"
+  ],
+  "stop": "End at each fixed update/time budget, complete required formal evaluation and lightweight publication, no automaticP10."
+}
