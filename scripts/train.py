@@ -103,8 +103,8 @@ def main():
     stage_elapsed = lambda: stage_consumed + time.monotonic() - stage_started
     elapsed = lambda: elapsed_offset + time.monotonic() - started
     try:
-        motions = MotionLibrary(ROOT / cfg.get("data_directory", "data/processed/lafan1_g1_50hz"), "cuda:0")
-        env = TrackingEnvironment(motions, cfg["num_envs"], cfg["max_episode_steps"])
+        motions = MotionLibrary(ROOT / cfg.get("data_directory", "data/processed/lafan1_g1_50hz"), "cuda:0", cfg.get("reference_storage", "device"))
+        env = TrackingEnvironment(motions, cfg["num_envs"], cfg["max_episode_steps"], cfg.get("environment_source_counts"))
         if cfg["compile_fk"]:
             env.fk.forward = torch.compile(env.fk.forward, dynamic=True)
         # The two methods start from matching network initialization even though
@@ -120,6 +120,9 @@ def main():
             metadata.update(weights_source=str(args.weights_transfer), source_iteration=previous["iteration"],
                 inherited_training_seconds=previous["elapsed_seconds"], optimizer_state_restored=False,
                 sampler_state_restored=False, rng_restored=False)
+            if "inherited_training_seconds" in cfg:
+                metadata.update(source_checkpoint_elapsed_seconds=previous["elapsed_seconds"],
+                    inherited_training_seconds=cfg["inherited_training_seconds"])
             del previous
         if args.resume:
             previous = torch.load(args.resume, map_location="cuda", weights_only=False)

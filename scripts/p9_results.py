@@ -69,7 +69,7 @@ def compare_lafan(protocol):
             s = summaries[j]
             i = s["final_iteration"]
             v = views[j][i]
-            lines.append(f"| {j} | {i} | {v['mean_normalized_return']:.8f} | {v['completed_motions']}/40 | {len(v['parent_successes_retained'])}/37 | {s['training_snapshot']['stage_wall_seconds']/3700:.4f} |")
+            lines.append(f"| {j} | {i} | {v['mean_normalized_return']:.8f} | {v['completed_motions']}/40 | {len(v['parent_successes_retained'])}/37 | {s['training_snapshot']['stage_wall_seconds']/3600:.4f} |")
         lines += ["", "尾三58000/59000/60000的可用节点、均值与交集见各分支comparison.json；若时限导致终点不同，不能将终点差当相同更新预算效果。",
             "", "共同完整集合的XY/SO3是条件比较；主成绩仍为全40。按全40回报、父37保持、末三及困难技能质量判断；loss下降本身不证明控制收益。",
             "", "BONES迁移有不同数据与初始化成本，状态单列于summary.json。大产物留D57；不自动延长预算或启动P10。"]

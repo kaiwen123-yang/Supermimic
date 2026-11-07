@@ -71,14 +71,16 @@ class SuperMimic:
         failed = torch.zeros_like(counts)
         reset_counts = torch.zeros_like(counts)
         for _ in range(steps):
-            goal = self.env.motions.goal(self.env.clip, self.env.frame,
-                goal_frame=self.cfg.get("goal_frame", "reference_heading"), root_quaternion=self.env.sim.qpos[:, 3:7])
+            window = self.env.motions.window(self.env.clip, self.env.frame, 11) if self.env.motions.cpu_reference else None
+            goal = (window.goal(0, goal_frame=self.cfg.get("goal_frame", "reference_heading"), root_quaternion=self.env.sim.qpos[:, 3:7])
+                if window else self.env.motions.goal(self.env.clip, self.env.frame,
+                goal_frame=self.cfg.get("goal_frame", "reference_heading"), root_quaternion=self.env.sim.qpos[:, 3:7]))
             position_error = actor_root_position_error(self.env.sim.qpos,
-                self.env.motions.get(self.env.clip, self.env.frame)["qpos"],
+                (window.get(0) if window else self.env.motions.get(self.env.clip, self.env.frame))["qpos"],
                 self.cfg["actor_root_position_scale_m"]) if self.actor.root_position_feedback else None
             action = self.actor(self.env.history, goal, position_error)
             executed = action + 0.1 * torch.randn_like(action)
-            transition = self.env.step(executed)
+            transition = self.env.step(executed, reference=window.get(1) if window else None)
             self.replay.add(transition)
             rewards.append(transition["reward"].mean())
             failures.append(transition["terminated"].float().mean())
@@ -106,6 +108,8 @@ class SuperMimic:
         for _ in range(cfg["world_batches"]):
             sample = self.replay.sample(cfg["world_batch_size"], cfg["world_window"])
             self.count_samples(1, sample["clip"][:, 0], sample["frame"][:, 0])
+            reference_window = (self.env.motions.get(sample["clip"], sample["frame"]+1, keys=("qpos",))["qpos"]
+                if self.env.motions.cpu_reference and use_bce else None)
             state = sample["state"][:, 0]
             family_counts.add_(torch.bincount(self.clip_family[sample["clip"].flatten()], minlength=len(family_counts)))
             state_loss = term_loss = 0
@@ -115,8 +119,9 @@ class SuperMimic:
                 state_loss = state_loss + squared.mean(-1).mean()
                 components.add_(squared.detach().mean(0))
                 if use_bce:
-                    reference = self.env.motions.get(sample["clip"][:, j], sample["frame"][:, j] + 1)
-                    logits = self.world.termination_logits(state, reference["qpos"])
+                    reference_qpos = (reference_window[:, j] if reference_window is not None else
+                        self.env.motions.get(sample["clip"][:, j], sample["frame"][:, j] + 1)["qpos"])
+                    logits = self.world.termination_logits(state, reference_qpos)
                     term_loss = term_loss + F.binary_cross_entropy_with_logits(logits, sample["terminated"][:, j].float())
             loss = (state_loss + term_loss) / cfg["world_window"]
             norms.append(optimize(loss, self.world_opt, self.world.parameters()))
@@ -141,6 +146,7 @@ class SuperMimic:
         clip, frame = sample["clip"][:, 0], sample["frame"][:, 0]
         self.count_samples(2, clip, frame)
         horizon, gamma, lam = cfg["imagination_horizon"], cfg["gamma"], cfg["lambda"]
+        window = env.motions.window(clip, frame, horizon+11) if env.motions.cpu_reference else None
         self.world.requires_grad_(False)
         self.critic.requires_grad_(False)
         survival = torch.ones(len(state), device=state.device)
@@ -149,11 +155,12 @@ class SuperMimic:
         pre_survivals, natural_ends, geometric_probabilities = [], [], []
         for step in range(horizon):
             pre_survivals.append(survival.detach())
-            goal = env.motions.goal(clip, frame + step,
-                goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
+            goal = (window.goal(step, goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
+                if window else env.motions.goal(clip, frame + step,
+                goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7]))
             states.append(state.detach())
             goals.append(goal.detach())
-            current_ref = env.motions.get(clip, frame + step)["qpos"]
+            current_ref = (window.get(step) if window else env.motions.get(clip, frame + step))["qpos"]
             critic_references.append(current_ref)
             with torch.no_grad():
                 values.append(self.critic(state, goal, context, current_ref))
@@ -161,7 +168,7 @@ class SuperMimic:
                 cfg["actor_root_position_scale_m"]) if self.actor.root_position_feedback else None
             action = self.actor(history, goal, position_error)
             predicted = self.world(state, action, context)
-            ref = env.motions.get(clip, frame + step + 1)
+            ref = window.get(step+1) if window else env.motions.get(clip, frame + step + 1)
             reward, _, _ = reward_and_termination(env.fk(predicted[:, :36], predicted[:, 36:71]), ref,
                                                   predicted[:, :36], action, state[:, 71:],
                                                   env.sim.soft_lower, env.sim.soft_upper)
@@ -179,9 +186,11 @@ class SuperMimic:
             state = predicted
             obs = env.observe(state, context, noise=True)
             history = torch.cat((history[:, 1:], obs[:, None]), 1)
-        goal_end = env.motions.goal(clip, frame + horizon,
-            goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
-        terminal_value = self.critic(state, goal_end, context, env.motions.get(clip, frame + horizon)["qpos"])
+        goal_end = (window.goal(horizon, goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7])
+            if window else env.motions.goal(clip, frame + horizon,
+            goal_frame=cfg.get("goal_frame", "reference_heading"), root_quaternion=state[:, 3:7]))
+        terminal_value = self.critic(state, goal_end, context,
+            (window.get(horizon) if window else env.motions.get(clip, frame + horizon))["qpos"])
         if cfg.get("record_imagination_evidence", False):
             reward_sum = objective.detach()
             bootstrap = (gamma**horizon * survival * terminal_value).detach()
@@ -249,7 +258,7 @@ class SuperMimic:
                     save_selected_rollouts(evidence_directory, block, iteration, env.motions,
                         clip, frame, context, states, terminal_state, critic_references,
                         rewards, deaths, values, targets, reward_sum, bootstrap, metrics["critic_mse"],
-                        pre_survivals, natural_ends, geometric_probabilities)
+                        pre_survivals, natural_ends, geometric_probabilities, window)
         return metrics
 
     def set_schedule(self, iteration):

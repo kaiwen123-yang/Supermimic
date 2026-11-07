@@ -7,7 +7,7 @@ from .task import observation, reward_and_termination
 
 
 class ReturnSampler:
-    def __init__(self, motions, environments, max_episode_steps=500, gamma=0.99):
+    def __init__(self, motions, environments, max_episode_steps=500, gamma=0.99, source_counts=None):
         device = motions.device
         clip, frame = [], []
         bin_offsets = []
@@ -22,6 +22,13 @@ class ReturnSampler:
         self.lengths = motions.lengths
         self.returns = torch.zeros(len(clip), device=device)
         self.memory = torch.full((len(clip),), 1 / len(clip), device=device)
+        self.group_bins = None
+        if source_counts:
+            self.environment_source = torch.cat([torch.full((count,), motions.source_names.index(name), device=device, dtype=torch.long)
+                for name,count in source_counts.items()])
+            self.group_bins = [torch.nonzero(motions.source_ids[self.clip] == i).flatten() for i in range(len(motions.source_names))]
+            for bins in self.group_bins:
+                self.memory[bins] = 1 / len(bins)
         self.ep_reward = torch.zeros((environments, max_episode_steps), device=device)
         self.ep_bin = torch.zeros((environments, max_episode_steps), device=device, dtype=torch.long)
         self.ep_length = torch.zeros(environments, device=device, dtype=torch.long)
@@ -30,7 +37,20 @@ class ReturnSampler:
         self.gmax = 0.1 / (1 - gamma)
 
     @torch.no_grad()
-    def sample(self, count):
+    def sample(self, count, environment_ids=None):
+        if self.group_bins is not None:
+            index = torch.empty(count, device=self.clip.device, dtype=torch.long)
+            for source,bins in enumerate(self.group_bins):
+                selected = torch.nonzero(self.environment_source[environment_ids] == source).flatten()
+                if len(selected):
+                    current = torch.softmax(-25*self.returns[bins]/self.gmax, 0)
+                    memory = self.memory[bins]
+                    probability = 0.5/len(bins) + 0.4*current + 0.1*memory/memory.sum()
+                    index[selected] = bins[torch.multinomial(probability, len(selected), replacement=True)]
+            clip = self.clip[index]
+            available = torch.minimum(self.lengths[clip]-1-self.frame[index], torch.full_like(index,50))
+            frame = self.frame[index]+(torch.rand(count,device=index.device)*available).long()
+            return clip,frame
         current = torch.softmax(-25 * self.returns / self.gmax, 0)
         probability = 0.5 / len(current) + 0.4 * current + 0.1 * self.memory / self.memory.sum()
         index = torch.multinomial(probability, count, replacement=True)
@@ -58,16 +78,21 @@ class ReturnSampler:
         seen = counts > 0
         # EMA coefficient and finite-episode return convention are explicit choices.
         self.returns[seen] = 0.9 * self.returns[seen] + 0.1 * sums[seen] / counts[seen]
-        self.memory.mul_(0.99).add_(torch.softmax(-25 * self.returns / self.gmax, 0), alpha=0.01)
+        if self.group_bins is None:
+            self.memory.mul_(0.99).add_(torch.softmax(-25 * self.returns / self.gmax, 0), alpha=0.01)
+        else:
+            for source,bins in enumerate(self.group_bins):
+                if bool((self.environment_source[ended] == source).any()):
+                    self.memory[bins] = 0.99*self.memory[bins] + 0.01*torch.softmax(-25*self.returns[bins]/self.gmax, 0)
         self.ep_length[ended] = 0
 
 
 class TrackingEnvironment:
-    def __init__(self, motions, num_envs, max_episode_steps=500):
+    def __init__(self, motions, num_envs, max_episode_steps=500, source_counts=None):
         self.motions = motions
         self.sim = G1Simulator(num_envs)
         self.fk = ForwardKinematics(self.sim.host_model).float().to(motions.device)
-        self.sampler = ReturnSampler(motions, num_envs, max_episode_steps)
+        self.sampler = ReturnSampler(motions, num_envs, max_episode_steps, source_counts=source_counts)
         self.max_episode_steps = max_episode_steps
         self.device = motions.device
         self.num_envs = num_envs
@@ -91,7 +116,7 @@ class TrackingEnvironment:
 
     @torch.no_grad()
     def reset(self, ids):
-        clip, frame = self.sampler.sample(len(ids))
+        clip, frame = self.sampler.sample(len(ids), ids)
         ref = self.motions.get(clip, frame)
         self.sim.reset(ref["qpos"], ref["qvel"], ids, randomize=True)
         self.clip[ids], self.frame[ids] = clip, frame
@@ -102,12 +127,12 @@ class TrackingEnvironment:
         self.history[ids] = obs[:, None].expand(-1, 10, -1)
 
     @torch.no_grad()
-    def step(self, executed_action):
+    def step(self, executed_action, reference=None):
         transition = {"state": self.state(), "action": executed_action.detach().clone(),
                       "context": self.sim.context.clone(), "observation": self.history[:, -1].clone(),
                       "clip": self.clip.clone(), "frame": self.frame.clone(), "episode": self.episode.clone()}
         qpos, qvel = self.sim.step(executed_action)
-        ref = self.motions.get(self.clip, self.frame + 1)
+        ref = reference if reference is not None else self.motions.get(self.clip, self.frame + 1)
         reward, terminated, metrics = reward_and_termination(self.fk(qpos, qvel), ref, qpos,
                                                             executed_action, self.previous_action,
                                                             self.sim.soft_lower, self.sim.soft_upper)

@@ -1,6 +1,6 @@
 # P9：Critic有效轨迹学习与完整动作库训练
 
-状态：**计划已发布，实施与训练尚未启动**。日期：2026-11-07（北京时间）。依据：[P8深读复核](P8_REVIEW_20261107.md)，固定结果版本`ec870270f56cac91c7bf50b86ced0a8b17cc01ec`。用户本轮已明确要求制定并推送下一阶段计划；P8的“不自动开P9”不阻止本次明确安排。
+状态：**已实施并启动。** 实际三路状态及数据定义见[结果索引](../results/20261107-p9-critic-full-scale-s0/summary.json)；下文保留授权方案。
 
 执行协议：[next_stage_critic_full_scale_protocol.json](../configs/next_stage_critic_full_scale_protocol.json)。启动词：[P9_CODEX_START_PROMPT.md](P9_CODEX_START_PROMPT.md)。
 

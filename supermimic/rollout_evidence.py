@@ -8,17 +8,18 @@ import torch
 def save_selected_rollouts(directory, block, iteration, motions, clip, frame, context,
                            states, terminal_state, references, rewards, deaths, values,
                            targets, reward_sum, bootstrap, critic_mse,
-                           pre_survivals, natural_ends, geometric_probabilities):
+                           pre_survivals, natural_ends, geometric_probabilities, window=None):
     horizon, batch = len(rewards), len(clip)
     target = targets.reshape(horizon, batch)
     old = torch.stack(values)
     residual = (target-old[:-1]).abs().amax(0)
     ids = residual.topk(min(4, batch)).indices
     selected_states = torch.cat((states.reshape(horizon,batch,-1)[:,ids],terminal_state[ids][None]),0)
-    selected_ref = torch.cat((references.reshape(horizon,batch,-1)[:,ids],
-        motions.get(clip[ids],frame[ids]+horizon)["qpos"][None]),0)
-    ref_vel = motions.get(clip[ids][None].expand(horizon+1,-1),
-        frame[ids][None]+torch.arange(horizon+1,device=frame.device)[:,None])["qvel"]
+    terminal_ref = (window.get(horizon)["qpos"][ids] if window else motions.get(clip[ids],frame[ids]+horizon)["qpos"])
+    selected_ref = torch.cat((references.reshape(horizon,batch,-1)[:,ids], terminal_ref[None]),0)
+    ref_vel = (window.values["qvel"][ids,:horizon+1].transpose(0,1) if window else
+        motions.get(clip[ids][None].expand(horizon+1,-1),
+        frame[ids][None]+torch.arange(horizon+1,device=frame.device)[:,None])["qvel"])
     death = torch.stack(deaths)[:,ids]
     survival = torch.cat((torch.ones_like(death[:1]),(1-death).cumprod(0)),0)
     w,x,y,z = selected_states[...,3:7].unbind(-1)

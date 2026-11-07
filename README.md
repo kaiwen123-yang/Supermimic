@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：P9计划已发布，尚未启动训练。** 保留H32，从同一H32-51000比较原Critic与累计存活加权Critic；同时修正BONES筛选，推进完整库+固定25% LAFAN练习的第三路训练。[P8深读复核](docs/P8_REVIEW_20261107.md) · [P9计划](docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md) · [执行协议](configs/next_stage_critic_full_scale_protocol.json) · [启动提示词](docs/P9_CODEX_START_PROMPT.md)。
+> **当前入口：P9 Critic稳定性与完整库混合训练。** 实际启动/评分状态见[结果索引](results/20261107-p9-critic-full-scale-s0/summary.json)。保持现有tmux和固定预算。
 
 > **P8已完成训练、正式评分和轻量发布。** H32终点0.86980516/37成功，H16为0.73023952/31成功；BONES40迁移增加完整数但降低回报，最终LAFAN保持10/40。见[完整结论](results/20261106-p8-stability-scale-s0/conclusion.md)与[结果索引](results/20261106-p8-stability-scale-s0/summary.json)。不重复启动或延长P8。
 

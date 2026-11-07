@@ -9,6 +9,7 @@ from pathlib import Path
 from p9_results import ROOT, PROTOCOL, read, write, refresh, index_update, node_view, compare_lafan
 from publish_checkpoint import push_results
 from finish_tracking_campaign import training_summary
+from p9_metrics import read_score, compact_comparison
 
 
 def publish(run_name, iteration, final=False):
@@ -30,24 +31,42 @@ def publish(run_name, iteration, final=False):
         evaluation_dir = run / f"evaluation_{iteration:07d}"
         checkpoint = run / f"checkpoint_{iteration:07d}.pt"
         if not (evaluation_dir / "evaluation.json").exists():
-            script = "evaluate.py" if job_id.startswith("lafan") else "evaluate_bones.py"
+            script = "evaluate.py" if job_id.startswith("lafan") else "evaluate_bones_p9.py"
             args = [sys.executable, "-u", str(ROOT / "scripts" / script), str(checkpoint)]
+            if not job_id.startswith("lafan"):
+                args += ["--source", "bones"]
             if final and not job_id.startswith("lafan"):
                 args.append("--failure-tails")
             with (pubdir / "evaluation.log").open("a") as log:
                 subprocess.run(args, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
-        score = read(evaluation_dir / "evaluation.json")
+        score = read_score(evaluation_dir / "evaluation.json")
         result.mkdir(parents=True, exist_ok=True)
         for name in ("config.json", "runtime.json"):
             shutil.copy2(run / name, result / name)
         shutil.copy2(evaluation_dir / "evaluation.json", result / "evaluation.json")
-        parent_path = ROOT / protocol["source"]["evaluation"] if job_id.startswith("lafan") else ROOT / "results" / run_name / "milestones/iteration_0000000/evaluation.json"
-        parent = read(parent_path) if iteration > 0 else None
-        comparison = node_view(parent, score, str((result / "evaluation.json").relative_to(ROOT)))
+        if not job_id.startswith("lafan"):
+            for part in score["clip_parts"]["parts"] + ["clips_index.json"]:
+                shutil.copy2(evaluation_dir / part, result / part)
+        parent_path = ROOT / protocol["source"]["evaluation"] if job_id.startswith("lafan") else run / "evaluation_0000000/evaluation.json"
+        parent = read_score(parent_path) if iteration > 0 else None
+        comparison = (node_view(parent, score, str((result / "evaluation.json").relative_to(ROOT)))
+            if job_id.startswith("lafan") else compact_comparison(parent, score, result))
         comparison["motions"] = score["motions"]
         if job_id == "bones_full_lafan_survival":
-            comparison["categories"] = score["categories"]
-            comparison.pop("running_and_getups")
+            if iteration == 0:
+                comparison["lafan_retention"] = {"reused_same_weights_parent": protocol["source"]["evaluation"],
+                    "mean_normalized_return": protocol["source"]["normalized_return"], "completed_motions":37}
+            else:
+                retention = run / f"lafan_retention_{iteration:07d}"
+                if not (retention / "evaluation.json").exists():
+                    args = [sys.executable,"-u",str(ROOT/"scripts/evaluate.py"),str(checkpoint),
+                        "--source","lafan","--output-dir",str(retention)]
+                    with (pubdir/"lafan_retention.log").open("a") as log:
+                        subprocess.run(args,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True)
+                shutil.copy2(retention/"evaluation.json",result/"lafan_retention.json")
+                retained = read(retention/"evaluation.json")
+                comparison["lafan_retention"] = node_view(read(ROOT/protocol["source"]["evaluation"]), retained,
+                    str((result/"lafan_retention.json").relative_to(ROOT)))
         comparison["interpretation"] = "Full fixed-set equal-clip score; actual parent data definition. No best-node selection."
         write(result / "comparison.json", comparison)
         if iteration > job["start_iteration"]:
@@ -70,7 +89,8 @@ def publish(run_name, iteration, final=False):
         if iteration >= summary.get("latest_evaluated_iteration", -1):
             summary.update(latest_evaluated_iteration=iteration, latest_evaluation={key: score[key] for key in
                 ("motions", "completed_motions", "mean_normalized_return", "mean_completion_fraction")},
-                latest_parent_successes_retained=len(comparison.get("parent_successes_retained", [])),
+                latest_parent_successes_retained=(len(comparison["parent_successes_retained"]) if "parent_successes_retained" in comparison
+                    else comparison.get("parent_success_retained_count")),
                 server_artifacts={"run_directory": str(run), "checkpoint": str(checkpoint),
                     "evaluation": str(evaluation_dir), "data_directory": cfg["data_directory"],
                     "source_checkpoint": protocol["source"]["checkpoint"], "backup_status": "awaiting_user_export_not_confirmed"})
