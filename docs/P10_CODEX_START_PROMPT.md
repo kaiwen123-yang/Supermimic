@@ -1,29 +1,28 @@
-# P10 Codex 启动提示词
+# P10 正在运行：下一窗口接续
 
-本文件是下一次在 D57 执行 P10 的提示词。发布本计划时，P9 已完成，P10 尚未实施或启动。
+核实时间：2026-11-08T17:19:17.686075+08:00。代码已实施，两路已从P9 full9000完整恢复并执行真实联合更新。
 
-将以下整段交给能连接 `autodl-d57` 的 Codex：
+先读取本文件、AGENTS.md、P10计划与协议及campaign summary，再只读核实服务器当前状态。P9已完成；P10无需再次请求启动许可，也不要重复启动。
 
-```text
-继续 kaiwen123-yang/Supermimic。先读取最新 main 的 AGENTS.md、docs/P9_REVIEW_20261108.md、docs/P10_8K_HARD_PRACTICE_PLAN.md、configs/next_stage_8k_hard_practice_protocol.json 和 configs/p10_hard_motion_set.json，再结合P9结果完成必要适配并执行P10。P9三路已经结束，不重新启动P9。LAFAN回报>=.82已被用户认定复现成功，不撤销，不另加验收门槛。
+服务器：autodl-d57。工作树：/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice。source activate.sh。
 
-使用autodl-d57现有环境和G1资产，在 /root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice 独立源码工作树完成工作。保留原项目未提交改动、已有工作树/Git/stash与其他项目。禁止setup、安装升级或重建环境。
+| job | tmux | 本次观察iteration | 新阶段秒 | 新增联合更新 |
+|---|---|---:|---:|---:|
+| full8k_control | sm-p10-full8k-control | 9035 | 242.389 | 35 |
+| full8k_hard_practice | sm-p10-full8k-hard | 9025 | 182.926 | 25 |
 
-本轮campaign=20261108-p10-8k-hard-practice-s0。两路full8k_control / full8k_hard_practice都从P9完整库checkpoint_0009000.pt完整resume三网络、三Adam、sampler、已保存RNG、iteration9000、actor_updates8995及原全局LR，不只迁移网络，不重置采样历史，不再做5轮WM-only。父路径以P10协议为准。每路8192真实环境、8192 imagination、WM10×4096，H32/k8、replay1000、Critic5×4、原713/.5配方和survival_weighted不变，不自动提高LR。
+run根目录为outputs/runs/20261108-p10-8k-hard-practice-s0-<job>；训练日志为outputs/campaigns/<run>.train.log。活跃进程和最新budget.json/metrics.jsonl为实时依据，本表是带时间快照。
 
-两路来源均LAFAN2048/BONES6144。control reset=LAFAN2048+完整BONES6144；candidate reset=LAFAN2048+完整BONES5120+固定hard1024。hard为冻结639条Stunts或名称含flip/side_roll/cartwheel/handstand的并集；general仍包含全部hard。source只有两个，reset stratum可有三个；共享已恢复G/M，池内条件归一化。原record的两来源memory EMA每来源只更新一次，不把重叠hard池加入EMA更新循环。原BONES source_clip_id按现有联合manifest映射，不重新编号或复制数据。
+每路8192真实环境/8192想象/WM10×4096，source仍LAFAN2048+BONES6144。候选reset分层为2048/5120/1024，control为2048/6144/0；639 hard成员冻结，原两source的memory EMA每来源仍只更新一次。
 
-共同复用P9同一底层CPU只读memmap，43帧参考窗口；不重新筛选/下载/转换/打包约45GB参考库。首路正常初始化并填充一次64步replay后进入联合训练，即接入第二路；此后两路独立tmux并行。训练各Torch2线程，有实际任务的CPU统计最多12个单线程worker。用普通运行节点记录GPU实际占用和主机内存，不另做容量/吞吐试验。
+9001–27000或累计新阶段40h先到。每路已填充一次64步replay；不得因交接重建活跃replay、重置LR或重新获得40h预算。实际进程退出才从该run最新checkpoint按--resume-in-place接续，并保留累计budget。
 
-每路新增18000联合更新9001–27000，或累计新阶段40h先到；父历史成本单列，实际恢复继续累计新阶段已用时间。单个Codex交互窗口<=4h，后台tmux跨窗口持续，不因交接停训/重建replay/重置LR。
+LAFAN正式节点12000/15000/18000/21000/24000/27000；全BONES15000/21000/27000。使用阶段偏移iteration-9000，复用父9000评分。实际终点补齐两项；run脚本训练结束后自动调用finish_p10.py。
 
-全BONES正式评分在15000/21000/27000；LAFAN保持在12000/15000/18000/21000/24000/27000；时间先到在实际终点补两项。按iteration-9000排程，父9000评分复用。全库评估按(reference_steps, original_source_clip_id)组批，默认1024，保持每条从0至原终止/自然末尾的评分；输出恢复原ID顺序。失败尾窗按原ID选择各既定组最小两个，最多8，不因长度排序改选样规则。所有正式GPU评分、六个小WM证据和Git发布共享协议中的现有唯一锁，训练不占锁。
+六个固定同动作WM短窗已经完成，结果见campaign evidence/manifest.json；不重复预测，不新跑物理扫描。正式评分、证据与Git发布共享P6的work/p2-publication.lock；训练不持锁。
 
-只补计划指定六个现有P9 full9000失败短窗的同动作WM递归预测，复用真实状态、实际action、previous_action和context33，不新跑物理、不扫起点。正常训练顺带记录LAFAN/hard/其余BONES的真实transition/reset、WM有效窗、Actor起点、hard clip/bin覆盖和已有forward分组误差。每千轮原有最多4条selected rollout的sidecar补实际optimized/raw/weighted/Smean，不新增forward/backward或梯度扫描。
+全库按(reference_steps, original_source_clip_id)排序组批1024，输出恢复原ID，终点每组保留原ID最小两个失败尾窗。评价同时看hard、普通姿态质量和LAFAN保持；所有逐clip标量按1000条CSV分片。
 
-按计划比较固定终点/共同节点的全库R、body-orientation与共同成功集合质量、hard技能及LAFAN保持。负面结果也发布，不挑最佳节点或拼接各checkpoint成功。全部BONES逐clip标量用CSV每1000条分片，附一次schema、索引和小summary；完整40条LAFAN评分照常。推代码、实际配置、指定小证据、紧凑统计和真实结论到GitHub。大checkpoint/全轨迹/视频/日志留服务器；推完不在我电脑归档，不Release、不tar、不自动阶段清理。原checkpoint每轮保存与最近20次滚动/里程碑保留照旧。
+继续使用现有环境/G1资产/同一P9 CPU只读memmap。不要重建环境、重做数据、测试/benchmark或额外实验。保留其他项目，不停止其他任务。
 
-禁止防御性编程、单元/mock/冒烟/导入/形状/哈希测试、摘要重算、恢复演练、全盘扫描、benchmark及无关工作。直接做本轮所需适配和正式训练；遇到真实错误才针对修复。不要新增Critic/H/k/LR/比例扫描、PPO、多seed或实机任务。预算结束完成实际终点评分与轻量发布，报告真实状态，不自动延长或启动P11。
-
-本请求授权实施上述P10计划和两路正式训练，不要停在计划说明或反复询问启动许可。先完成必要适配，记录实际启动状态；每个交互窗口结束给出tmux/run/最新iteration/已用阶段时间/待评分发布节点及下一窗口接续方式，保留正在运行的进程。
-```
+两路tmux跨窗口运行，单交互窗口≤4h。预算结束按真实终点评分发布；不自动延长、Release、tar、本地归档、阶段清理或启动P11。
