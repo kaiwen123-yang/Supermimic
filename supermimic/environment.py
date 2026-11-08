@@ -7,7 +7,7 @@ from .task import observation, reward_and_termination
 
 
 class ReturnSampler:
-    def __init__(self, motions, environments, max_episode_steps=500, gamma=0.99, source_counts=None):
+    def __init__(self, motions, environments, max_episode_steps=500, gamma=0.99, source_counts=None, reset_strata=None):
         device = motions.device
         clip, frame = [], []
         bin_offsets = []
@@ -29,6 +29,15 @@ class ReturnSampler:
             self.group_bins = [torch.nonzero(motions.source_ids[self.clip] == i).flatten() for i in range(len(motions.source_names))]
             for bins in self.group_bins:
                 self.memory[bins] = 1 / len(bins)
+        self.reset_bins = self.group_bins
+        if reset_strata:
+            self.reset_bins = [self.group_bins[motions.source_names.index("lafan")],
+                self.group_bins[motions.source_names.index("bones")],
+                torch.nonzero(motions.hard_mask[self.clip]).flatten()]
+            self.environment_stratum = torch.cat([torch.full((reset_strata[name],), i, device=device, dtype=torch.long)
+                for i, name in enumerate(("lafan", "bones_all", "bones_hard"))])
+        elif source_counts:
+            self.environment_stratum = self.environment_source
         self.ep_reward = torch.zeros((environments, max_episode_steps), device=device)
         self.ep_bin = torch.zeros((environments, max_episode_steps), device=device, dtype=torch.long)
         self.ep_length = torch.zeros(environments, device=device, dtype=torch.long)
@@ -40,8 +49,8 @@ class ReturnSampler:
     def sample(self, count, environment_ids=None):
         if self.group_bins is not None:
             index = torch.empty(count, device=self.clip.device, dtype=torch.long)
-            for source,bins in enumerate(self.group_bins):
-                selected = torch.nonzero(self.environment_source[environment_ids] == source).flatten()
+            for stratum,bins in enumerate(self.reset_bins):
+                selected = torch.nonzero(self.environment_stratum[environment_ids] == stratum).flatten()
                 if len(selected):
                     current = torch.softmax(-25*self.returns[bins]/self.gmax, 0)
                     memory = self.memory[bins]
@@ -88,11 +97,11 @@ class ReturnSampler:
 
 
 class TrackingEnvironment:
-    def __init__(self, motions, num_envs, max_episode_steps=500, source_counts=None):
+    def __init__(self, motions, num_envs, max_episode_steps=500, source_counts=None, reset_strata=None, reset_on_init=True):
         self.motions = motions
         self.sim = G1Simulator(num_envs)
         self.fk = ForwardKinematics(self.sim.host_model).float().to(motions.device)
-        self.sampler = ReturnSampler(motions, num_envs, max_episode_steps, source_counts=source_counts)
+        self.sampler = ReturnSampler(motions, num_envs, max_episode_steps, source_counts=source_counts, reset_strata=reset_strata)
         self.max_episode_steps = max_episode_steps
         self.device = motions.device
         self.num_envs = num_envs
@@ -103,7 +112,8 @@ class TrackingEnvironment:
         self.previous_action = torch.zeros((num_envs, 29), device=self.device)
         self.history = torch.zeros((num_envs, 10, 93), device=self.device)
         self.noise_scale = torch.tensor([0.01] * 29 + [0.5] * 29 + [0.2] * 3 + [0.05] * 3 + [0.] * 29, device=self.device)
-        self.reset(torch.arange(num_envs, device=self.device))
+        if reset_on_init:
+            self.reset(torch.arange(num_envs, device=self.device))
 
     def state(self):
         return torch.cat((self.sim.qpos, self.sim.qvel, self.previous_action), -1)

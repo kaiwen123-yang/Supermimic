@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "format": "CSV with one header per 1000-row part; empty cell is null; booleans True/False",
+  "types": {
+    "source": "string", "source_clip_id": "int", "motion": "string", "category": "string",
+    "failed": "bool", "reason": "string", "executed_steps": "int", "full_reference_steps": "int",
+    "upright_steps": "int", "parent_complete": "bool", "current_complete": "bool"
+  },
+  "unlisted_column_type": "float",
+  "reward_sum_columns": ["relative_body_position", "body_orientation", "body_linear_velocity", "body_angular_velocity", "global_root_position", "global_root_orientation", "action_difference_penalty", "soft_joint_limit_penalty"],
+  "reward_sum_prefix": "reward_sum_",
+  "normalization": "Each clip: summed reward/(0.1*(reference_frames-1)); failed suffix contributes zero; all clips equally weighted",
+  "error_means": "Within each clip, measured over actual executed transitions; units are in column names",
+  "source_clip_id": "Original accepted P9 BONES manifest index; output sorted by this index",
+  "success": "No physical termination before natural full-reference end; original height/tilt criteria unchanged",
+  "identity_parts": "Only changed success identities; complete per-clip scores preserve all unchanged identities"
+}

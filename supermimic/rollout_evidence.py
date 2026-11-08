@@ -8,7 +8,7 @@ import torch
 def save_selected_rollouts(directory, block, iteration, motions, clip, frame, context,
                            states, terminal_state, references, rewards, deaths, values,
                            targets, reward_sum, bootstrap, critic_mse,
-                           pre_survivals, natural_ends, geometric_probabilities, window=None):
+                           pre_survivals, natural_ends, geometric_probabilities, window=None, update_metrics=None):
     horizon, batch = len(rewards), len(clip)
     target = targets.reshape(horizon, batch)
     old = torch.stack(values)
@@ -35,12 +35,21 @@ def save_selected_rollouts(directory, block, iteration, motions, clip, frame, co
         "discounted_survival_reward_sum":reward_sum[ids], "discounted_terminal_bootstrap":bootstrap[ids],
         "objective":reward_sum[ids]+bootstrap[ids],
         "yaw_condition_D":(2*(w*z+x*y)).square()+(1-2*(y*y+z*z)).square()}
+    if hasattr(motions, "hard_mask"):
+        arrays["hard_member"] = motions.hard_mask[clip[ids]]
     directory.mkdir(exist_ok=True)
     path = directory / f"interval_{block:07d}.npz"
     np.savez_compressed(path, **{k:v.cpu().numpy() for k,v in arrays.items()},
         iteration=iteration, motion=np.array([motions.names[i] for i in clip[ids].tolist()]))
     path.with_suffix(".json").write_text(json.dumps({"iteration":iteration,"block_end":block,
         "critic_mse":critic_mse,"rollout_count":len(ids),"arrays":str(path),
+        "actual_update": {key: update_metrics[key] for key in (
+            "critic_optimization_objective", "raw_critic_mse", "survival_weighted_critic_mse", "survival_mean",
+            "zero_survival_suffix_squared_error_sum", "all_squared_error_sum")} if update_metrics else None,
+        "actual_update_parameter_phase": "Mean over the actual 5x4 evolving Critic optimizer minibatches; stored oldV/targets precede fitting.",
+        "selected_motions": [{"motion": motions.names[c], "source": motions.source_names[int(motions.source_ids[c])],
+            "hard_member": bool(motions.hard_mask[c]) if hasattr(motions, "hard_mask") else None,
+            "start_frame": int(frame[i])} for i,c in zip(ids.tolist(), clip[ids].tolist())],
         "selection":"Highest normal-update critic_mse in block; top max_t abs(lambda_target-old_V).",
         "parameter_phase":"WM after normal fit; Actor before policy step; stored Critic before fitting.",
         "source_names":motions.source_names,

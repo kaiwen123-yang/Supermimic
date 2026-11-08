@@ -44,9 +44,16 @@ class SuperMimic:
         if self.record_sampling:
             self.source_names = env.motions.source_names
             self.sampling_counts = torch.zeros((3, len(self.source_names), 5), dtype=torch.long, device=env.device)
-            self.count_samples(0, env.clip, env.frame)
+            if not cfg.get("reset_after_resume", False):
+                self.count_samples(0, env.clip, env.frame)
+        self.hard_exposure = None
+        if cfg.get("hard_manifest"):
+            from .hard_exposure import HardExposure
+            self.hard_exposure = HardExposure(env)
 
     def count_samples(self, phase, clip, frame):
+        if getattr(self, "hard_exposure", None) is not None:
+            self.hard_exposure.count(phase, clip, frame)
         if self.record_sampling:
             remaining = self.env.motions.lengths[clip] - 1 - frame
             bins = torch.bucketize(remaining, remaining.new_tensor([16, 32, 50, 250]), right=False)
@@ -62,6 +69,8 @@ class SuperMimic:
                 zip(("real_reset", "wm_valid_window_start", "actor_start"), counts)}}
         (directory / f"sampling_{iteration:07d}.json").write_text(json.dumps(result, indent=2)+"\n")
         self.sampling_counts.zero_()
+        if self.hard_exposure is not None:
+            self.hard_exposure.save(directory, iteration)
 
     @torch.no_grad()
     def collect(self, steps):
@@ -82,6 +91,8 @@ class SuperMimic:
             executed = action + 0.1 * torch.randn_like(action)
             transition = self.env.step(executed, reference=window.get(1) if window else None)
             self.replay.add(transition)
+            if self.hard_exposure is not None:
+                self.hard_exposure.count(3, transition["clip"], transition["frame"])
             rewards.append(transition["reward"].mean())
             failures.append(transition["terminated"].float().mean())
             family = self.clip_family[transition["clip"]]
@@ -122,7 +133,10 @@ class SuperMimic:
                     reference_qpos = (reference_window[:, j] if reference_window is not None else
                         self.env.motions.get(sample["clip"][:, j], sample["frame"][:, j] + 1)["qpos"])
                     logits = self.world.termination_logits(state, reference_qpos)
-                    term_loss = term_loss + F.binary_cross_entropy_with_logits(logits, sample["terminated"][:, j].float())
+                    bce = F.binary_cross_entropy_with_logits(logits, sample["terminated"][:, j].float(), reduction="none")
+                    term_loss = term_loss + bce.mean()
+                if self.hard_exposure is not None:
+                    self.hard_exposure.world_error(sample["clip"][:, j], squared, bce)
             loss = (state_loss + term_loss) / cfg["world_window"]
             norms.append(optimize(loss, self.world_opt, self.world.parameters()))
             state_losses.append(float(state_loss.detach()) / cfg["world_window"])
@@ -258,7 +272,7 @@ class SuperMimic:
                     save_selected_rollouts(evidence_directory, block, iteration, env.motions,
                         clip, frame, context, states, terminal_state, critic_references,
                         rewards, deaths, values, targets, reward_sum, bootstrap, metrics["critic_mse"],
-                        pre_survivals, natural_ends, geometric_probabilities, window)
+                        pre_survivals, natural_ends, geometric_probabilities, window, metrics)
         return metrics
 
     def set_schedule(self, iteration):
@@ -273,7 +287,9 @@ class SuperMimic:
         return {"actor": self.actor.state_dict(), "critic": self.critic.state_dict(), "world_model": self.world.state_dict(),
                 "actor_optimizer": self.actor_opt.state_dict(), "critic_optimizer": self.critic_opt.state_dict(),
                 "world_optimizer": self.world_opt.state_dict(), "collected_steps": self.collected_steps,
-                "replay_saved": False, "resume_requires_fresh_replay_warmup": True}
+                "replay_saved": False, "resume_requires_fresh_replay_warmup": True,
+                **({"hard_exposure": self.hard_exposure.state_dict(), "sampling_counts": self.sampling_counts}
+                    if self.hard_exposure is not None else {})}
 
 
 class PPOSim:

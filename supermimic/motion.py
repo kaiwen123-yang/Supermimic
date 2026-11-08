@@ -37,6 +37,7 @@ class MotionLibrary:
         manifest = json.loads(self.manifest_path.read_text())
         self.data_definition = data_definition(manifest)
         self.names = [c["name"] for c in manifest["clips"]]
+        self.original_names = [c.get("original_name", c["name"]) for c in manifest["clips"]]
         self.source_names = list(manifest.get("sources", {"lafan": {}}))
         self.source_ids = torch.tensor([self.source_names.index(c.get("source", "lafan")) for c in manifest["clips"]], device=device)
         self.families = [c["category"] if "category" in c else re.match(r"[A-Za-z]+", c["name"])[0] for c in manifest["clips"]]
@@ -60,6 +61,18 @@ class MotionLibrary:
         self.offsets = torch.tensor(offsets, device=device)
         self.lengths = torch.tensor(lengths, device=device)
         self.device = torch.device(device)
+
+    def configure_hard_set(self, hard_manifest, bones_directory):
+        frozen = json.loads(Path(hard_manifest).read_text())
+        bones = json.loads((Path(bones_directory) / "manifest.json").read_text())["clips"]
+        # Resolve frozen original BONES ids through source metadata, never an offset.
+        source_ids = {c["name"]: i for i, c in enumerate(bones)}
+        hard_ids = {row["source_clip_id"] for row in frozen["members"]}
+        sources = self.source_ids.cpu().tolist()
+        self.original_source_clip_ids = [source_ids[name] if sources[i] == self.source_names.index("bones") else None
+            for i, name in enumerate(self.original_names)]
+        self.hard_mask = torch.tensor([i in hard_ids if i is not None else False
+            for i in self.original_source_clip_ids], device=self.device)
 
     def get(self, clip, frame, keys=None):
         frame = torch.minimum(torch.maximum(frame, torch.zeros_like(frame)), self.lengths[clip] - 1)

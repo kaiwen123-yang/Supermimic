@@ -30,9 +30,10 @@ def save(learner, cfg, directory, iteration, elapsed, dataset_definition, actor_
                            cfg.get("retain_every_iterations", 1000))
 
 
-def request_publication(directory, iteration, cfg):
+def request_publication(directory, iteration, cfg, final=False):
     every = cfg.get("publish_every_iterations", 0)
-    if every <= 0 or iteration % every or (iteration == 0 and cfg.get("initialization") != "weights_transfer"):
+    offset = iteration - cfg.get("publication_origin_iteration", 0)
+    if every <= 0 or (not final and (offset % every or (offset == 0 and cfg.get("initialization") != "weights_transfer"))):
         return
     session = f"sm-pub-{directory.name}-{iteration:07d}"
     if subprocess.run(["tmux", "has-session", "-t", session], capture_output=True).returncode == 0:
@@ -40,7 +41,9 @@ def request_publication(directory, iteration, cfg):
     publisher = "publish_p8_d57.sh" if cfg.get("campaign") == "20261106-p8-stability-scale-s0" else "publish_checkpoint_d57.sh"
     if cfg.get("campaign") == "20261107-p9-critic-full-scale-s0":
         publisher = "publish_p9_d57.sh"
-    command = shlex.join([str(ROOT / "scripts" / publisher), directory.name, str(iteration)])
+    if cfg.get("campaign") == "20261108-p10-8k-hard-practice-s0":
+        publisher = "publish_p10_d57.sh"
+    command = shlex.join([str(ROOT / "scripts" / publisher), directory.name, str(iteration)] + (["--final"] if final else []))
     subprocess.run(["tmux", "new-session", "-d", "-s", session, "bash " + command], check=True)
     subprocess.run(["tmux", "set-option", "-t", session, "remain-on-exit", "on"], check=True)
     print("PUBLICATION_QUEUED", iteration, session, flush=True)
@@ -104,7 +107,10 @@ def main():
     elapsed = lambda: elapsed_offset + time.monotonic() - started
     try:
         motions = MotionLibrary(ROOT / cfg.get("data_directory", "data/processed/lafan1_g1_50hz"), "cuda:0", cfg.get("reference_storage", "device"))
-        env = TrackingEnvironment(motions, cfg["num_envs"], cfg["max_episode_steps"], cfg.get("environment_source_counts"))
+        if cfg.get("hard_manifest"):
+            motions.configure_hard_set(ROOT / cfg["hard_manifest"], ROOT / cfg["evaluation_sources"]["bones"])
+        env = TrackingEnvironment(motions, cfg["num_envs"], cfg["max_episode_steps"], cfg.get("environment_source_counts"),
+            cfg.get("reset_stratum_environment_counts"), reset_on_init=not cfg.get("reset_after_resume", False))
         if cfg["compile_fk"]:
             env.fk.forward = torch.compile(env.fk.forward, dynamic=True)
         # The two methods start from matching network initialization even though
@@ -161,6 +167,12 @@ def main():
             previous_stage_seconds = previous.get("stage_elapsed_seconds", 0.0)
             torch.set_rng_state(previous["torch_rng"].cpu())
             torch.cuda.set_rng_state_all([value.cpu() for value in previous["cuda_rng"]])
+            if args.resume_in_place and cfg.get("hard_manifest"):
+                learner.hard_exposure.load_state_dict(previous["hard_exposure"])
+                learner.sampling_counts.copy_(previous["sampling_counts"])
+            if cfg.get("reset_after_resume", False):
+                env.reset(torch.arange(env.num_envs, device=env.device))
+                learner.count_samples(0, env.clip, env.frame)
             if args.resume_in_place and (directory / "metrics.jsonl").exists():
                 old_lines = (directory / "metrics.jsonl").read_text().splitlines(keepends=True)
                 keep, superseded = [], []
@@ -180,6 +192,12 @@ def main():
                             parent_world_termination_loss=previous["config"].get("world_termination_loss", "aux_bce"),
                             world_termination_loss=cfg["world_termination_loss"],
                             rng_restored="parent torch CPU and all CUDA states; NumPy initialized with unchanged seed")
+            if cfg.get("reset_after_resume", False):
+                metadata.update(initial_reset="After restored sampler and saved RNG; one fresh physical scene per process",
+                    restored_actor_updates=actor_updates, replay_initial_fill_steps=cfg["replay_warmup_steps"],
+                    restored_learning_rates={name: getattr(learner, name+"_opt").param_groups[0]["lr"] for name in ("actor", "world", "critic")},
+                    source_groups=len(env.sampler.group_bins), reset_strata=cfg["reset_stratum_environment_counts"],
+                    hard_clips=int(motions.hard_mask.sum()), reference_store="Shared original P9 CPU read-only mmap")
             (directory / "runtime.json").write_text(json.dumps(metadata, indent=2) + "\n")
             del previous
         stage_started = time.monotonic()
@@ -209,6 +227,8 @@ def main():
             print("REPLAY_WARMUP", cfg["replay_warmup_steps"], flush=True)
             warmup = learner.collect(cfg["replay_warmup_steps"])
             (directory / "warmup.json").write_text(json.dumps(warmup, indent=2) + "\n")
+            if learner.hard_exposure is not None:
+                learner.hard_exposure.save(directory / "training_evidence", iteration)
         print("LEARNING_STARTED", args.method, cfg["num_envs"], flush=True)
         with (directory / "metrics.jsonl").open("a", buffering=1) as log:
             for iteration in range(first_iteration + 1, cfg["max_iterations"] + 1):
@@ -251,11 +271,17 @@ def main():
                                learning_rate=learner.actor_opt.param_groups[0]["lr"] if args.method=="supermimic" else learner.optimizer.param_groups[0]["lr"],
                                collected_sim_transitions=learner.collected_steps,
                                torch_peak_allocated_mib=torch.cuda.max_memory_allocated()/1024**2)
+                if cfg.get("hard_manifest"):
+                    metrics.update(torch_allocated_mib=torch.cuda.memory_allocated()/1024**2,
+                        torch_reserved_mib=torch.cuda.memory_reserved()/1024**2)
                 log.write(json.dumps(metrics, allow_nan=False) + "\n")
                 (directory / "budget.json").write_text(json.dumps({"stage_elapsed_seconds": stage_elapsed(), "iteration": iteration})+"\n")
                 if cfg.get("record_source_remaining_statistics") and iteration % 1000 == 0:
                     learner.save_sampling_counts(directory / "training_evidence", iteration)
-                request_publication(directory, iteration, cfg)
+                p10_final = bool(cfg.get("hard_manifest")) and (iteration == cfg["max_iterations"] or stage_elapsed() >= cfg["max_hours"]*3600)
+                request_publication(directory, iteration, cfg, final=p10_final)
+                if p10_final:
+                    break
                 if iteration % cfg["log_every_iterations"] == 0:
                     print(json.dumps(metrics, allow_nan=False), flush=True)
         if cfg.get("record_source_remaining_statistics") and iteration % 1000:
