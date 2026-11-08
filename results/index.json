@@ -18,7 +18,7 @@
             "ppo_mean_kl": 0.020334435810946162,
             "sim_step_reward": -0.07188412547111511,
             "sim_step_termination_fraction": 0.024322509765625,
-            "learning_rate": 1e-05,
+            "learning_rate": 0.00001,
             "collection_seconds": 0.7751656696200371,
             "policy_critic_seconds": 0.5655711982399225,
             "iteration": 8,
@@ -152,7 +152,7 @@
             "ppo_mean_kl": 0.01182870459742844,
             "sim_step_reward": 0.03070715442299843,
             "sim_step_termination_fraction": 0.0008951823110692203,
-            "learning_rate": 3.375000000000001e-05,
+            "learning_rate": 0.00003375000000000001,
             "collection_seconds": 1.0218255054205656,
             "policy_critic_seconds": 0.6692749932408333,
             "checkpoint_write_seconds": 0.23910709097981453,
@@ -897,12 +897,12 @@
               },
               "action_difference_penalty": {
                 "normalized_contribution": -0.012369125928042372,
-                "executed_available_maximum": 0.0,
+                "executed_available_maximum": 0,
                 "executed_quality_gap": 0.012369125928042372
               },
               "soft_joint_limit_penalty": {
                 "normalized_contribution": -0.0016259588119112922,
-                "executed_available_maximum": 0.0,
+                "executed_available_maximum": 0,
                 "executed_quality_gap": 0.0016259588119112922
               }
             }
@@ -975,7 +975,7 @@
             "score_and_video_share_trajectory": true,
             "protocol": {
               "start_frame": 0,
-              "friction": 1.0,
+              "friction": 1,
               "observation_noise": false,
               "domain_randomization": false,
               "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
@@ -1063,7 +1063,7 @@
           "observed_training_iteration": 61,
           "observed_new_actor_updates": 56,
           "observed_new_wm_only_updates": 5,
-          "previous_elapsed_seconds": 0.0,
+          "previous_elapsed_seconds": 0,
           "evaluation_iterations": [
             1000,
             2000,
@@ -1149,12 +1149,12 @@
               },
               "action_difference_penalty": {
                 "normalized_contribution": -0.009700941746934045,
-                "executed_available_maximum": 0.0,
+                "executed_available_maximum": 0,
                 "executed_quality_gap": 0.009700941746934045
               },
               "soft_joint_limit_penalty": {
                 "normalized_contribution": -0.001283422787068388,
-                "executed_available_maximum": 0.0,
+                "executed_available_maximum": 0,
                 "executed_quality_gap": 0.001283422787068388
               }
             }
@@ -1205,7 +1205,7 @@
             "cumulative_sim_transitions": 92422144,
             "stage_wall_seconds": 35966.43220591545,
             "cumulative_wall_seconds": 35972.21255154535,
-            "previous_elapsed_seconds": 0.0,
+            "previous_elapsed_seconds": 0,
             "runtime": "/root/autodl-tmp/robot-repro/supermimic-p7-reproduction/outputs/runs/20261105-p7-feedback-reproduction-s0-from_scratch/runtime.json",
             "shared_gpu": true
           },
@@ -1227,7 +1227,7 @@
             "score_and_video_share_trajectory": true,
             "protocol": {
               "start_frame": 0,
-              "friction": 1.0,
+              "friction": 1,
               "observation_noise": false,
               "domain_randomization": false,
               "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
@@ -2376,7 +2376,9 @@
         }
       },
       "automatic_stage_cleanup": false,
-      "backup_status": "awaiting_user_export_not_confirmed"
+      "backup_status": "awaiting_user_export_not_confirmed",
+      "review": "docs/P9_REVIEW_20261108.md",
+      "review_data": "results/20261107-p9-critic-full-scale-s0/review_20261108.json"
     }
   },
   "publications": {
@@ -3255,665 +3257,59 @@
   },
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
-    "protocol_id": "p7-established-feedback-reproduction-v1",
-    "status": "completed",
+    "protocol_id": "p10-8k-hard-practice-v1",
+    "status": "planned_not_launched",
     "implementation_status": "not_started",
-    "document": "docs/P7_CONTINUATION_AND_FRESH_PLAN.md",
-    "protocol": "configs/next_stage_reproduction_protocol.json",
-    "start_prompt": "docs/NEXT_STAGE_START_PROMPT.md",
-    "planned_date_beijing": "2026-11-05",
-    "review_commit": "bccd4c8a4cc9249f5738d84799db7da954e68922",
-    "review": "results/20261105-p6-position-feedback-s0/review_20261105.json",
+    "document": "docs/P10_8K_HARD_PRACTICE_PLAN.md",
+    "protocol": "configs/next_stage_8k_hard_practice_protocol.json",
+    "start_prompt": "docs/P10_CODEX_START_PROMPT.md",
+    "planned_date_beijing": "2026-11-08",
+    "review_commit": "41d26ea07851eb5016fd256a4001aa46bf6711c4",
+    "review": "docs/P9_REVIEW_20261108.md",
+    "review_data": "results/20261107-p9-critic-full-scale-s0/review_20261108.json",
     "plan_and_review_published": true,
-    "training_started": true,
-    "training_done": true,
+    "training_started": false,
+    "training_done": false,
     "formal_evaluation_done": false,
-    "key_results_published": false,
-    "evidence_backfill_done": false,
-    "completed_parent_campaign": "20261105-p6-position-feedback-s0",
-    "proposed_campaign": "20261105-p7-feedback-reproduction-s0",
-    "study_design": "Two parallel research jobs with different initialization histories, not matched-initialization A/B and no cross-job winner.",
+    "lightweight_results_published": false,
+    "completed_parent_campaign": "20261107-p9-critic-full-scale-s0",
+    "proposed_campaign": "20261108-p10-8k-hard-practice-s0",
+    "study_design": "Two concurrent full9000 complete resumes; both8192 real/8192 imagined/WM10x4096; only between-job variable is fixed hard reset quota.",
     "jobs": {
-      "lafan_h32_control": {
-        "job": "lafan_h32_control",
-        "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-        "tmux": "sm-p9-lafan-control",
-        "status": "completed",
-        "training_started": true,
-        "training_done": true,
-        "full_clip_evaluation_done": true,
-        "lightweight_results_published": true,
-        "initialization": "resume",
-        "start_iteration": 51000,
-        "target_iteration": 60000,
-        "max_accumulated_stage_hours": 16,
-        "started_beijing": "2026-11-07T10:41:07.266034+08:00",
-        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
-        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_control",
-        "backup_status": "awaiting_user_export_not_confirmed",
-        "pid": 466186,
-        "observed_beijing": "2026-11-07T10:53:58.121537+08:00",
-        "observed_training_iteration": 51179,
-        "latest_evaluated_iteration": 60000,
-        "latest_evaluation": {
-          "motions": 40,
-          "completed_motions": 38,
-          "mean_normalized_return": 0.8904386964963542,
-          "mean_completion_fraction": 0.9823369690766446
-        },
-        "latest_parent_successes_retained": 36,
-        "server_artifacts": {
-          "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_control",
-          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_control/checkpoint_0060000.pt",
-          "evaluation": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_control/evaluation_0060000",
-          "data_directory": "data/processed/lafan1_g1_50hz",
-          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
-          "backup_status": "awaiting_user_export_not_confirmed"
-        },
-        "final_iteration": 60000,
-        "training_snapshot": {
-          "status": "budget_completed",
-          "method": "supermimic",
-          "iteration": 60000,
-          "actor_updates": 59995,
-          "sim_transitions": 616497152,
-          "wall_seconds": 253475.35724345036,
-          "stage_wall_seconds": 45142.61585474759,
-          "new_training_iterations": 9000,
-          "new_joint_updates": 9000,
-          "new_wm_only_updates": 0,
-          "new_actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "start_iteration": 51000,
-          "target_iteration": 60000,
-          "world_termination_loss": "aux_bce",
-          "full_clip_evaluation_done": false,
-          "qualification_pass": false
-        },
-        "cost": {
-          "stage_wall_seconds": 45142.61585474759,
-          "cumulative_wall_seconds": 253475.35724345036,
-          "inherited_training_seconds": 208333.7795431018,
-          "total_known_training_seconds": 253476.39539784938,
-          "new_training_iterations": 9000,
-          "new_actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "imagination_steps": 1179648000,
-          "shared_gpu": true
-        },
-        "evaluated_iterations": [
-          52000,
-          53000,
-          54000,
-          55000,
-          56000,
-          57000,
-          58000,
-          59000,
-          60000
-        ],
-        "publications": [
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 52000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0052000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "3181d55e9f02feef0d31b96e039fc989f2adbaa7",
-            "completed_unix": 1794040658.422925
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 53000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0053000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "e63f96aa383ab89c7de43872a92b68364887a145",
-            "completed_unix": 1794042545.9428093
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 54000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0054000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "7bdf5eb68ce3af1504b58828bf223a053eeaff8b",
-            "completed_unix": 1794044367.5864756
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 55000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0055000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "ba2a9ae13171d1855f9f57f46f0f89599c7b3314",
-            "completed_unix": 1794070759.0410557
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 56000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0056000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "055579ee1f3e4cf22095dff184b33378a09b36ac",
-            "completed_unix": 1794071398.791358
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 57000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0057000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "50f169d613f25f7528b86a4fe792decf4f46a072",
-            "completed_unix": 1794072031.0369182
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 58000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0058000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "9776b8200b829a90cd5c88c9aba1b187d09b7f03",
-            "completed_unix": 1794085364.0205927
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 59000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0059000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "f47cda79899f784d3271e418780a471f17a01cb9",
-            "completed_unix": 1794086000.2860048
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_control",
-            "iteration": 60000,
-            "final": true,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0060000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "474010bde2360c156aae7ec53b6510e5def9a996",
-            "completed_unix": 1794086645.545385
-          }
-        ],
-        "evaluation_wall_seconds": 4093.770598517731,
-        "results_commit": "5289dd5318350d9f9c4d513e08044a52cfca75ad",
-        "completed_unix": 1794100301.7589564
+      "full8k_control": {
+        "status": "planned_not_launched",
+        "start_iteration": 9000,
+        "target_iteration": 27000,
+        "new_joint_updates": 18000,
+        "max_accumulated_new_stage_hours": 40,
+        "reset_environments": {
+          "lafan": 2048,
+          "bones_all": 6144,
+          "bones_hard": 0
+        }
       },
-      "lafan_h32_survival_critic": {
-        "job": "lafan_h32_survival_critic",
-        "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-        "tmux": "sm-p9-lafan-survival",
-        "status": "completed",
-        "training_started": true,
-        "training_done": true,
-        "full_clip_evaluation_done": true,
-        "lightweight_results_published": true,
-        "initialization": "resume",
-        "start_iteration": 51000,
-        "target_iteration": 60000,
-        "max_accumulated_stage_hours": 16,
-        "started_beijing": "2026-11-07T10:41:07.266034+08:00",
-        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
-        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-        "backup_status": "awaiting_user_export_not_confirmed",
-        "pid": 466184,
-        "observed_beijing": "2026-11-07T10:53:58.121537+08:00",
-        "observed_training_iteration": 51180,
-        "latest_evaluated_iteration": 60000,
-        "latest_evaluation": {
-          "motions": 40,
-          "completed_motions": 36,
-          "mean_normalized_return": 0.8431245765954307,
-          "mean_completion_fraction": 0.9278589153023461
-        },
-        "latest_parent_successes_retained": 35,
-        "server_artifacts": {
-          "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/checkpoint_0060000.pt",
-          "evaluation": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/evaluation_0060000",
-          "data_directory": "data/processed/lafan1_g1_50hz",
-          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
-          "backup_status": "awaiting_user_export_not_confirmed"
-        },
-        "final_iteration": 60000,
-        "training_snapshot": {
-          "status": "budget_completed",
-          "method": "supermimic",
-          "iteration": 60000,
-          "actor_updates": 59995,
-          "sim_transitions": 616497152,
-          "wall_seconds": 252867.44686805457,
-          "stage_wall_seconds": 44534.705479647964,
-          "new_training_iterations": 9000,
-          "new_joint_updates": 9000,
-          "new_wm_only_updates": 0,
-          "new_actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "start_iteration": 51000,
-          "target_iteration": 60000,
-          "world_termination_loss": "aux_bce",
-          "full_clip_evaluation_done": false,
-          "qualification_pass": false
-        },
-        "cost": {
-          "stage_wall_seconds": 44534.705479647964,
-          "cumulative_wall_seconds": 252867.44686805457,
-          "inherited_training_seconds": 208333.7795431018,
-          "total_known_training_seconds": 252868.48502274975,
-          "new_training_iterations": 9000,
-          "new_actor_updates": 9000,
-          "new_sim_transitions": 92422144,
-          "imagination_steps": 1179648000,
-          "shared_gpu": true
-        },
-        "evaluated_iterations": [
-          52000,
-          53000,
-          54000,
-          55000,
-          56000,
-          57000,
-          58000,
-          59000,
-          60000
-        ],
-        "publications": [
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 52000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0052000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "58a1198d1830d6728280cf6a1487dca20cc74c6c",
-            "completed_unix": 1794040255.3175597
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 53000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0053000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "2e830de8ffbb0213c4ab2f706fa72f1799dd0039",
-            "completed_unix": 1794041553.1614573
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 54000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0054000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "4bf1607ffe886de9dc6b8bce64732422ad60b05a",
-            "completed_unix": 1794043451.0914202
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 55000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0055000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "aaf9e8ab2ff209578e475ff54dbfb5b51499cd3a",
-            "completed_unix": 1794070418.1914678
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 56000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0056000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "77de9b59f59fb2fd7693865d03de9119dfedbbe6",
-            "completed_unix": 1794071082.7013707
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 57000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0057000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "752b45338e5a43fbc5bbd1acc620a768a7c81e4d",
-            "completed_unix": 1794071721.9538178
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 58000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0058000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "b6b5ea4dbfef794b385fdec40a5ca7cc5416e5f1",
-            "completed_unix": 1794085045.0125105
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 59000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0059000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "b88e34ccf37bdffff8bd1cceb1b7a516ff2771e6",
-            "completed_unix": 1794085682.5988266
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic",
-            "iteration": 60000,
-            "final": true,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0060000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "2737aa1c30cfde5cf454cba8d7c3edc04cd387e6",
-            "completed_unix": 1794086319.230449
-          }
-        ],
-        "evaluation_wall_seconds": 4011.229459265247,
-        "results_commit": "e970ce3262eaade767e5a4dd22739fcba416143c",
-        "completed_unix": 1794100320.1908603
-      },
-      "bones_full_lafan_survival": {
-        "job": "bones_full_lafan_survival",
-        "run": "20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-        "tmux": "sm-p9-bones-full-lafan",
-        "status": "completed",
-        "training_started": true,
-        "training_done": true,
-        "full_clip_evaluation_done": true,
-        "lightweight_results_published": true,
-        "initialization": "weights_transfer",
-        "start_iteration": 0,
-        "target_iteration": 9000,
-        "max_accumulated_stage_hours": 16,
-        "started_beijing": null,
-        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
-        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-        "backup_status": "awaiting_user_export_not_confirmed",
-        "data_status": "completed",
-        "data_preparation": {
-          "status": "completed",
-          "candidate_clips": 142220,
-          "name_pass": 130655,
-          "physics_pass": 130394,
-          "accepted": 130394,
-          "excluded_unique": 11826,
-          "exclusion_reason_counts": {
-            "project_name_filter": 11565,
-            "elevated_support": 182,
-            "stationary_upright_floating_feet": 85,
-            "penetration_any": 36,
-            "penetration_fraction": 19
-          },
-          "reason_intersections": {
-            "accepted": 130394,
-            "project_name_filter": 11565,
-            "elevated_support+stationary_upright_floating_feet": 56,
-            "elevated_support+penetration_any": 1,
-            "elevated_support": 125,
-            "stationary_upright_floating_feet": 29,
-            "penetration_any": 31,
-            "penetration_fraction": 15,
-            "penetration_any+penetration_fraction": 4
-          },
-          "workers": 16,
-          "reused_existing_npz": 129328,
-          "necessary_conversions": 1327,
-          "full_hours": 264.4306333333385,
-          "frames_50hz": 47727908,
-          "monitor40_clips": 17606,
-          "monitor40_hours": 40.00190555555538,
-          "categories": {
-            "Advanced Locomotion": 5936,
-            "Baseline": 19726,
-            "Basic Locomotion Neutral": 28440,
-            "Basic Locomotion Styles": 10736,
-            "Communication": 3657,
-            "Complex Actions": 528,
-            "Dancing": 10886,
-            "Environments": 584,
-            "Gestures": 17294,
-            "Household": 1318,
-            "Looking and Pointing": 180,
-            "Magic": 152,
-            "Martial Arts": 20,
-            "Object Interaction": 9305,
-            "Object Manipulation": 11516,
-            "Other": 2081,
-            "Sports": 3855,
-            "Stunts": 359,
-            "Unusual Locomotion": 2697,
-            "Consuming": 1124
-          },
-          "name_skill_groups": {
-            "flip": 44,
-            "side_roll": 22,
-            "cartwheel": 120,
-            "handstand": 160
-          },
-          "filter_wall_seconds": 120.67159123718739,
-          "joint_clips": 130434,
-          "wall_seconds": 264.4678140729666,
-          "complete_reference_storage": "CPU read-only mmap; same files shared by training and evaluation",
-          "backup_status": "awaiting_user_export_not_confirmed"
-        },
-        "data_manifest": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_full_lafan_p9/manifest.json",
-        "pid": 469265,
-        "latest_evaluated_iteration": 9000,
-        "latest_evaluation": {
-          "motions": 130394,
-          "completed_motions": 129220,
-          "mean_normalized_return": 0.8437970964812387,
-          "mean_completion_fraction": 0.9944907718384227
-        },
-        "latest_parent_successes_retained": 127394,
-        "server_artifacts": {
-          "run_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/checkpoint_0009000.pt",
-          "evaluation": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/evaluation_0009000",
-          "data_directory": "data/processed/bones_full_lafan_p9",
-          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p8-stability-scale/outputs/runs/20261106-p8-stability-scale-s0-lafan_h32/checkpoint_0051000.pt",
-          "backup_status": "awaiting_user_export_not_confirmed"
-        },
-        "observed_beijing": "2026-11-07T10:53:58.121537+08:00",
-        "observed_training_iteration": 51,
-        "final_iteration": 9000,
-        "training_snapshot": {
-          "status": "budget_completed",
-          "method": "supermimic",
-          "iteration": 9000,
-          "actor_updates": 8995,
-          "sim_transitions": 92422144,
-          "wall_seconds": 48737.599157482386,
-          "stage_wall_seconds": 48718.270336933434,
-          "new_training_iterations": 9000,
-          "new_joint_updates": 8995,
-          "new_wm_only_updates": 5,
-          "new_actor_updates": 8995,
-          "new_sim_transitions": 92422144,
-          "start_iteration": 0,
-          "target_iteration": 9000,
-          "world_termination_loss": "aux_bce",
-          "full_clip_evaluation_done": false,
-          "qualification_pass": false
-        },
-        "cost": {
-          "stage_wall_seconds": 48718.270336933434,
-          "cumulative_wall_seconds": 48737.599157482386,
-          "inherited_training_seconds": 208333.7795431018,
-          "total_known_training_seconds": 257052.04988003522,
-          "new_training_iterations": 9000,
-          "new_actor_updates": 8995,
-          "new_sim_transitions": 92422144,
-          "imagination_steps": 1178992640,
-          "shared_gpu": true
-        },
-        "evaluated_iterations": [
-          0,
-          3000,
-          6000,
-          9000
-        ],
-        "publications": [
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-            "iteration": 0,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0000000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "5c776c34cb642063bdea2b6faea1e64a798cb875",
-            "completed_unix": 1794039810.166514
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-            "iteration": 3000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0003000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "639f057858655abac196d6e746d62ae5de0de99f",
-            "completed_unix": 1794070104.4630327
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-            "iteration": 6000,
-            "final": false,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0006000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "17bb3247721f0794a2d9d56ffbcdb255533372a1",
-            "completed_unix": 1794084722.5946074
-          },
-          {
-            "status": "published",
-            "run": "20261107-p9-critic-full-scale-s0-bones_full_lafan_survival",
-            "iteration": 9000,
-            "final": true,
-            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0009000",
-            "bulk_artifacts": "retained_on_server",
-            "github_release": false,
-            "results_commit": "60070326054c2971b4ad07170893d6198c4a4c33",
-            "completed_unix": 1794100253.7718856
-          }
-        ],
-        "evaluation_wall_seconds": 70966.24464545771,
-        "results_commit": "4ea15198b6ff1f889ed4881a641eabc09a244b10",
-        "completed_unix": 1794100281.3686452
+      "full8k_hard_practice": {
+        "status": "planned_not_launched",
+        "start_iteration": 9000,
+        "target_iteration": 27000,
+        "new_joint_updates": 18000,
+        "max_accumulated_new_stage_hours": 40,
+        "reset_environments": {
+          "lafan": 2048,
+          "bones_all": 5120,
+          "bones_hard": 1024
+        }
       }
     },
     "concurrency": {
-      "gpu_training_processes": 2,
-      "gpu_evaluation_or_selected_model_analysis_processes": 1,
-      "publication_lock": "work/p2-publication.lock",
-      "shared_by_both_jobs_and_model_evidence": true,
-      "cpu_existing_data_workers_max": 4,
-      "torch_threads_per_training_process": 2,
-      "torch_threads_per_evaluation_process": 2,
-      "gpu_capacity_gb": 96,
-      "cpu_cores": 25,
-      "p6_observed_training_hours": [
-        9.968,
-        10.087
-      ],
-      "estimated_training_wall_hours": [
-        10,
-        12
-      ],
-      "formal_evaluation_publication_additional": true,
-      "estimate_is_not_guarantee": true,
-      "synthetic_benchmark": false,
-      "stop_other_projects": false,
-      "resource_conflict": "Adjust only this project's concurrency or ordering based on actual conflict; do not change the algorithm."
+      "gpu_training": 2,
+      "evaluation_evidence_publication": 1,
+      "training_torch_threads_each": 2,
+      "max_cpu_aggregation_workers": 12
     },
-    "artifact_policy": {
-      "policy": "key_analysis_results_and_selected_short_evidence_to_git_bulk_local_user_managed",
-      "order": "Compute/formal evaluation -> push code/config/full40JSON/compact stats/selected evidence/conclusions -> continue agreed research.",
-      "per_node": [
-        "actual_configs_and_runtime",
-        "full40_evaluation_json",
-        "compact_training_block_statistics",
-        "reward_quality_means",
-        "all_actual_failure_summaries",
-        "per_job_progress_and_sources",
-        "continuation_selected_block_rollout_evidence_when_applicable"
-      ],
-      "permitted_small_evidence": [
-        "specified_physical_window_NPZ_and_JSON",
-        "six_same_action_WM_short_predictions",
-        "selected_local_training_log_rows",
-        "bounded_existing_imagined_rollout_samples"
-      ],
-      "no_repeated_full_metrics_jsonl": true,
-      "no_repeated_per_motion_reward_objects_in_summary": true,
-      "full_40_trajectory_arrays_uploaded": false,
-      "upload_bulk_to_release": false,
-      "bulk_background_queue": false,
-      "tar_archives": false,
-      "client_computer_archive": false,
-      "user_exports_and_deletes": true,
-      "automatic_stage_deletion": false,
-      "backup_status": "awaiting_user_export_not_confirmed",
-      "checkpoint_rolling_policy_unchanged": true,
-      "preserve_parent_milestone_and_final_checkpoints": true
-    },
-    "execution": {
-      "status": "not_started",
-      "actual_configs_created": false,
-      "training_started": false,
-      "training_done": false,
-      "formal_evaluation_done": false,
-      "key_results_published": false,
-      "evidence_backfill_done": false,
-      "plan_and_review_only": true,
-      "jobs": {
-        "continuation": "not_started",
-        "from_scratch": "not_started"
-      }
-    },
-    "backup_status": "awaiting_user_export_not_confirmed",
-    "automatic_stage_cleanup": false,
     "required_for_lafan1_reproduction_acceptance": false,
-    "research_purpose": "巩固已达标模型并研究固定配方从零学习；当前LAFAN1复现已成功。",
-    "full_clip_evaluation_done": true,
-    "lightweight_results_published": true,
-    "evidence_backfill": {
-      "status": "published",
-      "manifest": "results/20261105-p6-position-feedback-s0/followup_evidence/manifest.json"
-    },
-    "summary": "results/20261107-p9-critic-full-scale-s0/summary.json",
-    "campaign": "20261107-p9-critic-full-scale-s0",
-    "completed_beijing": "2026-11-07T06:47:42.709141+08:00"
+    "artifact_policy": "Publish necessary code/configs, all compact per-clip scalars and bounded specified evidence to GitHub. Large artifacts remain on training server. No local-computer archive after push, Release/tar or automatic stage cleanup.",
+    "automatic_stage_cleanup": false
   },
   "reproduction_acceptance": {
     "scope": "SuperMimic / G1 / LAFAN1 full40 evaluation",
@@ -3931,3 +3327,4 @@
     "scope_note": "40/40完整成功、从零重训、更多seed、H100同等耗时、BONES和实机不追加为当前LAFAN1效果验收的前置条件；它们分别属于后续改进或扩展研究。"
   }
 }
+

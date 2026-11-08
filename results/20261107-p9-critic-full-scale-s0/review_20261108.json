@@ -1,0 +1,1158 @@
+{
+ "schema_version": 1,
+ "review_date_beijing": "2026-11-08",
+ "evidence_commit": "41d26ea07851eb5016fd256a4001aa46bf6711c4",
+ "campaign": "20261107-p9-critic-full-scale-s0",
+ "method": "Read-only analysis of published formal evaluations, compact normal-training statistics, recorded sampling counts and saved short arrays. No new training, simulation, benchmark, tests or archive.",
+ "acceptance": {
+  "lafan1_full40_return_target": 0.82,
+  "user_confirmed_success_preserved": true,
+  "historical_accepted_result": {
+   "campaign": "20261105-p6-position-feedback-s0",
+   "checkpoint": "B33000",
+   "return": 0.86624655,
+   "source": "results/20261105-p6-position-feedback-s0/review_20261105.json"
+  },
+  "p9_control_endpoint_also_exceeds_target": true,
+  "no_new_acceptance_requirement": "Do not add40/40, extra seeds, cold start, BONES or hardware as prerequisites for the already accepted LAFAN return result. Whole-paper stability/scale/efficiency evidence is reported separately."
+ },
+ "completion": {
+  "status": "completed",
+  "training_done": true,
+  "formal_evaluation_done": true,
+  "jobs": {
+   "lafan_h32_control": {
+    "status": "completed",
+    "training_done": true,
+    "full_clip_evaluation_done": true,
+    "lightweight_results_published": true,
+    "final_iteration": 60000
+   },
+   "lafan_h32_survival_critic": {
+    "status": "completed",
+    "training_done": true,
+    "full_clip_evaluation_done": true,
+    "lightweight_results_published": true,
+    "final_iteration": 60000
+   },
+   "bones_full_lafan_survival": {
+    "status": "completed",
+    "training_done": true,
+    "full_clip_evaluation_done": true,
+    "lightweight_results_published": true,
+    "final_iteration": 9000
+   }
+  },
+  "interpretation": "Older observed_training_iteration, training-time snapshot flags and handoff text remain historical snapshots; completed job/evaluation/publication records establish actual completion."
+ },
+ "lafan": {
+  "parent": {
+   "iteration": 51000,
+   "completed": 37,
+   "return": 0.8698051556653722,
+   "completion_fraction": 0.9616473229727225,
+   "source": "results/20261106-p8-stability-scale-s0-lafan_h32/milestones/iteration_0051000/evaluation.json"
+  },
+  "same_parent_comparison": true,
+  "new_joint_updates_each": 9000,
+  "new_real_transitions_each": 92422144,
+  "imagined_steps_each": 1179648000,
+  "branches": {
+   "lafan_h32_control": {
+    "endpoint_iteration": 60000,
+    "return": 0.8904386964963542,
+    "completed": 38,
+    "completion_fraction": 0.9823369690766446,
+    "return_gap": {
+     "one_minus_C": 0.017663030923355416,
+     "C_minus_R": 0.09189827258029037,
+     "interpretation": "Algebraic full-reference gap decomposition; use common-success metrics for conditional quality comparisons."
+    },
+    "parent_successes_retained": 36,
+    "parent_successes_lost": [
+     "fallAndGetUp1_subject4"
+    ],
+    "newly_completed": [
+     "fallAndGetUp1_subject1",
+     "fallAndGetUp2_subject3"
+    ],
+    "getups": {
+     "total": 6,
+     "completed": 5
+    },
+    "run": {
+     "total": 4,
+     "completed": 4
+    },
+    "failed_motions": [
+     {
+      "motion": "dance1_subject1",
+      "reason": "root_height",
+      "execution_seconds": 107.14,
+      "completion_fraction": 0.8150007606876617,
+      "normalized_return": 0.7460304355980207
+     },
+     {
+      "motion": "fallAndGetUp1_subject4",
+      "reason": "root_tilt",
+      "execution_seconds": 80.48,
+      "completion_fraction": 0.47847800237812127,
+      "normalized_return": 0.356844387918198
+     }
+    ],
+    "tail_iterations": [
+     58000,
+     59000,
+     60000
+    ],
+    "tail_mean_return": 0.8860482007069362,
+    "tail_common_success": 35,
+    "all_nine_mean_return": 0.8744808725535924,
+    "all_nine_common_success": 27,
+    "all_nine_success_union": 39,
+    "stage_wall_seconds": 45142.61585474759,
+    "shared_gpu": true,
+    "per_clip_endpoint_return_change_vs_parent": {
+     "increased": 35,
+     "decreased": 5,
+     "mean_delta": 0.02063354083098239
+    }
+   },
+   "lafan_h32_survival_critic": {
+    "endpoint_iteration": 60000,
+    "return": 0.8431245765954307,
+    "completed": 36,
+    "completion_fraction": 0.9278589153023461,
+    "return_gap": {
+     "one_minus_C": 0.0721410846976539,
+     "C_minus_R": 0.08473433870691538,
+     "interpretation": "Algebraic full-reference gap decomposition; use common-success metrics for conditional quality comparisons."
+    },
+    "parent_successes_retained": 35,
+    "parent_successes_lost": [
+     "fallAndGetUp1_subject4",
+     "fallAndGetUp2_subject2"
+    ],
+    "newly_completed": [
+     "fallAndGetUp2_subject3"
+    ],
+    "getups": {
+     "total": 6,
+     "completed": 3
+    },
+    "run": {
+     "total": 4,
+     "completed": 4
+    },
+    "failed_motions": [
+     {
+      "motion": "dance1_subject1",
+      "reason": "root_height",
+      "execution_seconds": 107.16,
+      "completion_fraction": 0.8151528982199908,
+      "normalized_return": 0.7413999586019403
+     },
+     {
+      "motion": "fallAndGetUp1_subject1",
+      "reason": "root_tilt",
+      "execution_seconds": 8.34,
+      "completion_fraction": 0.04958382877526754,
+      "normalized_return": 0.03733911014536582
+     },
+     {
+      "motion": "fallAndGetUp1_subject4",
+      "reason": "root_tilt",
+      "execution_seconds": 25.32,
+      "completion_fraction": 0.15053507728894175,
+      "normalized_return": 0.10033424286984072
+     },
+     {
+      "motion": "fallAndGetUp2_subject2",
+      "reason": "root_height",
+      "execution_seconds": 16.240000000000002,
+      "completion_fraction": 0.09908480780964002,
+      "normalized_return": 0.07773306079175041
+     }
+    ],
+    "tail_iterations": [
+     58000,
+     59000,
+     60000
+    ],
+    "tail_mean_return": 0.8704911200372756,
+    "tail_common_success": 35,
+    "all_nine_mean_return": 0.8722544604202772,
+    "all_nine_common_success": 30,
+    "all_nine_success_union": 39,
+    "stage_wall_seconds": 44534.705479647964,
+    "shared_gpu": true,
+    "per_clip_endpoint_return_change_vs_parent": {
+     "increased": 16,
+     "decreased": 24,
+     "mean_delta": -0.02668057906994138
+    }
+   }
+  },
+  "common_complete_three_way": {
+   "count": 35,
+   "metrics": {
+    "parent_H32-51000": {
+     "normalized_return": 0.9144339651067621,
+     "mean_root_xy_error_m": 0.05178708050932203,
+     "mean_root_orientation_error_rad": 0.06193577913301332
+    },
+    "lafan_h32_control": {
+     "normalized_return": 0.9177200718800129,
+     "mean_root_xy_error_m": 0.05481641069054603,
+     "mean_root_orientation_error_rad": 0.056656001987201825
+    },
+    "lafan_h32_survival_critic": {
+     "normalized_return": 0.9142266719553266,
+     "mean_root_xy_error_m": 0.05237655799303736,
+     "mean_root_orientation_error_rad": 0.06186466280903135
+    }
+   },
+   "conditional_only": true
+  },
+  "candidate_judgment": {
+   "weighted_higher_return_nodes": 3,
+   "control_higher_return_nodes": 6,
+   "fixed_endpoint_and_tail_favor_control": true,
+   "weighted_control_gain_not_established": true,
+   "qualification": "The weighted branch has a larger all-nine success intersection; its nine-node mean is only0.00222641 below control. Do not describe it as uniformly inferior at every node."
+  },
+  "persistent_dance_failure": "Both branches fail dance1_subject1 around107.1s at every P9 milestone; both reach39/40 at some nodes, neither completes all40."
+ },
+ "critic": {
+  "normal_loss_definition": "P9 control optimizes raw unweighted MSE; weighted branch optimizes detached pre-transition cumulative-survival weighted MSE normalized by the global rollout mean survival. Raw diagnostic loss is not the weighted optimization objective.",
+  "anomalies": [
+   {
+    "job": "lafan_h32_control",
+    "iteration": 56358,
+    "actual_raw_critic_mse_mean_over20_fits": 2.7637190384957198e+20,
+    "stored_four_samples_oldV": {
+     "four_samples_raw_contribution": 2.7638732827369187e+20,
+     "zeroS_contribution": 2.7638732827369187e+20,
+     "survival_weighted_numerator_contribution": 0.001154147269815076
+    },
+    "largest_saved_sample": {
+     "motion": "dance1_subject1",
+     "frame": 5796,
+     "first_zero_reward_step": 7,
+     "first_natural_end_transition": null,
+     "max_abs_action": 62830640.0,
+     "max_abs_state": 1530666752.0,
+     "min_target": -5874360778752.0,
+     "last_reward": -5874360778752.0,
+     "min_old_v": -40995168.0,
+     "max_old_v": 5.243354320526123,
+     "objective": -0.4742605984210968,
+     "bootstrap": -0.0,
+     "survival0": 1.0,
+     "survival_end": 0.0
+    },
+    "source_metadata": "results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0057000/selected_rollouts.json",
+    "source_arrays": "results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0057000/selected_rollouts.npz"
+   },
+   {
+    "job": "bones_full_lafan_survival",
+    "iteration": 3916,
+    "actual_raw_critic_mse_mean_over20_fits": 933922449.5285324,
+    "stored_four_samples_oldV": {
+     "four_samples_raw_contribution": 932854338.3242227,
+     "zeroS_contribution": 932854338.2994623,
+     "survival_weighted_numerator_contribution": 0.024440636311531747
+    },
+    "largest_saved_sample": {
+     "motion": "lafan__fallAndGetUp2_subject2",
+     "frame": 1476,
+     "first_zero_reward_step": 15,
+     "first_natural_end_transition": null,
+     "max_abs_action": 66190.2109375,
+     "max_abs_state": 2616857.0,
+     "min_target": -10884446.0,
+     "last_reward": -10884446.0,
+     "min_old_v": -356331.40625,
+     "max_old_v": 1.8623957633972168,
+     "objective": -0.4261067807674408,
+     "bootstrap": -0.0,
+     "survival0": 1.0,
+     "survival_end": 0.0
+    },
+    "source_metadata": "results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0006000/selected_rollouts_0004000.json",
+    "source_arrays": "results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0006000/selected_rollouts_0004000.npz",
+    "actual_full_batch_weighted_objective_at_this_update": null,
+    "weighted_value_missing_in_published_selected_metadata": true,
+    "weighted_objective_mean_3001_4000": 0.44417304588258266
+   }
+  ],
+  "lafan_weighted_block_objective_mean_range": [
+   0.01039823957835324,
+   0.025399797876062807
+  ],
+  "full_nonzero_survival_conditional_mean_range": [
+   0.9989311103087108,
+   0.9993396698208595
+  ],
+  "causal_limits": [
+   "Post-termination imagined suffixes dominate the observed raw MSE spikes; this establishes the loss source, not the amount of downstream control damage.",
+   "Control already fell toR0.80458850 at56000; the spike occurred at56358;57000 recovered toR0.89557972. The spike does not explain all skill regressions.",
+   "P9 weighted Critic avoids optimizing the huge zero-survival errors but did not improve fixed-endpoint/tail LAFAN control.",
+   "Saved four-sample SSE uses the stored pre-fitting Critic, while reported actual raw MSE averages20 fitting minibatches; these are distinct measurements.",
+   "Weighted numerator contribution from four selected samples is not a reconstructed full-batch weighted optimization loss."
+  ],
+  "full_block_survival_mean_range": [
+   0.9492564120292664,
+   0.9561581303126848
+  ],
+  "full_block_exact_zero_survival_fraction_range": [
+   0.0429437838607098,
+   0.04972785186767578
+  ]
+ },
+ "bones": {
+  "data": {
+   "candidate_clips": 142220,
+   "name_pass": 130655,
+   "physics_pass": 130394,
+   "full_hours": 264.4306333333385,
+   "frames_50hz": 47727908,
+   "monitor40_clips": 17606,
+   "monitor40_hours": 40.00190555555538,
+   "reused_existing_npz": 129328,
+   "necessary_conversions": 1327
+  },
+  "nodes": [
+   {
+    "iteration": 0,
+    "return": 0.8593461488135157,
+    "completed": 127594,
+    "completion_fraction": 0.9876911534724478,
+    "missing_tail_gap_1_minus_C": 0.012308846527552153,
+    "executed_quality_gap_C_minus_R": 0.12834500465893217,
+    "body_orientation_reward": 0.14598355820464481
+   },
+   {
+    "iteration": 3000,
+    "return": 0.850016170264465,
+    "completed": 129101,
+    "completion_fraction": 0.9937877073295581,
+    "missing_tail_gap_1_minus_C": 0.006212292670441877,
+    "executed_quality_gap_C_minus_R": 0.14377153706509316,
+    "body_orientation_reward": 0.12588394059057373
+   },
+   {
+    "iteration": 6000,
+    "return": 0.8359407174278434,
+    "completed": 129200,
+    "completion_fraction": 0.9945072889367086,
+    "missing_tail_gap_1_minus_C": 0.005492711063291411,
+    "executed_quality_gap_C_minus_R": 0.15856657150886522,
+    "body_orientation_reward": 0.12097020636349343
+   },
+   {
+    "iteration": 9000,
+    "return": 0.8437970964812387,
+    "completed": 129220,
+    "completion_fraction": 0.9944907718384227,
+    "missing_tail_gap_1_minus_C": 0.005509228161577284,
+    "executed_quality_gap_C_minus_R": 0.15069367535718403,
+    "body_orientation_reward": 0.12154908628690002
+   }
+  ],
+  "endpoint_identity": {
+   "parent_success_denominator": 127594,
+   "parent_success_retained_count": 127394,
+   "lost_count": 200,
+   "newly_completed_count": 1826
+  },
+  "failure_reasons": {
+   "root_height": 1008,
+   "root_tilt": 166
+  },
+  "tail": {
+   "iterations": [
+    3000,
+    6000,
+    9000
+   ],
+   "mean_return": 0.843251328057849,
+   "common_success": 128558
+  },
+  "all_clip_quality": {
+   "initial": {
+    "motions": 130394,
+    "completed_motions": 127594,
+    "failed_motions": 2800,
+    "means": {
+     "normalized_return": 0.8593461488135157,
+     "completion_fraction": 0.9876911534724478,
+     "mean_root_xy_error_m": 0.0951534398647658,
+     "mean_root_orientation_error_rad": 0.07217217021813942,
+     "mean_relative_body_position_error_m": 0.05407996606876221,
+     "mean_joint_rmse_rad": 0.17428533879276414
+    },
+    "reward_components_normalized": {
+     "relative_body_position": 0.18921112703784626,
+     "body_orientation": 0.14598355820464481,
+     "body_linear_velocity": 0.1819669697085206,
+     "body_angular_velocity": 0.17327409667516708,
+     "global_root_position": 0.08872342584293763,
+     "global_root_orientation": 0.09436356791475846,
+     "action_difference_penalty": -0.01219517271707373,
+     "soft_joint_limit_penalty": -0.0019814241846174002
+    },
+    "missing_tail_gap": 0.012308846527552153,
+    "executed_quality_gap": 0.12834500465893217
+   },
+   "final": {
+    "motions": 130394,
+    "completed_motions": 129220,
+    "failed_motions": 1174,
+    "means": {
+     "normalized_return": 0.8437970964812387,
+     "completion_fraction": 0.9944907718384227,
+     "mean_root_xy_error_m": 0.07409792543519256,
+     "mean_root_orientation_error_rad": 0.08963848615315917,
+     "mean_relative_body_position_error_m": 0.06289641498397262,
+     "mean_joint_rmse_rad": 0.2303688631707821
+    },
+    "reward_components_normalized": {
+     "relative_body_position": 0.18879652762915297,
+     "body_orientation": 0.12154908628690002,
+     "body_linear_velocity": 0.1845036924591496,
+     "body_angular_velocity": 0.17466411532962403,
+     "global_root_position": 0.09210222359777186,
+     "global_root_orientation": 0.09329532684560816,
+     "action_difference_penalty": -0.009308997113636875,
+     "soft_joint_limit_penalty": -0.0018048787804992113
+    },
+    "missing_tail_gap": 0.005509228161577284,
+    "executed_quality_gap": 0.15069367535718403
+   },
+   "reward_component_delta": {
+    "relative_body_position": -0.00041459940869328915,
+    "body_orientation": -0.024434471917744796,
+    "body_linear_velocity": 0.0025367227506289947,
+    "body_angular_velocity": 0.0013900186544569537,
+    "global_root_position": 0.0033787977548342257,
+    "global_root_orientation": -0.0010682410691502942,
+    "action_difference_penalty": 0.002886175603436854,
+    "soft_joint_limit_penalty": 0.00017654540411818896
+   }
+  },
+  "common_complete_quality": {
+   "parent": {
+    "motions": 127394,
+    "completed_motions": 127394,
+    "failed_motions": 0,
+    "means": {
+     "normalized_return": 0.872802764142762,
+     "completion_fraction": 1.0,
+     "mean_root_xy_error_m": 0.09146748308754239,
+     "mean_root_orientation_error_rad": 0.06954567465306916,
+     "mean_relative_body_position_error_m": 0.05267645372938645,
+     "mean_joint_rmse_rad": 0.17188222606453848
+    },
+    "reward_components_normalized": {
+     "relative_body_position": 0.1918524063758534,
+     "body_orientation": 0.14833416888484888,
+     "body_linear_velocity": 0.1847646357314266,
+     "body_angular_velocity": 0.17600490762604584,
+     "global_root_position": 0.09003782646466353,
+     "global_root_orientation": 0.09570842155582698,
+     "action_difference_penalty": -0.012016736725376401,
+     "soft_joint_limit_penalty": -0.0018828661076022905
+    },
+    "missing_tail_gap": 0.0,
+    "executed_quality_gap": 0.12719723585723797
+   },
+   "current": {
+    "motions": 127394,
+    "completed_motions": 127394,
+    "failed_motions": 0,
+    "means": {
+     "normalized_return": 0.8514192962076068,
+     "completion_fraction": 1.0,
+     "mean_root_xy_error_m": 0.06998084287536818,
+     "mean_root_orientation_error_rad": 0.08773166377185025,
+     "mean_relative_body_position_error_m": 0.06175488585043421,
+     "mean_joint_rmse_rad": 0.22787392929509664
+    },
+    "reward_components_normalized": {
+     "relative_body_position": 0.19019597365196186,
+     "body_orientation": 0.12293612217847043,
+     "body_linear_velocity": 0.18605243196476348,
+     "body_angular_velocity": 0.17616833524893039,
+     "global_root_position": 0.09293903752727017,
+     "global_root_orientation": 0.09399660905729217,
+     "action_difference_penalty": -0.009178909011389569,
+     "soft_joint_limit_penalty": -0.0016903046401134485
+    },
+    "missing_tail_gap": 0.0,
+    "executed_quality_gap": 0.1485807037923932
+   },
+   "conditional_only": true
+  },
+  "category_summary": {
+   "categories": 20,
+   "return_decreased_categories": 16,
+   "body_orientation_reward_decreased_categories": 20,
+   "interpretation": "Orientation reward declines across all categories, including the common-complete set; completion gains do not establish tracking-quality gains."
+  },
+  "fixed_name_skill_groups": {
+   "flip": {
+    "motions": 44,
+    "initial_completed": 0,
+    "final_completed": 0,
+    "final_failed": 44,
+    "initial_return": 0.29699107954107806,
+    "final_return": 0.2952017209144435,
+    "completion_fraction": 0.4204699731270477,
+    "group_is_name_based": true
+   },
+   "side_roll": {
+    "motions": 22,
+    "initial_completed": 4,
+    "final_completed": 3,
+    "final_failed": 19,
+    "initial_return": 0.26881831113286014,
+    "final_return": 0.24389929785936848,
+    "completion_fraction": 0.4743765629249689,
+    "group_is_name_based": true
+   },
+   "cartwheel": {
+    "motions": 120,
+    "initial_completed": 7,
+    "final_completed": 8,
+    "final_failed": 112,
+    "initial_return": 0.31386406449931264,
+    "final_return": 0.31128571349887213,
+    "completion_fraction": 0.46904861192013636,
+    "group_is_name_based": true
+   },
+   "handstand": {
+    "motions": 160,
+    "initial_completed": 0,
+    "final_completed": 0,
+    "final_failed": 160,
+    "initial_return": 0.007834099370663903,
+    "final_return": 0.034824334135944435,
+    "completion_fraction": 0.07465313665778846,
+    "group_is_name_based": true
+   }
+  },
+  "lafan_retention_nodes": [
+   {
+    "iteration": 0,
+    "return": 0.8698051556653722,
+    "completed": 37,
+    "completion_fraction": null,
+    "getups": null,
+    "run": null
+   },
+   {
+    "iteration": 3000,
+    "return": 0.7764102425628091,
+    "completed": 33,
+    "completion_fraction": 0.93616543666096,
+    "getups": {
+     "total": 6,
+     "completed": 3
+    },
+    "run": {
+     "total": 4,
+     "completed": 4
+    }
+   },
+   {
+    "iteration": 6000,
+    "return": 0.6824739172537446,
+    "completed": 29,
+    "completion_fraction": 0.8255146204819331,
+    "getups": {
+     "total": 6,
+     "completed": 2
+    },
+    "run": {
+     "total": 4,
+     "completed": 4
+    }
+   },
+   {
+    "iteration": 9000,
+    "return": 0.6970115960511349,
+    "completed": 29,
+    "completion_fraction": 0.8598402243801392,
+    "getups": {
+     "total": 6,
+     "completed": 0
+    },
+    "run": {
+     "total": 4,
+     "completed": 3
+    }
+   }
+  ],
+  "lafan_retention_endpoint": {
+   "parent_success_retained": 29,
+   "parent_success_lost": [
+    "fallAndGetUp1_subject4",
+    "fallAndGetUp1_subject5",
+    "fallAndGetUp2_subject2",
+    "fallAndGetUp3_subject1",
+    "jumps1_subject2",
+    "run2_subject4",
+    "walk2_subject3",
+    "walk2_subject4"
+   ],
+   "newly_completed": [],
+   "return_increased_motions": 1,
+   "return_decreased_motions": 39,
+   "common_complete_count": 29,
+   "common_complete_parent": {
+    "normalized_return": 0.9220163635439226,
+    "mean_root_xy_error_m": 0.042518228420923496,
+    "mean_root_orientation_error_rad": 0.056458935783854844,
+    "mean_relative_body_position_error_m": 0.03724803794817678,
+    "mean_joint_rmse_rad": 0.10579395525414369
+   },
+   "common_complete_final": {
+    "normalized_return": 0.8178108799823404,
+    "mean_root_xy_error_m": 0.13950765287053996,
+    "mean_root_orientation_error_rad": 0.09427189492973788,
+    "mean_relative_body_position_error_m": 0.06330259516835213,
+    "mean_joint_rmse_rad": 0.19848511958944387
+   }
+  },
+  "cost": {
+   "stage_wall_seconds": 48718.270336933434,
+   "cumulative_wall_seconds": 48737.599157482386,
+   "inherited_training_seconds": 208333.7795431018,
+   "total_known_training_seconds": 257052.04988003522,
+   "new_training_iterations": 9000,
+   "new_actor_updates": 8995,
+   "new_sim_transitions": 92422144,
+   "imagination_steps": 1178992640,
+   "shared_gpu": true
+  },
+  "interpretation": [
+   "Whole corrected library was actually trained and evaluated; this is no longer only a40h experiment.",
+   "All post-training full-library returns remain below initialization;6000to9000 return and body-orientation reward partially recover, so deterioration is not monotonic.",
+   "P9 preserves more LAFAN than P8 pure-BONES transfer, but source checkpoint, data and loss all differ; the difference does not isolate the causal effect of25% rehearsal.",
+   "This is a weight-transfer lineage with inherited training cost, not a from-scratch3h reproduction."
+  ]
+ },
+ "sampling": {
+  "bones_full_lafan_survival": {
+   "stage_totals": {
+    "real_reset": {
+     "lafan": {
+      "count": 83677,
+      "source_share": 0.1980900480328773,
+      "remaining_steps_le32_share": 0.4058104377546996
+     },
+     "bones": {
+      "count": 338742,
+      "source_share": 0.8019099519671227,
+      "remaining_steps_le32_share": 0.16775303918616527
+     }
+    },
+    "wm_valid_window_start": {
+     "lafan": {
+      "count": 46475653,
+      "source_share": 0.2521465549045139,
+      "remaining_steps_le32_share": 0.008044513113134743
+     },
+     "bones": {
+      "count": 137844347,
+      "source_share": 0.7478534450954861,
+      "remaining_steps_le32_share": 0.09291178259199849
+     }
+    },
+    "actor_start": {
+     "lafan": {
+      "count": 9208989,
+      "source_share": 0.24994867482802946,
+      "remaining_steps_le32_share": 0.01599415527589402
+     },
+     "bones": {
+      "count": 27634531,
+      "source_share": 0.7500513251719705,
+      "remaining_steps_le32_share": 0.11818944927996064
+     }
+    }
+   }
+  },
+  "lafan_h32_control": {
+   "stage_totals": {
+    "real_reset": {
+     "lafan": {
+      "count": 371024,
+      "source_share": 1,
+      "remaining_steps_le32_share": 0.4777265082582259
+     }
+    },
+    "wm_valid_window_start": {
+     "lafan": {
+      "count": 184320000,
+      "source_share": 1,
+      "remaining_steps_le32_share": 0.008629584418402779
+     }
+    },
+    "actor_start": {
+     "lafan": {
+      "count": 36864000,
+      "source_share": 1,
+      "remaining_steps_le32_share": 0.018517333984375
+     }
+    }
+   }
+  },
+  "lafan_h32_survival_critic": {
+   "stage_totals": {
+    "real_reset": {
+     "lafan": {
+      "count": 371484,
+      "source_share": 1,
+      "remaining_steps_le32_share": 0.4778994519279431
+     }
+    },
+    "wm_valid_window_start": {
+     "lafan": {
+      "count": 184320000,
+      "source_share": 1,
+      "remaining_steps_le32_share": 0.008638324652777777
+     }
+    },
+    "actor_start": {
+     "lafan": {
+      "count": 36864000,
+      "source_share": 1,
+      "remaining_steps_le32_share": 0.018510932074652778
+     }
+    }
+   }
+  },
+  "interpretation": "The full-library job has LAFAN25.2147% of valid WM windows and24.9949% of Actor starts, so the nominal25% source share was not lost through k8 filtering. Many near-end resets do not imply the same near-end learner share."
+ },
+ "hard_motion_exposure": {
+  "stunts_observed": {
+   "clips": 359,
+   "real_transitions": 115969,
+   "real_resets": 895,
+   "real_transition_share": 0.0012583441840277778,
+   "mean_resets_per_clip": 2.4930362116991645,
+   "reference_steps": 115854,
+   "interpretation": "Category aggregate only; mean2.49 resets does not mean every clip was visited. No per-clip/bin visit coverage was published."
+  },
+  "fixed_hard_union_definition": "metadata category Stunts OR lowercase name contains flip/side_roll/cartwheel/handstand",
+  "fixed_hard_union": {
+   "clips": 639,
+   "clip_fraction": 0.0049005322330782095,
+   "reference_steps": 200037,
+   "reference_hours": 1.1113166666666667,
+   "reference_fraction": 0.004202677475970699,
+   "executed_steps": 107045,
+   "failed": 459,
+   "success": 180,
+   "failure_fraction_of_all": 0.3909710391822828,
+   "failure_reasons": {
+    "root_height": 381,
+    "root_tilt": 78
+   },
+   "category_composition": {
+    "Stunts": 359,
+    "Sports": 272,
+    "Gestures": 8
+   }
+  },
+  "individual_name_groups": {
+   "Stunts": {
+    "n": 359,
+    "failed": 187,
+    "reference_steps": 115854
+   },
+   "flip": {
+    "n": 44,
+    "failed": 44,
+    "reference_steps": 13650
+   },
+   "side_roll": {
+    "n": 22,
+    "failed": 19,
+    "reference_steps": 5478
+   },
+   "cartwheel": {
+    "n": 120,
+    "failed": 112,
+    "reference_steps": 33488
+   },
+   "handstand": {
+    "n": 160,
+    "failed": 160,
+    "reference_steps": 50695
+   }
+  },
+  "selection_independent_of_results": true,
+  "interpretation": "The fixed639-clip union occupies0.42027% of reference steps but contributes39.097% of failures. Insufficient practice is an evidence-backed hypothesis, not proof of a unique failure cause. General BONES training must continue to include these clips."
+ },
+ "evaluation_batch_arithmetic": {
+  "source_commit": "41d26ea07851eb5016fd256a4001aa46bf6711c4",
+  "source": "final P9 bones130394 evaluation clips_0000..0065, existing scalar records only",
+  "columns": [
+   "source_clip_id",
+   "motion",
+   "category",
+   "reference_steps",
+   "executed_steps",
+   "failed",
+   "reason"
+  ],
+  "clips": 130394,
+  "reference_steps": 47597514,
+  "executed_steps": 47381383,
+  "reference_hours": 264.43063333333333,
+  "executed_hours": 263.22990555555555,
+  "failures": 1174,
+  "failure_reasons": {
+   "root_height": 1008,
+   "root_tilt": 166
+  },
+  "hard_definition": "metadata category Stunts OR lowercase name contains flip/side_roll/cartwheel/handstand",
+  "hard": {
+   "clips": 639,
+   "clip_fraction": 0.0049005322330782095,
+   "reference_steps": 200037,
+   "reference_hours": 1.1113166666666667,
+   "reference_fraction": 0.004202677475970699,
+   "executed_steps": 107045,
+   "failed": 459,
+   "success": 180,
+   "failure_fraction_of_all": 0.3909710391822828,
+   "failure_reasons": {
+    "root_height": 381,
+    "root_tilt": 78
+   },
+   "category_composition": {
+    "Stunts": 359,
+    "Sports": 272,
+    "Gestures": 8
+   }
+  },
+  "groups": {
+   "Stunts": {
+    "n": 359,
+    "failed": 187,
+    "reference_steps": 115854
+   },
+   "flip": {
+    "n": 44,
+    "failed": 44,
+    "reference_steps": 13650
+   },
+   "side_roll": {
+    "n": 22,
+    "failed": 19,
+    "reference_steps": 5478
+   },
+   "cartwheel": {
+    "n": 120,
+    "failed": 112,
+    "reference_steps": 33488
+   },
+   "handstand": {
+    "n": 160,
+    "failed": 160,
+    "reference_steps": 50695
+   }
+  },
+  "manifest_order": {
+   "batch_size": 1024,
+   "batches": 128,
+   "sum_batch_max_executed_steps": 617846,
+   "sum_batch_max_reference_steps": 617846,
+   "fixed_1024_execution_slots": 632674304,
+   "actual_size_execution_slots": 628306628,
+   "fixed_1024_reference_bound_slots": 632674304,
+   "actual_size_reference_bound_slots": 628306628,
+   "execution_slot_inflation": 13.352803652860871,
+   "reference_slot_bound_inflation": 13.292171183562234,
+   "last_batch_size": 346
+  },
+  "sorted_by_reference_steps": {
+   "batch_size": 1024,
+   "batches": 128,
+   "sum_batch_max_executed_steps": 56026,
+   "sum_batch_max_reference_steps": 56026,
+   "fixed_1024_execution_slots": 57370624,
+   "actual_size_execution_slots": 51283540,
+   "fixed_1024_reference_bound_slots": 57370624,
+   "actual_size_reference_bound_slots": 51283540,
+   "execution_slot_inflation": 1.210826285927534,
+   "reference_slot_bound_inflation": 1.205328160626204,
+   "last_batch_size": 346
+  },
+  "batch_step_ratio_old_to_sorted": 11.027844215185807,
+  "reference_bound_ratio_old_to_sorted": 11.027844215185807,
+  "interpretation": "These are batching slot/step arithmetic on existing formal evaluation records, not measured speedup or a new benchmark. Reference-length sorting is available before evaluation. All N motions and scoring semantics stay unchanged."
+ },
+ "physical_windows": [
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/flip_180_R_009__A304_M.npz",
+   "iteration": 9000,
+   "motion": "flip_180_R_009__A304_M",
+   "reference_time_range": [
+    0.78,
+    3.42
+   ],
+   "last_root_z": 0.7485399842262268,
+   "last_ref_z": 1.0131535530090332,
+   "last_z_error": -0.2646135687828064,
+   "last_root_vz": -0.05091417580842972,
+   "last_ref_vz": 1.9372345209121704,
+   "last_gravity_z_difference": 0.09815001487731934,
+   "last_root_SO3": 0.1840156763792038,
+   "last_XY": 0.3266332149505615,
+   "last_joint_rmse": 0.6093516945838928,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/flip_360_004__A304_M.npz",
+   "iteration": 9000,
+   "motion": "flip_360_004__A304_M",
+   "reference_time_range": [
+    0.0,
+    1.68
+   ],
+   "last_root_z": 0.7527506947517395,
+   "last_ref_z": 1.0288583040237427,
+   "last_z_error": -0.2761076092720032,
+   "last_root_vz": -1.376543402671814,
+   "last_ref_vz": 0.49295082688331604,
+   "last_gravity_z_difference": 0.891737699508667,
+   "last_root_SO3": 0.9906926155090332,
+   "last_XY": 0.1486331671476364,
+   "last_joint_rmse": 0.7505426406860352,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/handstand_ff_start_270_R_001__A305.npz",
+   "iteration": 9000,
+   "motion": "handstand_ff_start_270_R_001__A305",
+   "reference_time_range": [
+    0.0,
+    0.34
+   ],
+   "last_root_z": 0.6165738105773926,
+   "last_ref_z": 0.8723022937774658,
+   "last_z_error": -0.25572848320007324,
+   "last_root_vz": -1.1723161935806274,
+   "last_ref_vz": -0.00527610769495368,
+   "last_gravity_z_difference": 0.0004202127456665039,
+   "last_root_SO3": 0.20929670333862305,
+   "last_XY": 0.06581058353185654,
+   "last_joint_rmse": 0.7919321060180664,
+   "last_survived": false
+  },
+  {
+   "role": "P8 H16-50000 successful dance window",
+   "source": "results/20261107-p9-critic-full-scale-s0/evidence/i0050000_dance1_subject1_5225_5357.npz",
+   "iteration": 50000,
+   "motion": "dance1_subject1",
+   "reference_time_range": [
+    104.5,
+    107.14
+   ],
+   "last_root_z": 0.8948321342468262,
+   "last_ref_z": 0.7760592103004456,
+   "last_z_error": 0.11877292394638062,
+   "last_root_vz": -2.0652103424072266,
+   "last_ref_vz": -0.4860199987888336,
+   "last_gravity_z_difference": 0.31360185146331787,
+   "last_root_SO3": 0.6420809030532837,
+   "last_XY": 0.09781881421804428,
+   "last_joint_rmse": 0.7451943755149841,
+   "last_survived": true
+  },
+  {
+   "role": "P9 control60000 failed dance window",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/lafan_h32_control/final_failure_windows/i0060000_dance1_subject1_5225_5357.npz",
+   "iteration": 60000,
+   "motion": "dance1_subject1",
+   "reference_time_range": [
+    104.5,
+    107.14
+   ],
+   "last_root_z": 0.5203877687454224,
+   "last_ref_z": 0.7760592103004456,
+   "last_z_error": -0.2556714415550232,
+   "last_root_vz": -1.8107266426086426,
+   "last_ref_vz": -0.4860199987888336,
+   "last_gravity_z_difference": 0.024178028106689453,
+   "last_root_SO3": 0.46708303689956665,
+   "last_XY": 0.09444961696863174,
+   "last_joint_rmse": 0.35505911707878113,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/reach_jump_R_001__A308_M.npz",
+   "iteration": 9000,
+   "motion": "reach_jump_R_001__A308_M",
+   "reference_time_range": [
+    0.0,
+    1.26
+   ],
+   "last_root_z": 0.8759961128234863,
+   "last_ref_z": 1.129942536354065,
+   "last_z_error": -0.2539464235305786,
+   "last_root_vz": 0.1298481523990631,
+   "last_ref_vz": 0.5550438165664673,
+   "last_gravity_z_difference": 0.006278693675994873,
+   "last_root_SO3": 0.12968482077121735,
+   "last_XY": 0.04575009271502495,
+   "last_joint_rmse": 0.43414708971977234,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/side_roll_R_002__A415_M.npz",
+   "iteration": 9000,
+   "motion": "side_roll_R_002__A415_M",
+   "reference_time_range": [
+    0.0,
+    2.54
+   ],
+   "last_root_z": 0.16159535944461823,
+   "last_ref_z": 0.21455135941505432,
+   "last_z_error": -0.052955999970436096,
+   "last_root_vz": 0.15582388639450073,
+   "last_ref_vz": 0.5453262329101562,
+   "last_gravity_z_difference": 0.8095250129699707,
+   "last_root_SO3": 2.5584657192230225,
+   "last_XY": 0.7370994091033936,
+   "last_joint_rmse": 0.7285629510879517,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/side_roll_R_002__A416_M.npz",
+   "iteration": 9000,
+   "motion": "side_roll_R_002__A416_M",
+   "reference_time_range": [
+    0.0,
+    2.2
+   ],
+   "last_root_z": 0.2043071985244751,
+   "last_ref_z": 0.36773520708084106,
+   "last_z_error": -0.16342800855636597,
+   "last_root_vz": 0.04242561012506485,
+   "last_ref_vz": 0.0748085007071495,
+   "last_gravity_z_difference": 0.8198801279067993,
+   "last_root_SO3": 1.4456076622009277,
+   "last_XY": 1.2265853881835938,
+   "last_joint_rmse": 0.669731080532074,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/tiger_jump_to_shoulder_roll_R_001__A304.npz",
+   "iteration": 9000,
+   "motion": "tiger_jump_to_shoulder_roll_R_001__A304",
+   "reference_time_range": [
+    0.0,
+    2.06
+   ],
+   "last_root_z": 0.6408402919769287,
+   "last_ref_z": 0.8981613516807556,
+   "last_z_error": -0.2573210597038269,
+   "last_root_vz": -1.2430667877197266,
+   "last_ref_vz": -0.7758601903915405,
+   "last_gravity_z_difference": 0.24927091598510742,
+   "last_root_SO3": 0.25580909848213196,
+   "last_XY": 0.3328239321708679,
+   "last_joint_rmse": 0.6683641076087952,
+   "last_survived": false
+  },
+  {
+   "role": "P9 full9000 actual failure tail",
+   "source": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/final_failure_windows/tiger_jump_to_shoulder_roll_R_003__A415_M.npz",
+   "iteration": 9000,
+   "motion": "tiger_jump_to_shoulder_roll_R_003__A415_M",
+   "reference_time_range": [
+    0.0,
+    2.52
+   ],
+   "last_root_z": 0.7302199602127075,
+   "last_ref_z": 0.9934331774711609,
+   "last_z_error": -0.26321321725845337,
+   "last_root_vz": -0.2064317762851715,
+   "last_ref_vz": 0.622606635093689,
+   "last_gravity_z_difference": 0.2199857234954834,
+   "last_root_SO3": 0.2724672257900238,
+   "last_XY": 0.2916170656681061,
+   "last_joint_rmse": 0.8642184734344482,
+   "last_survived": false
+  }
+ ],
+ "physical_interpretation": [
+  "Saved flips and jumps show substantial root-height/vertical-dynamics mismatch; saved side rolls also show large orientation/XY errors.",
+  "The old successful dance window remains above the reference height at107.14s whereas the current failed window is about0.256m below it. One endpoint pose error alone does not explain success or failure; trajectory dynamics matter.",
+  "These are saved real trajectories. They do not identify actuator saturation, contact forces or current WM prediction error, which are not established by these summaries."
+ ],
+ "next_evidence_needed_from_existing_computation": [
+  "Include actual optimization objective, rawMSE, weightedMSE and global meanS in the already selected rollout metadata.",
+  "Report fixed hard-group real-collection, valid WM-window and Actor-start counts, plus unique visited clip/bin counts; do not infer learner share from environment or reset share."
+ ],
+ "sources": {
+  "campaign_summary": "results/20261107-p9-critic-full-scale-s0/summary.json",
+  "lafan_joint_comparison": "results/20261107-p9-critic-full-scale-s0/lafan_comparison.json",
+  "job_comparisons": {
+   "lafan_h32_control": "results/20261107-p9-critic-full-scale-s0/jobs/lafan_h32_control/comparison.json",
+   "lafan_h32_survival_critic": "results/20261107-p9-critic-full-scale-s0/jobs/lafan_h32_survival_critic/comparison.json",
+   "bones_full_lafan_survival": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/comparison.json"
+  },
+  "normal_training_statistics": {
+   "lafan_h32_control": "results/20261107-p9-critic-full-scale-s0/jobs/lafan_h32_control/training.json",
+   "lafan_h32_survival_critic": "results/20261107-p9-critic-full-scale-s0/jobs/lafan_h32_survival_critic/training.json",
+   "bones_full_lafan_survival": "results/20261107-p9-critic-full-scale-s0/jobs/bones_full_lafan_survival/training.json"
+  },
+  "sampling": {
+   "bones": {
+    "directory": "results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0009000",
+    "files": "sampling_0001000.json through sampling_0009000.json, each1000"
+   },
+   "lafan_control": {
+    "directory": "results/20261107-p9-critic-full-scale-s0-lafan_h32_control/milestones/iteration_0060000",
+    "files": "sampling_0052000.json through sampling_0060000.json, each1000"
+   },
+   "lafan_weighted": {
+    "directory": "results/20261107-p9-critic-full-scale-s0-lafan_h32_survival_critic/milestones/iteration_0060000",
+    "files": "sampling_0052000.json through sampling_0060000.json, each1000"
+   }
+  },
+  "all_bones_per_clip": {
+   "directory": "results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0009000",
+   "first_part": "clips_0000.jsonl",
+   "last_part": "clips_0065.jsonl",
+   "parts": 66,
+   "records": 130394,
+   "retained_for_this_analysis": [
+    "source_clip_id",
+    "motion",
+    "category",
+    "full_reference_steps",
+    "executed_steps",
+    "failed",
+    "reason"
+   ],
+   "all_published_scalar_rows_read": true
+  },
+  "preparation": "results/20261107-p9-critic-full-scale-s0/summary.json#bones_preparation",
+  "formal_protocol": "results/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/milestones/iteration_0009000/evaluation.json"
+ }
+}

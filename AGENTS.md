@@ -8,7 +8,8 @@
 
 ## 当前任务与证据
 
-- 当前P9已实施并启动，实际状态见results/20261107-p9-critic-full-scale-s0/summary.json。接续既有tmux，不重复启动，不重建活跃replay/LR。
+- 当前P10计划已发布，尚未实施/启动：docs/P10_8K_HARD_PRACTICE_PLAN.md、configs/next_stage_8k_hard_practice_protocol.json、docs/P10_CODEX_START_PROMPT.md。本次用户明确要求推送下一步并扩大环境，旧P9“不自动开P10”不覆盖新的授权。按启动提示词实施时接续P9 full9000，不重新跑P9。
+- P9三路训练、全部正式评分与轻量发布均已完成。LAFAN原Critic60000为0.89043870/38完整，加权为0.84312458/36；全库9000为0.84379710、129220/130394，264.430633h，LAFAN保持29/40且起身0/6。复核见docs/P9_REVIEW_20261108.md及results/20261107-p9-critic-full-scale-s0/review_20261108.json，实际完成状态见该campaign的summary.json。
 - P8已经全部完成：results/20261106-p8-stability-scale-s0/summary.json、conclusion.md。H32/H16均51000，分别0.86980516/37成功、0.73023952/31成功；BONES9000为0.78952191、16631/17301，LAFAN保持10/40、0.35465644。三个训练tmux正常退出，不重复启动或延长P8。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
 - P6已完成训练、正式评分和轻量发布。B33000回报0.86624655、37/40、完成99.0832%，保留父34条全部成功；5/9节点和末三均值0.837913超过论文LAFAN评估0.82参照。父/A/B共同完整31条XY为2.0013/2.0917/0.0640m，已解决主要位置漂移。不要再将当前状态写成“未达到0.82”；也不把40/40当论文未给出的门槛。来源：results/20261105-p6-position-feedback-s0/summary.json、conclusion.md、review_20261105.json。
@@ -26,7 +27,24 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P9实施（已实施，按现有进程继续）
+## P10实施（计划已发布，尚未启动）
+
+- campaign=20261108-p10-8k-hard-practice-s0；工作树 /root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice。两路full8k_control/full8k_hard_practice并行，稳定性与全库能力同步推进；效率专项后置，必要消除全库评分空转。
+- 两路从P9 bones_full_lafan_survival/checkpoint_0009000.pt完整resume三网络、三Adam、sampler、已保存Torch/CUDA RNG、iteration9000、actor_updates8995及LR。保留survival_weighted并非宣布其LAFAN对照获胜；保留原Critic LAFAN60000效果锚点。本轮不切换Critic变体或重新网络迁移。
+- 两路均8192真实环境、8192想象batch、WM10×4096，H32/k8、replay每环境1000、collect2/3、Critic5×4、713/.5、原奖励/终止/PD/随机化与LR日程不变，不自动涨LR或WM optimizer次数。各实际新进程必要填充64步一次，9001起全部联合更新，不重做5轮WM-only。
+- 两路source仍LAFAN2048/BONES6144。control reset=LAFAN2048+全BONES6144；candidate reset=LAFAN2048+全BONES5120+固定hard1024。hard为configs/p10_hard_motion_set.json的639条Stunts或名称含flip/side_roll/cartwheel/handstand，按原source_clip_id映射联合库。general继续包含hard，不按策略失败增删数据。
+- hard只是重叠reset stratum，不是第三source。共享已恢复的returns/memory，各池内条件归一化；record仍按两个source各更新一次memory EMA，不把hard加入原source循环重复更新。保持Gmax10与现有timeout处理。
+- 每路9001–27000，新增18000联合更新，或新阶段累计40h先到；父历史约71.40335h单列。真实恢复累计先前用时，不重新获得40h。单Codex窗口≤4h，独立tmux跨窗口连续，不因交接重建活跃replay/LR。
+- 两路引用P9同一底层CPU只读memmap及现有manifest，不复制约45.4GiB参考库、不重筛/重转/重pack；H32末端goal窗口43帧保持。先完成首路必要初始化和填充，进入正常循环立即接第二路，不做容量试跑。
+- 全库正式评分为15000/21000/27000，LAFAN保持为12000/15000/18000/21000/24000/27000及实际终点；按iteration−9000排程，不能用全局%6000代替。父9000同权重评分复用，40h监测子集从全库同次评分提取。
+- 全库评估按(reference_steps, original_source_clip_id)排序组批，默认1024，仍覆盖全部动作从0至原终止/自然末尾，输出恢复原ID顺序。各既有失败组保留原ID最小两条，最多8个133帧尾窗，使用有界候选，不因执行顺序变化改选样，不重跑父模型对拍。
+- 训练/评分各Torch2线程，实际CPU统计最多12个单线程worker。GPU评分、指定WM小证据和Git发布共用 /root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock，总并发1，训练不占锁；不终止其他项目。
+- 只补P10计划冻结的六个P9 full9000失败短窗同动作WM预测，用已有真实状态/action/context33，最多32步（handstand17），不运行新物理/扫描起点。正常训练顺带记录hard/其余BONES/LAFAN的collect、WM、Actor实际曝光、hard clip/bin覆盖和已有forward分组误差；每千轮最多4个已有selected样本补actual objective/raw/weighted/Smean。
+- 比较固定终点/共同节点的全库R、hard技能、body-orientation/共同完整质量和LAFAN保持，不只报完整数或挑最佳点。全部BONES逐clip用CSV每1000条分片、schema只写一次，保留失败；小summary直接提供类别/固定技能与共同集合变化。
+- 推代码、实际配置、完整轻量评分、指定小证据和结论后不在用户电脑归档。不Release、不tar、不自动阶段清理，不把用户自行备份列成研究完成步骤；大产物留服务器，原checkpoint滚动和里程碑保护不变。
+- 禁止防御性编程及任何单元/mock/冒烟/导入/形状/哈希测试、恢复演练、无关扫描/benchmark/监控。遇到真实错误才针对修复。预算结束如实评分发布，不自动扩预算、改变配方或启动P11。
+
+## P9实施（历史已完成，不重复执行）
 
 - campaign=20261107-p9-critic-full-scale-s0；工作树 /root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale。稳定性与修正后的完整BONES训练同步，效率专项后置；细节以P9计划与协议为准。
 - 两路LAFAN均从P8 H32-51000完整恢复三网络、三套Adam、sampler、已保存Torch/CUDA RNG、全局迭代与LR。control原Critic，survival_critic仅改变Critic存活权重；均51001–60000或累计本阶段16h，9000联合更新。713/.5、k8/H32、aux_bce、原奖励/终止/PD/采样不变。
@@ -88,7 +106,7 @@
 
 ## P5实施（历史已完成，不重复执行）
 
-P5两支均已完成到24000；本节保留原方案供溯源，当前执行入口为P9。
+P5两支均已完成到24000；本节保留原方案供溯源，当前执行入口为P10。
 
 - 从同一C0-18000恢复两支完整联合训练：A c0_control保持原设置；B actor_half_lr只给Actor学习率乘0.5。两组各新增6000次更新到24000，各自新训练阶段上限16小时，含一次64步replay填充；正式评估和轻量发布另计，不自动追加预算。
 - 在每轮set_schedule应用actor_learning_rate_scale=1.0/0.5；WM/Critic保持原基础LR和全局余弦日程，恢复Adam/sampler/RNG，不重置迭代。不能只改初始化LR，也不能把公共learning_rate减半。完整执行真实采样→WM拟合→Actor/Critic。
@@ -122,7 +140,7 @@ P5两支均已完成到24000；本节保留原方案供溯源，当前执行入�
 ## 轻量发布与用户管理备份（最新约定，覆盖旧上传/清理要求）
 
 - 顺序：训练/正式评估完成 → 先推代码、配置、完整逐动作/逐回合评分（BONES使用紧凑CSV/JSONL分片）、关键训练区间统计与结论 → 继续既定研究。按节点批量提交；完整逐轮metrics.jsonl和大日志留服务器，不每节点重复上传累计日志。
-- Git保存LAFAN完整40动作及BONES全部选定动作的逐clip评分、关键失败窗口、紧凑曲线/统计及现有运行索引；保留失败结果。用户授权补传分析所需数据：按当前P9计划指定的小型成功/失败窗NPZ/JSON与正常rollout样本可以进入Git，旧P8证据保留，附来源、context、数据定义与数组语义；不把完整逐帧数组改成全量JSON上传。P7已发布证据保留。
+- Git保存LAFAN完整40动作及BONES全部选定动作的逐clip评分、关键失败窗口、紧凑曲线/统计及现有运行索引；保留失败结果。用户授权补传分析所需数据：按当前P10计划指定的小型WM/失败窗NPZ/JSON与正常rollout样本可以进入Git，旧P8证据保留，附来源、context、数据定义与数组语义；不把完整逐帧数组改成全量JSON上传。P7已发布证据保留。
 - 大checkpoint、完整视频、完整原始轨迹/数组、数据缓存、大日志默认留服务器，不上传GitHub Release、不加入全量后台上传队列、不为上传打tar、不在用户电脑另做归档。需要分享个别大文件时由用户另行安排。
 - 研究交接不等待大文件上传、视频批量渲染或用户备份。原始评分轨迹和研究必需数据仍保存；必要视频从同一真实轨迹按需生成。
 - 用户定期从服务器数据盘导出到自己的存储盘备份，并由用户统一删除阶段产物。取消此前“上传完成后自动清理服务器副本”的授权；Git/Release已存在副本或用户已备份均不自动授权程序删除。
