@@ -67,4 +67,22 @@ def paired_comparisons():
         "prescribed_bones_tail":[15000,21000,27000],
         "interpretation":"Paired fixed-node scores, no best node or pooled success. Hard improvement, general pose quality and LAFAN retention are reported together."}
     write(result/"paired_comparison.json", report)
+    summaries = {j:read(result/"jobs"/j/"summary.json") for j in p["jobs"]}
+    if all(s.get("training_done") and s.get("full_clip_evaluation_done") for s in summaries.values()):
+        endpoints = {j:read(paths[j][s["final_iteration"]]/"comparison.json") for j,s in summaries.items()}
+        lines = ["# P10 两路固定预算结果", "",
+            "两路同父P9 full9000完整恢复，均为8192真实环境/8192想象/WM10×4096；差异是1024个固定hard reset环境。", "",
+            "| 分支 | 实际终点 | 全BONES R | hard R | 其余BONES R | body orientation贡献 | LAFAN R/完整/起身 | 阶段h |",
+            "|---|---:|---:|---:|---:|---:|---|---:|"]
+        for j,v in endpoints.items():
+            q,lafan=v["bones"]["quality"],v["lafan_retention"]
+            lines.append(f"| {j} | {summaries[j]['final_iteration']} | {q['all_clips']['means']['normalized_return']:.8f} | {q['fixed_hard']['means']['normalized_return']:.8f} | {q['other_bones']['means']['normalized_return']:.8f} | {q['all_clips']['reward_components_normalized']['body_orientation']:.8f} | {lafan['mean_normalized_return']:.8f}/{lafan['completed_motions']}/起身{lafan['categories']['fallAndGetUp']['completed']} | {summaries[j]['cost']['stage_wall_seconds']/3600:.4f} |")
+        a,b=(endpoints[j] for j in ("full8k_control","full8k_hard_practice"))
+        delta={group:b["bones"]["quality"][group]["means"]["normalized_return"]-a["bones"]["quality"][group]["means"]["normalized_return"]
+            for group in ("all_clips","fixed_hard","other_bones")}
+        lines += ["",f"困难练习路减控制路的终点回报差：全库 {delta['all_clips']:+.8f}，hard {delta['fixed_hard']:+.8f}，其余BONES {delta['other_bones']:+.8f}；LAFAN {b['lafan_retention']['mean_normalized_return']-a['lafan_retention']['mean_normalized_return']:+.8f}。",
+            "",f"全部共同评分节点 {common} 保存在paired_comparison.json；共同完整集合的XY/SO3/body/joint、body orientation贡献和hard条件集合分别保留。若实际终点不同，终点差不能解释为相同更新预算的效果。",
+            "", "每路的父成功保持、四组困难技能、实际曝光和WM有效窗见节点comparison与hard_exposure；每个分支保留全部规定节点与尾三交集，不选择最佳单点。",
+            "", "本阶段是一次父模型和固定预算的模拟研究，真实结果不自动证明收敛、泛化、唯一机制或实机能力。按预算停止，不自动追加或启动P11；大产物留D57，用户备份未确认。"]
+        (result/"conclusion.md").write_text("\n".join(lines)+"\n")
     return report

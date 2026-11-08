@@ -73,7 +73,9 @@ def comparison(parent, score, directory):
         newly_completed_count=sum(r["current_complete"] for r in changed),
         changed_identity_parts=write_parts(directory,changed,"changed_identity"),
         common_complete_quality={"parent":aggregate([old[r["motion"]] for r in common]), "current":aggregate(common), "conditional_only":True},
-        parent_quality=parent["quality"])
+        parent_quality={**parent["quality"],
+            "fixed_hard":aggregate([r for r in parent["clips"] if r["source_clip_id"] in HARD_IDS]),
+            "other_bones":aggregate([r for r in parent["clips"] if r["source_clip_id"] not in HARD_IDS])})
     for name, membership in (("fixed_hard", True),("other_bones",False)):
         selected = [r for r in common if (r["source_clip_id"] in HARD_IDS) == membership]
         result["common_complete_quality"][name] = {"parent":aggregate([old[r["motion"]] for r in selected]),"current":aggregate(selected)}
