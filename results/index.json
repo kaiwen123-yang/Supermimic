@@ -18,7 +18,7 @@
             "ppo_mean_kl": 0.020334435810946162,
             "sim_step_reward": -0.07188412547111511,
             "sim_step_termination_fraction": 0.024322509765625,
-            "learning_rate": 0.00001,
+            "learning_rate": 1e-05,
             "collection_seconds": 0.7751656696200371,
             "policy_critic_seconds": 0.5655711982399225,
             "iteration": 8,
@@ -152,7 +152,7 @@
             "ppo_mean_kl": 0.01182870459742844,
             "sim_step_reward": 0.03070715442299843,
             "sim_step_termination_fraction": 0.0008951823110692203,
-            "learning_rate": 0.00003375000000000001,
+            "learning_rate": 3.375000000000001e-05,
             "collection_seconds": 1.0218255054205656,
             "policy_critic_seconds": 0.6692749932408333,
             "checkpoint_write_seconds": 0.23910709097981453,
@@ -2379,6 +2379,53 @@
       "backup_status": "awaiting_user_export_not_confirmed",
       "review": "docs/P9_REVIEW_20261108.md",
       "review_data": "results/20261107-p9-critic-full-scale-s0/review_20261108.json"
+    },
+    "20261108-p10-8k-hard-practice-s0": {
+      "status": "running",
+      "training_started": false,
+      "training_done": false,
+      "full_clip_evaluation_done": false,
+      "jobs": {
+        "full8k_control": {
+          "job": "full8k_control",
+          "run": "20261108-p10-8k-hard-practice-s0-full8k_control",
+          "tmux": "sm-p10-full8k-control",
+          "status": "starting",
+          "training_started": false,
+          "training_done": false,
+          "full_clip_evaluation_done": false,
+          "lightweight_results_published": false,
+          "initialization": "full_resume",
+          "start_iteration": 9000,
+          "target_iteration": 27000,
+          "max_accumulated_stage_hours": 40,
+          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/checkpoint_0009000.pt",
+          "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_control",
+          "backup_status": "awaiting_user_export_not_confirmed",
+          "started_beijing": "2026-11-08T17:15:06.862286+08:00"
+        },
+        "full8k_hard_practice": {
+          "job": "full8k_hard_practice",
+          "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+          "tmux": "sm-p10-full8k-hard",
+          "status": "starting",
+          "training_started": false,
+          "training_done": false,
+          "full_clip_evaluation_done": false,
+          "lightweight_results_published": false,
+          "initialization": "full_resume",
+          "start_iteration": 9000,
+          "target_iteration": 27000,
+          "max_accumulated_stage_hours": 40,
+          "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/checkpoint_0009000.pt",
+          "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+          "backup_status": "awaiting_user_export_not_confirmed",
+          "started_beijing": "2026-11-08T17:16:01.090018+08:00"
+        }
+      },
+      "summary": "results/20261108-p10-8k-hard-practice-s0/summary.json",
+      "automatic_stage_cleanup": false,
+      "backup_status": "awaiting_user_export_not_confirmed"
     }
   },
   "publications": {
@@ -3258,7 +3305,7 @@
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
     "protocol_id": "p10-8k-hard-practice-v1",
-    "status": "planned_not_launched",
+    "status": "running",
     "implementation_status": "not_started",
     "document": "docs/P10_8K_HARD_PRACTICE_PLAN.md",
     "protocol": "configs/next_stage_8k_hard_practice_protocol.json",
@@ -3277,28 +3324,40 @@
     "study_design": "Two concurrent full9000 complete resumes; both8192 real/8192 imagined/WM10x4096; only between-job variable is fixed hard reset quota.",
     "jobs": {
       "full8k_control": {
-        "status": "planned_not_launched",
+        "job": "full8k_control",
+        "run": "20261108-p10-8k-hard-practice-s0-full8k_control",
+        "tmux": "sm-p10-full8k-control",
+        "status": "starting",
+        "training_started": false,
+        "training_done": false,
+        "full_clip_evaluation_done": false,
+        "lightweight_results_published": false,
+        "initialization": "full_resume",
         "start_iteration": 9000,
         "target_iteration": 27000,
-        "new_joint_updates": 18000,
-        "max_accumulated_new_stage_hours": 40,
-        "reset_environments": {
-          "lafan": 2048,
-          "bones_all": 6144,
-          "bones_hard": 0
-        }
+        "max_accumulated_stage_hours": 40,
+        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/checkpoint_0009000.pt",
+        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_control",
+        "backup_status": "awaiting_user_export_not_confirmed",
+        "started_beijing": "2026-11-08T17:15:06.862286+08:00"
       },
       "full8k_hard_practice": {
-        "status": "planned_not_launched",
+        "job": "full8k_hard_practice",
+        "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+        "tmux": "sm-p10-full8k-hard",
+        "status": "starting",
+        "training_started": false,
+        "training_done": false,
+        "full_clip_evaluation_done": false,
+        "lightweight_results_published": false,
+        "initialization": "full_resume",
         "start_iteration": 9000,
         "target_iteration": 27000,
-        "new_joint_updates": 18000,
-        "max_accumulated_new_stage_hours": 40,
-        "reset_environments": {
-          "lafan": 2048,
-          "bones_all": 5120,
-          "bones_hard": 1024
-        }
+        "max_accumulated_stage_hours": 40,
+        "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/outputs/runs/20261107-p9-critic-full-scale-s0-bones_full_lafan_survival/checkpoint_0009000.pt",
+        "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+        "backup_status": "awaiting_user_export_not_confirmed",
+        "started_beijing": "2026-11-08T17:16:01.090018+08:00"
       }
     },
     "concurrency": {
@@ -3309,7 +3368,11 @@
     },
     "required_for_lafan1_reproduction_acceptance": false,
     "artifact_policy": "Publish necessary code/configs, all compact per-clip scalars and bounded specified evidence to GitHub. Large artifacts remain on training server. No local-computer archive after push, Release/tar or automatic stage cleanup.",
-    "automatic_stage_cleanup": false
+    "automatic_stage_cleanup": false,
+    "full_clip_evaluation_done": false,
+    "summary": "results/20261108-p10-8k-hard-practice-s0/summary.json",
+    "backup_status": "awaiting_user_export_not_confirmed",
+    "campaign": "20261108-p10-8k-hard-practice-s0"
   },
   "reproduction_acceptance": {
     "scope": "SuperMimic / G1 / LAFAN1 full40 evaluation",
@@ -3327,4 +3390,3 @@
     "scope_note": "40/40完整成功、从零重训、更多seed、H100同等耗时、BONES和实机不追加为当前LAFAN1效果验收的前置条件；它们分别属于后续改进或扩展研究。"
   }
 }
-
