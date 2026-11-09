@@ -1,0 +1,1739 @@
+{
+  "status": "evaluated",
+  "method": "supermimic",
+  "goal_frame": "robot_root",
+  "actor_root_position_feedback": true,
+  "actor_root_position_scale_m": 0.3,
+  "world_termination_loss": "aux_bce",
+  "iteration": 24000,
+  "actor_updates": 23995,
+  "data_definition": {
+    "source": {
+      "repo": "lvhaidong/LAFAN1_Retargeting_Dataset",
+      "revision": "ce1572906efe6157840e8474d5a0d7aa87481e74"
+    },
+    "clips": [
+      {
+        "name": "dance1_subject1",
+        "frames": 6574
+      },
+      {
+        "name": "dance1_subject2",
+        "frames": 6574
+      },
+      {
+        "name": "dance1_subject3",
+        "frames": 6574
+      },
+      {
+        "name": "dance2_subject1",
+        "frames": 11284
+      },
+      {
+        "name": "dance2_subject2",
+        "frames": 11284
+      },
+      {
+        "name": "dance2_subject3",
+        "frames": 11284
+      },
+      {
+        "name": "dance2_subject4",
+        "frames": 11284
+      },
+      {
+        "name": "dance2_subject5",
+        "frames": 11284
+      },
+      {
+        "name": "fallAndGetUp1_subject1",
+        "frames": 8411
+      },
+      {
+        "name": "fallAndGetUp1_subject4",
+        "frames": 8411
+      },
+      {
+        "name": "fallAndGetUp1_subject5",
+        "frames": 8411
+      },
+      {
+        "name": "fallAndGetUp2_subject2",
+        "frames": 8196
+      },
+      {
+        "name": "fallAndGetUp2_subject3",
+        "frames": 8196
+      },
+      {
+        "name": "fallAndGetUp3_subject1",
+        "frames": 5109
+      },
+      {
+        "name": "fight1_subject2",
+        "frames": 12244
+      },
+      {
+        "name": "fight1_subject3",
+        "frames": 12244
+      },
+      {
+        "name": "fight1_subject5",
+        "frames": 12244
+      },
+      {
+        "name": "fightAndSports1_subject1",
+        "frames": 12257
+      },
+      {
+        "name": "fightAndSports1_subject4",
+        "frames": 12257
+      },
+      {
+        "name": "jumps1_subject1",
+        "frames": 12222
+      },
+      {
+        "name": "jumps1_subject2",
+        "frames": 12222
+      },
+      {
+        "name": "jumps1_subject5",
+        "frames": 12222
+      },
+      {
+        "name": "run1_subject2",
+        "frames": 11891
+      },
+      {
+        "name": "run1_subject5",
+        "frames": 11891
+      },
+      {
+        "name": "run2_subject1",
+        "frames": 12241
+      },
+      {
+        "name": "run2_subject4",
+        "frames": 12241
+      },
+      {
+        "name": "sprint1_subject2",
+        "frames": 13656
+      },
+      {
+        "name": "sprint1_subject4",
+        "frames": 13656
+      },
+      {
+        "name": "walk1_subject1",
+        "frames": 13066
+      },
+      {
+        "name": "walk1_subject2",
+        "frames": 13066
+      },
+      {
+        "name": "walk1_subject5",
+        "frames": 13066
+      },
+      {
+        "name": "walk2_subject1",
+        "frames": 11909
+      },
+      {
+        "name": "walk2_subject3",
+        "frames": 11909
+      },
+      {
+        "name": "walk2_subject4",
+        "frames": 11909
+      },
+      {
+        "name": "walk3_subject1",
+        "frames": 12331
+      },
+      {
+        "name": "walk3_subject2",
+        "frames": 12331
+      },
+      {
+        "name": "walk3_subject3",
+        "frames": 12331
+      },
+      {
+        "name": "walk3_subject4",
+        "frames": 12331
+      },
+      {
+        "name": "walk3_subject5",
+        "frames": 12331
+      },
+      {
+        "name": "walk4_subject1",
+        "frames": 8196
+      }
+    ],
+    "control_hz": 50,
+    "joint_order": [
+      "left_hip_pitch_joint",
+      "left_hip_roll_joint",
+      "left_hip_yaw_joint",
+      "left_knee_joint",
+      "left_ankle_pitch_joint",
+      "left_ankle_roll_joint",
+      "right_hip_pitch_joint",
+      "right_hip_roll_joint",
+      "right_hip_yaw_joint",
+      "right_knee_joint",
+      "right_ankle_pitch_joint",
+      "right_ankle_roll_joint",
+      "waist_yaw_joint",
+      "waist_roll_joint",
+      "waist_pitch_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "body_order": [
+      "pelvis",
+      "left_hip_roll_link",
+      "left_knee_link",
+      "left_ankle_roll_link",
+      "right_hip_roll_link",
+      "right_knee_link",
+      "right_ankle_roll_link",
+      "torso_link",
+      "left_shoulder_roll_link",
+      "left_elbow_link",
+      "left_wrist_yaw_link",
+      "right_shoulder_roll_link",
+      "right_elbow_link",
+      "right_wrist_yaw_link"
+    ],
+    "preprocessing_version": "lafan-g1-linear-slerp-central-xbody-v1"
+  },
+  "checkpoint_file": "checkpoint_0024000.pt",
+  "motions": 40,
+  "training_data_definition": {
+    "source": {
+      "repo": "lafan1+bones-studio/seed",
+      "revision": "p9-frozen-two-source"
+    },
+    "control_hz": 50,
+    "joint_order": [
+      "left_hip_pitch_joint",
+      "left_hip_roll_joint",
+      "left_hip_yaw_joint",
+      "left_knee_joint",
+      "left_ankle_pitch_joint",
+      "left_ankle_roll_joint",
+      "right_hip_pitch_joint",
+      "right_hip_roll_joint",
+      "right_hip_yaw_joint",
+      "right_knee_joint",
+      "right_ankle_pitch_joint",
+      "right_ankle_roll_joint",
+      "waist_yaw_joint",
+      "waist_roll_joint",
+      "waist_pitch_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "body_order": [
+      "pelvis",
+      "left_hip_roll_link",
+      "left_knee_link",
+      "left_ankle_roll_link",
+      "right_hip_roll_link",
+      "right_knee_link",
+      "right_ankle_roll_link",
+      "torso_link",
+      "left_shoulder_roll_link",
+      "left_elbow_link",
+      "left_wrist_yaw_link",
+      "right_shoulder_roll_link",
+      "right_elbow_link",
+      "right_wrist_yaw_link"
+    ],
+    "preprocessing_version": "bones-g1-v004-corrected-body-origin-support-names-p9-v1",
+    "sources": {
+      "lafan": {
+        "directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/lafan1_g1_50hz",
+        "definition": {
+          "source": {
+            "repo": "lvhaidong/LAFAN1_Retargeting_Dataset",
+            "revision": "ce1572906efe6157840e8474d5a0d7aa87481e74"
+          },
+          "clips": [
+            {
+              "name": "dance1_subject1",
+              "frames": 6574
+            },
+            {
+              "name": "dance1_subject2",
+              "frames": 6574
+            },
+            {
+              "name": "dance1_subject3",
+              "frames": 6574
+            },
+            {
+              "name": "dance2_subject1",
+              "frames": 11284
+            },
+            {
+              "name": "dance2_subject2",
+              "frames": 11284
+            },
+            {
+              "name": "dance2_subject3",
+              "frames": 11284
+            },
+            {
+              "name": "dance2_subject4",
+              "frames": 11284
+            },
+            {
+              "name": "dance2_subject5",
+              "frames": 11284
+            },
+            {
+              "name": "fallAndGetUp1_subject1",
+              "frames": 8411
+            },
+            {
+              "name": "fallAndGetUp1_subject4",
+              "frames": 8411
+            },
+            {
+              "name": "fallAndGetUp1_subject5",
+              "frames": 8411
+            },
+            {
+              "name": "fallAndGetUp2_subject2",
+              "frames": 8196
+            },
+            {
+              "name": "fallAndGetUp2_subject3",
+              "frames": 8196
+            },
+            {
+              "name": "fallAndGetUp3_subject1",
+              "frames": 5109
+            },
+            {
+              "name": "fight1_subject2",
+              "frames": 12244
+            },
+            {
+              "name": "fight1_subject3",
+              "frames": 12244
+            },
+            {
+              "name": "fight1_subject5",
+              "frames": 12244
+            },
+            {
+              "name": "fightAndSports1_subject1",
+              "frames": 12257
+            },
+            {
+              "name": "fightAndSports1_subject4",
+              "frames": 12257
+            },
+            {
+              "name": "jumps1_subject1",
+              "frames": 12222
+            },
+            {
+              "name": "jumps1_subject2",
+              "frames": 12222
+            },
+            {
+              "name": "jumps1_subject5",
+              "frames": 12222
+            },
+            {
+              "name": "run1_subject2",
+              "frames": 11891
+            },
+            {
+              "name": "run1_subject5",
+              "frames": 11891
+            },
+            {
+              "name": "run2_subject1",
+              "frames": 12241
+            },
+            {
+              "name": "run2_subject4",
+              "frames": 12241
+            },
+            {
+              "name": "sprint1_subject2",
+              "frames": 13656
+            },
+            {
+              "name": "sprint1_subject4",
+              "frames": 13656
+            },
+            {
+              "name": "walk1_subject1",
+              "frames": 13066
+            },
+            {
+              "name": "walk1_subject2",
+              "frames": 13066
+            },
+            {
+              "name": "walk1_subject5",
+              "frames": 13066
+            },
+            {
+              "name": "walk2_subject1",
+              "frames": 11909
+            },
+            {
+              "name": "walk2_subject3",
+              "frames": 11909
+            },
+            {
+              "name": "walk2_subject4",
+              "frames": 11909
+            },
+            {
+              "name": "walk3_subject1",
+              "frames": 12331
+            },
+            {
+              "name": "walk3_subject2",
+              "frames": 12331
+            },
+            {
+              "name": "walk3_subject3",
+              "frames": 12331
+            },
+            {
+              "name": "walk3_subject4",
+              "frames": 12331
+            },
+            {
+              "name": "walk3_subject5",
+              "frames": 12331
+            },
+            {
+              "name": "walk4_subject1",
+              "frames": 8196
+            }
+          ],
+          "control_hz": 50,
+          "joint_order": [
+            "left_hip_pitch_joint",
+            "left_hip_roll_joint",
+            "left_hip_yaw_joint",
+            "left_knee_joint",
+            "left_ankle_pitch_joint",
+            "left_ankle_roll_joint",
+            "right_hip_pitch_joint",
+            "right_hip_roll_joint",
+            "right_hip_yaw_joint",
+            "right_knee_joint",
+            "right_ankle_pitch_joint",
+            "right_ankle_roll_joint",
+            "waist_yaw_joint",
+            "waist_roll_joint",
+            "waist_pitch_joint",
+            "left_shoulder_pitch_joint",
+            "left_shoulder_roll_joint",
+            "left_shoulder_yaw_joint",
+            "left_elbow_joint",
+            "left_wrist_roll_joint",
+            "left_wrist_pitch_joint",
+            "left_wrist_yaw_joint",
+            "right_shoulder_pitch_joint",
+            "right_shoulder_roll_joint",
+            "right_shoulder_yaw_joint",
+            "right_elbow_joint",
+            "right_wrist_roll_joint",
+            "right_wrist_pitch_joint",
+            "right_wrist_yaw_joint"
+          ],
+          "body_order": [
+            "pelvis",
+            "left_hip_roll_link",
+            "left_knee_link",
+            "left_ankle_roll_link",
+            "right_hip_roll_link",
+            "right_knee_link",
+            "right_ankle_roll_link",
+            "torso_link",
+            "left_shoulder_roll_link",
+            "left_elbow_link",
+            "left_wrist_yaw_link",
+            "right_shoulder_roll_link",
+            "right_elbow_link",
+            "right_wrist_yaw_link"
+          ],
+          "preprocessing_version": "lafan-g1-linear-slerp-central-xbody-v1"
+        }
+      },
+      "bones": {
+        "directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_g1_50hz_full_p9",
+        "repo": "bones-studio/seed",
+        "revision": "2f59b2077b9da34dd4e43618e705c7cb962c9a66",
+        "preprocessing_version": "bones-g1-v004-corrected-body-origin-support-names-p9-v1",
+        "manifest": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_g1_50hz_full_p9/manifest.json"
+      }
+    }
+  },
+  "cross_dataset_evaluation": true,
+  "failed_motions": 8,
+  "completed_motions": 32,
+  "wall_seconds": 811.8414777461439,
+  "clips": [
+    {
+      "motion": "dance1_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 6573,
+      "full_reference_steps": 6573,
+      "execution_seconds": 131.46,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8296213761120769,
+      "tracking_coverage": 0.9707895937927887,
+      "reward_component_sums": [
+        125.788528800942,
+        98.82848260376991,
+        111.34383404511853,
+        101.19590173219626,
+        59.44094574893825,
+        62.16542222575663,
+        -12.040632416208837,
+        -1.4123523954106076
+      ],
+      "upright_steps": 6477,
+      "heading_error_upright_rad": 0.0427558496594429,
+      "mean_root_position_error_m": 0.08283058553934097,
+      "mean_root_xy_error_m": 0.07854367792606354,
+      "mean_root_orientation_error_rad": 0.07952775061130524,
+      "mean_relative_body_position_error_m": 0.05792616680264473,
+      "mean_joint_rmse_rad": 0.16196124255657196,
+      "last_frame_root_position_error_m": 0.08308819681406021
+    },
+    {
+      "motion": "dance1_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 6573,
+      "full_reference_steps": 6573,
+      "execution_seconds": 131.46,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.7879935391729015,
+      "tracking_coverage": 0.9888939601399666,
+      "reward_component_sums": [
+        125.5500548100099,
+        90.15606736356858,
+        109.57929685956333,
+        84.29665296143321,
+        61.59587050799746,
+        62.32775057433173,
+        -15.012381196129013,
+        -0.5451589762661513
+      ],
+      "upright_steps": 6573,
+      "heading_error_upright_rad": 0.0417911559343338,
+      "mean_root_position_error_m": 0.06513994187116623,
+      "mean_root_xy_error_m": 0.06195351853966713,
+      "mean_root_orientation_error_rad": 0.08312931656837463,
+      "mean_relative_body_position_error_m": 0.06084281578660011,
+      "mean_joint_rmse_rad": 0.187070831656456,
+      "last_frame_root_position_error_m": 0.05262857675552368
+    },
+    {
+      "motion": "dance1_subject3",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 6573,
+      "full_reference_steps": 6573,
+      "execution_seconds": 131.46,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8944738589688538,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        127.99091935530305,
+        102.96915457304567,
+        122.09645838662982,
+        114.13738591526635,
+        63.289940705522895,
+        64.0006150836125,
+        -6.148660063231318,
+        -0.3981470434609946
+      ],
+      "upright_steps": 6573,
+      "heading_error_upright_rad": 0.027643656358122826,
+      "mean_root_position_error_m": 0.05309663340449333,
+      "mean_root_xy_error_m": 0.049952488392591476,
+      "mean_root_orientation_error_rad": 0.059531357139348984,
+      "mean_relative_body_position_error_m": 0.046561095863580704,
+      "mean_joint_rmse_rad": 0.1523481011390686,
+      "last_frame_root_position_error_m": 0.06338149309158325
+    },
+    {
+      "motion": "dance2_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11283,
+      "full_reference_steps": 11283,
+      "execution_seconds": 225.66,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.7869484339572735,
+      "tracking_coverage": 0.9703979438092706,
+      "reward_component_sums": [
+        213.90917289815843,
+        156.6869775774103,
+        183.19444844079408,
+        154.9316814046481,
+        100.86158626619726,
+        104.86262557230657,
+        -24.83116681062438,
+        -1.701407687364508
+      ],
+      "upright_steps": 11245,
+      "heading_error_upright_rad": 0.05617436021566391,
+      "mean_root_position_error_m": 0.08828689157962799,
+      "mean_root_xy_error_m": 0.0838729590177536,
+      "mean_root_orientation_error_rad": 0.09527373313903809,
+      "mean_relative_body_position_error_m": 0.06549371778964996,
+      "mean_joint_rmse_rad": 0.17154869437217712,
+      "last_frame_root_position_error_m": 0.06145128980278969
+    },
+    {
+      "motion": "dance2_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11283,
+      "full_reference_steps": 11283,
+      "execution_seconds": 225.66,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8186385686507909,
+      "tracking_coverage": 0.9996454843569973,
+      "reward_component_sums": [
+        216.19827023614198,
+        158.34004054986872,
+        194.64482448325725,
+        161.3187070478184,
+        106.24120858032256,
+        107.84599467366934,
+        -20.16743111223081,
+        -0.7517180303893838
+      ],
+      "upright_steps": 11264,
+      "heading_error_upright_rad": 0.0358995646238327,
+      "mean_root_position_error_m": 0.06553120911121368,
+      "mean_root_xy_error_m": 0.06167135387659073,
+      "mean_root_orientation_error_rad": 0.07813508063554764,
+      "mean_relative_body_position_error_m": 0.05879199504852295,
+      "mean_joint_rmse_rad": 0.17556099593639374,
+      "last_frame_root_position_error_m": 0.03221374377608299
+    },
+    {
+      "motion": "dance2_subject3",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11283,
+      "full_reference_steps": 11283,
+      "execution_seconds": 225.66,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8913195367661825,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        219.51530226320028,
+        174.37713478354272,
+        208.940154981683,
+        194.47599737568817,
+        109.41434972267598,
+        110.35848235664889,
+        -10.867381494766462,
+        -0.5382074210619976
+      ],
+      "upright_steps": 11283,
+      "heading_error_upright_rad": 0.027671098709106445,
+      "mean_root_position_error_m": 0.04748585820198059,
+      "mean_root_xy_error_m": 0.043818239122629166,
+      "mean_root_orientation_error_rad": 0.05342084914445877,
+      "mean_relative_body_position_error_m": 0.04761073365807533,
+      "mean_joint_rmse_rad": 0.15466469526290894,
+      "last_frame_root_position_error_m": 0.04389462620019913
+    },
+    {
+      "motion": "dance2_subject4",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11283,
+      "full_reference_steps": 11283,
+      "execution_seconds": 225.66,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8229302898678419,
+      "tracking_coverage": 0.9817424443853585,
+      "reward_component_sums": [
+        215.07328278457862,
+        158.47473186594382,
+        194.46918454061506,
+        168.75046967460742,
+        106.41428899130551,
+        107.17458713875916,
+        -19.92909685201864,
+        -1.9152024127606637
+      ],
+      "upright_steps": 11161,
+      "heading_error_upright_rad": 0.04297591745853424,
+      "mean_root_position_error_m": 0.06202619522809982,
+      "mean_root_xy_error_m": 0.05657881498336792,
+      "mean_root_orientation_error_rad": 0.08522025495767593,
+      "mean_relative_body_position_error_m": 0.05993129312992096,
+      "mean_joint_rmse_rad": 0.18640494346618652,
+      "last_frame_root_position_error_m": 0.034401074051856995
+    },
+    {
+      "motion": "dance2_subject5",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11283,
+      "full_reference_steps": 11283,
+      "execution_seconds": 225.66,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8730636384471199,
+      "tracking_coverage": 0.9973411326774794,
+      "reward_component_sums": [
+        218.19265873916447,
+        179.6312062451616,
+        200.60793548601214,
+        186.6281902907358,
+        106.20694525679573,
+        108.84433719748631,
+        -14.637525867142813,
+        -0.39604364258070746
+      ],
+      "upright_steps": 11283,
+      "heading_error_upright_rad": 0.03438162803649902,
+      "mean_root_position_error_m": 0.06539542227983475,
+      "mean_root_xy_error_m": 0.06033264473080635,
+      "mean_root_orientation_error_rad": 0.0688430443406105,
+      "mean_relative_body_position_error_m": 0.052970509976148605,
+      "mean_joint_rmse_rad": 0.14033909142017365,
+      "last_frame_root_position_error_m": 0.02873152680695057
+    },
+    {
+      "motion": "fallAndGetUp1_subject1",
+      "failed": true,
+      "reason": "root_height",
+      "executed_steps": 1816,
+      "full_reference_steps": 8410,
+      "execution_seconds": 36.32,
+      "failure_seconds": 36.32,
+      "completion_fraction": 0.2159334126040428,
+      "normalized_return": 0.13804813486025388,
+      "tracking_coverage": 0.1789536266349584,
+      "reward_component_sums": [
+        29.645614463370293,
+        14.796108097482824,
+        26.459735167225517,
+        21.850254646141465,
+        15.209019792309967,
+        13.726953420738502,
+        -3.3872927212711943,
+        -2.201911414325423
+      ],
+      "upright_steps": 1027,
+      "heading_error_upright_rad": 0.0463891439139843,
+      "mean_root_position_error_m": 0.1160644143819809,
+      "mean_root_xy_error_m": 0.10757102072238922,
+      "mean_root_orientation_error_rad": 0.23504133522510529,
+      "mean_relative_body_position_error_m": 0.12104099988937378,
+      "mean_joint_rmse_rad": 0.31581977009773254,
+      "last_frame_root_position_error_m": 1.0576952695846558
+    },
+    {
+      "motion": "fallAndGetUp1_subject4",
+      "failed": true,
+      "reason": "root_tilt",
+      "executed_steps": 7072,
+      "full_reference_steps": 8410,
+      "execution_seconds": 141.44,
+      "failure_seconds": 141.44,
+      "completion_fraction": 0.8409036860879905,
+      "normalized_return": 0.534645281088943,
+      "tracking_coverage": 0.4504161712247325,
+      "reward_component_sums": [
+        119.05045791203156,
+        50.1925298656904,
+        111.54529572122465,
+        97.71609505975364,
+        36.57540372778506,
+        52.59124671264172,
+        -11.238065625878022,
+        -6.796282061289332
+      ],
+      "upright_steps": 4310,
+      "heading_error_upright_rad": 0.07800311595201492,
+      "mean_root_position_error_m": 0.30169734358787537,
+      "mean_root_xy_error_m": 0.29849937558174133,
+      "mean_root_orientation_error_rad": 0.22973953187465668,
+      "mean_relative_body_position_error_m": 0.11323247104883194,
+      "mean_joint_rmse_rad": 0.3565163016319275,
+      "last_frame_root_position_error_m": 0.5110090374946594
+    },
+    {
+      "motion": "fallAndGetUp1_subject5",
+      "failed": true,
+      "reason": "root_tilt",
+      "executed_steps": 7185,
+      "full_reference_steps": 8410,
+      "execution_seconds": 143.70000000000002,
+      "failure_seconds": 143.70000000000002,
+      "completion_fraction": 0.8543400713436385,
+      "normalized_return": 0.5707139699575469,
+      "tracking_coverage": 0.6198573127229489,
+      "reward_component_sums": [
+        124.79331835824996,
+        67.70038658010748,
+        107.2939408887778,
+        94.97941381410804,
+        47.77011955800842,
+        57.718287411231415,
+        -14.124650127229643,
+        -6.160367802921172
+      ],
+      "upright_steps": 4781,
+      "heading_error_upright_rad": 0.05851387232542038,
+      "mean_root_position_error_m": 0.22455433011054993,
+      "mean_root_xy_error_m": 0.219750314950943,
+      "mean_root_orientation_error_rad": 0.17523516714572906,
+      "mean_relative_body_position_error_m": 0.10135213285684586,
+      "mean_joint_rmse_rad": 0.2720620632171631,
+      "last_frame_root_position_error_m": 0.45189541578292847
+    },
+    {
+      "motion": "fallAndGetUp2_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 8195,
+      "full_reference_steps": 8195,
+      "execution_seconds": 163.9,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.6368003275046886,
+      "tracking_coverage": 0.6463697376449055,
+      "reward_component_sums": [
+        136.45027841813862,
+        60.027106337314855,
+        126.96636745933074,
+        113.45141804924944,
+        48.42875867115894,
+        60.152087814215676,
+        -15.006648834696556,
+        -8.611499758640434
+      ],
+      "upright_steps": 4149,
+      "heading_error_upright_rad": 0.06867809593677521,
+      "mean_root_position_error_m": 0.3247475028038025,
+      "mean_root_xy_error_m": 0.32155463099479675,
+      "mean_root_orientation_error_rad": 0.23723673820495605,
+      "mean_relative_body_position_error_m": 0.11778922379016876,
+      "mean_joint_rmse_rad": 0.3458346128463745,
+      "last_frame_root_position_error_m": 0.10784228891134262
+    },
+    {
+      "motion": "fallAndGetUp2_subject3",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 8195,
+      "full_reference_steps": 8195,
+      "execution_seconds": 163.9,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.6441191151125983,
+      "tracking_coverage": 0.49383770591824283,
+      "reward_component_sums": [
+        135.5417877600994,
+        53.352885710412934,
+        132.5692266905907,
+        122.32430319787298,
+        39.47132063265586,
+        61.5854718885862,
+        -9.681617145765074,
+        -7.307764391360024
+      ],
+      "upright_steps": 3615,
+      "heading_error_upright_rad": 0.09856251627206802,
+      "mean_root_position_error_m": 0.4224609434604645,
+      "mean_root_xy_error_m": 0.4182527959346771,
+      "mean_root_orientation_error_rad": 0.2188764363527298,
+      "mean_relative_body_position_error_m": 0.12140078097581863,
+      "mean_joint_rmse_rad": 0.34739068150520325,
+      "last_frame_root_position_error_m": 2.5070624351501465
+    },
+    {
+      "motion": "fallAndGetUp3_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 5108,
+      "full_reference_steps": 5108,
+      "execution_seconds": 102.16,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.7666438752004,
+      "tracking_coverage": 0.8357478465152701,
+      "reward_component_sums": [
+        93.65957100037485,
+        63.70271655795449,
+        82.72879399112207,
+        77.21721454215886,
+        39.935359969457494,
+        45.1305319912135,
+        -8.206460068595163,
+        -2.5660371177812067
+      ],
+      "upright_steps": 4054,
+      "heading_error_upright_rad": 0.04425744339823723,
+      "mean_root_position_error_m": 0.14632946252822876,
+      "mean_root_xy_error_m": 0.14211542904376984,
+      "mean_root_orientation_error_rad": 0.11590719223022461,
+      "mean_relative_body_position_error_m": 0.07613138109445572,
+      "mean_joint_rmse_rad": 0.21474075317382812,
+      "last_frame_root_position_error_m": 0.04142267629504204
+    },
+    {
+      "motion": "fight1_subject2",
+      "failed": true,
+      "reason": "root_height",
+      "executed_steps": 3984,
+      "full_reference_steps": 12243,
+      "execution_seconds": 79.68,
+      "failure_seconds": 79.68,
+      "completion_fraction": 0.3254104386179858,
+      "normalized_return": 0.2568310536010851,
+      "tracking_coverage": 0.28881810013885484,
+      "reward_component_sums": [
+        75.97006638348103,
+        59.42224298392239,
+        62.929195468812395,
+        57.12264968152628,
+        32.15365665637966,
+        36.81711829878259,
+        -9.432529725491392,
+        -0.5441408879542564
+      ],
+      "upright_steps": 3966,
+      "heading_error_upright_rad": 0.05134708061814308,
+      "mean_root_position_error_m": 0.16953927278518677,
+      "mean_root_xy_error_m": 0.1654314398765564,
+      "mean_root_orientation_error_rad": 0.10063139349222183,
+      "mean_relative_body_position_error_m": 0.05906154215335846,
+      "mean_joint_rmse_rad": 0.15937697887420654,
+      "last_frame_root_position_error_m": 0.3202335834503174
+    },
+    {
+      "motion": "fight1_subject3",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12243,
+      "full_reference_steps": 12243,
+      "execution_seconds": 244.86,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8426863847284702,
+      "tracking_coverage": 0.9599771297884505,
+      "reward_component_sums": [
+        232.61665803333744,
+        181.95172471817773,
+        211.75796544644254,
+        197.82755998052966,
+        110.94814798384095,
+        115.70540410146947,
+        -17.521759441989047,
+        -1.584760675540906
+      ],
+      "upright_steps": 12001,
+      "heading_error_upright_rad": 0.03971416875720024,
+      "mean_root_position_error_m": 0.08398070931434631,
+      "mean_root_xy_error_m": 0.07907623052597046,
+      "mean_root_orientation_error_rad": 0.08379555493593216,
+      "mean_relative_body_position_error_m": 0.0592631921172142,
+      "mean_joint_rmse_rad": 0.1610933244228363,
+      "last_frame_root_position_error_m": 0.17488661408424377
+    },
+    {
+      "motion": "fight1_subject5",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12243,
+      "full_reference_steps": 12243,
+      "execution_seconds": 244.86,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8790071260126646,
+      "tracking_coverage": 0.9950992403822593,
+      "reward_component_sums": [
+        236.83436638396233,
+        200.14095681306208,
+        216.90017539300607,
+        205.58850758437438,
+        115.77101166150533,
+        117.73790147865657,
+        -15.510297682613327,
+        -1.2941969759067433
+      ],
+      "upright_steps": 12231,
+      "heading_error_upright_rad": 0.033935822546482086,
+      "mean_root_position_error_m": 0.06212284043431282,
+      "mean_root_xy_error_m": 0.058148711919784546,
+      "mean_root_orientation_error_rad": 0.06957277655601501,
+      "mean_relative_body_position_error_m": 0.04975660517811775,
+      "mean_joint_rmse_rad": 0.12976521253585815,
+      "last_frame_root_position_error_m": 0.06107856705784798
+    },
+    {
+      "motion": "fightAndSports1_subject1",
+      "failed": true,
+      "reason": "root_height",
+      "executed_steps": 3183,
+      "full_reference_steps": 12256,
+      "execution_seconds": 63.660000000000004,
+      "failure_seconds": 63.660000000000004,
+      "completion_fraction": 0.25970953002610964,
+      "normalized_return": 0.19904879409894385,
+      "tracking_coverage": 0.2419223237597911,
+      "reward_component_sums": [
+        56.548442103900015,
+        39.62329465816583,
+        51.99109283281723,
+        47.45908807606247,
+        26.346203680237522,
+        28.83349693645141,
+        -6.088025830516301,
+        -0.7593902973462718
+      ],
+      "upright_steps": 3056,
+      "heading_error_upright_rad": 0.056111834943294525,
+      "mean_root_position_error_m": 0.11975626647472382,
+      "mean_root_xy_error_m": 0.11071696877479553,
+      "mean_root_orientation_error_rad": 0.11100302636623383,
+      "mean_relative_body_position_error_m": 0.08895348012447357,
+      "mean_joint_rmse_rad": 0.199634850025177,
+      "last_frame_root_position_error_m": 0.3714863657951355
+    },
+    {
+      "motion": "fightAndSports1_subject4",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12256,
+      "full_reference_steps": 12256,
+      "execution_seconds": 245.12,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.84167348656438,
+      "tracking_coverage": 0.9943701044386423,
+      "reward_component_sums": [
+        233.10451295552775,
+        169.87198680001188,
+        215.30902666727843,
+        198.98965188106837,
+        114.51219120179303,
+        116.8678492156323,
+        -15.237378236316204,
+        -1.862816885150437
+      ],
+      "upright_steps": 12206,
+      "heading_error_upright_rad": 0.04332777485251427,
+      "mean_root_position_error_m": 0.0669814944267273,
+      "mean_root_xy_error_m": 0.06258925050497055,
+      "mean_root_orientation_error_rad": 0.07618284970521927,
+      "mean_relative_body_position_error_m": 0.061232104897499084,
+      "mean_joint_rmse_rad": 0.18541362881660461,
+      "last_frame_root_position_error_m": 0.04846305772662163
+    },
+    {
+      "motion": "jumps1_subject1",
+      "failed": true,
+      "reason": "root_height",
+      "executed_steps": 10626,
+      "full_reference_steps": 12221,
+      "execution_seconds": 212.52,
+      "failure_seconds": 212.52,
+      "completion_fraction": 0.8694869486948695,
+      "normalized_return": 0.7441094046689679,
+      "tracking_coverage": 0.8559037721954014,
+      "reward_component_sums": [
+        204.20957785099745,
+        171.42594498376275,
+        180.59003470817697,
+        170.8184000120964,
+        97.85260940820444,
+        102.84569355624262,
+        -17.65093435981089,
+        -0.7152228663912865
+      ],
+      "upright_steps": 10626,
+      "heading_error_upright_rad": 0.03125312924385071,
+      "mean_root_position_error_m": 0.07404342293739319,
+      "mean_root_xy_error_m": 0.06746301054954529,
+      "mean_root_orientation_error_rad": 0.06376584619283676,
+      "mean_relative_body_position_error_m": 0.05571752041578293,
+      "mean_joint_rmse_rad": 0.14413316547870636,
+      "last_frame_root_position_error_m": 0.28911498188972473
+    },
+    {
+      "motion": "jumps1_subject2",
+      "failed": true,
+      "reason": "root_height",
+      "executed_steps": 10314,
+      "full_reference_steps": 12221,
+      "execution_seconds": 206.28,
+      "failure_seconds": 206.28,
+      "completion_fraction": 0.8439571229850258,
+      "normalized_return": 0.7071382994274044,
+      "tracking_coverage": 0.7896244169871532,
+      "reward_component_sums": [
+        191.17888990083338,
+        152.80407496473458,
+        179.996711792646,
+        170.62712622849995,
+        90.02649534778902,
+        94.60877778185326,
+        -12.443711192176863,
+        -2.6046491701589503
+      ],
+      "upright_steps": 9455,
+      "heading_error_upright_rad": 0.030808890238404274,
+      "mean_root_position_error_m": 0.09879612922668457,
+      "mean_root_xy_error_m": 0.09383661299943924,
+      "mean_root_orientation_error_rad": 0.1207830011844635,
+      "mean_relative_body_position_error_m": 0.07323659211397171,
+      "mean_joint_rmse_rad": 0.18431885540485382,
+      "last_frame_root_position_error_m": 0.4596574902534485
+    },
+    {
+      "motion": "jumps1_subject5",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12221,
+      "full_reference_steps": 12221,
+      "execution_seconds": 244.42000000000002,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8500916587721562,
+      "tracking_coverage": 0.981343588904345,
+      "reward_component_sums": [
+        232.7004118412733,
+        184.40347787132487,
+        212.02981920033926,
+        202.54681543196784,
+        111.03138996658527,
+        115.4399779739324,
+        -18.405966255768135,
+        -0.8489100742980895
+      ],
+      "upright_steps": 12221,
+      "heading_error_upright_rad": 0.03864022344350815,
+      "mean_root_position_error_m": 0.08180440217256546,
+      "mean_root_xy_error_m": 0.07737908512353897,
+      "mean_root_orientation_error_rad": 0.08745714277029037,
+      "mean_relative_body_position_error_m": 0.06320366263389587,
+      "mean_joint_rmse_rad": 0.16072295606136322,
+      "last_frame_root_position_error_m": 0.08522782474756241
+    },
+    {
+      "motion": "run1_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11890,
+      "full_reference_steps": 11890,
+      "execution_seconds": 237.8,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8762911247015877,
+      "tracking_coverage": 0.991421362489487,
+      "reward_component_sums": [
+        231.18867493141443,
+        201.04078623559326,
+        211.13050758850295,
+        198.47307445821934,
+        107.73007105174474,
+        114.01429638219997,
+        -20.49677737056338,
+        -1.170486877271287
+      ],
+      "upright_steps": 11890,
+      "heading_error_upright_rad": 0.035074248909950256,
+      "mean_root_position_error_m": 0.08229649811983109,
+      "mean_root_xy_error_m": 0.07862791419029236,
+      "mean_root_orientation_error_rad": 0.07447763532400131,
+      "mean_relative_body_position_error_m": 0.04838554933667183,
+      "mean_joint_rmse_rad": 0.13612303137779236,
+      "last_frame_root_position_error_m": 0.033704716712236404
+    },
+    {
+      "motion": "run1_subject5",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11890,
+      "full_reference_steps": 11890,
+      "execution_seconds": 237.8,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8245169494202779,
+      "tracking_coverage": 0.9105130361648444,
+      "reward_component_sums": [
+        229.6176209235564,
+        189.0307437533629,
+        196.43314217420993,
+        185.0083075803068,
+        93.99624158353072,
+        113.11497027310543,
+        -24.667756544726217,
+        -2.1826173203307917
+      ],
+      "upright_steps": 11890,
+      "heading_error_upright_rad": 0.040068212896585464,
+      "mean_root_position_error_m": 0.1393006443977356,
+      "mean_root_xy_error_m": 0.13659735023975372,
+      "mean_root_orientation_error_rad": 0.08171180635690689,
+      "mean_relative_body_position_error_m": 0.05384252592921257,
+      "mean_joint_rmse_rad": 0.15059342980384827,
+      "last_frame_root_position_error_m": 0.06582099944353104
+    },
+    {
+      "motion": "run2_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12240,
+      "full_reference_steps": 12240,
+      "execution_seconds": 244.8,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8482357866779043,
+      "tracking_coverage": 0.9501633986928104,
+      "reward_component_sums": [
+        237.40203426405787,
+        200.15216044569388,
+        209.55160316475667,
+        193.6308809898037,
+        105.51989350546256,
+        117.19124676892534,
+        -23.569790020640227,
+        -1.6374260968736962
+      ],
+      "upright_steps": 12227,
+      "heading_error_upright_rad": 0.03994714841246605,
+      "mean_root_position_error_m": 0.11646345257759094,
+      "mean_root_xy_error_m": 0.11277811229228973,
+      "mean_root_orientation_error_rad": 0.07409100234508514,
+      "mean_relative_body_position_error_m": 0.05046796426177025,
+      "mean_joint_rmse_rad": 0.13752521574497223,
+      "last_frame_root_position_error_m": 0.025243522599339485
+    },
+    {
+      "motion": "run2_subject4",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12240,
+      "full_reference_steps": 12240,
+      "execution_seconds": 244.8,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8430229552437132,
+      "tracking_coverage": 0.9393790849673203,
+      "reward_component_sums": [
+        237.29582970030606,
+        195.50643607473467,
+        210.4666805260349,
+        194.39406852224784,
+        105.0318738263544,
+        116.8086528708227,
+        -26.099650358120925,
+        -1.5437944983734724
+      ],
+      "upright_steps": 12240,
+      "heading_error_upright_rad": 0.03890758007764816,
+      "mean_root_position_error_m": 0.1116526871919632,
+      "mean_root_xy_error_m": 0.10742738842964172,
+      "mean_root_orientation_error_rad": 0.0766962468624115,
+      "mean_relative_body_position_error_m": 0.05083966627717018,
+      "mean_joint_rmse_rad": 0.15752054750919342,
+      "last_frame_root_position_error_m": 0.022471051663160324
+    },
+    {
+      "motion": "sprint1_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 13655,
+      "full_reference_steps": 13655,
+      "execution_seconds": 273.1,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8801812537134523,
+      "tracking_coverage": 0.9536433540827536,
+      "reward_component_sums": [
+        264.7984923319891,
+        224.45051276218146,
+        246.33361822389634,
+        236.2056097066088,
+        121.20949310318974,
+        130.53702983027324,
+        -20.860369550868057,
+        -0.786885729061396
+      ],
+      "upright_steps": 13601,
+      "heading_error_upright_rad": 0.032767727971076965,
+      "mean_root_position_error_m": 0.08641648292541504,
+      "mean_root_xy_error_m": 0.08404345065355301,
+      "mean_root_orientation_error_rad": 0.07611829042434692,
+      "mean_relative_body_position_error_m": 0.0499323233962059,
+      "mean_joint_rmse_rad": 0.14220839738845825,
+      "last_frame_root_position_error_m": 0.07481177896261215
+    },
+    {
+      "motion": "sprint1_subject4",
+      "failed": true,
+      "reason": "root_tilt",
+      "executed_steps": 13452,
+      "full_reference_steps": 13655,
+      "execution_seconds": 269.04,
+      "failure_seconds": 269.04,
+      "completion_fraction": 0.9851336506774075,
+      "normalized_return": 0.7723101689326787,
+      "tracking_coverage": 0.638227755400952,
+      "reward_component_sums": [
+        256.25845360476524,
+        173.33206947694944,
+        225.31707288007237,
+        219.57962910723427,
+        83.21938817128978,
+        125.45385430405075,
+        -26.820806817714463,
+        -1.7501257103526768
+      ],
+      "upright_steps": 13445,
+      "heading_error_upright_rad": 0.04558354616165161,
+      "mean_root_position_error_m": 0.5280013680458069,
+      "mean_root_xy_error_m": 0.5257272720336914,
+      "mean_root_orientation_error_rad": 0.08742456883192062,
+      "mean_relative_body_position_error_m": 0.06302382051944733,
+      "mean_joint_rmse_rad": 0.18741247057914734,
+      "last_frame_root_position_error_m": 0.36620205640792847
+    },
+    {
+      "motion": "walk1_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 13065,
+      "full_reference_steps": 13065,
+      "execution_seconds": 261.3,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.9215211771368707,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        254.05944682098925,
+        214.9912830563262,
+        246.60388172231615,
+        244.01095102308318,
+        125.77180997747928,
+        126.36250645015389,
+        -7.5937220384339525,
+        -0.23873873882155294
+      ],
+      "upright_steps": 13065,
+      "heading_error_upright_rad": 0.027266154065728188,
+      "mean_root_position_error_m": 0.05432281270623207,
+      "mean_root_xy_error_m": 0.05026738718152046,
+      "mean_root_orientation_error_rad": 0.06850771605968475,
+      "mean_relative_body_position_error_m": 0.04816253483295441,
+      "mean_joint_rmse_rad": 0.1399436891078949,
+      "last_frame_root_position_error_m": 0.029165081679821014
+    },
+    {
+      "motion": "walk1_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 13065,
+      "full_reference_steps": 13065,
+      "execution_seconds": 261.3,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.9229553016697453,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        255.8902904484421,
+        224.32551599945873,
+        246.839345225133,
+        238.49133537244052,
+        125.16678686346859,
+        126.08715746551752,
+        -10.356051195775535,
+        -0.603278647842103
+      ],
+      "upright_steps": 13065,
+      "heading_error_upright_rad": 0.03086126782000065,
+      "mean_root_position_error_m": 0.055592577904462814,
+      "mean_root_xy_error_m": 0.05386769771575928,
+      "mean_root_orientation_error_rad": 0.07070466876029968,
+      "mean_relative_body_position_error_m": 0.04255347698926926,
+      "mean_joint_rmse_rad": 0.12450957298278809,
+      "last_frame_root_position_error_m": 0.06501815468072891
+    },
+    {
+      "motion": "walk1_subject5",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 13065,
+      "full_reference_steps": 13065,
+      "execution_seconds": 261.3,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8992897349025183,
+      "tracking_coverage": 0.99716800612323,
+      "reward_component_sums": [
+        254.78382387012243,
+        219.3996180575341,
+        237.7424575588666,
+        232.4472968641203,
+        120.26935853250325,
+        124.00409310264513,
+        -12.362878958717374,
+        -1.361730721210833
+      ],
+      "upright_steps": 13065,
+      "heading_error_upright_rad": 0.036278046667575836,
+      "mean_root_position_error_m": 0.07489051669836044,
+      "mean_root_xy_error_m": 0.07337574660778046,
+      "mean_root_orientation_error_rad": 0.08521459996700287,
+      "mean_relative_body_position_error_m": 0.0462091863155365,
+      "mean_joint_rmse_rad": 0.12796899676322937,
+      "last_frame_root_position_error_m": 0.0777808204293251
+    },
+    {
+      "motion": "walk2_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11908,
+      "full_reference_steps": 11908,
+      "execution_seconds": 238.16,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8865527810668401,
+      "tracking_coverage": 0.9959690964057776,
+      "reward_component_sums": [
+        231.3233353793621,
+        185.94655938027427,
+        218.76049125823192,
+        206.29033182599233,
+        111.11644208384678,
+        115.24624233646318,
+        -11.617876484637065,
+        -1.3584743505104484
+      ],
+      "upright_steps": 11908,
+      "heading_error_upright_rad": 0.03295304253697395,
+      "mean_root_position_error_m": 0.06806366890668869,
+      "mean_root_xy_error_m": 0.06462956964969635,
+      "mean_root_orientation_error_rad": 0.06525612622499466,
+      "mean_relative_body_position_error_m": 0.04877080023288727,
+      "mean_joint_rmse_rad": 0.15884412825107574,
+      "last_frame_root_position_error_m": 0.07842567563056946
+    },
+    {
+      "motion": "walk2_subject3",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11908,
+      "full_reference_steps": 11908,
+      "execution_seconds": 238.16,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8930006264550953,
+      "tracking_coverage": 0.9635539133355727,
+      "reward_component_sums": [
+        229.38160456717014,
+        183.34203655202873,
+        221.43864289639617,
+        215.07394064748587,
+        109.38349724790707,
+        114.7026975316694,
+        -9.368367145061029,
+        -0.5689069452317881
+      ],
+      "upright_steps": 11537,
+      "heading_error_upright_rad": 0.03111543133854866,
+      "mean_root_position_error_m": 0.08039643615484238,
+      "mean_root_xy_error_m": 0.07773290574550629,
+      "mean_root_orientation_error_rad": 0.06572706997394562,
+      "mean_relative_body_position_error_m": 0.05317901819944382,
+      "mean_joint_rmse_rad": 0.15748213231563568,
+      "last_frame_root_position_error_m": 0.05460363253951073
+    },
+    {
+      "motion": "walk2_subject4",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 11908,
+      "full_reference_steps": 11908,
+      "execution_seconds": 238.16,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.9114610690696726,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        230.34023445798084,
+        196.6861890105356,
+        221.66459674900398,
+        216.36748157790862,
+        113.26321490108967,
+        116.15328669222072,
+        -8.794352598151818,
+        -0.3128099670361735
+      ],
+      "upright_steps": 11908,
+      "heading_error_upright_rad": 0.024213971570134163,
+      "mean_root_position_error_m": 0.057703930884599686,
+      "mean_root_xy_error_m": 0.05411358177661896,
+      "mean_root_orientation_error_rad": 0.056450147181749344,
+      "mean_relative_body_position_error_m": 0.049213770776987076,
+      "mean_joint_rmse_rad": 0.13686919212341309,
+      "last_frame_root_position_error_m": 0.02826722525060177
+    },
+    {
+      "motion": "walk3_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12330,
+      "full_reference_steps": 12330,
+      "execution_seconds": 246.6,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8822228062955704,
+      "tracking_coverage": 0.964963503649635,
+      "reward_component_sums": [
+        235.7834675339982,
+        184.4340079758503,
+        228.76967504894128,
+        219.39285378216476,
+        113.89465692441445,
+        116.69561496127426,
+        -9.80600546423625,
+        -1.3835504351973213
+      ],
+      "upright_steps": 11319,
+      "heading_error_upright_rad": 0.03081885538995266,
+      "mean_root_position_error_m": 0.07096611708402634,
+      "mean_root_xy_error_m": 0.06717559695243835,
+      "mean_root_orientation_error_rad": 0.07152362167835236,
+      "mean_relative_body_position_error_m": 0.056303441524505615,
+      "mean_joint_rmse_rad": 0.17382703721523285,
+      "last_frame_root_position_error_m": 0.100834421813488
+    },
+    {
+      "motion": "walk3_subject2",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12330,
+      "full_reference_steps": 12330,
+      "execution_seconds": 246.6,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.9342486350634721,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        241.82321300916374,
+        214.51237199734896,
+        235.5434180884622,
+        229.64491553604603,
+        119.14732030965388,
+        119.85460518207401,
+        -8.005043822030757,
+        -0.5922347641928809
+      ],
+      "upright_steps": 12330,
+      "heading_error_upright_rad": 0.02341117337346077,
+      "mean_root_position_error_m": 0.0489688366651535,
+      "mean_root_xy_error_m": 0.047264110296964645,
+      "mean_root_orientation_error_rad": 0.0633079782128334,
+      "mean_relative_body_position_error_m": 0.04115426540374756,
+      "mean_joint_rmse_rad": 0.12315566092729568,
+      "last_frame_root_position_error_m": 0.03664032369852066
+    },
+    {
+      "motion": "walk3_subject3",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12330,
+      "full_reference_steps": 12330,
+      "execution_seconds": 246.6,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8351960980906684,
+      "tracking_coverage": 0.9927007299270073,
+      "reward_component_sums": [
+        213.5140104824677,
+        138.6142167649154,
+        230.63550910516642,
+        225.3769069397822,
+        112.07757479482098,
+        118.51106252614409,
+        -8.119494708074129,
+        -0.8129980953044651
+      ],
+      "upright_steps": 8841,
+      "heading_error_upright_rad": 0.02882983908057213,
+      "mean_root_position_error_m": 0.07946029305458069,
+      "mean_root_xy_error_m": 0.07309480011463165,
+      "mean_root_orientation_error_rad": 0.06791436672210693,
+      "mean_relative_body_position_error_m": 0.09510280191898346,
+      "mean_joint_rmse_rad": 0.2619014084339142,
+      "last_frame_root_position_error_m": 0.08158870041370392
+    },
+    {
+      "motion": "walk3_subject4",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12330,
+      "full_reference_steps": 12330,
+      "execution_seconds": 246.6,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.8919216117233232,
+      "tracking_coverage": 0.994809407948094,
+      "reward_component_sums": [
+        234.60508431401104,
+        181.1317150362816,
+        234.10618345486,
+        225.0482240745623,
+        117.90194414951839,
+        117.64297390193678,
+        -7.870927532053884,
+        -2.8258503626325364
+      ],
+      "upright_steps": 11089,
+      "heading_error_upright_rad": 0.02737138606607914,
+      "mean_root_position_error_m": 0.0542759969830513,
+      "mean_root_xy_error_m": 0.051034096628427505,
+      "mean_root_orientation_error_rad": 0.07233383506536484,
+      "mean_relative_body_position_error_m": 0.05656025558710098,
+      "mean_joint_rmse_rad": 0.1795910745859146,
+      "last_frame_root_position_error_m": 0.030180977657437325
+    },
+    {
+      "motion": "walk3_subject5",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 12330,
+      "full_reference_steps": 12330,
+      "execution_seconds": 246.6,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.9202176848047285,
+      "tracking_coverage": 1.0,
+      "reward_component_sums": [
+        242.10604002326727,
+        210.99589338572696,
+        230.65219126548618,
+        224.5029167580651,
+        118.52493932982907,
+        119.61999025195837,
+        -9.110609582184651,
+        -2.6629567529116684
+      ],
+      "upright_steps": 12330,
+      "heading_error_upright_rad": 0.03332170471549034,
+      "mean_root_position_error_m": 0.05209958925843239,
+      "mean_root_xy_error_m": 0.04889891669154167,
+      "mean_root_orientation_error_rad": 0.06463126838207245,
+      "mean_relative_body_position_error_m": 0.039223577827215195,
+      "mean_joint_rmse_rad": 0.11937350034713745,
+      "last_frame_root_position_error_m": 0.0594349130988121
+    },
+    {
+      "motion": "walk4_subject1",
+      "failed": false,
+      "reason": "completed",
+      "executed_steps": 8195,
+      "full_reference_steps": 8195,
+      "execution_seconds": 163.9,
+      "failure_seconds": null,
+      "completion_fraction": 1.0,
+      "normalized_return": 0.9453421583060514,
+      "tracking_coverage": 0.9952410006101281,
+      "reward_component_sums": [
+        161.91474974807352,
+        141.06484318664297,
+        159.49215972218371,
+        155.7469775112986,
+        79.79568272246979,
+        81.03116731159389,
+        -4.186118860200793,
+        -0.151563556381916
+      ],
+      "upright_steps": 8195,
+      "heading_error_upright_rad": 0.020824436098337173,
+      "mean_root_position_error_m": 0.04181824252009392,
+      "mean_root_xy_error_m": 0.038761503994464874,
+      "mean_root_orientation_error_rad": 0.036682456731796265,
+      "mean_relative_body_position_error_m": 0.03098592534661293,
+      "mean_joint_rmse_rad": 0.11876405775547028,
+      "last_frame_root_position_error_m": 0.03311269357800484
+    }
+  ],
+  "trajectory_directory": "trajectories",
+  "score_and_video_share_trajectory": true,
+  "protocol": {
+    "start_frame": 0,
+    "friction": 1.0,
+    "observation_noise": false,
+    "domain_randomization": false,
+    "failure": "reference-relative height >0.25 m OR gravity-z difference >0.8 OR nonfinite",
+    "normalization": "0.1 * full reference transitions; failed tail zero",
+    "tracking_coverage": "survived AND position<=0.3m AND SO3<=0.4rad, divided by full reference steps",
+    "upright_heading": "both robot and reference gravity-z < -cos(pi/4)",
+    "scope": "training-motion coverage, not generalization"
+  },
+  "mean_normalized_return": 0.780125851920393,
+  "mean_completion_fraction": 0.9298718715259268,
+  "mean_tracking_coverage": 0.8632201321553857,
+  "mean_execution_seconds": 205.45300000000006,
+  "evaluation_source": "lafan",
+  "training_manifest": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_full_lafan_p9/manifest.json",
+  "training_clip_count": 130434
+}
