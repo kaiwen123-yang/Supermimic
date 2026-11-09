@@ -2383,8 +2383,8 @@
     "20261108-p10-8k-hard-practice-s0": {
       "status": "running",
       "training_started": true,
-      "training_done": false,
-      "full_clip_evaluation_done": false,
+      "training_done": true,
+      "full_clip_evaluation_done": true,
       "jobs": {
         "full8k_control": {
           "job": "full8k_control",
@@ -3948,10 +3948,10 @@
           "job": "full8k_hard_practice",
           "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
           "tmux": "sm-p10-full8k-hard",
-          "status": "running",
+          "status": "publishing",
           "training_started": true,
-          "training_done": false,
-          "full_clip_evaluation_done": false,
+          "training_done": true,
+          "full_clip_evaluation_done": true,
           "lightweight_results_published": false,
           "initialization": "full_resume",
           "start_iteration": 9000,
@@ -5392,7 +5392,129 @@
                 "executed_quality_gap": 0.13626829648585526
               }
             }
-          }
+          },
+          "final_iteration": 27000,
+          "training_snapshot": {
+            "status": "budget_completed",
+            "method": "supermimic",
+            "iteration": 27000,
+            "actor_updates": 26995,
+            "sim_transitions": 461586432,
+            "wall_seconds": 173708.7847593818,
+            "stage_wall_seconds": 124971.99206727743,
+            "new_training_iterations": 18000,
+            "new_joint_updates": 18000,
+            "new_wm_only_updates": 0,
+            "new_actor_updates": 18000,
+            "new_sim_transitions": 369164288,
+            "start_iteration": 9000,
+            "target_iteration": 27000,
+            "world_termination_loss": "aux_bce",
+            "full_clip_evaluation_done": false,
+            "qualification_pass": false
+          },
+          "cost": {
+            "stage_wall_seconds": 124971.99206727743,
+            "inherited_training_seconds": 257052.04988003522,
+            "total_known_training_seconds": 382024.04194731265,
+            "new_joint_updates": 18000,
+            "new_sim_transitions": 369164288,
+            "imagined_steps": 4718592000,
+            "WM_prediction_steps": 5898240000,
+            "evaluation_wall_seconds": 17908.559756638482,
+            "shared_gpu": true
+          },
+          "evaluated_bones_iterations": [
+            15000,
+            21000,
+            27000
+          ],
+          "evaluated_lafan_iterations": [
+            12000,
+            15000,
+            18000,
+            21000,
+            24000,
+            27000
+          ],
+          "publications": [
+            {
+              "status": "published",
+              "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+              "iteration": 12000,
+              "final": false,
+              "bones_evaluated": false,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0012000",
+              "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+              "completed_unix": 1794220492.565273,
+              "publication_recovery": "existing scores, no repeated evaluation"
+            },
+            {
+              "status": "published",
+              "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+              "iteration": 15000,
+              "final": false,
+              "bones_evaluated": true,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0015000",
+              "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+              "completed_unix": 1794220492.5657852,
+              "publication_recovery": "existing scores, no repeated evaluation"
+            },
+            {
+              "status": "published",
+              "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+              "iteration": 18000,
+              "final": false,
+              "bones_evaluated": false,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0018000",
+              "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+              "completed_unix": 1794220492.5665033,
+              "publication_recovery": "existing scores, no repeated evaluation"
+            },
+            {
+              "status": "published",
+              "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+              "iteration": 21000,
+              "final": false,
+              "bones_evaluated": true,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0021000",
+              "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+              "completed_unix": 1794220492.5670013,
+              "publication_recovery": "existing scores, no repeated evaluation"
+            },
+            {
+              "status": "published",
+              "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+              "iteration": 24000,
+              "final": false,
+              "bones_evaluated": false,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0024000",
+              "results_commit": "f0494d699f5a926758fdcd628b8d402cb2696fbc",
+              "completed_unix": 1794234562.8350942
+            },
+            {
+              "status": "published",
+              "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+              "iteration": 27000,
+              "final": true,
+              "bones_evaluated": true,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0027000",
+              "results_commit": "cca8155b2cf985b4560efae0479a7af82419ebe9",
+              "completed_unix": 1794262078.4417367
+            }
+          ]
         }
       },
       "summary": "results/20261108-p10-8k-hard-practice-s0/summary.json",
@@ -6288,7 +6410,7 @@
     "review_data": "results/20261107-p9-critic-full-scale-s0/review_20261108.json",
     "plan_and_review_published": true,
     "training_started": true,
-    "training_done": false,
+    "training_done": true,
     "formal_evaluation_done": false,
     "lightweight_results_published": false,
     "completed_parent_campaign": "20261107-p9-critic-full-scale-s0",
@@ -7857,10 +7979,10 @@
         "job": "full8k_hard_practice",
         "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
         "tmux": "sm-p10-full8k-hard",
-        "status": "running",
+        "status": "publishing",
         "training_started": true,
-        "training_done": false,
-        "full_clip_evaluation_done": false,
+        "training_done": true,
+        "full_clip_evaluation_done": true,
         "lightweight_results_published": false,
         "initialization": "full_resume",
         "start_iteration": 9000,
@@ -9301,7 +9423,129 @@
               "executed_quality_gap": 0.13626829648585526
             }
           }
-        }
+        },
+        "final_iteration": 27000,
+        "training_snapshot": {
+          "status": "budget_completed",
+          "method": "supermimic",
+          "iteration": 27000,
+          "actor_updates": 26995,
+          "sim_transitions": 461586432,
+          "wall_seconds": 173708.7847593818,
+          "stage_wall_seconds": 124971.99206727743,
+          "new_training_iterations": 18000,
+          "new_joint_updates": 18000,
+          "new_wm_only_updates": 0,
+          "new_actor_updates": 18000,
+          "new_sim_transitions": 369164288,
+          "start_iteration": 9000,
+          "target_iteration": 27000,
+          "world_termination_loss": "aux_bce",
+          "full_clip_evaluation_done": false,
+          "qualification_pass": false
+        },
+        "cost": {
+          "stage_wall_seconds": 124971.99206727743,
+          "inherited_training_seconds": 257052.04988003522,
+          "total_known_training_seconds": 382024.04194731265,
+          "new_joint_updates": 18000,
+          "new_sim_transitions": 369164288,
+          "imagined_steps": 4718592000,
+          "WM_prediction_steps": 5898240000,
+          "evaluation_wall_seconds": 17908.559756638482,
+          "shared_gpu": true
+        },
+        "evaluated_bones_iterations": [
+          15000,
+          21000,
+          27000
+        ],
+        "evaluated_lafan_iterations": [
+          12000,
+          15000,
+          18000,
+          21000,
+          24000,
+          27000
+        ],
+        "publications": [
+          {
+            "status": "published",
+            "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+            "iteration": 12000,
+            "final": false,
+            "bones_evaluated": false,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0012000",
+            "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+            "completed_unix": 1794220492.565273,
+            "publication_recovery": "existing scores, no repeated evaluation"
+          },
+          {
+            "status": "published",
+            "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+            "iteration": 15000,
+            "final": false,
+            "bones_evaluated": true,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0015000",
+            "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+            "completed_unix": 1794220492.5657852,
+            "publication_recovery": "existing scores, no repeated evaluation"
+          },
+          {
+            "status": "published",
+            "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+            "iteration": 18000,
+            "final": false,
+            "bones_evaluated": false,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0018000",
+            "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+            "completed_unix": 1794220492.5665033,
+            "publication_recovery": "existing scores, no repeated evaluation"
+          },
+          {
+            "status": "published",
+            "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+            "iteration": 21000,
+            "final": false,
+            "bones_evaluated": true,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0021000",
+            "results_commit": "e6bd4ca4056faaa0d513f05f53a661ad61dc06ad",
+            "completed_unix": 1794220492.5670013,
+            "publication_recovery": "existing scores, no repeated evaluation"
+          },
+          {
+            "status": "published",
+            "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+            "iteration": 24000,
+            "final": false,
+            "bones_evaluated": false,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0024000",
+            "results_commit": "f0494d699f5a926758fdcd628b8d402cb2696fbc",
+            "completed_unix": 1794234562.8350942
+          },
+          {
+            "status": "published",
+            "run": "20261108-p10-8k-hard-practice-s0-full8k_hard_practice",
+            "iteration": 27000,
+            "final": true,
+            "bones_evaluated": true,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0027000",
+            "results_commit": "cca8155b2cf985b4560efae0479a7af82419ebe9",
+            "completed_unix": 1794262078.4417367
+          }
+        ]
       }
     },
     "concurrency": {
@@ -9313,7 +9557,7 @@
     "required_for_lafan1_reproduction_acceptance": false,
     "artifact_policy": "Publish necessary code/configs, all compact per-clip scalars and bounded specified evidence to GitHub. Large artifacts remain on training server. No local-computer archive after push, Release/tar or automatic stage cleanup.",
     "automatic_stage_cleanup": false,
-    "full_clip_evaluation_done": false,
+    "full_clip_evaluation_done": true,
     "summary": "results/20261108-p10-8k-hard-practice-s0/summary.json",
     "backup_status": "awaiting_user_export_not_confirmed",
     "campaign": "20261108-p10-8k-hard-practice-s0"
