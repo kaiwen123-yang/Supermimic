@@ -16,7 +16,8 @@ URL=f"https://github.com/{REPO}.git"
 # P3 milestone publication hit repeated TLS timeouts through academic acceleration.
 # Use the existing D57 proxy for GitHub requests without changing training's environment.
 GH_ENV=os.environ.copy()
-GH_ENV.update({key:"http://127.0.0.1:7890" for key in
+GITHUB_PROXY=os.environ.get("SUPERMIMIC_GITHUB_PROXY", "http://127.0.0.1:7890")
+GH_ENV.update({key:GITHUB_PROXY for key in
                ("HTTPS_PROXY","HTTP_PROXY","ALL_PROXY","https_proxy","http_proxy","all_proxy")})
 
 
@@ -29,7 +30,7 @@ def call(args,cwd=ROOT):
 
 def git(*args,cwd=ROOT):
     return call(["git","-c","credential.helper=","-c","credential.helper=!gh auth git-credential",
-                 "-c","http.proxy=http://127.0.0.1:7890",*args],cwd)
+                 "-c","http.proxy="+GITHUB_PROXY,*args],cwd)
 
 
 def release_by_tag(tag,release_id=None):

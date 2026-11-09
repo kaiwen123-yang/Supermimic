@@ -1,6 +1,7 @@
 """Stage-relative P10 scoring/publication under the existing single lock."""
 import argparse
 import fcntl
+import os
 import shutil
 import subprocess
 import sys
@@ -8,6 +9,10 @@ import time
 from pathlib import Path
 from p10_results import ROOT, PROTOCOL, read, write, refresh, index_update, node_view, paired_comparisons
 from p10_metrics import read_score, comparison
+# P10's original localhost route failed TLS at every milestone. Use the existing
+# AutoDL academic route in this publication process only; training is untouched.
+os.environ["SUPERMIMIC_GITHUB_PROXY"] = subprocess.check_output(
+    ["bash", "-c", 'source /etc/network_turbo >/dev/null 2>&1; printf "%s" "$https_proxy"'], text=True).strip()
 from publish_checkpoint import push_results
 from finish_tracking_campaign import training_summary
 

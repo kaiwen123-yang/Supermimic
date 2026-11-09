@@ -1,0 +1,53 @@
+{
+  "iteration": 10167,
+  "block_end": 11000,
+  "critic_mse": 0.8945342779159546,
+  "rollout_count": 4,
+  "arrays": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/training_evidence/interval_0011000.npz",
+  "actual_update": {
+    "critic_optimization_objective": 0.7520998626947403,
+    "raw_critic_mse": 0.8945342779159546,
+    "survival_weighted_critic_mse": 0.7520998626947403,
+    "survival_mean": 0.9258441925048828,
+    "zero_survival_suffix_squared_error_sum": 254082.193359375,
+    "all_squared_error_sum": 1172483.96875
+  },
+  "actual_update_parameter_phase": "Mean over the actual 5x4 evolving Critic optimizer minibatches; stored oldV/targets precede fitting.",
+  "selected_motions": [
+    {
+      "motion": "bones__proud_walk_ff_360_R_001__A545_M",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 526
+    },
+    {
+      "motion": "bones__idle_right_R_003__A236",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 798
+    },
+    {
+      "motion": "lafan__walk3_subject3",
+      "source": "lafan",
+      "hard_member": false,
+      "start_frame": 4723
+    },
+    {
+      "motion": "bones__walk_ff_start_360_003__A147_M",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 194
+    }
+  ],
+  "selection": "Highest normal-update critic_mse in block; top max_t abs(lambda_target-old_V).",
+  "parameter_phase": "WM after normal fit; Actor before policy step; stored Critic before fitting.",
+  "source_names": [
+    "lafan",
+    "bones"
+  ],
+  "termination_semantics": "current_survival_weight is pre-transition; natural_end is boolean; geometric_termination_probability is analytic soft probability before natural-end override, without threshold.",
+  "state_layout": "world root XYZ, root quaternion wxyz, 29 joints, 35 velocities, previous action; dt=.02",
+  "imagination_horizon": 32,
+  "data_manifest": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_full_lafan_p9/manifest.json",
+  "interpretation": "Existing imagined samples, not Actor-gradient attribution or an exact checkpoint snapshot; yaw D is descriptive."
+}
