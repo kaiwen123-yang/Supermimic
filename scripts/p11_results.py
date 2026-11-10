@@ -70,7 +70,10 @@ def refresh():
 
 def index_update(index, summary):
     record = {k:summary[k] for k in ("status","training_started","training_done","full_clip_evaluation_done","lightweight_results_published","jobs")}
-    record.update(summary=f"results/{summary['campaign']}/summary.json", automatic_stage_cleanup=False,
+    record.update(implementation_status="implemented_and_completed" if summary["status"]=="completed" else "implemented_and_formally_running",
+        formal_evaluation_done=summary["full_clip_evaluation_done"],
+        execution_authorization="User authorized implementation and formal P11 launch on 2026-11-10.",
+        summary=f"results/{summary['campaign']}/summary.json", automatic_stage_cleanup=False,
         backup_status="awaiting_user_export_not_confirmed")
     index.setdefault("campaigns",{}).setdefault(summary["campaign"],{}).update(record)
     index.setdefault("next_stage",{}).update(record,campaign=summary["campaign"])
