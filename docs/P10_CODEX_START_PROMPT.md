@@ -1,28 +1,25 @@
-# P10 正在运行：下一窗口接续
+# P10 已完成：结果与后续接续边界
 
-核实时间：2026-11-08T17:19:17.686075+08:00。代码已实施，两路已从P9 full9000完整恢复并执行真实联合更新。
+完成核实时间：2026-11-10T10:34:21.180563+08:00。两路训练、正式评分、指定小证据与轻量Git发布均完成。
 
-先读取本文件、AGENTS.md、P10计划与协议及campaign summary，再只读核实服务器当前状态。P9已完成；P10无需再次请求启动许可，也不要重复启动。
+两路均从P9 full9000完整恢复并达到27000，各新增18000次联合更新、0次WM-only更新。训练用时control34.8030h、candidate34.7144h，均在40h上限内；原tmux已正常退出。
 
-服务器：autodl-d57。工作树：/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice。source activate.sh。
+| 分支 | 全BONES R/完整 | hard R/完整 | LAFAN R/完整/起身 |
+|---|---|---|---|
+| control | 0.86659060 /129579 | 0.36908697 /193 | 0.81479628 /36 /5 |
+| candidate | 0.85921480 /129516 | 0.42915358 /298 | 0.78821171 /33 /3 |
 
-| job | tmux | 本次观察iteration | 新阶段秒 | 新增联合更新 |
-|---|---|---:|---:|---:|
-| full8k_control | sm-p10-full8k-control | 9035 | 242.389 | 35 |
-| full8k_hard_practice | sm-p10-full8k-hard | 9025 | 182.926 | 25 |
+BONES分母130394，hard分母639，LAFAN分母40，起身分母6。candidate侧滚21/22、侧手翻85/120；control分别8/22、10/120。两路flip0/44、handstand0/160。困难练习有技能收益，但本次全库回报和LAFAN保持仍由control领先。
 
-run根目录为outputs/runs/20261108-p10-8k-hard-practice-s0-<job>；训练日志为outputs/campaigns/<run>.train.log。活跃进程和最新budget.json/metrics.jsonl为实时依据，本表是带时间快照。
+结果入口：
+- results/20261108-p10-8k-hard-practice-s0/summary.json
+- results/20261108-p10-8k-hard-practice-s0/conclusion.md
+- results/20261108-p10-8k-hard-practice-s0/paired_comparison.json
 
-每路8192真实环境/8192想象/WM10×4096，source仍LAFAN2048+BONES6144。候选reset分层为2048/5120/1024，control为2048/6144/0；639 hard成员冻结，原两source的memory EMA每来源仍只更新一次。
+全部BONES节点15000/21000/27000和LAFAN节点12000/15000/18000/21000/24000/27000已评分发布，六个已有失败窗的同动作WM预测已发布。最终BONES尾窗control8、candidate7；LAFAN失败窗control4、candidate7，均来自同次正式评分。
 
-9001–27000或累计新阶段40h先到。每路已填充一次64步replay；不得因交接重建活跃replay、重置LR或重新获得40h预算。实际进程退出才从该run最新checkpoint按--resume-in-place接续，并保留累计budget。
+服务器：autodl-d57；源码工作树 /root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice。原run目录为该工作树outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_control与-full8k_hard_practice，各最终模型为checkpoint_0027000.pt。
 
-LAFAN正式节点12000/15000/18000/21000/24000/27000；全BONES15000/21000/27000。使用阶段偏移iteration-9000，复用父9000评分。实际终点补齐两项；run脚本训练结束后自动调用finish_p10.py。
+本阶段无需继续训练、恢复或重建replay。不得把历史启动提示词作为再次运行start_p10.py的指令；不自动追加预算或启动P11。后续研究需要用户新的明确任务。
 
-六个固定同动作WM短窗已经完成，结果见campaign evidence/manifest.json；不重复预测，不新跑物理扫描。正式评分、证据与Git发布共享P6的work/p2-publication.lock；训练不持锁。
-
-全库按(reference_steps, original_source_clip_id)排序组批1024，输出恢复原ID，终点每组保留原ID最小两个失败尾窗。评价同时看hard、普通姿态质量和LAFAN保持；所有逐clip标量按1000条CSV分片。
-
-继续使用现有环境/G1资产/同一P9 CPU只读memmap。不要重建环境、重做数据、测试/benchmark或额外实验。保留其他项目，不停止其他任务。
-
-两路tmux跨窗口运行，单交互窗口≤4h。预算结束按真实终点评分发布；不自动延长、Release、tar、本地归档、阶段清理或启动P11。
+大checkpoint、数据、完整轨迹和日志留D57。用户备份未确认；不Release、不tar、不在用户电脑归档、不自动阶段清理。已达成的LAFAN复现验收不因本阶段节点波动撤销。

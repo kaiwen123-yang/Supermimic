@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- P10两路已正式启动并完成真实联合更新，启动核实时间 2026-11-08T17:19:17.686075+08:00。入口为docs/P10_8K_HARD_PRACTICE_PLAN.md、configs/next_stage_8k_hard_practice_protocol.json及docs/P10_CODEX_START_PROMPT.md；实际状态见results/20261108-p10-8k-hard-practice-s0/summary.json。接续现有sm-p10-full8k-control和sm-p10-full8k-hard，不重复启动P9/P10，不重建活跃replay/LR。
+- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动、追加预算或自动开P11。
 - P9三路训练、全部正式评分与轻量发布均已完成。LAFAN原Critic60000为0.89043870/38完整，加权为0.84312458/36；全库9000为0.84379710、129220/130394，264.430633h，LAFAN保持29/40且起身0/6。复核见docs/P9_REVIEW_20261108.md及results/20261107-p9-critic-full-scale-s0/review_20261108.json，实际完成状态见该campaign的summary.json。
 - P8已经全部完成：results/20261106-p8-stability-scale-s0/summary.json、conclusion.md。H32/H16均51000，分别0.86980516/37成功、0.73023952/31成功；BONES9000为0.78952191、16631/17301，LAFAN保持10/40、0.35465644。三个训练tmux正常退出，不重复启动或延长P8。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
@@ -27,7 +27,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P10实施（两路已正式运行，接续现有tmux）
+## P10实施（已完成，保留执行约定供溯源）
 
 - campaign=20261108-p10-8k-hard-practice-s0；工作树 /root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice。两路full8k_control/full8k_hard_practice并行，稳定性与全库能力同步推进；效率专项后置，必要消除全库评分空转。
 - 两路从P9 bones_full_lafan_survival/checkpoint_0009000.pt完整resume三网络、三Adam、sampler、已保存Torch/CUDA RNG、iteration9000、actor_updates8995及LR。保留survival_weighted并非宣布其LAFAN对照获胜；保留原Critic LAFAN60000效果锚点。本轮不切换Critic变体或重新网络迁移。

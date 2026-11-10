@@ -1,6 +1,6 @@
 # P10：两路 8192 环境并行，针对困难技能增加练习
 
-状态：**必要适配已实现，两路正式训练已启动并完成真实联合更新**。核实时间：2026-11-08T17:19:17.686075+08:00。运行索引见[summary.json](../results/20261108-p10-8k-hard-practice-s0/summary.json)；正式评分尚未到首节点。
+状态：**已完成训练、全部正式评分、指定证据和轻量发布**。两路均27000，2026-11-10 06:36左右完成收尾。实际结果见[summary.json](../results/20261108-p10-8k-hard-practice-s0/summary.json)及[conclusion.md](../results/20261108-p10-8k-hard-practice-s0/conclusion.md)。下文保留原执行计划。
 固定依据：P9 已完成提交 `41d26ea07851eb5016fd256a4001aa46bf6711c4`。
 复核：[P9_REVIEW_20261108.md](P9_REVIEW_20261108.md)。
 执行协议：[next_stage_8k_hard_practice_protocol.json](../configs/next_stage_8k_hard_practice_protocol.json)。
