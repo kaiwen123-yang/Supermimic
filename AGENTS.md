@@ -8,7 +8,8 @@
 
 ## 当前任务与证据
 
-- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动、追加预算或自动开P11。
+- **P11当前为计划已发布、实现/服务器训练尚未启动。** 用户2026-11-10明确要求P10复核与下一步计划，入口为docs/P10_REVIEW_20261110.md、docs/P11_ROOT_HEIGHT_CONSISTENCY_PLAN.md、configs/next_stage_root_height_protocol.json、docs/P11_CODEX_START_PROMPT.md。本次ChatGPT发布不等于已启动训练；用户将启动提示词交给Codex后按该授权直接实施和启动，不让历史“禁止自动开P11”阻止新任务。两路同P10 hard27000完整resume，只比较原root-z残差与预测速度梯形高度约束；各8192/8192/WM10×4096，新增9000联合更新或20h，到36000，正式全库+LAFAN节点30000/33000/36000。
+- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11按上面的新授权与独立计划执行。
 - P9三路训练、全部正式评分与轻量发布均已完成。LAFAN原Critic60000为0.89043870/38完整，加权为0.84312458/36；全库9000为0.84379710、129220/130394，264.430633h，LAFAN保持29/40且起身0/6。复核见docs/P9_REVIEW_20261108.md及results/20261107-p9-critic-full-scale-s0/review_20261108.json，实际完成状态见该campaign的summary.json。
 - P8已经全部完成：results/20261106-p8-stability-scale-s0/summary.json、conclusion.md。H32/H16均51000，分别0.86980516/37成功、0.73023952/31成功；BONES9000为0.78952191、16631/17301，LAFAN保持10/40、0.35465644。三个训练tmux正常退出，不重复启动或延长P8。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
@@ -26,6 +27,19 @@
 - 必要工作树放在明确源码目录，不放入待清理缓存；保留已有工作树和Git/stash。
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
+
+## P11实施（当前计划；启动后按实际状态更新）
+
+- campaign=20261110-p11-root-height-consistency-s0；工作树 /root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency。两路full8k_residual_control/full8k_velocity_height，独立tmux sm-p11-residual/sm-p11-velocity-height。使用现有D57环境、资产和完整库，代码/配置必要实施完成后进入两路正式训练；不重复环境准备。
+- 两路共同从P10 full8k_hard_practice/checkpoint_0027000.pt完整恢复三网络、三Adam、sampler G/M、已保存Torch/CUDA RNG、iteration27000、Actor26995、collected461586432与全局LR。父已知沿革382024.04194731265秒单列。保留P10control27k、P9LAFAN原Critic60k锚点，不重评它们；LAFAN已成功不撤销。
+- 唯一变量world_root_height_mode：residual对照保留原root-z；velocity_trapezoid候选为z_next=z+.01*(vz_current+predicted_vz_next)，下一vz只取同次WM预测。XY、旋转、关节、速度、70输出与全部Adam状态不变；旧dp_z槽保留但不进入候选z。训练、保存config/checkpoint与同动作证据loader使用同一mode；明确前向语义改变，不称作者公开公式或已证明修复。
+- 两路均8192真实/8192想象/WM10×4096，k8/H32、survival_weighted、aux_bce、713/.5、原LR/奖励/终止/PD/噪声与随机化不变；source LAFAN2048/BONES6144，reset LAFAN2048/all-BONES5120/hard1024，hard639仍在all池内，共享G/M且source EMA不重复。继续共用P9底层只读mmap，不重筛/重转/重pack。
+- 每路27001–36000、新9000联合更新或本阶段累计20h先到。一次新进程必要64步fill，不新增WM-only；父统计与P11新增量分列，真实恢复累计已耗P11预算。单Codex窗口≤4h，tmux跨窗口连续，交接不重建活跃replay/LR。全库与LAFAN节点30000/33000/36000及实际终点，父27000评分复用；时间截止不同终点以已有共同节点比较，不追补预算。
+- 启动前只用原父hard27000对configs/p11_fixed_real_windows.json七条现有真实尾窗各32步同动作预测；终点两WM各同一输入一次，共21rollout/672预测步。不是新物理回放或起点扫描。真实z/vz/SO3/终止误差与正式控制成绩决定结论，候选r_z构造为零不算成功。
+- 正常已有collect/k8/H32计算顺带累计三组z-vz残差、真实预测误差，以及hard各50帧bin的collect/WM/Actor起点与flip/handstand原forward物理误差；不新增forward/backward或扫描。设备端累计，按原千轮块/节点转紧凑数据，不加逐步CPU同步。保留原每千轮至多4条selected及actual/raw/weighted Critic证据。
+- 两路8k继续并行，Torch各2线程，确有CPU汇总时最多12个单线程worker。P10已实占约89.11GiB，容器RAM上限120GiB含可回收页缓存；不凭旧60GB或宿主available增加环境/第三learner。GPU评分/证据/Git发布共用原p2-publication.lock、并发1，训练不占锁，不停止其他项目。
+- 按P10已有长度排序与1024批完整评分，逐clip CSV/1000条，固定hard/general/类别/技能/LAFAN共同质量和保持并列。终点有界失败窗来自同次正式评分。完成时刷新current latest_training/iteration及各完成状态，历史快照另列。
+- 推实际代码/配置、完整轻量评分、指定小证据与如实结论后不在用户电脑归档；大产物留服务器，rolling20及里程碑保护照旧。不Release、不tar、不自动阶段清理，不把用户备份作为完成步骤。禁止防御性编程及单元/mock/冒烟/导入/形状/哈希测试、恢复演练、容量/吞吐benchmark或无关扫描。真实错误针对修复；不自动扩预算、加其他算法变量或开P12。
 
 ## P10实施（已完成，保留执行约定供溯源）
 
@@ -152,3 +166,4 @@ P5两支均已完成到24000；本节保留原方案供溯源，当前执行入�
 - 保留产物留服务器待用户备份是正常结果，不把它们列为必须补传才能完成研究的失败项。阶段收尾报告真实成绩、轻量GitHub链接和本地产物位置，不自动删除或重新归档。
 - 永久保护源码、scripts/configs/docs、.git/stash、.venv、依赖锁、激活脚本、G1 XML/网格、开发工作树、仍在使用的输入/父模型、其他项目和共享依赖。
 - 禁止删除项目根、整个outputs/.cache/work，禁止旧finish或20261101整体清理入口删除保留实验原件。P3已完成的历史清理不重做。
+

@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "protocol_id": "p11-root-height-consistency-v1",
+  "stage": "P11",
+  "status": "planned",
+  "implementation_status": "not_started",
+  "training_started": false,
+  "planned_date_beijing": "2026-11-10",
+  "evidence_commit": "f0495ea84fbfff2b0b497a6a92a528e2b054546c",
+  "campaign": "20261110-p11-root-height-consistency-s0",
+  "review": "docs/P10_REVIEW_20261110.md",
+  "review_data": "results/20261108-p10-8k-hard-practice-s0/review_20261110.json",
+  "plan": "docs/P11_ROOT_HEIGHT_CONSISTENCY_PLAN.md",
+  "startup_prompt": "docs/P11_CODEX_START_PROMPT.md",
+  "authorization_scope_at_publication": "Analyze completed P10 and publish next plan; implementation and server launch occur when the user supplies the startup prompt to Codex.",
+  "objective": "Compare independent root-height residual with a root-height update tied to predicted vertical velocity, while continuing full-library learning and preserving acquired skills.",
+  "acceptance": "LAFAN full40 R>=0.82 is already accepted as reproduced. This research does not add acceptance requirements or revoke that success.",
+  "evidence": {
+    "established": [
+      "P10 hard quota reached real collection, effective WM windows and Actor starts.",
+      "Side roll21/22 and cartwheel85/120 improved; flip0/44 and handstand0/160 persist.",
+      "P10 selected imagined transitions at actual iterations18846,20761,26303 include z-vz inconsistency under positive/high pre-reward survival."
+    ],
+    "limits": [
+      "Selected trajectories are biased by Critic error and have no matched real future; they do not estimate population error or prove the cause of all failures.",
+      "Published six same-action WM windows use P9 full9000, not P10 final27000.",
+      "Endpoint trapezoidal integration is an approximate prior, not exact MuJoCo four-substep integration or an author-published formula."
+    ],
+    "current_parent_evidence_timing": "Once before either P11 training process starts, evaluate the seven frozen existing P10 hard27000 true action windows with the original parent WM. Record findings; do not change the fixed pair, add windows or parameter sweeps automatically."
+  },
+  "execution": {
+    "host": "autodl-d57",
+    "worktree": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency",
+    "reuse_environment_from": "/root/autodl-tmp/robot-repro/supermimic",
+    "activate": "source activate.sh",
+    "gpu_training_concurrency": 2,
+    "shared_gpu": true,
+    "logical_cpu_budget": 25,
+    "torch_threads_per_training_and_evaluation": 2,
+    "max_cpu_aggregation_workers": 12,
+    "cpu_numeric_threads_per_worker": 1,
+    "cpu_preparation": "None; reuse original P9 immutable CPU read-only memmap and manifests, including the original hard mapping.",
+    "startup_order": "Implement required changes; compute seven parent windows under the existing shared lock; start control as a real job, complete its one-time fill and enter joint updates, then immediately start candidate as a real job.",
+    "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
+    "evaluation_evidence_publication_concurrency": 1,
+    "training_uses_publication_lock": false,
+    "codex_window_max_hours": 4,
+    "tmux_survives_handoff": true,
+    "stop_other_projects": false,
+    "resource_basis": {
+      "device_total_mib": 97887,
+      "p10_training_process_mib_each": 42492,
+      "observed_total_used_mib": 91252,
+      "cgroup_memory_max_bytes": 128849018880,
+      "cgroup_memory_current_observed_bytes": 126380883968,
+      "interpretation": "Memory current includes reclaimable page cache. Host /proc memory is not the container limit. No environment-count increase or capacity benchmark."
+    },
+    "resource_reporting": "At normal startup/publication nodes include GPU process and allocated/reserved usage, original timing, cgroup memory.max/current and memory.stat anon/file/inactive_file; no new monitoring service."
+  },
+  "parent": {
+    "campaign": "20261108-p10-8k-hard-practice-s0",
+    "job": "full8k_hard_practice",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/checkpoint_0027000.pt",
+    "iteration": 27000,
+    "actor_updates": 26995,
+    "collected_sim_transitions": 461586432,
+    "known_inherited_training_seconds": 382024.04194731265,
+    "restore": [
+      "Actor",
+      "WorldModel",
+      "Critic",
+      "all_three_Adam_states",
+      "sampler_returns_and_memory",
+      "saved_Torch_CPU_and_CUDA_RNG",
+      "global_iteration",
+      "actor_update_count",
+      "collected_transition_count",
+      "global_LR_schedule"
+    ],
+    "not_in_parent_checkpoint": [
+      "live_replay",
+      "live_simulator_state"
+    ],
+    "initial_reset": "Construct with reset_on_init=false; restore sampler and saved RNG before first real reset, following implemented P10 behavior.",
+    "once_per_new_process_replay_fill_steps": 64,
+    "do_not_add_wm_only_warmup": true,
+    "stage_statistics": "New P11 counters start at zero; actual same-run resumes continue P11 counters and consumed time. A user handoff does not restart the live process."
+  },
+  "jobs": {
+    "full8k_residual_control": {
+      "status": "planned",
+      "implementation_status": "not_started",
+      "training_started": false,
+      "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+      "tmux": "sm-p11-residual",
+      "config": "configs/bones_full_lafan_p11_full8k_residual_control.json",
+      "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency/outputs/runs/20261110-p11-root-height-consistency-s0-full8k_residual_control",
+      "initialization": "full_resume",
+      "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/checkpoint_0027000.pt",
+      "world_root_height_mode": "residual",
+      "start_iteration": 27000,
+      "target_iteration": 36000,
+      "new_joint_updates": 9000,
+      "max_accumulated_stage_seconds": 72000,
+      "additional_wm_only_updates": 0
+    },
+    "full8k_velocity_height": {
+      "status": "planned",
+      "implementation_status": "not_started",
+      "training_started": false,
+      "run": "20261110-p11-root-height-consistency-s0-full8k_velocity_height",
+      "tmux": "sm-p11-velocity-height",
+      "config": "configs/bones_full_lafan_p11_full8k_velocity_height.json",
+      "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency/outputs/runs/20261110-p11-root-height-consistency-s0-full8k_velocity_height",
+      "initialization": "full_resume",
+      "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p10-8k-hard-practice/outputs/runs/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/checkpoint_0027000.pt",
+      "world_root_height_mode": "velocity_trapezoid",
+      "start_iteration": 27000,
+      "target_iteration": 36000,
+      "new_joint_updates": 9000,
+      "max_accumulated_stage_seconds": 72000,
+      "additional_wm_only_updates": 0
+    }
+  },
+  "single_variable": {
+    "field": "world_root_height_mode",
+    "control_value": "residual",
+    "candidate_value": "velocity_trapezoid",
+    "control_equation": "z_next = z + 0.02*vz + yaw_rotated_dp_z",
+    "candidate_equation": "z_next = z + 0.01*(vz + predicted_vz_next)",
+    "predicted_vz_next": "World-frame vertical velocity from the same existing WM forward; no true next-state velocity, reference velocity, new model or teacher forcing.",
+    "unchanged": [
+      "root_xy_update",
+      "root_quaternion_update",
+      "joint_position_update",
+      "all_velocity_updates",
+      "previous_action_output",
+      "70_output_shape",
+      "all_parameter_names_and_shapes",
+      "all_Adam_state",
+      "state_loss_70_coordinate_reduction",
+      "BCE",
+      "Actor_objective",
+      "Critic_objective"
+    ],
+    "unused_original_dp_z": "Keep output slot and parameters; omit its contribution to candidate z without deleting or resetting the head.",
+    "semantic_recording": "Candidate changes the WM forward despite full parameter/optimizer resume. Save mode in actual config/checkpoint and apply it in learner and all fixed-window model loaders. Legacy checkpoints mean residual.",
+    "not_success_metric": "Candidate kinematic residual is zero by construction; use actual real-control and matched real-trajectory prediction metrics."
+  },
+  "common_training": {
+    "real_environments": 8192,
+    "imagined_batch": 8192,
+    "world_model_batches_per_update": 10,
+    "world_model_batch_size": 4096,
+    "world_horizon": 8,
+    "imagination_horizon": 32,
+    "replay_steps_per_environment": 1000,
+    "collection_steps": "existing2/3 alternation",
+    "critic_epochs": 5,
+    "critic_minibatches": 4,
+    "critic_loss": "survival_weighted",
+    "source_environment_counts": {
+      "lafan": 2048,
+      "bones": 6144
+    },
+    "reset_stratum_environment_counts": {
+      "lafan": 2048,
+      "bones_all": 5120,
+      "bones_hard": 1024
+    },
+    "hard_motion_manifest": "configs/p10_hard_motion_set.json",
+    "hard_motions": 639,
+    "reset_bin_frames": 50,
+    "sampling_semantics": "Two source groups, three overlapping reset strata; hard remains in bones_all; one shared restored G/M and one EMA update per original source, no duplicate hard-source update.",
+    "sampler_Gmax": 10,
+    "training_timeout_steps": 500,
+    "root_feedback_scale_m": 0.3,
+    "actor_learning_rate_scale": 0.5,
+    "lr_schedule": "Continue inherited global cosine schedule unchanged; no batch-based LR increase.",
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "world_termination_loss": "aux_bce",
+    "imagined_termination": "analytic_smooth",
+    "termination_temperature": 0.05,
+    "reference_store": "Exact existing P9 CPU read-only mmap; no repack, rescreen, copy or new download. Goal context window43 frames.",
+    "other_parameters": "Preserve actual P10 hard27000 config: reward, physical termination, PD, action scale, observation/action noise, randomization, history, architecture and optimizer settings.",
+    "shared_goal_features": 710,
+    "actor_goal_with_root_feedback_features": 713
+  },
+  "budget": {
+    "start_iteration": 27000,
+    "first_joint_iteration": 27001,
+    "target_iteration": 36000,
+    "new_joint_updates": 9000,
+    "max_accumulated_stage_seconds_per_job": 72000,
+    "stop_rule": "First of9000 new joint updates or20h accumulated new stage training time; no automatic extension.",
+    "replay_fill_counts_toward_stage": true,
+    "resume_restores_consumed_stage_time": true,
+    "parent_history_evaluation_evidence_publication_costs": "Record separately; elapsed training still includes slowdown from shared resource contention.",
+    "expected_if_one_process_and_full_updates": {
+      "new_real_transitions_including_fill": 184844288,
+      "imagined_steps": 2359296000,
+      "WM_prediction_steps": 2949120000,
+      "final_actor_updates": 35995
+    },
+    "scope": "Budget is a research comparison, not evidence of convergence or reproduction progress percentage."
+  },
+  "fixed_real_windows": {
+    "manifest": "configs/p11_fixed_real_windows.json",
+    "motions": 7,
+    "steps_each": 32,
+    "model_instances": [
+      "parent hard27000 original WM before training",
+      "residual control actual endpoint",
+      "velocity-height actual endpoint"
+    ],
+    "maximum_rollouts": 21,
+    "maximum_prediction_steps": 672,
+    "new_physics_rollouts": 0,
+    "scan_starts": false,
+    "comparison": "Same recorded true initial qpos/qvel/previous_action/context33, reference frames and executed actions. Feed model state recursively after the first state.",
+    "report_steps": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "required_arrays": [
+      "true_and_predicted_state",
+      "executed_action",
+      "reference_qpos_qvel",
+      "context33",
+      "integer_state_and_action_frames",
+      "true_failure_position",
+      "predicted_analytic_termination",
+      "predicted_learned_termination",
+      "predicted_pre_reward_survival",
+      "reward_components"
+    ],
+    "required_summary": [
+      "z_error_m",
+      "vz_error_m_per_s",
+      "root_SO3_error_rad",
+      "joint_RMSE_rad",
+      "true_and_predicted_height_velocity_residual_m",
+      "reward_error",
+      "termination_behavior",
+      "checkpoint",
+      "actual_iteration",
+      "world_root_height_mode"
+    ],
+    "midpoint_reruns": false,
+    "bias": "All seven are existing selected real failures, not a population sample."
+  },
+  "normal_training_statistics": {
+    "reuse_only_existing_computation": true,
+    "additional_forward_backward_or_physics": false,
+    "groups": [
+      "lafan",
+      "fixed_hard_bones",
+      "other_bones"
+    ],
+    "kinematic_residual": "r_z=z_next-z-.01*(vz+vz_next)",
+    "wm": "Reuse k8 predicted/target states and existing error tensors; accumulate true/pred r_z and real z/vz/SO3 prediction error with counts.",
+    "actor": "Reuse H32 states and detach pre-reward S_t; accumulate sumS, sum(S*r), sum(S*abs(r)), sum(S*r*r), plus natural-end counts. No new hard threshold or epsilon.",
+    "hard_bin_counts": [
+      "real_transition_start_count",
+      "effective_WM_window_start_count",
+      "Actor_start_count"
+    ],
+    "bin_key": "original_BONES_source_clip_id and floor(start_reference_frame/50); crossing WM windows and all their errors belong to the start bin.",
+    "flip_handstand_bin_error_sums": [
+      "z_squared_error_m2",
+      "vz_squared_error_m2_per_s2",
+      "root_SO3_squared_error_rad2",
+      "WM_prediction_samples"
+    ],
+    "bin_metrics_use_existing_errors": "z coordinate2; velocity-z coordinate37 in70-error layout has /3 scaling, so square error times9 restores physical units; rotation sum over3:6. Use actual existing tensor layout when implementing.",
+    "retained_existing_metrics": [
+      "per_clip_exposure",
+      "reset_bin_visits",
+      "normal_loss_gradient_timing",
+      "raw_and_weighted_and_actual_Critic_objective",
+      "zero_S_suffix_SSE",
+      "Smean"
+    ],
+    "selected_rollouts": "Keep existing at most4 already-computed examples per1000 updates; add mode/residual metadata, no extra sampling.",
+    "flush": "Accumulate detached tensors on device, transfer compact sums and counts at existing1000-update blocks or formal milestones; avoid per-step CPU synchronization.",
+    "does_not_change_sampling_or_curriculum": true
+  },
+  "evaluation": {
+    "parent27000": "Reuse existing P10 hard endpoint full BONES and LAFAN results.",
+    "bones_iterations": [
+      30000,
+      33000,
+      36000
+    ],
+    "lafan_iterations": [
+      30000,
+      33000,
+      36000
+    ],
+    "actual_endpoint": "Both full BONES and LAFAN once if time cap stops outside a scheduled node; reuse already published same-checkpoint results.",
+    "schedule_base_iteration": 27000,
+    "interval": 3000,
+    "batch_size": 1024,
+    "protocol": "All130394 BONES motions from frame0 until physical termination or natural end; no training500-step evaluation cutoff; normalization0.1*(N-1); stable length/source-id grouping and original-id output order.",
+    "groups": [
+      "all_bones",
+      "hard639",
+      "other_bones",
+      "20_metadata_categories",
+      "flip44",
+      "side_roll22",
+      "cartwheel120",
+      "handstand160",
+      "existing_monitor40_from_same_full_evaluation",
+      "lafan40"
+    ],
+    "comparisons": [
+      "fixed endpoints",
+      "all common scheduled nodes",
+      "same-motion parent-retained/lost/new successes",
+      "parent+both-jobs common-complete quality",
+      "reward components",
+      "root_XY_SO3_body_position_joint_RMSE",
+      "LAFAN_getups_runs_and_retention"
+    ],
+    "different_time_cap_endpoints": "Report each endpoint and compare already available common scheduled nodes; do not add training or extra physics to manufacture equal iterations.",
+    "tail_capture": "At actual endpoint only, reuse P10 bounded selection from the same formal rollout: at most8 BONES tails, first2 original ids in each predeclared group; LAFAN failed tails from same evaluation. No separate physics replay.",
+    "scalars": "CSV every1000 clips with all failures retained; reuse existing score schema and small summaries.",
+    "decision": "Candidate can improve, trade off abilities, or show no benefit within this budget. Zero kinematic residual is not success; neither selected examples nor lower loss alone establishes better control."
+  },
+  "anchors": {
+    "general_quality": "P10 full8k_control checkpoint27000, existing results only",
+    "difficult_skills": "P10 full8k_hard_practice checkpoint27000 common parent",
+    "lafan_effect": "P9 LAFAN original-Critic checkpoint60000, existing results only",
+    "retain_checkpoints": true,
+    "re_evaluate_anchors": false
+  },
+  "publication": {
+    "push": [
+      "actual code and configs",
+      "parent and resume lineage",
+      "new stage counters and real elapsed time",
+      "all per-motion scores and compact summaries",
+      "seven fixed same-action evidence and normal bin/error statistics",
+      "bounded actual endpoint failure windows",
+      "final scientific comparison"
+    ],
+    "status_fields": "Refresh current latest_training and observed iteration from actual end data; distinguish historical snapshots, training completion, evaluation completion and publication completion. Do not leave not_started after completion.",
+    "large_artifacts": "Keep on training server; normal rolling20 and milestone protection remain.",
+    "local_computer_archiving_after_push": false,
+    "release_upload": false,
+    "tar_archive": false,
+    "automatic_stage_cleanup": false,
+    "user_backup_as_completion_step": false
+  },
+  "not_in_scope": [
+    "environment setup/install/upgrade/rebuild",
+    "changes to other projects",
+    "defensive programming",
+    "unit/mock/smoke/import/shape/hash tests",
+    "recovery drills",
+    "capacity/throughput benchmarks",
+    "unrelated scans or monitoring",
+    "extra environments or third learner",
+    "different hard quota",
+    "k/H/BCE/LR/reward/PD sweeps",
+    "WM-only prewarm",
+    "more seeds",
+    "PPO studies",
+    "hardware deployment",
+    "automatic budget extension or P12"
+  ]
+}
