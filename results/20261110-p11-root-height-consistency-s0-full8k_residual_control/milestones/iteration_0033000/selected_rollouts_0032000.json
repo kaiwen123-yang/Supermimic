@@ -1,0 +1,86 @@
+{
+  "iteration": 31236,
+  "block_end": 32000,
+  "critic_mse": 0.5426110923290253,
+  "rollout_count": 4,
+  "arrays": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency/outputs/runs/20261110-p11-root-height-consistency-s0-full8k_residual_control/training_evidence/interval_0032000.npz",
+  "world_root_height_mode": "residual",
+  "height_residual_sums_columns": [
+    "sum_S",
+    "sum_S_r",
+    "sum_S_abs_r",
+    "sum_S_r_squared"
+  ],
+  "height_residual_sums_by_selected_rollout": [
+    [
+      7.999998569488525,
+      -0.0037221789825707674,
+      0.010657006874680519,
+      3.498961086734198e-05
+    ],
+    [
+      32.0,
+      -0.0017713002162054181,
+      0.03682047873735428,
+      9.272636816604063e-05
+    ],
+    [
+      27.0,
+      0.0058141774497926235,
+      0.05723702162504196,
+      0.00019831964164040983
+    ],
+    [
+      32.0,
+      -0.0022158799692988396,
+      0.022914806380867958,
+      2.9130987968528643e-05
+    ]
+  ],
+  "actual_update": {
+    "critic_optimization_objective": 0.41153674721717837,
+    "raw_critic_mse": 0.5426110923290253,
+    "survival_weighted_critic_mse": 0.41153674721717837,
+    "survival_mean": 0.9183756113052368,
+    "zero_survival_suffix_squared_error_sum": 212243.9453125,
+    "all_squared_error_sum": 711211.2109375
+  },
+  "actual_update_parameter_phase": "Mean over the actual 5x4 evolving Critic optimizer minibatches; stored oldV/targets precede fitting.",
+  "selected_motions": [
+    {
+      "motion": "bones__itching_left_arm_001__A042_M",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 349
+    },
+    {
+      "motion": "bones__walk_hands_on_back_180_stop_R_002__A234_M",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 260
+    },
+    {
+      "motion": "bones__walk_arc_cw_loop_002__A048_M",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 263
+    },
+    {
+      "motion": "bones__walk_sideway_135_loop_001__A043",
+      "source": "bones",
+      "hard_member": false,
+      "start_frame": 390
+    }
+  ],
+  "selection": "Highest normal-update critic_mse in block; top max_t abs(lambda_target-old_V).",
+  "parameter_phase": "WM after normal fit; Actor before policy step; stored Critic before fitting.",
+  "source_names": [
+    "lafan",
+    "bones"
+  ],
+  "termination_semantics": "current_survival_weight is pre-transition; natural_end is boolean; geometric_termination_probability is analytic soft probability before natural-end override, without threshold.",
+  "state_layout": "world root XYZ, root quaternion wxyz, 29 joints, 35 velocities, previous action; dt=.02",
+  "imagination_horizon": 32,
+  "data_manifest": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_full_lafan_p9/manifest.json",
+  "interpretation": "Existing imagined samples, not Actor-gradient attribution or an exact checkpoint snapshot; yaw D is descriptive."
+}
