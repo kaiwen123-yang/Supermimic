@@ -2,9 +2,9 @@
   "schema_version": 1,
   "protocol_id": "p11-root-height-consistency-v1",
   "stage": "P11",
-  "status": "planned",
-  "implementation_status": "not_started",
-  "training_started": false,
+  "status": "running",
+  "implementation_status": "implemented_and_formally_running",
+  "training_started": true,
   "planned_date_beijing": "2026-11-10",
   "evidence_commit": "f0495ea84fbfff2b0b497a6a92a528e2b054546c",
   "campaign": "20261110-p11-root-height-consistency-s0",
@@ -84,13 +84,14 @@
     "initial_reset": "Construct with reset_on_init=false; restore sampler and saved RNG before first real reset, following implemented P10 behavior.",
     "once_per_new_process_replay_fill_steps": 64,
     "do_not_add_wm_only_warmup": true,
-    "stage_statistics": "New P11 counters start at zero; actual same-run resumes continue P11 counters and consumed time. A user handoff does not restart the live process."
+    "stage_statistics": "New P11 counters start at zero; actual same-run resumes continue P11 counters and consumed time. A user handoff does not restart the live process.",
+    "evaluation": "results/20261108-p10-8k-hard-practice-s0-full8k_hard_practice/milestones/iteration_0027000/evaluation.json"
   },
   "jobs": {
     "full8k_residual_control": {
-      "status": "planned",
-      "implementation_status": "not_started",
-      "training_started": false,
+      "status": "running",
+      "implementation_status": "implemented_and_running",
+      "training_started": true,
       "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
       "tmux": "sm-p11-residual",
       "config": "configs/bones_full_lafan_p11_full8k_residual_control.json",
@@ -102,12 +103,15 @@
       "target_iteration": 36000,
       "new_joint_updates": 9000,
       "max_accumulated_stage_seconds": 72000,
-      "additional_wm_only_updates": 0
+      "additional_wm_only_updates": 0,
+      "training_done": false,
+      "full_clip_evaluation_done": false,
+      "lightweight_results_published": false
     },
     "full8k_velocity_height": {
-      "status": "planned",
-      "implementation_status": "not_started",
-      "training_started": false,
+      "status": "running",
+      "implementation_status": "implemented_and_running",
+      "training_started": true,
       "run": "20261110-p11-root-height-consistency-s0-full8k_velocity_height",
       "tmux": "sm-p11-velocity-height",
       "config": "configs/bones_full_lafan_p11_full8k_velocity_height.json",
@@ -119,7 +123,10 @@
       "target_iteration": 36000,
       "new_joint_updates": 9000,
       "max_accumulated_stage_seconds": 72000,
-      "additional_wm_only_updates": 0
+      "additional_wm_only_updates": 0,
+      "training_done": false,
+      "full_clip_evaluation_done": false,
+      "lightweight_results_published": false
     }
   },
   "single_variable": {
@@ -373,5 +380,10 @@
     "PPO studies",
     "hardware deployment",
     "automatic budget extension or P12"
-  ]
+  ],
+  "authorization": "User explicitly authorized implementation and formal P11 launch on 2026-11-10.",
+  "training_done": false,
+  "full_clip_evaluation_done": false,
+  "lightweight_results_published": false,
+  "started_observed_beijing": "2026-11-10T11:23:31.198241+08:00"
 }

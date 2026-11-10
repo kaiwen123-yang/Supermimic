@@ -8,7 +8,7 @@ import torch
 def save_selected_rollouts(directory, block, iteration, motions, clip, frame, context,
                            states, terminal_state, references, rewards, deaths, values,
                            targets, reward_sum, bootstrap, critic_mse,
-                           pre_survivals, natural_ends, geometric_probabilities, window=None, update_metrics=None):
+                           pre_survivals, natural_ends, geometric_probabilities, window=None, update_metrics=None, world_root_height_mode="residual"):
     horizon, batch = len(rewards), len(clip)
     target = targets.reshape(horizon, batch)
     old = torch.stack(values)
@@ -37,12 +37,20 @@ def save_selected_rollouts(directory, block, iteration, motions, clip, frame, co
         "yaw_condition_D":(2*(w*z+x*y)).square()+(1-2*(y*y+z*z)).square()}
     if hasattr(motions, "hard_mask"):
         arrays["hard_member"] = motions.hard_mask[clip[ids]]
+    height_r = selected_states[1:,:,2] - selected_states[:-1,:,2] - .01*(selected_states[:-1,:,38]+selected_states[1:,:,38])
+    selected_survival = arrays["current_survival_weight"]
+    height_sums = torch.stack((selected_survival.sum(0), (selected_survival*height_r).sum(0),
+        (selected_survival*height_r.abs()).sum(0), (selected_survival*height_r.square()).sum(0)), -1).cpu().tolist()
+    arrays["root_height_velocity_residual_m"] = height_r
     directory.mkdir(exist_ok=True)
     path = directory / f"interval_{block:07d}.npz"
     np.savez_compressed(path, **{k:v.cpu().numpy() for k,v in arrays.items()},
         iteration=iteration, motion=np.array([motions.names[i] for i in clip[ids].tolist()]))
     path.with_suffix(".json").write_text(json.dumps({"iteration":iteration,"block_end":block,
         "critic_mse":critic_mse,"rollout_count":len(ids),"arrays":str(path),
+        "world_root_height_mode":world_root_height_mode,
+        "height_residual_sums_columns":["sum_S","sum_S_r","sum_S_abs_r","sum_S_r_squared"],
+        "height_residual_sums_by_selected_rollout":height_sums,
         "actual_update": {key: update_metrics[key] for key in (
             "critic_optimization_objective", "raw_critic_mse", "survival_weighted_critic_mse", "survival_mean",
             "zero_survival_suffix_squared_error_sum", "all_squared_error_sum")} if update_metrics else None,

@@ -43,6 +43,8 @@ def request_publication(directory, iteration, cfg, final=False):
         publisher = "publish_p9_d57.sh"
     if cfg.get("campaign") == "20261108-p10-8k-hard-practice-s0":
         publisher = "publish_p10_d57.sh"
+    if cfg.get("campaign") == "20261110-p11-root-height-consistency-s0":
+        publisher = "publish_p11_d57.sh"
     command = shlex.join([str(ROOT / "scripts" / publisher), directory.name, str(iteration)] + (["--final"] if final else []))
     subprocess.run(["tmux", "new-session", "-d", "-s", session, "bash " + command], check=True)
     subprocess.run(["tmux", "set-option", "-t", session, "remain-on-exit", "on"], check=True)
@@ -200,6 +202,10 @@ def main():
                     hard_clips=int(motions.hard_mask.sum()), reference_store="Shared original P9 CPU read-only mmap")
             (directory / "runtime.json").write_text(json.dumps(metadata, indent=2) + "\n")
             del previous
+        if cfg.get("world_root_height_mode"):
+            metadata.update(world_root_height_mode=cfg["world_root_height_mode"],
+                restored_collected_transitions=learner.collected_steps,
+                inherited_training_seconds=cfg["inherited_training_seconds"])
         stage_started = time.monotonic()
         if args.resume:
             started = stage_started

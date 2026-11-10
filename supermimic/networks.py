@@ -72,8 +72,9 @@ class Critic(nn.Module):
 
 
 class WorldModel(nn.Module):
-    def __init__(self):
+    def __init__(self, root_height_mode="residual"):
         super().__init__()
+        self.root_height_mode = root_height_mode
         self.dynamics = mlp([100 + 29 + 33, 2048, 2048, 2048, 70], final_gain=0.01)
         self.termination = mlp([2, 256, 128, 1], final_gain=0.01)
         nn.init.constant_(self.termination[-1].bias, -4.0)
@@ -91,6 +92,9 @@ class WorldModel(nn.Module):
         orientation = orientation / torch.linalg.vector_norm(orientation, dim=-1, keepdim=True).clamp_min(1e-8)
         joints = q[..., 7:] + 0.02 * v[..., 6:] + dp[..., 6:]
         velocity = torch.cat((v[..., :3] + quat_apply(heading, dv[..., :3]), v[..., 3:] + dv[..., 3:]), -1)
+        if self.root_height_mode == "velocity_trapezoid":
+            height = q[..., 2:3] + 0.01 * (v[..., 2:3] + velocity[..., 2:3])
+            position = torch.cat((position[..., :2], height), -1)
         return torch.cat((position, orientation, joints, velocity, action), -1)
 
     @staticmethod

@@ -29,7 +29,7 @@ class SuperMimic:
     def __init__(self, env, cfg):
         self.env, self.cfg = env, cfg
         self.actor = Actor(cfg.get("actor_root_position_feedback", False)).to(env.device)
-        self.critic, self.world = Critic().to(env.device), WorldModel().to(env.device)
+        self.critic, self.world = Critic().to(env.device), WorldModel(cfg.get("world_root_height_mode", "residual")).to(env.device)
         self.actor_opt = torch.optim.Adam(self.actor.parameters(), lr=cfg["learning_rate"], betas=(0.9, 0.95))
         self.critic_opt = torch.optim.Adam(self.critic.parameters(), lr=cfg["learning_rate"])
         self.world_opt = torch.optim.Adam(self.world.parameters(), lr=cfg["learning_rate"])
@@ -49,7 +49,7 @@ class SuperMimic:
         self.hard_exposure = None
         if cfg.get("hard_manifest"):
             from .hard_exposure import HardExposure
-            self.hard_exposure = HardExposure(env)
+            self.hard_exposure = HardExposure(env, cfg.get("world_root_height_mode"))
 
     def count_samples(self, phase, clip, frame):
         if getattr(self, "hard_exposure", None) is not None:
@@ -125,6 +125,7 @@ class SuperMimic:
             family_counts.add_(torch.bincount(self.clip_family[sample["clip"].flatten()], minlength=len(family_counts)))
             state_loss = term_loss = 0
             for j in range(cfg["world_window"]):
+                previous = state
                 state = self.world(state, sample["action"][:, j], sample["context"][:, j])
                 squared = state_prediction_squared_coordinates(state, sample["next_state"][:, j])
                 state_loss = state_loss + squared.mean(-1).mean()
@@ -136,7 +137,8 @@ class SuperMimic:
                     bce = F.binary_cross_entropy_with_logits(logits, sample["terminated"][:, j].float(), reduction="none")
                     term_loss = term_loss + bce.mean()
                 if self.hard_exposure is not None:
-                    self.hard_exposure.world_error(sample["clip"][:, j], squared, bce)
+                    self.hard_exposure.world_error(sample["clip"][:, j], squared, bce,
+                        sample["frame"][:, 0], previous, state, sample["state"][:, j], sample["next_state"][:, j])
             loss = (state_loss + term_loss) / cfg["world_window"]
             norms.append(optimize(loss, self.world_opt, self.world.parameters()))
             state_losses.append(float(state_loss.detach()) / cfg["world_window"])
@@ -190,6 +192,8 @@ class SuperMimic:
                 predicted, ref["qpos"], cfg.get("imagination_termination", "learned"),
                 cfg.get("termination_smoothing_temperature", 0.05))
             natural_end = frame + step + 1 >= env.motions.lengths[clip] - 1
+            if self.hard_exposure is not None:
+                self.hard_exposure.actor_height(clip, state, predicted, survival.detach(), natural_end)
             natural_ends.append(natural_end)
             geometric_probabilities.append(probability.detach())
             probability = torch.where(natural_end, torch.ones_like(probability), probability)
@@ -272,7 +276,8 @@ class SuperMimic:
                     save_selected_rollouts(evidence_directory, block, iteration, env.motions,
                         clip, frame, context, states, terminal_state, critic_references,
                         rewards, deaths, values, targets, reward_sum, bootstrap, metrics["critic_mse"],
-                        pre_survivals, natural_ends, geometric_probabilities, window, metrics)
+                        pre_survivals, natural_ends, geometric_probabilities, window, metrics,
+                        cfg.get("world_root_height_mode", "residual"))
         return metrics
 
     def set_schedule(self, iteration):
