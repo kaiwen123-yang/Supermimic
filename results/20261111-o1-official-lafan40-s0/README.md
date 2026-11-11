@@ -1,9 +1,10 @@
 # O1 official LAFAN40
 
-Status: training. Updated: 2026-11-11T21:00:41.077023+08:00.
+Status: completed. Updated: 2026-11-11T21:04:31.244743+08:00.
 
 | Fixed checkpoint | Mean normalized return | Complete / 40 | Training seconds |
 |---|---:|---:|---:|
+| final | 0.87443989 | 40 / 40 | 11296.6 |
 | hour_03 | 0.85882311 | 39 / 40 | 10800.1 |
 
 Formal R >= 0.82 observed: True. All 40 clips, including failures, are in each milestone's per_clip.csv.

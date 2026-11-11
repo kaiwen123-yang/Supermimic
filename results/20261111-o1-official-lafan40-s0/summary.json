@@ -1,26 +1,102 @@
 {
   "campaign": "20261111-o1-official-lafan40-s0",
   "run_name": "o1-official-lafan40-s0",
-  "updated_at": "2026-11-11T21:00:41.077023+08:00",
-  "status": "training",
+  "updated_at": "2026-11-11T21:04:31.244743+08:00",
+  "status": "completed",
   "latest_training": {
     "campaign": "20261111-o1-official-lafan40-s0",
     "run_name": "o1-official-lafan40-s0",
-    "status": "running",
-    "updated_at": "2026-11-11T21:00:40.196566+08:00",
-    "training_seconds": 11295.273373611271,
+    "status": "training_completed_evaluation_pending",
+    "updated_at": "2026-11-11T21:00:41.582860+08:00",
+    "training_seconds": 11296.659658696502,
     "source_commits": {
       "supermimic": "abc124c1bd5976341034668af3d12c087f2f1f55",
       "mjlab_research": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd"
     },
-    "collection_steps": 80731,
-    "real_transitions": 330674176,
-    "learning_phases": 32290,
-    "world_model_batch_updates": 322900,
-    "actor_updates": 32290,
-    "critic_minibatch_updates": 645800
+    "collection_steps": 80741,
+    "real_transitions": 330715136,
+    "learning_phases": 32294,
+    "world_model_batch_updates": 322940,
+    "actor_updates": 32294,
+    "critic_minibatch_updates": 645880,
+    "stop_reason": "formal_return_target_reached",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0/checkpoints/checkpoint_000080741.pt",
+    "training_finished_at": "2026-11-11T21:00:41.582848+08:00"
   },
   "evaluations": {
+    "final": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0/checkpoints/checkpoint_000080741.pt",
+      "checkpoint_metadata": {
+        "campaign": "20261111-o1-official-lafan40-s0",
+        "run_name": "o1-official-lafan40-s0",
+        "status": "running",
+        "updated_at": "2026-11-11T21:00:41.500081+08:00",
+        "training_seconds": 11296.576882932335,
+        "source_commits": {
+          "supermimic": "abc124c1bd5976341034668af3d12c087f2f1f55",
+          "mjlab_research": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd"
+        },
+        "collection_steps": 80741,
+        "real_transitions": 330715136,
+        "learning_phases": 32294,
+        "world_model_batch_updates": 322940,
+        "actor_updates": 32294,
+        "critic_minibatch_updates": 645880,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0/checkpoints/checkpoint_000080741.pt",
+        "evaluation_label": "final"
+      },
+      "evaluated_at": "2026-11-11T21:04:27.832981+08:00",
+      "clip_count": 40,
+      "completed": 40,
+      "failed": 0,
+      "mean_normalized_return": 0.8744398924149845,
+      "mean_completion_fraction": 1.0,
+      "completed_clip_names": [
+        "dance1_subject1",
+        "dance1_subject2",
+        "dance1_subject3",
+        "dance2_subject1",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject4",
+        "dance2_subject5",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject4",
+        "fallAndGetUp1_subject5",
+        "fallAndGetUp2_subject2",
+        "fallAndGetUp2_subject3",
+        "fallAndGetUp3_subject1",
+        "fight1_subject2",
+        "fight1_subject3",
+        "fight1_subject5",
+        "fightAndSports1_subject1",
+        "fightAndSports1_subject4",
+        "jumps1_subject1",
+        "jumps1_subject2",
+        "jumps1_subject5",
+        "run1_subject2",
+        "run1_subject5",
+        "run2_subject1",
+        "run2_subject4",
+        "sprint1_subject2",
+        "sprint1_subject4",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk1_subject5",
+        "walk2_subject1",
+        "walk2_subject3",
+        "walk2_subject4",
+        "walk3_subject1",
+        "walk3_subject2",
+        "walk3_subject3",
+        "walk3_subject4",
+        "walk3_subject5",
+        "walk4_subject1"
+      ],
+      "per_clip_file": "per_clip.csv",
+      "evaluation_seconds": 208.12974032573402,
+      "protocol": "all 40 from frame 0, deterministic actor, friction 1, no DR/noise, official hard failure or full natural duration, mean of per-clip full-duration-normalized returns"
+    },
     "hour_03": {
       "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0/checkpoints/checkpoint_000077869.pt",
       "checkpoint_metadata": {
@@ -138,6 +214,13 @@
     "walk3_subject5"
   ],
   "common_complete_quality": {
+    "final": {
+      "normalized_return": 0.8735775313313846,
+      "root_xy_error_m": 0.7743014207356114,
+      "root_orientation_error_rad": 0.041837269272910746,
+      "relative_body_position_error_m": 0.027728215884056287,
+      "relative_body_orientation_error_rad": 0.09854895805546389
+    },
     "hour_03": {
       "normalized_return": 0.8688739722899456,
       "root_xy_error_m": 0.8349371919700308,
@@ -146,7 +229,7 @@
       "relative_body_orientation_error_rad": 0.09946743229423553
     }
   },
-  "training_finished": false,
+  "training_finished": true,
   "publication": "included_in_this_commit",
   "large_artifacts": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0",
   "legacy_lafan_success_preserved": true

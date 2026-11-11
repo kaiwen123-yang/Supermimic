@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前主线O1：官方LAFAN40已达标，正在收尾。** 最新正式节点hour_03：R=0.85882311、完整39/40。本段已观测R>=.82：是。当前完整状态见results/20261111-o1-official-lafan40-s0/summary.json，接续见docs/O1_OFFICIAL_RUN_20261111.md。D57工作区supermimic-official-workspace，tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。保持活跃tmux，不重启或重置replay/LR。P12及其他独立实现新实验暂缓，既有LAFAN验收成果和其他任务保留。
+- **当前主线O1：官方LAFAN40首段已完成。** 最新正式节点final：R=0.87443989、完整40/40。本段已观测R>=.82：是。当前完整状态见results/20261111-o1-official-lafan40-s0/summary.json，接续见docs/O1_OFFICIAL_RUN_20261111.md。D57工作区supermimic-official-workspace，tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。不自动加预算或启动下一阶段。P12及其他独立实现新实验暂缓，既有LAFAN验收成果和其他任务保留。
 - **P11最新结论：** 两路均36000，原残差全BONES R=.86375135、129152/130394完整、hard312/639；高度约束R=.85693786、129598完整、hard305/639。候选多446条完整主要来自普通动作，回报及同输入WM误差较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点与LAFAN跨节点保持有优势，不称全面退化。当前原WM在仍存活的倒立第16步高度已低估.100342m（S=.997672），与旧P9飘高诊断不同。合法k8起点bin全部得到WM曝光，66个零起点bin均为参考自然末尾不足8步，不能说关键开头未进learner。来源见本轮复核及review_20261111.json。
 - **P11两路训练、评分、固定证据与轻量发布已完成。** 启动核实时间 2026-11-10T11:23:31.198241+08:00；实际状态见results/20261110-p11-root-height-consistency-s0/summary.json。两路已按各自真实预算终点完成，不重复启动P10/P11或自动追加预算。两路同P10 hard27000完整resume，仅比较root-z残差与同次预测速度梯形高度；各8192/8192/WM10×4096，原hard配额，新增9000联合更新或累计20h，到36000；全BONES/LAFAN节点30000/33000/36000及实际终点。父七窗224步预测已完成，终点两WM各同输入一次。
 - P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11也已完成；当前新增工作以顶部O1准备计划为准。
