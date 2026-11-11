@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：P11 根高度与预测垂直速度一致性研究，两路已正式并行运行。** 同一P10 hard27000完整恢复，两路各8192环境/8192想象/WM10×4096，保持原困难配额；仅比较自由root-z残差与预测速度梯形高度更新。新增9000联合更新或每路累计20h，正式节点30000/33000/36000。[执行计划](docs/P11_ROOT_HEIGHT_CONSISTENCY_PLAN.md)、[机器协议](configs/next_stage_root_height_protocol.json)、[Codex启动提示词](docs/P11_CODEX_START_PROMPT.md)。
+> **当前入口：P11 根高度与预测垂直速度一致性研究，训练、评分、固定证据与轻量发布已完成。** 同一P10 hard27000完整恢复，两路各8192环境/8192想象/WM10×4096，保持原困难配额；仅比较自由root-z残差与预测速度梯形高度更新。新增9000联合更新或每路累计20h，正式节点30000/33000/36000。[执行计划](docs/P11_ROOT_HEIGHT_CONSISTENCY_PLAN.md)、[机器协议](configs/next_stage_root_height_protocol.json)、[Codex启动提示词](docs/P11_CODEX_START_PROMPT.md)。
 
 > **P10已全部完成。** control全BONES **R=.86659060、129579/130394完整**；hard **R=.85921480、129516完整**，固定hard成功 **298/639**、侧滚 **21/22**、侧手翻 **85/120**，但flip **0/44**、handstand **0/160**。普通质量相比父模型恢复；困难加练有明确收益及general/LAFAN代价。当前有效想象轨迹存在高度与速度不一致，下一轮研究其控制影响，不称已找到唯一根因。[详细论文与结果复核](docs/P10_REVIEW_20261110.md)、[派生数据](results/20261108-p10-8k-hard-practice-s0/review_20261110.json)、[已完成结果](results/20261108-p10-8k-hard-practice-s0/summary.json)。
 
