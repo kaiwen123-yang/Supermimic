@@ -196,11 +196,12 @@ def worker(slot,todo):
                    deleted_files=len(receipt['deleted']),kept_files=len(receipt['kept']),skipped=packed['skipped'],
                    server_free_bytes=receipt['disk_after']['free'],server_temp_removed=receipt['server_temp_removed'],
                    completed_unix=receipt['completed_unix'])
-            print(json.dumps({'batch':batch_id,'complete':True,'archive_bytes':local_bytes,'deleted_bytes':receipt['deleted_bytes'],
-                              'MiB_s':round(local_bytes/seconds/1024**2,2)}),flush=True)
         except Exception as exc:
             update(batch_id,status='incomplete',error=repr(exc))
             print(json.dumps({'batch':batch_id,'error':repr(exc),'source':'retained unless a deletion receipt records otherwise'}),flush=True)
+        else:
+            print(json.dumps({'batch':batch_id,'complete':True,'archive_bytes':local_bytes,'deleted_bytes':receipt['deleted_bytes'],
+                              'MiB_s':round(local_bytes/seconds/1024**2,2)}),flush=True)
         finally:
             todo.task_done()
 
@@ -227,7 +228,7 @@ def publish(label):
            'All H-drive archives remain until the user decides to remove them. Failed/changed/active files remain on the server; details are in status.json and the local receipts.']
     (dest/'README.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
     def git(*args):
-        subprocess.run([GIT,'-C',str(REPO),*args],check=True)
+        subprocess.run([GIT,'-C',str(REPO),*args],stdout=sys.stdout,stderr=sys.stderr,check=True)
     git('add','--','scripts/storage_export_h_local.py','scripts/storage_export_h_remote.py','results/storage_export/20261111')
     changed=subprocess.run([GIT,'-C',str(REPO),'diff','--cached','--quiet']).returncode
     if changed:
@@ -241,6 +242,10 @@ def publish(label):
 
 def run():
     global PLAN
+    # Open the log in Windows itself; WSL's inherited stdout bridge can expire.
+    controller_log=(META/'controller.log').open('a',encoding='utf-8',buffering=1)
+    sys.stdout=controller_log
+    sys.stderr=controller_log
     PLAN=json.loads((META/'plan.json').read_text(encoding='utf-8'))
     ctypes.windll.kernel32.SetPriorityClass(ctypes.windll.kernel32.GetCurrentProcess(),0x8000)
     for p in (META/'status').glob('*.json'):
