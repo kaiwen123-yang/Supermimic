@@ -218,6 +218,12 @@ def evaluate(workspace, source):
         write_json(output / "evaluation.json", result)
         write_json(output / "evaluation_progress.json", {"status": "completed", "at": now(), "scored_clips": len(rows),
                                                        "all_library_score_available": True})
+        current_nodes = json.loads((run_dir / "nodes.json").read_text())
+        completed_sources = [s for s in ("bones_full", "lafan40_cross_library")
+                             if (result_dir / "milestones" / label / s / "evaluation.json").exists()]
+        current_nodes[label]["completed_evaluation_sources"] = completed_sources
+        current_nodes[label]["evaluation_status"] = "completed" if len(completed_sources) == 2 else "partially_completed"
+        write_json(run_dir / "nodes.json", current_nodes)
         refresh_and_publish(workspace, f"{source}-{label}")
     env.close()
     worker_record = {"status": "completed", "at": now(), "worker_seconds": time.monotonic() - worker_started,
