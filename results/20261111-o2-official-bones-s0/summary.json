@@ -1,0 +1,60 @@
+{
+  "campaign": "20261111-o2-official-bones-s0",
+  "run_name": "o2-official-bones-s0",
+  "planned_date_beijing": "2026-11-11",
+  "status": "plan_published_not_started",
+  "implementation_status": "pending_minimal_D57_adapters",
+  "data_conversion_started": false,
+  "training_started": false,
+  "training_finished": false,
+  "formal_evaluation_started": false,
+  "formal_evaluation_finished": false,
+  "source_review_commit": "95fdcdf0a0d3c594884f3837ad3f8fc0ef953a9c",
+  "official_commit": "abc124c1bd5976341034668af3d12c087f2f1f55",
+  "research_commit": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd",
+  "protocol": "configs/o2_official_bones_protocol.json",
+  "plan": "docs/O2_OFFICIAL_BONES_PLAN.md",
+  "start_prompt": "docs/O2_CODEX_START_PROMPT.md",
+  "execution_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+  "run_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0",
+  "initialization": "fresh_seed0_BONES_only",
+  "parent_checkpoint": null,
+  "planned_training": {
+    "clip_count": 130394,
+    "num_envs": 4096,
+    "max_training_seconds": 43200,
+    "checkpoint_training_seconds": [
+      10800,
+      21600
+    ],
+    "actual_endpoint": true
+  },
+  "planned_evaluation": {
+    "start": "after_training_child_exit",
+    "BONES": 130394,
+    "LAFAN_cross_library": 40,
+    "checkpoint_nodes": [
+      "hour_03",
+      "hour_06",
+      "final"
+    ]
+  },
+  "evaluations": {},
+  "latest_training": null,
+  "metric_references": {
+    "value": 0.9,
+    "source": "SONIC_checkpoint_line_in_paper_Figure3a",
+    "comparison": ">",
+    "exact_author_3h_return": null,
+    "not_a_training_early_stop": true
+  },
+  "author_failure_references": {
+    "dataset_count": 129514,
+    "sonic_released": 179,
+    "author_one_H100_three_hours": 25,
+    "author_two_H100_9p8_hours": 0
+  },
+  "previous_lafan_acceptance_preserved": true,
+  "publication_scope": "plan_and_protocol_only_no_claim_of_D57_execution",
+  "large_artifact_policy": "server_only_no_new_archive_or_stage_cleanup"
+}

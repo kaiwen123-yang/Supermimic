@@ -1,5 +1,7 @@
 # O1 Codex 完成交接：首段已达标
 
+> **当前入口已转为O2。** 用户本轮确认继续推进官方BONES完整库，现已发布[O2执行方案](O2_OFFICIAL_BONES_PLAN.md)、[O2协议](../configs/o2_official_bones_protocol.json)及[O2 Codex启动词](O2_CODEX_START_PROMPT.md)，状态为`plan_published_not_started`：本次尚未实施适配、连接D57或启动训练。执行会话按O2启动词完成必要适配后正式运行。下文保留O1完成时的历史交接原文；其“只准备下一阶段/不开始新预算”仅说明当时的O1交接范围，不限制本轮新O2任务。O1已完成，不重跑或补6h/12h；P12继续暂缓。
+
 2026-11-11：官方LAFAN40首段已完成训练、两份正式评分和轻量发布。本文件原先用于启动O1；**原启动任务已经执行完毕，不再作为重复训练指令**。原文可从[结果复核前的历史版本](https://github.com/kaiwen123-yang/Supermimic/blob/2b44fa32587e1a68be8b9d4de61485cd267e29c8/docs/O1_CODEX_START_PROMPT.md)溯源。
 
 ## 当前结果

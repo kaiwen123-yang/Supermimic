@@ -1,0 +1,449 @@
+{
+  "schema": "supermimic-o2-official-bones-v1",
+  "planned_date_beijing": "2026-11-11",
+  "campaign": "20261111-o2-official-bones-s0",
+  "run_name": "o2-official-bones-s0",
+  "status": "plan_published_not_started",
+  "implementation_status": "pending_minimal_D57_adapters",
+  "configuration_kind": "execution_protocol_actual_runtime_config_must_be_published_after_implementation",
+  "user_direction": "Continue with official BONES after completed O1 review",
+  "plan": "docs/O2_OFFICIAL_BONES_PLAN.md",
+  "start_prompt": "docs/O2_CODEX_START_PROMPT.md",
+  "source_snapshot": {
+    "user_repository": "https://github.com/kaiwen123-yang/Supermimic",
+    "reviewed_commit": "95fdcdf0a0d3c594884f3837ad3f8fc0ef953a9c",
+    "official_repository": "https://github.com/HybridRobotics/supermimic",
+    "official_commit": "abc124c1bd5976341034668af3d12c087f2f1f55",
+    "research_repository": "https://github.com/HybridRobotics/mjlab_research",
+    "research_commit": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd",
+    "paper": "https://arxiv.org/pdf/2610.28480v2",
+    "paper_historical_run_config_recovered": false
+  },
+  "runtime": {
+    "ssh_alias": "autodl-d57",
+    "workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+    "official_source_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic",
+    "research_source_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research",
+    "environment": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/.venv",
+    "deployment_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/work/o2",
+    "run_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0",
+    "results_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/results/20261111-o2-official-bones-s0",
+    "tmux_session": "sm-o2-official-bones-s0",
+    "environment_action": "reuse_O1_environment_and_resolved_lock_no_install_upgrade",
+    "gpu_count": 1,
+    "device": "cuda:0",
+    "hardware_record": "NVIDIA RTX PRO 6000 Blackwell Server Edition 96GB",
+    "torch_threads": 2,
+    "torch_interop_threads": 2,
+    "active_training_runs": 1,
+    "max_codex_interaction_hours": 4,
+    "tmux_continues_across_interactions": true,
+    "other_projects_and_running_jobs": "preserve_do_not_stop"
+  },
+  "data": {
+    "training_source": "BONES_only",
+    "source_manifest": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_g1_50hz_full_p9/manifest.json",
+    "source_store": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_full_lafan_p9",
+    "source_input_fields": [
+      "qpos.npy",
+      "qvel.npy"
+    ],
+    "source_open_mode": "read_only_mmap",
+    "source_offset_from_manifest": 441140,
+    "source_end_exclusive": 48169048,
+    "expected_clips": 130394,
+    "expected_frames": 47727908,
+    "expected_reference_transitions": 47597514,
+    "expected_duration_hours": 264.43063333333333,
+    "control_hz": 50,
+    "source_repo": "bones-studio/seed",
+    "source_revision": "2f59b2077b9da34dd4e43618e705c7cb962c9a66",
+    "preprocessing_version": "bones-g1-v004-corrected-body-origin-support-names-p9-v1",
+    "source_id_definition": "enumeration_index_in_original_BONES_manifest_clips_not_joint_store_clip_id",
+    "source_order": "preserve_existing_manifest_order",
+    "read_actual_manifest_not_override_with_expected_counts": true,
+    "output_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/bones130394_official_packed",
+    "motion_file_argument_kind": "single_packed_directory_string",
+    "output_fields": {
+      "root_pos_w.npy": {
+        "width": 3,
+        "dtype": "float32",
+        "mapping": "qpos[:,0:3]"
+      },
+      "root_quat_w.npy": {
+        "width": 4,
+        "dtype": "float32",
+        "mapping": "qpos[:,3:7]",
+        "quaternion_order": "wxyz"
+      },
+      "root_lin_vel_w.npy": {
+        "width": 3,
+        "dtype": "float32",
+        "mapping": "qvel[:,0:3]",
+        "frame": "world_no_extra_rotation"
+      },
+      "root_ang_vel_w.npy": {
+        "width": 3,
+        "dtype": "float32",
+        "mapping": "rotate_local_qvel[:,3:6]_by_qpos_wxyz_to_world"
+      },
+      "joint_pos.npy": {
+        "width": 29,
+        "dtype": "float32",
+        "mapping": "qpos[:,7:][:,official_joint_name_order]"
+      },
+      "joint_vel.npy": {
+        "width": 29,
+        "dtype": "float32",
+        "mapping": "qvel[:,6:][:,official_joint_name_order]"
+      }
+    },
+    "other_packed_files": [
+      "motion_ends.npy",
+      "joint_names.json",
+      "motion_names.json"
+    ],
+    "motion_ends": "int64_cumsum_full_clip_frame_counts_exclusive_no_initial_zero_no_source_offset_no_minus_one",
+    "packed_start": 0,
+    "packed_end_exclusive": 47727908,
+    "conversion_chunk_frames": 131072,
+    "conversion_processes": 1,
+    "index_columns": [
+      "official_clip_id",
+      "source",
+      "source_clip_id",
+      "name",
+      "category",
+      "package",
+      "frames",
+      "reference_transitions",
+      "source_store_start",
+      "source_store_end_exclusive",
+      "packed_start",
+      "packed_end_exclusive"
+    ],
+    "index_git_rows_per_part": 2000,
+    "reference_static_bytes": 13554725872,
+    "reference_static_GiB": 12.623822197318077,
+    "training_loader_memory": "upstream_np_load_then_full_six_array_transfer_to_device_not_cpu_mmap_windowing",
+    "runtime_peak_memory_is_not_static_reference_size": true,
+    "existing_lafan_eval_manifest": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/lafan40_official_npz/manifest.json",
+    "data_membership": "project_130394_vs_paper_129514_not_exactly_aligned_not_assumed_superset",
+    "data_mutations_excluded": [
+      "retarget",
+      "resample",
+      "redownload",
+      "restore_old_NPZ",
+      "refilter",
+      "drop_880_to_match_count",
+      "rewrite_original_memmap",
+      "body_array_regeneration",
+      "initial_pose_recenter"
+    ]
+  },
+  "training": {
+    "task_id": "SuperMimic-GenCoord-G1",
+    "seed": 0,
+    "initialization": "fresh_official_networks_optimizers_normalizers_replay_and_sampler",
+    "parent_checkpoint": null,
+    "wandb_run_path": null,
+    "full_resume": false,
+    "num_envs": 4096,
+    "runner_overrides": {
+      "run_name": "o2-official-bones-s0",
+      "representation": "gencoord",
+      "actor_obs": "proprio",
+      "history_length": 10
+    },
+    "frozen_O1_upstream_settings": {
+      "max_iterations_collection_steps": 1000000,
+      "buffer_size": 1000,
+      "replay_ratio": 16,
+      "derived_learning_trigger_ratio": 0.4,
+      "wm": {
+        "lr": 0.0002,
+        "num_batches": 10,
+        "batch_size": 2048,
+        "horizon": 8,
+        "current_supervised_successor_count": 7
+      },
+      "policy": {
+        "variant": "actor-critic",
+        "lr": 0.0002,
+        "num_batches": 1,
+        "batch_size": 4096,
+        "horizon": 32,
+        "noise": 0.1,
+        "gamma": 0.99,
+        "lam": 0.95,
+        "beta2": 0.95,
+        "grad_clip_value": 0.1
+      },
+      "slot_mix": {
+        "motion": 1,
+        "velocity": 0
+      },
+      "sampling_mode": "return",
+      "termination_softness": 0.05,
+      "optimizer_and_schedule": "retain_current_official_Muon_Adam_and_schedule_do_not_reimplement_paper_cosine",
+      "reward_termination_DR_and_normalizers": "retain_same_fixed_upstream_and_O1_settings"
+    },
+    "excluded_changes": [
+      "LAFAN_training_mix",
+      "hard_reset_quota",
+      "XYZ_feedback",
+      "auxiliary_BCE",
+      "survival_weighted_critic",
+      "root_height_patch",
+      "k16",
+      "DDP",
+      "new_seed_or_control_arm"
+    ]
+  },
+  "budget": {
+    "max_training_seconds": 43200,
+    "max_collection_steps": 1000000,
+    "stop_rule": "first_of_accumulated_12h_training_or_upstream_collection_limit",
+    "checkpoint_at_training_seconds": [
+      10800,
+      21600
+    ],
+    "also_save_actual_endpoint": true,
+    "final_at_12h_is_not_a_second_distinct_checkpoint": true,
+    "early_stop_on_return": null,
+    "remove_O1_success_stop_file_logic": true,
+    "count_process_import_data_load_initialization_compilation_and_replay": true,
+    "preparation_evaluation_publication_timed_separately": true,
+    "GPU_scoring_during_training": false,
+    "checkpoint_save_only_no_async_evaluator": true,
+    "actual_process_failure": "record_consumed_time_and_actual_recovery_mode_do_not_claim_weight_reload_is_full_resume",
+    "automatic_extension": false
+  },
+  "evaluation": {
+    "start_condition": "training_child_process_has_exited_not_merely_env_close",
+    "sequence": [
+      {
+        "source": "bones_full",
+        "worker": "one_worker_one_loaded_library_for_all_checkpoint_nodes",
+        "num_envs": 4096,
+        "all_clips": 130394
+      },
+      {
+        "source": "lafan40_cross_library",
+        "worker": "new_worker_after_BONES_worker_exit",
+        "num_envs": 40,
+        "all_clips": 40
+      }
+    ],
+    "checkpoint_order": [
+      "hour_03",
+      "hour_06",
+      "final"
+    ],
+    "only_actual_saved_unique_checkpoints": true,
+    "batch_order": "stable_sort_evaluation_ids_by_reference_transitions_then_source_clip_id",
+    "packed_data_order_unchanged": true,
+    "expected_bones_batches": 32,
+    "last_batch_real_clips": 3418,
+    "last_batch_inactive_padding": 678,
+    "batched_reset": "base.reset_then_MotionCommand.set_time_steps_and_original_state_writer_then_forward_relative_poses_sense_obs_history",
+    "reset_to_frame_scalar_limitation": "do_not_pass_a_vector_as_its_frame_argument",
+    "all_clips_from_frame": 0,
+    "deterministic_actor": true,
+    "friction": 1,
+    "base_COM_bias": 0,
+    "encoder_bias": 0,
+    "observation_noise": false,
+    "initial_state_perturbations": false,
+    "auto_reset": false,
+    "disable_training_timeout": true,
+    "native_hard_thresholds": {
+      "root_relative_height_m": 0.25,
+      "projected_gravity_z": 0.8
+    },
+    "max_step_reward": 0.1,
+    "step_dt": 0.02,
+    "positive_reward_weight_sum": 5,
+    "reference_transitions": "N_i-1",
+    "per_clip_return": "sum_real_environment_reward / (0.1*(N_i-1))",
+    "completion": "executed_transitions==N_i-1 and no hard_failure",
+    "aggregate": "equal_weight_mean_of_all_real_clip_R_not_equal_weight_batch_mean",
+    "failed_tail_remains_in_denominator": true,
+    "failed_clips_retained": true,
+    "inactive_and_padding_scoring": false,
+    "reset_all_done_rows_including_inactive_before_next_step": true,
+    "reward_timing": "upstream_native_step_timing_retained",
+    "quality_timing": "O1_post_step_refreshed_state_and_advanced_reference",
+    "normalization": "load_and_freeze_each_O2_checkpoint_Actor_and_WM_statistics_no_refit",
+    "use_training_runner_for_evaluation": false,
+    "csv_rows_per_part": 2000,
+    "scoring_resume": "preserve_finished_fixed_batches_and_scores_only_complete_missing_batches_after_actual_interruption",
+    "lafan_interpretation": "BONES_trained_policy_cross_library_evaluation_not_O1_forgetting_or_proven_disjoint_unseen_generalization",
+    "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock"
+  },
+  "metrics": {
+    "operational_completion_separate_from_effectiveness": true,
+    "return_reference": {
+      "value": 0.9,
+      "source": "SONIC_checkpoint_line_in_paper_Figure3a",
+      "comparison": ">",
+      "exact_author_3h_return": null,
+      "not_a_training_early_stop": true
+    },
+    "failure_references": {
+      "dataset_count": 129514,
+      "sonic_released": 179,
+      "author_one_H100_three_hours": 25,
+      "author_two_H100_9p8_hours": 0
+    },
+    "paper_reference_membership_match": "unresolved_not_claimed_identical",
+    "required_groups": [
+      "all_BONES",
+      "original_categories",
+      "fixed_hard639",
+      "non_hard_complement",
+      "flip",
+      "side_roll",
+      "cartwheel",
+      "handstand",
+      "LAFAN40_cross_library"
+    ],
+    "fixed_hard_definition": "configs/p10_hard_motion_set.json: original source_clip_id",
+    "fixed_hard_used_in_training": false,
+    "required_node_comparisons": [
+      "new_completions",
+      "lost_completions",
+      "common_complete_quality",
+      "all_clip_reward_decomposition"
+    ],
+    "lafan_success_preserved": true,
+    "scalar_fields": [
+      "normalized_return",
+      "completion_fraction",
+      "completed",
+      "hard_failure",
+      "termination_reason",
+      "reference_frames",
+      "reference_transitions",
+      "executed_transitions",
+      "reward_sum",
+      "normalization_denominator",
+      "root_position_error_m",
+      "root_xy_error_m",
+      "root_z_absolute_error_m",
+      "root_orientation_error_rad",
+      "relative_body_position_error_m",
+      "relative_body_orientation_error_rad",
+      "all_native_reward_term_sums"
+    ]
+  },
+  "evidence": {
+    "capture_only": "final_BONES_same_formal_rollout",
+    "max_failure_windows": 8,
+    "max_control_transitions_per_window": 32,
+    "state_frames_per_full_window": 33,
+    "window_end": "include_first_hard_failure_transition",
+    "valid_length": "k=min(32,executed_transitions_of_this_clip_in_this_formal_rollout)",
+    "state_frames_per_actual_window": "k+1",
+    "short_window_policy": "keep_actual_length_no_padding_no_cross_clip_or_reset_history_no_candidate_replacement_no_extra_replay",
+    "selection": "lowest_original_source_id_failure_per_flip_side_roll_cartwheel_handstand_then_other_hard2_and_nonhard2_disjoint_no_replay_to_fill_missing",
+    "fields": [
+      "robot_state",
+      "reference_state",
+      "reference_frame_id",
+      "actions",
+      "native_rewards",
+      "hard_reason",
+      "actual_context"
+    ],
+    "new_physics_rollouts": false,
+    "new_WM_predictions": false,
+    "complete_videos": false
+  },
+  "concurrency": {
+    "GPU_training_runs": 1,
+    "GPU_scoring_workers": 1,
+    "training_and_scoring_overlap": false,
+    "scoring_and_publication_shared_lock": true,
+    "training_holds_publication_lock": false,
+    "CPU_metadata_or_aggregation_workers_max": 12,
+    "CPU_worker_threads": 1,
+    "conversion_processes": 1,
+    "hardware_observation": "record_actual_normal_startup_milestone_usage_no_capacity_or_throughput_benchmark"
+  },
+  "implementation": {
+    "status": "pending_on_D57",
+    "planned_entries": [
+      "scripts/o2/pack_existing_bones.py",
+      "scripts/o2/train_official.py",
+      "scripts/o2/evaluate_library.py",
+      "scripts/o2/publish_results.py",
+      "scripts/o2/run_d57.sh"
+    ],
+    "source_algorithm_mutations": false,
+    "preserve_official_loop": true,
+    "artifacts_before_formal_run": [
+      "actual_code",
+      "actual_runtime_configuration",
+      "converted_dataset_record_and_index"
+    ],
+    "prohibited_extra_work": [
+      "unit_tests",
+      "mock_tests",
+      "smoke_tests",
+      "import_tests",
+      "shape_tests",
+      "hash_tests",
+      "restore_drills",
+      "capacity_or_throughput_benchmarks",
+      "parameter_sweeps",
+      "generic_monitoring_or_fallback_framework"
+    ]
+  },
+  "artifacts": {
+    "checkpoint_payload": [
+      "official_WM_bundle",
+      "Actor_state_dict_including_normalizers",
+      "Critic_state_dict",
+      "runner_cfg",
+      "data_lineage",
+      "counts",
+      "training_seconds"
+    ],
+    "full_resume_supported": false,
+    "ordinary_checkpoint_keep_latest": 20,
+    "protected_nodes": [
+      "initial",
+      "hour_03",
+      "hour_06",
+      "final",
+      "any_checkpoint_referenced_by_formal_evaluation"
+    ],
+    "rolling_retention_scope": "only_new_O2_ordinary_checkpoints_not_old_runs_or_stage_cleanup",
+    "git": [
+      "code",
+      "protocol",
+      "actual_config",
+      "dataset_index_parts",
+      "all_per_clip_score_parts",
+      "compact_stats",
+      "bounded_failure_windows",
+      "conclusion",
+      "current_status"
+    ],
+    "large_artifacts": "remain_on_D57",
+    "release_upload": false,
+    "tar_archives": false,
+    "local_computer_archive_after_push": false,
+    "automatic_stage_cleanup": false,
+    "publication_scope": "only_new_or_changed_lightweight_files_preserve_unrelated_remote_work",
+    "publication_failure": "retry_publication_of_existing_scores_no_retraining_or_reevaluation"
+  },
+  "previous_stage": {
+    "campaign": "20261111-o1-official-lafan40-s0",
+    "status": "completed_target_reached",
+    "retrain_or_reevaluate": false
+  },
+  "p12_and_other_independent_new_experiments": "paused",
+  "next_action": "D57_executor_implements_minimal_adapters_then_runs_this_defined_segment_without_replanning"
+}
