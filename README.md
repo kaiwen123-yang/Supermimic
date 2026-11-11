@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O1官方复现已实际准备，研究依赖阻塞。** 2026-11-11已在D57新工作区克隆官方5efbf11，定位并建立完整LAFAN40数据引用，发布40条实际索引和执行协议。mjlab_research在本机/D57已认证访问中仍404，官方环境、训练tmux和正式评分尚未启动，12h训练预算未消耗。取得匹配依赖后直接完成接入并执行单卡首段（正式R>=.82时交付）。P12及其他独立实现新实验暂缓，旧成果与其他运行任务保留。[实际执行交接](docs/O1_EXECUTION_HANDOFF_20261111.md)、[现场记录与数据索引](results/20261111-o1-official-lafan40-s0/README.md)、[执行协议](configs/o1_official_lafan40_protocol.json)、[原执行计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[Codex执行提示词](docs/O1_CODEX_START_PROMPT.md)。
+> **当前主线：O1作者研究库已取得，正在接入正式运行。** 作者已公开HybridRobotics/mjlab_research，固定研究库dd51a9f及SuperMimic新main abc124c。D57两份源码与40条真实loader格式转换已完成；独立环境正在安装，本地保存、12h预算、完整评分和轻量发布入口已实施。实时训练状态以结果目录summary与D57 progress.json为准。P12及其他独立实现新实验暂缓，旧成果与其他运行任务保留。[最新接续说明](docs/O1_OFFICIAL_RUN_20261111.md)、[来源解除记录](results/20261111-o1-official-lafan40-s0/source_resolution.json)、[执行协议](configs/o1_official_lafan40_protocol.json)、[Codex执行提示词](docs/O1_CODEX_START_PROMPT.md)。
 
 > **P11已全部完成并复核。** 原残差终点全BONES **R=.86375135、129152/130394完整、hard312/639**；高度约束 **R=.85693786、129598完整、hard305/639**。候选多完成446条，但普通质量和同输入WM预测较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点/LAFAN跨节点保持有优势，不能概括成全面退化。原WM在有效存活前缀就有误差积累；P12据此研究拟合窗口，不将预测误差等同于已证明梯度错误。[完整复核与论文逐项指标](docs/P11_REVIEW_20261111.md)、[派生数据](results/20261110-p11-root-height-consistency-s0/review_20261111.json)、[已完成结果](results/20261110-p11-root-height-consistency-s0/summary.json)。
 

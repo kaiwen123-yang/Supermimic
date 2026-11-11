@@ -1,6 +1,6 @@
 # O1 Codex 官方复现执行提示词
 
-用户于2026-11-11确认：下一步专心复现官方代码。此提示词替代此前“仅准备、不训练”的版本。执行更新：D57官方源码工作区、LAFAN40引用和逐动作索引已落地，研究依赖仍404，环境/训练/评分未启动。先读[最新执行交接](O1_EXECUTION_HANDOFF_20261111.md)，复用已有准备，不重新克隆或重建数据；P12及独立实现的新实验暂缓。
+用户于2026-11-11确认：下一步专心复现官方代码。作者研究库现已取得。先读[最新正式接入说明](O1_OFFICIAL_RUN_20261111.md)和结果目录的当前状态；复用已有源码、环境与40条转换文件。若已有活跃O1 tmux则保持连续，不重启；P12及独立实现的新实验暂缓。
 
 将下方正文交给可以连接autodl-d57的Codex：
 
@@ -11,7 +11,7 @@
 
 使用autodl-d57，复用 /root/autodl-tmp/robot-repro/supermimic-official-workspace 已有官方源码与data/lafan40_existing50hz引用，先读docs/O1_EXECUTION_HANDOFF_20261111.md。supermimic与待取得的mjlab_research按官方README作为兄弟目录，取得匹配依赖后使用独立Python3.13环境。原项目 /root/autodl-tmp/robot-repro/supermimic 的环境、数据、G1资产、工作树、Git/stash及checkpoint保留；不修改Conda base、MPC-RL、π系列或其他任务，不停止任何已有训练/评分/迁移。
 
-本次固定官方HybridRobotics/supermimic@5efbf114e11f725c31d83e217be987c13c0e4ce2，后续若上游补齐依赖/配置，记录变化后采用。先落实kevinzakka/mjlab_research的可访问来源及匹配版本。该依赖本次仍404，Issue#1只有其他用户询问公共mjlab，无作者确认的替代commit。不能直接重命名公共mjlab、猜测缺失接口或绕过访问限制，也不自动向作者发Issue/邮件。
+本轮已取得作者新地址HybridRobotics/mjlab_research@dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd，并采用README已改为该地址的SuperMimic@abc124c1bd5976341034668af3d12c087f2f1f55。abc相对旧5ef仅修改README/包描述/CI地址，学习源码不变。不要再将旧kevinzakka地址404当当前阻塞；实际来源及核心依赖版本见source_resolution.json。先检查sm-o1-official-lafan40-s0和outputs/o1-official-lafan40-s0/progress.json，若活跃则不重启；若仍在安装或接入，只完成剩余工作后按已授权预算正式启动。
 
 若依赖仍不可取得，完成不依赖它的源码落地、实际数据索引整理、运行配置和最小评测/保存适配设计，推送状态与精确缺失项；不安装一套猜测环境、不假报跑通、不转去旧P12。取得匹配依赖后按官方pyproject/uv.lock在新目录建立环境，原.venv和base不动。
 

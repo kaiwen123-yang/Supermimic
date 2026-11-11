@@ -1,0 +1,20 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index b1e1f5d..6883b81 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -16,6 +16,15 @@ dependencies = [
+     "viser>=1.0.24",
+ ]
+ 
++[tool.uv]
++# O1: critical runtime versions from the newly published research repository lock.
++constraint-dependencies = [
++    "torch==2.14.0",
++    "warp-lang==1.18.0",
++    "mujoco==3.16.0",
++    "mujoco-warp==3.16.0",
++]
++
+ [tool.uv.sources]
+ mjlab = { path = "../mjlab_research", editable = true }
+ 

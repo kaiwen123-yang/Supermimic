@@ -1,6 +1,6 @@
 # O1：官方 SuperMimic 复现执行计划
 
-日期：2026-11-11。用户已确认“下一步就专心去复现官方的代码”。执行更新：D57官方源码工作区与完整LAFAN40数据索引已建立，研究依赖仍404，官方环境、训练和评分尚未执行。当前现场状态、实际数据路径和接续适配见[O1执行交接](O1_EXECUTION_HANDOFF_20261111.md)；下文保留既定训练计划。
+日期：2026-11-11。用户已确认“下一步就专心去复现官方的代码”。后续执行更新：作者已公开HybridRobotics/mjlab_research，两份源码和40条真实loader格式转换已落地，独立环境正在安装，正式运行入口已实施。当前接续见[O1正式接入说明](O1_OFFICIAL_RUN_20261111.md)与结果目录最新状态；下文保留既定训练计划及初始来源比较。
 
 本计划根据用户最新决定，从此前的准备建议更新为官方复现执行入口。依赖、数据和评测具备后直接进入下述正式LAFAN40训练段；不再因旧提示词中的“只准备、不训练”停在重复规划。既有独立实现保留为历史成果和对照。细节依据见[源码比较报告](OFFICIAL_COMPARISON_20261111.md)和[来源清单](../configs/official_source_inventory_20261111.json)。
 
@@ -31,10 +31,10 @@ v2未实质改变核心公式和实验附录；当前main已加入Muon、LayerNo
 
 | 顺序 | 具体工作 | 当前状态与产出 |
 |---|---|---|
-| 1 | 取得作者指定的mjlab_research及匹配版本 | 地址404；记录Issue #1和缺失API，不能用公开mjlab改名代替 |
+| 1 | 取得作者指定的mjlab_research及匹配版本 | 已取得作者新地址HybridRobotics/mjlab_research@dd51a9f；旧kevinzakka地址404不再阻塞 |
 | 2 | 定位论文run配置和相应权重/代码版本 | 主仓库README/Release未定位到；重点确认GenCoord/MaxCoord、proprio历史、数据与优化配置 |
-| 3 | 创建独立工作区与Python3.13环境 | 工作区和官方源码已落地；研究依赖未取得，独立环境尚未安装 |
-| 4 | 明确LAFAN40与BONES输入契约 | 已定位40条实际工作数据并发布索引；待真实官方loader落实最小转换和成员映射 |
+| 3 | 创建独立工作区与Python3.13环境 | 相邻官方源码已落地；独立环境按新研究库锁固定核心版本安装 |
+| 4 | 明确LAFAN40与BONES输入契约 | 已按真实loader完成40条最小字段/坐标转换；BONES保留原索引 |
 | 5 | 明确完整动作评测入口与统计公式 | 作者脚本优先；没有时在官方真实环境上做最小评测适配 |
 | 6 | 固化实际配置并正式执行 | 记录准确命令、版本和实际资源；条件具备后直接执行本计划的首段LAFAN40训练 |
 | 7 | LAFAN官方基线，再推进BONES | 先交付LAFAN完整评分，再依据结果接续BONES；不把默认单动作demo当全库复现 |
@@ -61,9 +61,9 @@ v2未实质改变核心公式和实验附录；当前main已加入Muon、LayerNo
 - supermimic-official-workspace/data
 - supermimic-official-workspace/outputs
 
-执行更新：工作区、supermimic源码目录、data与outputs已经创建；mjlab_research与supermimic/.venv尚未创建。取得匹配研究依赖后仅在新工作区建立所需环境；不修改旧.venv、activate.sh、Conda base、G1资产、其他项目或正在运行的任务。
+执行更新：工作区、两份相邻官方源码、data与outputs已经创建，独立Python3.13环境正在安装。环境只建立在新工作区；不修改旧.venv、activate.sh、Conda base、G1资产、其他项目或正在运行的任务。
 
-当前官方pyproject要求Python>=3.13,<3.14；uv.lock记录Torch2.10.0、MuJoCo3.10.0、mujoco-warp3.10.0.1、Warp1.14.0及rsl-rl-lib5.4.0。研究依赖以本地editable路径引用，没有给出可复原的研究库commit。锁文件是准备依据，缺少研究库时不把依赖图标为完整。
+官方SuperMimic要求Python>=3.13,<3.14。初始5ef锁记录Torch2.10.0、MuJoCo3.10.0、mujoco-warp3.10.0.1、Warp1.14.0及rsl-rl-lib5.4.0；后续作者公开研究库1.6.0带来了新的依赖要求。本轮依新研究库锁固定Torch2.14.0、Warp1.18.0和MuJoCo/mujoco-warp3.16.0，rsl-rl-lib5.5.2，并保存实际重新解析的环境锁，见O1正式接入说明。
 
 不要往原Python3.11/Torch2.7.1环境安装官方依赖，也不要复制旧site-packages冒充新环境。
 
@@ -145,7 +145,7 @@ v2未实质改变核心公式和实验附录；当前main已加入Muon、LayerNo
 
 ## 9. 当前执行与交付
 
-此前已交付来源固定、论文v2核对、双仓库差异报告与真实成绩说明；本轮已实际创建D57官方工作区，建立现有LAFAN40引用和逐动作索引，并发布运行协议、适配设计与[现场状态](../results/20261111-o1-official-lafan40-s0/readiness.json)。研究依赖仍404，环境安装和训练未启动，预算未消耗。
+此前已交付来源固定、论文v2核对、双仓库差异报告与真实成绩说明；本轮已取得作者公开研究库，完成40条真实loader格式转换和必要运行适配。新环境正在安装，最新状态见[O1正式接入说明](O1_OFFICIAL_RUN_20261111.md)与结果目录；readiness.json保留13:42的历史记录。
 
 使用[O1执行提示词](O1_CODEX_START_PROMPT.md)，连续完成必要准备和条件具备后的正式训练、评分及轻量发布。如果研究依赖仍404，先完成能够进行的源码、配置、数据索引和评测适配准备，交付准确缺失材料；不以公开mjlab的未经验证替换掩盖阻塞，也不改跑旧实验。取得匹配依赖后按本计划接续，无需再次将路线选择交回用户。
 

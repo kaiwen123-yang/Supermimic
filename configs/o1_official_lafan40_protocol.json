@@ -1,15 +1,15 @@
 {
   "campaign": "20261111-o1-official-lafan40-s0",
-  "status": "prepared_dependency_blocked_not_launched",
+  "status": "dependency_obtained_installing_before_formal_launch",
   "configuration_kind": "execution_protocol_not_resolved_runtime_config",
   "official_repository": "https://github.com/HybridRobotics/supermimic",
-  "official_commit": "5efbf114e11f725c31d83e217be987c13c0e4ce2",
+  "official_commit": "abc124c1bd5976341034668af3d12c087f2f1f55",
   "research_dependency": {
-    "repository": "https://github.com/kevinzakka/mjlab_research",
-    "matched_commit": null,
-    "lock_package_version": "1.5.0",
+    "repository": "https://github.com/HybridRobotics/mjlab_research",
+    "matched_commit": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd",
+    "lock_package_version": "1.6.0",
     "lock_source": "../mjlab_research",
-    "available": false
+    "available": true
   },
   "workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
   "source_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic",
@@ -34,8 +34,8 @@
     "clip_count": 40,
     "existing_reference_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/lafan40_existing50hz",
     "index": "results/20261111-o1-official-lafan40-s0/lafan40_index.csv",
-    "official_motion_file_argument": null,
-    "conversion_status": "deferred_until_actual_research_loader_is_available",
+    "official_motion_file_argument": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/lafan40_official_npz/manifest.json:clips[*].official_motion_path",
+    "conversion_status": "all_40_converted_without_resampling_or_retargeting",
     "registry_name_when_using_local_motion_files": null
   },
   "inherited_upstream_defaults_snapshot": {
@@ -57,10 +57,10 @@
     "stop_on_formal_mean_return_at_least": 0.82,
     "count_environment_model_initialization_and_replay_fill": true,
     "installation_data_preparation_evaluation_publication_timed_separately": true,
-    "execution_adapter_implemented": false
+    "execution_adapter_implemented": true
   },
   "evaluation": {
-    "implementation_status": "source_mapped_design_waiting_for_research_environment",
+    "implementation_status": "implemented_for_published_research_source_formal_node_execution_pending",
     "all_clips_from_frame": 0,
     "deterministic": true,
     "friction": 1.0,
@@ -70,20 +70,24 @@
     "disable_training_timeout": true,
     "per_clip_normalization": "sum_original_real_environment_rewards / (official_max_step_reward * reference_transition_count)",
     "official_max_step_reward": "step_dt * sum(positive_reward_weights)",
-    "resolved_step_dt": null,
-    "resolved_reward_terms_and_hard_thresholds": null,
+    "resolved_step_dt": 0.02,
+    "resolved_reward_terms_and_hard_thresholds": {"positive_weight_sum": 5.0, "max_step_reward": 0.1, "anchor_pos_z_threshold_m": 0.25, "anchor_projected_gravity_z_threshold": 0.8, "ee_body_pos_removed_by_official_task": true},
     "aggregate": "arithmetic_mean_of_all_40_per_clip_returns",
     "preserve_failed_clips": true,
     "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock"
   },
   "artifacts": {
     "directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0",
-    "local_fixed_checkpoint_saving_implemented": false,
+    "local_fixed_checkpoint_saving_implemented": true,
     "wandb_model_upload_and_pruning_allowed": false,
     "git_delivery": "code_configuration_all_40_scores_compact_statistics_status",
     "large_artifact_delivery": "server_only",
     "full_resume_implemented": false
   },
-  "next_action": "obtain_accessible_matching_mjlab_research_then_resolve_loader_and_environment_install_isolated_stack_and_complete_adapters_before_formal_tmux_launch",
+  "source_resolution": "results/20261111-o1-official-lafan40-s0/source_resolution.json",
+  "training_entry": "scripts/o1/run_d57.sh",
+  "formal_scoring_entry": "scripts/o1/evaluate_official.py",
+  "publication_entry": "scripts/o1/evaluate_publish.py",
+  "next_action": "finish_isolated_environment_installation_then_launch_one_formal_tmux_run",
   "p12_and_other_new_independent_experiments": "paused"
 }
