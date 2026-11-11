@@ -1,0 +1,89 @@
+{
+  "campaign": "20261111-o1-official-lafan40-s0",
+  "status": "prepared_dependency_blocked_not_launched",
+  "configuration_kind": "execution_protocol_not_resolved_runtime_config",
+  "official_repository": "https://github.com/HybridRobotics/supermimic",
+  "official_commit": "5efbf114e11f725c31d83e217be987c13c0e4ce2",
+  "research_dependency": {
+    "repository": "https://github.com/kevinzakka/mjlab_research",
+    "matched_commit": null,
+    "lock_package_version": "1.5.0",
+    "lock_source": "../mjlab_research",
+    "available": false
+  },
+  "workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+  "source_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic",
+  "environment_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/.venv",
+  "python_constraint": ">=3.13,<3.14",
+  "run_name": "o1-official-lafan40-s0",
+  "planned_tmux_session": "sm-o1-official-lafan40-s0",
+  "baseline_label": "official_current_main_GenCoord_proprio_history10",
+  "paper_historical_run_config_recovered": false,
+  "task_id": "SuperMimic-GenCoord-G1",
+  "seed": 0,
+  "initialization": "fresh_official_networks",
+  "gpu_count": 1,
+  "num_envs": 4096,
+  "runner_overrides": {
+    "run_name": "o1-official-lafan40-s0",
+    "representation": "gencoord",
+    "actor_obs": "proprio",
+    "history_length": 10
+  },
+  "data": {
+    "clip_count": 40,
+    "existing_reference_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/lafan40_existing50hz",
+    "index": "results/20261111-o1-official-lafan40-s0/lafan40_index.csv",
+    "official_motion_file_argument": null,
+    "conversion_status": "deferred_until_actual_research_loader_is_available",
+    "registry_name_when_using_local_motion_files": null
+  },
+  "inherited_upstream_defaults_snapshot": {
+    "max_iterations_collection_steps": 1000000,
+    "buffer_size": 1000,
+    "replay_ratio": 16,
+    "wm": {"lr": 0.0002, "num_batches": 10, "batch_size": 2048, "horizon": 8},
+    "policy": {"variant": "actor-critic", "lr": 0.0002, "num_batches": 1, "batch_size": 4096, "horizon": 32, "noise": 0.1, "gamma": 0.99, "lam": 0.95, "beta2": 0.95, "grad_clip_value": 0.1},
+    "slot_mix": {"motion": 1.0, "velocity": 0.0},
+    "sampling_mode": "return",
+    "termination_softness": 0.05,
+    "optimizer_implementation": "upstream_Muon_and_fused_capturable_Adam",
+    "normalization_and_networks": "retain_fixed_upstream_source"
+  },
+  "budget": {
+    "max_training_seconds": 43200,
+    "evaluation_at_training_seconds": [10800, 21600, 43200],
+    "evaluate_actual_earlier_endpoint": true,
+    "stop_on_formal_mean_return_at_least": 0.82,
+    "count_environment_model_initialization_and_replay_fill": true,
+    "installation_data_preparation_evaluation_publication_timed_separately": true,
+    "execution_adapter_implemented": false
+  },
+  "evaluation": {
+    "implementation_status": "source_mapped_design_waiting_for_research_environment",
+    "all_clips_from_frame": 0,
+    "deterministic": true,
+    "friction": 1.0,
+    "domain_randomization": false,
+    "observation_noise": false,
+    "stop_at": "official_hard_failure_or_natural_clip_end",
+    "disable_training_timeout": true,
+    "per_clip_normalization": "sum_original_real_environment_rewards / (official_max_step_reward * reference_transition_count)",
+    "official_max_step_reward": "step_dt * sum(positive_reward_weights)",
+    "resolved_step_dt": null,
+    "resolved_reward_terms_and_hard_thresholds": null,
+    "aggregate": "arithmetic_mean_of_all_40_per_clip_returns",
+    "preserve_failed_clips": true,
+    "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock"
+  },
+  "artifacts": {
+    "directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o1-official-lafan40-s0",
+    "local_fixed_checkpoint_saving_implemented": false,
+    "wandb_model_upload_and_pruning_allowed": false,
+    "git_delivery": "code_configuration_all_40_scores_compact_statistics_status",
+    "large_artifact_delivery": "server_only",
+    "full_resume_implemented": false
+  },
+  "next_action": "obtain_accessible_matching_mjlab_research_then_resolve_loader_and_environment_install_isolated_stack_and_complete_adapters_before_formal_tmux_launch",
+  "p12_and_other_new_independent_experiments": "paused"
+}

@@ -1,6 +1,6 @@
 # O1 Codex 官方复现执行提示词
 
-用户于2026-11-11确认：下一步专心复现官方代码。此提示词替代此前“仅准备、不训练”的版本。P12及独立实现的新实验暂缓；本次发布仍未操作D57或启动训练。
+用户于2026-11-11确认：下一步专心复现官方代码。此提示词替代此前“仅准备、不训练”的版本。执行更新：D57官方源码工作区、LAFAN40引用和逐动作索引已落地，研究依赖仍404，环境/训练/评分未启动。先读[最新执行交接](O1_EXECUTION_HANDOFF_20261111.md)，复用已有准备，不重新克隆或重建数据；P12及独立实现的新实验暂缓。
 
 将下方正文交给可以连接autodl-d57的Codex：
 
@@ -9,7 +9,7 @@
 
 目标是连续完成必要环境/数据/评测准备，并在条件具备后直接开展第一段完整LAFAN40官方训练、评分和轻量发布。之前“只准备、不训练”的限制已被这次执行计划替代，不要因此停在建议或再次询问是否开始。尚未取得的真实依赖不能伪装成已解决。
 
-使用autodl-d57，在 /root/autodl-tmp/robot-repro/supermimic-official-workspace 新建独立工作区，supermimic与mjlab_research按官方README作为兄弟目录，使用独立Python3.13环境。原项目 /root/autodl-tmp/robot-repro/supermimic 的环境、数据、G1资产、工作树、Git/stash及checkpoint保留；不修改Conda base、MPC-RL、π系列或其他任务，不停止任何已有训练/评分/迁移。
+使用autodl-d57，复用 /root/autodl-tmp/robot-repro/supermimic-official-workspace 已有官方源码与data/lafan40_existing50hz引用，先读docs/O1_EXECUTION_HANDOFF_20261111.md。supermimic与待取得的mjlab_research按官方README作为兄弟目录，取得匹配依赖后使用独立Python3.13环境。原项目 /root/autodl-tmp/robot-repro/supermimic 的环境、数据、G1资产、工作树、Git/stash及checkpoint保留；不修改Conda base、MPC-RL、π系列或其他任务，不停止任何已有训练/评分/迁移。
 
 本次固定官方HybridRobotics/supermimic@5efbf114e11f725c31d83e217be987c13c0e4ce2，后续若上游补齐依赖/配置，记录变化后采用。先落实kevinzakka/mjlab_research的可访问来源及匹配版本。该依赖本次仍404，Issue#1只有其他用户询问公共mjlab，无作者确认的替代commit。不能直接重命名公共mjlab、猜测缺失接口或绕过访问限制，也不自动向作者发Issue/邮件。
 

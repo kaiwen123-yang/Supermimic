@@ -9,6 +9,6 @@
 
 本目录仅保留来源说明，没有将上游代码复制进独立实现，也没有导入社区复现代码。旧实现与已有成果保留。
 
-后续计划在D57的 /root/autodl-tmp/robot-repro/supermimic-official-workspace 创建官方工作区，supermimic与mjlab_research为相邻目录，使用独立环境。该服务器准备尚未执行。接入时记录实际上游版本与必要本地改动，保留许可；不直接覆盖现有源码、环境或checkpoint。
+2026-11-11已在D57的 /root/autodl-tmp/robot-repro/supermimic-official-workspace 创建工作区，supermimic目录已克隆并固定上述commit，工作树无改动。已建立现有LAFAN40数据引用和逐动作索引；研究依赖仍404，mjlab_research兄弟目录和独立环境尚未建立，训练与评分未启动。实际状态见[O1执行交接](../docs/O1_EXECUTION_HANDOFF_20261111.md)和[现场记录](../results/20261111-o1-official-lafan40-s0/readiness.json)。
 
 阅读[完整比较报告](../docs/OFFICIAL_COMPARISON_20261111.md)、[O1准备计划](../docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)和[来源清单](../configs/official_source_inventory_20261111.json)。当前公开main与论文原始主配置需要分别标注。
