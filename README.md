@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O1官方LAFAN40首段已完成。** 最新正式节点final：R=0.87443989、完整40/40。本段已观测R>=.82：是。[完整结果与全部节点](results/20261111-o1-official-lafan40-s0/summary.json)、[逐动作成绩](results/20261111-o1-official-lafan40-s0/README.md)、[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。不自动加预算或启动下一阶段。
+> **当前主线：O1官方LAFAN40首段已完成并复核。** seed0从零训练，首个约3h正式节点 **R=0.85882311、39/40**；约3h8m17s实际终点 **R=0.87443989、40/40**，已达到0.82目标并正常停止。全40根XY时间均值0.765250m，完成率与跟踪精度分别报告。[完整复核](docs/O1_REVIEW_20261111.md)、[派生统计](results/20261111-o1-official-lafan40-s0/review_20261111.json)、[全部正式节点](results/20261111-o1-official-lafan40-s0/summary.json)、[逐动作成绩](results/20261111-o1-official-lafan40-s0/README.md)、[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。官方BONES尚未启动，不自动加预算或重跑O1。
 
 > **P11已全部完成并复核。** 原残差终点全BONES **R=.86375135、129152/130394完整、hard312/639**；高度约束 **R=.85693786、129598完整、hard305/639**。候选多完成446条，但普通质量和同输入WM预测较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点/LAFAN跨节点保持有优势，不能概括成全面退化。原WM在有效存活前缀就有误差积累；P12据此研究拟合窗口，不将预测误差等同于已证明梯度错误。[完整复核与论文逐项指标](docs/P11_REVIEW_20261111.md)、[派生数据](results/20261110-p11-root-height-consistency-s0/review_20261111.json)、[已完成结果](results/20261110-p11-root-height-consistency-s0/summary.json)。
 
@@ -24,12 +24,12 @@
 
 - 论文：[arXiv:2610.28480v1](https://arxiv.org/abs/2610.28480v1)
 - 作者项目：[supermimic.github.io](https://supermimic.github.io/)
-- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果，优先准备独立官方基线，再推进困难技能、BONES规模和效率对齐。
-- 本仓库属于独立复现，不是作者官方代码。2026-11-11已读取[官方核心训练源码](https://github.com/HybridRobotics/supermimic)，固定在5efbf114e11f725c31d83e217be987c13c0e4ce2；作者指定的mjlab_research、论文精确run配置和完整评测配套仍有缺口。没有将官方或社区实现混入既有训练代码。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
+- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；官方LAFAN40基线已完成，后续重点准备官方BONES规模实验，P12及独立实现新实验暂缓。
+- 本仓库属于用户复现项目，不是作者官方仓库。O1实际使用[官方核心源码](https://github.com/HybridRobotics/supermimic/tree/abc124c1bd5976341034668af3d12c087f2f1f55)及[作者研究环境](https://github.com/HybridRobotics/mjlab_research/tree/dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd)，在相邻独立工作区运行，未混入既有独立训练实现。初始5efbf114源码比较保留供溯源，研究依赖已取得，旧地址404不再阻塞。论文历史精确run配置和BONES筛选成员仍未取得，当前结果明确标为官方当前源码GenCoord/proprio/history10基线。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
 
 ## D57 环境
 
-SSH 别名 `autodl-d57`；项目目录 `/root/autodl-tmp/robot-repro/supermimic`。GPU 为单张 RTX PRO 6000 96GB。
+SSH 别名 `autodl-d57`；项目目录 `/root/autodl-tmp/robot-repro/supermimic`。O1记录GPU为单张 RTX PRO 6000 Blackwell Server Edition 96GB，官方工作区为 `/root/autodl-tmp/robot-repro/supermimic-official-workspace`。
 
 2026-11-01 重启后，本地数据盘 `/root/autodl-tmp` 已生效为 1000G；西北B区文件存储 `/root/autodl-fs` 已启用并通过读写核验。训练和暂存仍使用本地数据盘，不自动把大产物复制到独立计费的文件存储。
 
@@ -45,14 +45,14 @@ source activate.sh
 bash scripts/setup_d57.sh
 ```
 
-`pyproject.toml` / `uv.lock` 固定本机准备环境，Python 3.11，Torch 2.7.1+cu128，MuJoCo / MuJoCo Warp 3.17.0。这些是**独立实现的本机版本**。官方当前已提供Python3.13及另一套uv.lock，但研究版mjlab源码/commit尚未取得；后续使用独立工作区和环境，不覆盖本环境。
+`pyproject.toml` / `uv.lock` 固定独立实现环境，Python 3.11，Torch 2.7.1+cu128，MuJoCo / MuJoCo Warp 3.17.0。O1官方工作区已另建Python3.13.18、Torch2.14.0、MuJoCo/mujoco-warp3.16.0、Warp1.18.0环境，研究版mjlab源码已取得；[实际版本](results/20261111-o1-official-lafan40-s0/environment.json)与[接入说明](docs/O1_OFFICIAL_RUN_20261111.md)记录了新依赖和旧锁的处理，没有覆盖独立实现环境。
 
 每套项目使用独立 `.venv` 和 pip，不继承 Conda base、MPC-RL 或 π 系列的包。源码、模型、数据、输出和缓存分别存放。GPU 显存与算力仍属于共享硬件，启动计算前核对实际任务安排。
 
 ## 现有内容
 
 - [论文配置](configs/paper_reference.toml)：按论文标注来源的算法/网络/训练参数，不是已经可执行的训练配置。
-- [当前官方比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[O1执行计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1执行提示词](docs/O1_CODEX_START_PROMPT.md)：官方为当前唯一新增实验主线，研究依赖具备后推进完整LAFAN40训练和评测。
+- [O1完成复核](docs/O1_REVIEW_20261111.md)、[官方源码比较](docs/OFFICIAL_COMPARISON_20261111.md)、[已执行O1计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1完成交接](docs/O1_CODEX_START_PROMPT.md)：官方LAFAN40已完成，后续沿官方路线准备BONES；旧O1启动提示词不再作为重跑指令。
 - [备选P12分析与计划](docs/P12_WORLD_WINDOW_PLAN.md)：两路8192完整库以同父k8/k16比较WM拟合窗口，保留H32及原残差；[P12协议](configs/next_stage_world_window_protocol.json)、[P12启动词](docs/P12_CODEX_START_PROMPT.md)、[P11完整复核](docs/P11_REVIEW_20261111.md)。本次不执行P12。
 - [已完成P10分析与计划](docs/P10_8K_HARD_PRACTICE_PLAN.md)：两路8192完整库并行，固定639条hard增加练习，兼顾普通姿态质量和LAFAN保持；[P10协议](configs/next_stage_8k_hard_practice_protocol.json)、[P10启动词](docs/P10_CODEX_START_PROMPT.md)、[冻结hard名单](configs/p10_hard_motion_set.json)、[P9深读复核](docs/P9_REVIEW_20261108.md)。[已完成P9方案](docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md)、[P8深读复核](docs/P8_REVIEW_20261107.md)。[已完成P8方案](docs/P8_STABILITY_AND_SCALE_PLAN.md)、[已完成P7方案](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)、[已完成P6方案](docs/P6_POSITION_FEEDBACK_PLAN.md)、[历史复现记录](docs/REPRODUCTION_PLAN.md)。
 - [来源锁](configs/sources.lock.json)：LAFAN1、机器人资产和 BeyondMimic 参数的确切版本。
@@ -70,7 +70,7 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的P11；当前主线为O1官方复现，P12暂缓并保留计划。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
+**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的O1；官方路线保持，P12暂缓并保留计划。下文为独立实现历史，均不作为新启动指令。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
 
 | 版本 | 完整执行 | 完整时长归一化回报 | 平均完成比例 | 起身 | 跑步 |
 |---|---:|---:|---:|---:|---:|
@@ -91,7 +91,7 @@ P4/P5/P6/P7/P8的训练、正式评估与关键发布均已完成。P6位置反�
 - [正式训练区间统计](results/20261102-h32-bce-s0/training.json)
 - [历史审阅与P4计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)
 - [P4机器可读协议](configs/next_stage_continuation_protocol.json)（不是train.py配置）
-- [当前O1执行提示词](docs/O1_CODEX_START_PROMPT.md)
+- [当前O1完成交接](docs/O1_CODEX_START_PROMPT.md)
 - [备选P12启动提示词](docs/P12_CODEX_START_PROMPT.md)
 - [P4父版本C0-9000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000)
 
@@ -165,5 +165,6 @@ P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本�
 P3 v2 实际阶段结果：h32_aux_bce 第9000轮，29/40，归一化回报0.61540441，新增3000轮/3.225h；h32_state_only 第9000轮，15/40，归一化回报0.48260317，新增3000轮/3.236h。结果和实际失败窗口见 results/20261102-h32-bce-s0/summary.json、comparison.json；该阶段不能作为充分收敛证据。
 
 P4最终判断：18000轮达到本阶段最高完整回报0.706754，较9000提高14.84%，完整执行由29增至32；15000–17000的回撤后出现恢复，不能据此宣布收敛或持续停滞。保留C0-18000作为后续续训起点，保留全部里程碑用于检查动作保持。起身成功集合仍会变化，且真实失败尾窗存在状态预测/解析终止失配；若继续研究，优先沿同配置观察这些能力能否稳定保持。本段已结束，没有自动追加训练预算或新分支。 详细逐动作变化与三条真实起身失败尾窗见 [P4结论](docs/REPRODUCTION_PLAN.md#p4-next-stage)。
+
 
 
