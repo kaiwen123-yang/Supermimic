@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：O1 官方源码比较与完整复现准备。** 已对照本仓库dd28b96、官方5efbf11及论文v1/v2：核心学习闭环一致，但动力学积分、WM损失、目标预览、观测信息、采样与优化存在实质差异。官方核心代码已公开，研究版mjlab依赖仍不可访问；本轮完成报告和准备计划，尚未创建D57官方环境或启动训练。[比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[O1准备计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1准备提示词](docs/O1_CODEX_START_PROMPT.md)、[来源清单](configs/official_source_inventory_20261111.json)。P12的k8/k16研究保留为备选，不由此次文档更新启动或停止任何任务。
+> **当前主线：专心复现官方代码（用户2026-11-11确认）。** O1已从准备建议更新为执行入口：落实研究依赖、独立环境、完整LAFAN40与评分，条件具备后直接进行首段单卡训练（累计上限12h，正式R>=.82时交付）。P12及其他独立实现新实验暂缓，旧成果保留；不停止其他会话已运行的任务。官方基点5efbf11，mjlab_research本次仍不可公开访问；D57官方环境/训练尚未执行。[执行计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[Codex执行提示词](docs/O1_CODEX_START_PROMPT.md)、[已有比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[来源清单](configs/official_source_inventory_20261111.json)。
 
 > **P11已全部完成并复核。** 原残差终点全BONES **R=.86375135、129152/130394完整、hard312/639**；高度约束 **R=.85693786、129598完整、hard305/639**。候选多完成446条，但普通质量和同输入WM预测较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点/LAFAN跨节点保持有优势，不能概括成全面退化。原WM在有效存活前缀就有误差积累；P12据此研究拟合窗口，不将预测误差等同于已证明梯度错误。[完整复核与论文逐项指标](docs/P11_REVIEW_20261111.md)、[派生数据](results/20261110-p11-root-height-consistency-s0/review_20261111.json)、[已完成结果](results/20261110-p11-root-height-consistency-s0/summary.json)。
 
@@ -52,7 +52,7 @@ bash scripts/setup_d57.sh
 ## 现有内容
 
 - [论文配置](configs/paper_reference.toml)：按论文标注来源的算法/网络/训练参数，不是已经可执行的训练配置。
-- [当前官方比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[O1准备计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1准备提示词](docs/O1_CODEX_START_PROMPT.md)：固定三方来源，明确算法差异和官方完整复现缺口，不启动训练。
+- [当前官方比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[O1执行计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1执行提示词](docs/O1_CODEX_START_PROMPT.md)：官方为当前唯一新增实验主线，研究依赖具备后推进完整LAFAN40训练和评测。
 - [备选P12分析与计划](docs/P12_WORLD_WINDOW_PLAN.md)：两路8192完整库以同父k8/k16比较WM拟合窗口，保留H32及原残差；[P12协议](configs/next_stage_world_window_protocol.json)、[P12启动词](docs/P12_CODEX_START_PROMPT.md)、[P11完整复核](docs/P11_REVIEW_20261111.md)。本次不执行P12。
 - [已完成P10分析与计划](docs/P10_8K_HARD_PRACTICE_PLAN.md)：两路8192完整库并行，固定639条hard增加练习，兼顾普通姿态质量和LAFAN保持；[P10协议](configs/next_stage_8k_hard_practice_protocol.json)、[P10启动词](docs/P10_CODEX_START_PROMPT.md)、[冻结hard名单](configs/p10_hard_motion_set.json)、[P9深读复核](docs/P9_REVIEW_20261108.md)。[已完成P9方案](docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md)、[P8深读复核](docs/P8_REVIEW_20261107.md)。[已完成P8方案](docs/P8_STABILITY_AND_SCALE_PLAN.md)、[已完成P7方案](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)、[已完成P6方案](docs/P6_POSITION_FEEDBACK_PLAN.md)、[历史复现记录](docs/REPRODUCTION_PLAN.md)。
 - [来源锁](configs/sources.lock.json)：LAFAN1、机器人资产和 BeyondMimic 参数的确切版本。
@@ -70,7 +70,7 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的P11；当前优先O1官方复现准备，P12保留备选。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
+**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的P11；当前主线为O1官方复现，P12暂缓并保留计划。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
 
 | 版本 | 完整执行 | 完整时长归一化回报 | 平均完成比例 | 起身 | 跑步 |
 |---|---:|---:|---:|---:|---:|
@@ -91,7 +91,7 @@ P4/P5/P6/P7/P8的训练、正式评估与关键发布均已完成。P6位置反�
 - [正式训练区间统计](results/20261102-h32-bce-s0/training.json)
 - [历史审阅与P4计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)
 - [P4机器可读协议](configs/next_stage_continuation_protocol.json)（不是train.py配置）
-- [当前O1准备提示词](docs/O1_CODEX_START_PROMPT.md)
+- [当前O1执行提示词](docs/O1_CODEX_START_PROMPT.md)
 - [备选P12启动提示词](docs/P12_CODEX_START_PROMPT.md)
 - [P4父版本C0-9000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000)
 

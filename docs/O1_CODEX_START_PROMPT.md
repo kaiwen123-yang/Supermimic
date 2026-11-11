@@ -1,38 +1,33 @@
-# O1 Codex 准备提示词
+# O1 Codex 官方复现执行提示词
 
-发布时状态：源码比较已经完成；D57官方环境与训练尚未执行。此提示词用于**实施准备工作**，不启动LAFAN/BONES训练或P12。正式训练应使用准备后写明实际配置、有限预算和评测节点的协议。
+用户于2026-11-11确认：下一步专心复现官方代码。此提示词替代此前“仅准备、不训练”的版本。P12及独立实现的新实验暂缓；本次发布仍未操作D57或启动训练。
 
 将下方正文交给可以连接autodl-d57的Codex：
 
 ```text
-请拉取 https://github.com/kaiwen123-yang/Supermimic 最新main，实施O1官方SuperMimic复现准备，不只重述已有比较报告。
+请拉取 https://github.com/kaiwen123-yang/Supermimic 最新main，按O1执行官方SuperMimic复现。当前唯一新增实验主线是官方代码；不要继续P12或为旧实现增加改法。先读AGENTS.md、docs/O1_OFFICIAL_REPRODUCTION_PLAN.md、docs/OFFICIAL_COMPARISON_20261111.md和configs/official_source_inventory_20261111.json，随后实际推进，不重复上一轮完整审计。
 
-先读AGENTS.md、docs/OFFICIAL_COMPARISON_20261111.md、docs/O1_OFFICIAL_REPRODUCTION_PLAN.md和configs/official_source_inventory_20261111.json。保留LAFAN1指标复现已成功的结论；当前优先O1，P12保留备选，不自动启动或停止其他会话已开始的任务。
+目标是连续完成必要环境/数据/评测准备，并在条件具备后直接开展第一段完整LAFAN40官方训练、评分和轻量发布。之前“只准备、不训练”的限制已被这次执行计划替代，不要因此停在建议或再次询问是否开始。尚未取得的真实依赖不能伪装成已解决。
 
-本轮是准备：不启动训练、模型推理、完整评分或benchmark，不重跑P6—P11。不要修改既有独立实现的算法。尽可能并行读取相互独立的来源、数据索引和配置；服务器写入顺序清楚，避免争用现有任务。
+使用autodl-d57，在 /root/autodl-tmp/robot-repro/supermimic-official-workspace 新建独立工作区，supermimic与mjlab_research按官方README作为兄弟目录，使用独立Python3.13环境。原项目 /root/autodl-tmp/robot-repro/supermimic 的环境、数据、G1资产、工作树、Git/stash及checkpoint保留；不修改Conda base、MPC-RL、π系列或其他任务，不停止任何已有训练/评分/迁移。
 
-使用autodl-d57。原项目 /root/autodl-tmp/robot-repro/supermimic 及其.venv、activate.sh、G1资产、数据、checkpoint、工作树、Git/stash与其他项目保留。新建官方工作区 /root/autodl-tmp/robot-repro/supermimic-official-workspace，官方supermimic与mjlab_research按README作为兄弟目录。本轮可以在此新目录建立所需独立环境，不在原环境或Conda base安装/升级。
+本次固定官方HybridRobotics/supermimic@5efbf114e11f725c31d83e217be987c13c0e4ce2，后续若上游补齐依赖/配置，记录变化后采用。先落实kevinzakka/mjlab_research的可访问来源及匹配版本。该依赖本次仍404，Issue#1只有其他用户询问公共mjlab，无作者确认的替代commit。不能直接重命名公共mjlab、猜测缺失接口或绕过访问限制，也不自动向作者发Issue/邮件。
 
-官方基点是HybridRobotics/supermimic@5efbf114e11f725c31d83e217be987c13c0e4ce2。核对最新公开变化；若作者补充了本计划缺失的依赖、配置、数据或评测入口，记录提交与差异后合理采用。保留上游来源/许可，不通过任意历史日期猜论文版本。
+若依赖仍不可取得，完成不依赖它的源码落地、实际数据索引整理、运行配置和最小评测/保存适配设计，推送状态与精确缺失项；不安装一套猜测环境、不假报跑通、不转去旧P12。取得匹配依赖后按官方pyproject/uv.lock在新目录建立环境，原.venv和base不动。
 
-优先解决kevinzakka/mjlab_research的真实来源与匹配版本。审计时地址404，公开mujocolab/mjlab缺motion_ends、root_pos_w/root_quat_w、motion.fk/body_state及external sampler接口。不能仅替换URL或重命名公共包就称兼容；不绕过访问限制，不自动向作者发Issue/邮件。缺失时完成所有能继续的源码/配置/数据准备，明确剩余材料，不启动未知环境。
+首条正式运行是完整LAFAN40，seed=0，run_name=o1-official-lafan40-s0。优先使用作者确切实验配置；若无法取得历史主配置，就明确标注为当前官方main GenCoord/proprio/history10基线，保留该版本整体算法。默认单条lafan_run1_subject5和rep_state/history1不代表论文完整实验。原网络checkpoint不续入，不加入XYZ713、hard配额、存活加权Critic、BCE或P11局部z修正。
 
-只有取得匹配研究依赖后，按官方pyproject/uv.lock在新工作区创建Python3.13独立环境并记录实际版本；不复制旧site-packages，不更改旧Python3.11/Torch2.7.1环境。不要新加导入/形状/冒烟/哈希/恢复测试或benchmarks。
+复用现有LAFAN40原始/工作数据与manifest，只根据取得的真实官方loader转换必要字段、关节顺序、坐标和fps。不重复下载/retarget/打包全库。BONES本项目130394条与论文129514条成员尚未对齐，先保留索引，不删880条凑数；本段完成后再安排BONES正式训练。
 
-明确分开官方当前main基线与论文实验配置。论文v1及v2核心附录仍是Adam、cosine、proprio历史10；当前main有Muon、LayerNorm/GELU和不同默认。默认只读单条lafan_run1_subject5，actor_obs=rep_state、history_length=1，不是完整论文运行。
+正式评测必须基于官方真实环境、Actor观测与normalizer，从frame0执行到原硬失败或自然末尾，确定性、摩擦1、无DR和噪声，回报按完整参考时长归一化。优先作者评分入口；若未提供，做必要的最小适配。benchmark.py和play.py不能代替完整评分，不改奖励/阈值制造成绩。保留所有40条的成绩和失败。
 
-定位实际论文run config、GenCoord/MaxCoord选择、权重入口和数据清单。若无法确认原主结果版本，准备明确命名的当前main GenCoord/proprio/history10基线，不虚称历史配置已恢复。旧模型不能直接当官方checkpoint；不移入XYZ713、hard配额、存活加权Critic、BCE或P11局部高度修正。
+第一段上限累计训练12h，或上游配置的迭代上限先到。训练正常初始化/必要replay填充计入；安装、数据准备、评分和发布另记。约3h/6h/12h及实际较早终点保存固定checkpoint并完整评分。任一正式节点R>=.82即保存达标权重与全部成绩并结束本段；否则到预算终点如实交付，不自动续加时间/seed/算法变体。12h是本次工作预算，不是H100论文耗时门槛。既有独立实现LAFAN已达标结论保持，不新增40/40验收要求。
 
-读取现有LAFAN40及BONES manifest/索引，确定官方loader需要的关节顺序、坐标、fps、字段和成员映射。只做必要格式适配，不重复下载/retarget/全库打包或复制约45GiB数据。论文129514条与本项目130394条成员尚未证明相同，不能任意删880条凑数。没有作者成员清单时如实标注数据差异。
+一条官方训练run用独立tmux；资料、索引、适配和统计可并行，不用多开learner占满显存。单Codex交互<=4h，后台跨窗口连续，不因交接停止训练、重建活跃replay或重置LR。记录真实采样、学习更新计数、共享GPU条件和耗时，不混用官方collection轮与旧联合更新轮。
 
-定位完整动作评测入口。benchmark.py是吞吐测速，play.py是交互回放；若作者未提供评分脚本，只设计或实现以官方真实环境与Actor处理为基础的最小适配，不在本轮执行评分。评测从frame0到真实失败/自然末尾，确定性、无DR/噪声、摩擦1，完整参考时长作分母；所有clip和失败保留。不得改奖励/终止制造成绩。
+落实本地模型保存和轻量Git发布。当前官方只存网络权重，wandb_run_path只预载WM，不是完整resume；需要恢复时只做实际必要的状态保存/加载并如实说明边界。避免默认大checkpoint上传/版本清理破坏用户产物约定。必要保存、评分、运行预算适配与核心算法分开记录。
 
-落实本地权重保存与轻量Git发布方案。当前上游仅存网络权重，wandb_run_path只加载WM，不是完整resume；不把已有恢复能力写得比源码更强。避免默认大checkpoint上传和版本清理影响用户产物约定。必要产物适配与算法保持分开，不新建通用发布/归档平台。
+不新增防御性框架、单元/mock/冒烟/导入/形状/哈希测试、恢复演练、benchmark、无关扫描或参数搜索。完成必要适配后直接进行本计划正式训练与评分，真实错误再针对定位。代码、实际配置、全部轻量逐动作评分、关键统计、真实状态和结论推GitHub；大权重/轨迹/视频/日志留服务器，不自动Release、tar、归档到本机或删除原件。H盘迁移为另一任务，不介入。
 
-准备完成后提交真实准备状态、来源版本、最小本地改动、数据/评测契约，以及下一轮准确训练命令和有限预算/评测节点的草案；没有可运行依赖时明确标记阻塞，不生成假命令冒充已可运行。第一条正式方案是完整LAFAN40，再推进BONES；本轮不启动两者，不自动加seed、PPO、双GPU或实机。
-
-单Codex窗口<=4h。不要停止别的训练/评分/存储任务，不因交接重建活跃replay或重置LR。代码、实际配置、状态和计划推GitHub；大数据/权重/日志留服务器，不Release、tar、自动删除或在我电脑归档。H盘迁移是另一项任务，本轮不执行。遇到具体运行错误再针对修复，不增加防御性代码或无关扫描。
+交付明确区分：已取得源码、依赖是否就绪、实际环境、训练是否启动/结束、正式成绩、剩余缺口。首段结果发布后给出BONES接续所需的具体配置和预算，不自动重跑旧实验或拓展实机。
 ```
-
-准备工作的完成标准是实际材料、环境与入口状态清楚；它不是新的成绩验收门槛，也不授权无限期运行或跳过真实依赖缺口。
-

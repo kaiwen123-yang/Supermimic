@@ -1,7 +1,7 @@
 {
   "schema": "supermimic-official-source-inventory-v1",
   "reviewed_date": "2026-11-11",
-  "status": "comparison_complete_official_server_preparation_not_started",
+  "status": "official_reproduction_selected_research_dependency_blocked",
   "user_repository": {
     "url": "https://github.com/kaiwen123-yang/Supermimic",
     "reviewed_commit": "dd28b969e7ab33a3e285f2caa7469e745f7cb5a0",
@@ -102,8 +102,8 @@
     "complete_hardware_deployment_chain": "not_located_in_reviewed_repository"
   },
   "preparation": {
-    "current_priority": "O1_official_preparation",
-    "P12": "retained_as_backup_do_not_stop_if_started_elsewhere",
+    "current_priority": "O1_official_reproduction_execution",
+    "P12": "paused_unless_user_explicitly_reactivates_do_not_stop_running_jobs",
     "proposed_server_workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
     "workspace_created_by_this_review": false,
     "preserve_existing_project": "/root/autodl-tmp/robot-repro/supermimic",
@@ -112,6 +112,37 @@
     "new_evaluation_or_inference": false,
     "tests_or_benchmarks_run": false,
     "large_artifact_migration_or_deletion": false
+  },
+  "user_decision": {
+    "date": "2026-11-11",
+    "instruction": "下一步就专心去复现官方的代码",
+    "active_new_experiment_track": "official_reproduction",
+    "independent_implementation_new_experiments": "paused_preserve_history_and_running_jobs"
+  },
+  "dependency_recheck": {
+    "date": "2026-11-11",
+    "official_main_unchanged": true,
+    "research_repository_public_access": "404",
+    "issue_1_state": "open",
+    "author_confirmed_public_replacement": false
+  },
+  "first_training_segment": {
+    "status": "not_started_dependency_blocked",
+    "run_name": "o1-official-lafan40-s0",
+    "dataset": "full_LAFAN40",
+    "seed": 0,
+    "gpu_count": 1,
+    "actor_observation": "proprio",
+    "history_length": 10,
+    "max_training_wall_hours": 12,
+    "evaluation_training_hours": [
+      3,
+      6,
+      12
+    ],
+    "also_evaluate_actual_earlier_endpoint": true,
+    "stop_on_formal_normalized_return_at_least": 0.82,
+    "budget_is_not_paper_hardware_time_target": true,
+    "paper_main_config_if_available_else": "label_current_main_GenCoord_proprio_baseline"
   }
 }
-
