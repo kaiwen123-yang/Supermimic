@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前入口：P12 世界模型拟合窗口k8/k16研究，计划已发布，尚未实施或启动。** 两路共同完整恢复P11 residual36000；保留原高度残差、Actor H32、8192环境/8192想象与困难配额，仅延长候选WM真实监督窗口。每路新增9000联合更新或累计20h；全BONES/LAFAN节点39000/42000/45000及实际终点。[执行计划](docs/P12_WORLD_WINDOW_PLAN.md)、[机器协议](configs/next_stage_world_window_protocol.json)、[Codex启动提示词](docs/P12_CODEX_START_PROMPT.md)。
+> **当前入口：O1 官方源码比较与完整复现准备。** 已对照本仓库dd28b96、官方5efbf11及论文v1/v2：核心学习闭环一致，但动力学积分、WM损失、目标预览、观测信息、采样与优化存在实质差异。官方核心代码已公开，研究版mjlab依赖仍不可访问；本轮完成报告和准备计划，尚未创建D57官方环境或启动训练。[比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[O1准备计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1准备提示词](docs/O1_CODEX_START_PROMPT.md)、[来源清单](configs/official_source_inventory_20261111.json)。P12的k8/k16研究保留为备选，不由此次文档更新启动或停止任何任务。
 
 > **P11已全部完成并复核。** 原残差终点全BONES **R=.86375135、129152/130394完整、hard312/639**；高度约束 **R=.85693786、129598完整、hard305/639**。候选多完成446条，但普通质量和同输入WM预测较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点/LAFAN跨节点保持有优势，不能概括成全面退化。原WM在有效存活前缀就有误差积累；P12据此研究拟合窗口，不将预测误差等同于已证明梯度错误。[完整复核与论文逐项指标](docs/P11_REVIEW_20261111.md)、[派生数据](results/20261110-p11-root-height-consistency-s0/review_20261111.json)、[已完成结果](results/20261110-p11-root-height-consistency-s0/summary.json)。
 
@@ -24,8 +24,8 @@
 
 - 论文：[arXiv:2610.28480v1](https://arxiv.org/abs/2610.28480v1)
 - 作者项目：[supermimic.github.io](https://supermimic.github.io/)
-- 当前路线：G1 + MuJoCo Warp；保留已达到的LAFAN1效果，稳定性研究与BONES规模训练并行推进，之后集中提高训练效率。
-- 本仓库属于独立复现，不是作者官方代码。2026-11-11再次核对原论文和官方项目页面；本仓库继续依据公开材料独立实现，尚未取得作者完整训练实现，没有导入社区复现实现。
+- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果，优先准备独立官方基线，再推进困难技能、BONES规模和效率对齐。
+- 本仓库属于独立复现，不是作者官方代码。2026-11-11已读取[官方核心训练源码](https://github.com/HybridRobotics/supermimic)，固定在5efbf114e11f725c31d83e217be987c13c0e4ce2；作者指定的mjlab_research、论文精确run配置和完整评测配套仍有缺口。没有将官方或社区实现混入既有训练代码。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
 
 ## D57 环境
 
@@ -45,20 +45,21 @@ source activate.sh
 bash scripts/setup_d57.sh
 ```
 
-`pyproject.toml` / `uv.lock` 固定本机准备环境，Python 3.11，Torch 2.7.1+cu128，MuJoCo / MuJoCo Warp 3.17.0。这些是**本机准备版本**，作者的完整软件锁未公开；确定机器人模型和仿真实现时需记录版本选择。
+`pyproject.toml` / `uv.lock` 固定本机准备环境，Python 3.11，Torch 2.7.1+cu128，MuJoCo / MuJoCo Warp 3.17.0。这些是**独立实现的本机版本**。官方当前已提供Python3.13及另一套uv.lock，但研究版mjlab源码/commit尚未取得；后续使用独立工作区和环境，不覆盖本环境。
 
 每套项目使用独立 `.venv` 和 pip，不继承 Conda base、MPC-RL 或 π 系列的包。源码、模型、数据、输出和缓存分别存放。GPU 显存与算力仍属于共享硬件，启动计算前核对实际任务安排。
 
 ## 现有内容
 
 - [论文配置](configs/paper_reference.toml)：按论文标注来源的算法/网络/训练参数，不是已经可执行的训练配置。
-- [当前P12分析与计划](docs/P12_WORLD_WINDOW_PLAN.md)：两路8192完整库并行，以同父k8/k16比较WM拟合窗口，保留H32及原残差；[P12协议](configs/next_stage_world_window_protocol.json)、[P12启动词](docs/P12_CODEX_START_PROMPT.md)、[P11完整复核](docs/P11_REVIEW_20261111.md)。
+- [当前官方比较报告](docs/OFFICIAL_COMPARISON_20261111.md)、[O1准备计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1准备提示词](docs/O1_CODEX_START_PROMPT.md)：固定三方来源，明确算法差异和官方完整复现缺口，不启动训练。
+- [备选P12分析与计划](docs/P12_WORLD_WINDOW_PLAN.md)：两路8192完整库以同父k8/k16比较WM拟合窗口，保留H32及原残差；[P12协议](configs/next_stage_world_window_protocol.json)、[P12启动词](docs/P12_CODEX_START_PROMPT.md)、[P11完整复核](docs/P11_REVIEW_20261111.md)。本次不执行P12。
 - [已完成P10分析与计划](docs/P10_8K_HARD_PRACTICE_PLAN.md)：两路8192完整库并行，固定639条hard增加练习，兼顾普通姿态质量和LAFAN保持；[P10协议](configs/next_stage_8k_hard_practice_protocol.json)、[P10启动词](docs/P10_CODEX_START_PROMPT.md)、[冻结hard名单](configs/p10_hard_motion_set.json)、[P9深读复核](docs/P9_REVIEW_20261108.md)。[已完成P9方案](docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md)、[P8深读复核](docs/P8_REVIEW_20261107.md)。[已完成P8方案](docs/P8_STABILITY_AND_SCALE_PLAN.md)、[已完成P7方案](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)、[已完成P6方案](docs/P6_POSITION_FEEDBACK_PLAN.md)、[历史复现记录](docs/REPRODUCTION_PLAN.md)。
 - [来源锁](configs/sources.lock.json)：LAFAN1、机器人资产和 BeyondMimic 参数的确切版本。
 - [运行配置](configs/lafan40.json)：论文规模的初始学习预算；[开发配置](configs/lafan40_development.json) 只缩短更新次数。
 - [数据来源](data/sources.json)：原始数据入口；40 条动作的实际哈希、时长与质量记录见 `results/lafan1_g1_preparation/motion_manifest.json`。
 - [环境记录](environment.json)：本机实际安装版本与准备检查。
-- `official-src/`：官方源码预留位置，未放入第三方复现代码。
+- [official-src/](official-src/README.md)：官方来源与独立工作区说明，未将上游代码直接混入本仓库。
 - `outputs/`、`checkpoints/`、`data/raw/`、`data/processed/`：执行产物位置，默认不进入 Git。
 
 ## 实施原则
@@ -69,7 +70,7 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成阶段为顶部的P11；下一阶段是计划已发布、尚未启动的P12。 两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
+**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的P11；当前优先O1官方复现准备，P12保留备选。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
 
 | 版本 | 完整执行 | 完整时长归一化回报 | 平均完成比例 | 起身 | 跑步 |
 |---|---:|---:|---:|---:|---:|
@@ -90,14 +91,15 @@ P4/P5/P6/P7/P8的训练、正式评估与关键发布均已完成。P6位置反�
 - [正式训练区间统计](results/20261102-h32-bce-s0/training.json)
 - [历史审阅与P4计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)
 - [P4机器可读协议](configs/next_stage_continuation_protocol.json)（不是train.py配置）
-- [当前P12启动提示词](docs/P12_CODEX_START_PROMPT.md)
+- [当前O1准备提示词](docs/O1_CODEX_START_PROMPT.md)
+- [备选P12启动提示词](docs/P12_CODEX_START_PROMPT.md)
 - [P4父版本C0-9000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000)
 
 P3已status=completed、unpublished=[]，记录删除496个明确实验文件、释放14,243,586,048字节（约14.24GB）。[最终Release](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-final)已发布。以上是历史清理记录。当前P4已恢复所需工作输入；此后大产物默认留服务器，由用户备份和统一删除，助手不自动归档或清理，环境/源码/G1资产与工作树保留。
 
 ### 已完成阶段与历史记录
 
-P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以P12计划和协议为准。
+P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以顶部O1准备计划为准。
 
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 

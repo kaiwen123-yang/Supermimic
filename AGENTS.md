@@ -8,10 +8,10 @@
 
 ## 当前任务与证据
 
-- **当前入口P12：计划已发布，尚未实施或启动。** 阅读docs/P11_REVIEW_20261111.md、docs/P12_WORLD_WINDOW_PLAN.md、configs/next_stage_world_window_protocol.json和docs/P12_CODEX_START_PROMPT.md。P11已完成；下一轮共同完整恢复其residual36000，仅比较WM拟合k8/k16，Actor仍H32，两路8192并行，新增9000联合更新或每路累计20h。当前用户要求是分析并推送计划；执行启动提示词后再实施和启动。历史阶段“不自动开下一阶段”不覆盖本轮新授权。
+- **当前入口O1：官方源码比较与复现准备，文档已完成，服务器准备/训练尚未执行。** 阅读docs/OFFICIAL_COMPARISON_20261111.md、docs/O1_OFFICIAL_REPRODUCTION_PLAN.md、configs/official_source_inventory_20261111.json和docs/O1_CODEX_START_PROMPT.md。本轮用户要求读取自己的仓库、比较论文与官方、准备后续完整官方复现；不启动训练。当前官方基点5efbf114e11f725c31d83e217be987c13c0e4ce2，研究版mjlab_research仍404。P12计划保留备选，不由本次文档更新启动或停止任何任务；如用户随后明确执行P12，其原计划仍可使用。
 - **P11最新结论：** 两路均36000，原残差全BONES R=.86375135、129152/130394完整、hard312/639；高度约束R=.85693786、129598完整、hard305/639。候选多446条完整主要来自普通动作，回报及同输入WM误差较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点与LAFAN跨节点保持有优势，不称全面退化。当前原WM在仍存活的倒立第16步高度已低估.100342m（S=.997672），与旧P9飘高诊断不同。合法k8起点bin全部得到WM曝光，66个零起点bin均为参考自然末尾不足8步，不能说关键开头未进learner。来源见本轮复核及review_20261111.json。
 - **P11两路训练、评分、固定证据与轻量发布已完成。** 启动核实时间 2026-11-10T11:23:31.198241+08:00；实际状态见results/20261110-p11-root-height-consistency-s0/summary.json。两路已按各自真实预算终点完成，不重复启动P10/P11或自动追加预算。两路同P10 hard27000完整resume，仅比较root-z残差与同次预测速度梯形高度；各8192/8192/WM10×4096，原hard配额，新增9000联合更新或累计20h，到36000；全BONES/LAFAN节点30000/33000/36000及实际终点。父七窗224步预测已完成，终点两WM各同输入一次。
-- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11也已完成；当前新增工作以P12计划及协议为准。
+- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11也已完成；当前新增工作以顶部O1准备计划为准。
 - P9三路训练、全部正式评分与轻量发布均已完成。LAFAN原Critic60000为0.89043870/38完整，加权为0.84312458/36；全库9000为0.84379710、129220/130394，264.430633h，LAFAN保持29/40且起身0/6。复核见docs/P9_REVIEW_20261108.md及results/20261107-p9-critic-full-scale-s0/review_20261108.json，实际完成状态见该campaign的summary.json。
 - P8已经全部完成：results/20261106-p8-stability-scale-s0/summary.json、conclusion.md。H32/H16均51000，分别0.86980516/37成功、0.73023952/31成功；BONES9000为0.78952191、16631/17301，LAFAN保持10/40、0.35465644。三个训练tmux正常退出，不重复启动或延长P8。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
@@ -40,7 +40,18 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## P12实施（计划已发布，尚未启动）
+## O1官方复现准备（当前入口）
+
+- 本次固定用户dd28b969e7ab33a3e285f2caa7469e745f7cb5a0与官方5efbf114e11f725c31d83e217be987c13c0e4ce2；原论文v1与最新v2核心公式和实验附录未实质变化。当前main的Muon、LayerNorm/GELU等后续改动不能倒推为独立实现读错论文。
+- 核心算法闭环已对齐；动力学输出/积分、WM损失、目标预览、Actor信息条件、sampler与Critic语义不同。比较报告是静态机制证据，不把差异当已证明的唯一性能根因，不给虚假的复现完成百分比。
+- 下一轮明确执行O1准备提示词时，在 /root/autodl-tmp/robot-repro/supermimic-official-workspace 使用相邻supermimic/mjlab_research及独立Python3.13环境。该准备范围允许在新目录建立官方所需环境；原项目.venv、Conda base、G1资产、源码/工作树、数据和其他任务不改。本次文档发布未执行此动作。
+- mjlab_research目前404，公开mjlab缺研究接口；不改名假装兼容、不绕过访问限制。可完成其他源码/配置/数据准备，明确缺失作者材料，不自动发Issue/邮件或改跑P12。
+- 分开官方当前main基线和论文历史主配置。默认单动作、rep_state/history1不能充当论文完整LAFAN40/proprio/history10；GenCoord/MaxCoord主成绩归属仍待run配置。旧网络权重不能直接作为官方resume。
+- 复用已有数据，必要时按真实loader做最小格式适配；130394与129514条成员未对齐，不任意删880条凑数。benchmark.py不是完整评分；完整评测与产物适配不得改核心奖励/失败条件。
+- 官方仅保存网络权重、warm-start仅载WM，不能承诺完整resume。正式训练前再写准确命令、有限预算和评分节点；当前不启动LAFAN/BONES或双GPU/速度RL/实机。保留既有LAFAN指标成功与P6—P11成绩。
+- 既有禁止无关测试/benchmark、轻量Git发布、原件保护与不自动归档/清理约定继续适用。专项H盘迁移另行执行，本轮不处理。
+
+## P12实施（备选计划，本次不启动）
 
 - campaign=20261111-p12-world-window-s0；工作树 /root/autodl-tmp/robot-repro/supermimic-p12-world-window。两路full8k_k8_control/full8k_k16_world，tmux sm-p12-k8-control/sm-p12-k16-world。当前只发布分析和计划，不把该状态记成服务器已启动；收到执行启动提示词后直接完成必要实现并正式训练。
 - 共同完整resume P11 full8k_residual_control/checkpoint_0036000.pt，恢复三网络、三Adam、sampler G/M、已保存Torch/CUDA RNG、iteration36000、Actor35995、collected646430720及原全局LR。父已知训练431060.78811862133秒单列；P11两路、P10control27000及P9 LAFAN原Critic60000锚点保护且不重评。

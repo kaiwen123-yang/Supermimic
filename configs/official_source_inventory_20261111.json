@@ -1,0 +1,117 @@
+{
+  "schema": "supermimic-official-source-inventory-v1",
+  "reviewed_date": "2026-11-11",
+  "status": "comparison_complete_official_server_preparation_not_started",
+  "user_repository": {
+    "url": "https://github.com/kaiwen123-yang/Supermimic",
+    "reviewed_commit": "dd28b969e7ab33a3e285f2caa7469e745f7cb5a0",
+    "reviewed_tree": "5c27c330a8c0cd88d8002c3e8580d97ae1fe94b5",
+    "latest_completed_stage": "P11",
+    "P12_at_reviewed_commit": "planned_not_started",
+    "existing_lafan_acceptance": "achieved_and_preserved"
+  },
+  "official_repository": {
+    "url": "https://github.com/HybridRobotics/supermimic",
+    "reviewed_commit": "5efbf114e11f725c31d83e217be987c13c0e4ce2",
+    "branch": "main",
+    "license": "Apache-2.0",
+    "paper_main_result_commit": "unresolved",
+    "tagged_release_at_review": false
+  },
+  "paper": {
+    "id": "2610.28480",
+    "original_version": "v1",
+    "original_url": "https://arxiv.org/pdf/2610.28480v1",
+    "latest_checked_version": "v2",
+    "latest_checked_url": "https://arxiv.org/pdf/2610.28480v2",
+    "latest_pdf_date": "2026-11-09",
+    "core_method_and_experiment_appendices": "no_substantive_change_from_v1"
+  },
+  "dependencies": {
+    "research_mjlab": {
+      "url": "https://github.com/kevinzakka/mjlab_research",
+      "status": "public_access_returned_404",
+      "matched_commit": null,
+      "issue": "https://github.com/HybridRobotics/supermimic/issues/1"
+    },
+    "public_mjlab_inspected": {
+      "url": "https://github.com/mujocolab/mjlab",
+      "commit": "f389738f68bb831754c030e4ec1d3585b7498cdf",
+      "status": "not_drop_in_compatible_at_inspected_commit",
+      "missing_research_interfaces": [
+        "motion_ends",
+        "root_pos_w",
+        "root_quat_w",
+        "motion.fk",
+        "motion.body_state",
+        "external_sampling_mode",
+        "set_sampling_distribution"
+      ]
+    },
+    "official_pyproject_python": ">=3.13,<3.14",
+    "versions_read_from_official_lock": {
+      "torch": "2.10.0",
+      "mujoco": "3.10.0",
+      "mujoco-warp": "3.10.0.1",
+      "warp-lang": "1.14.0",
+      "rsl-rl-lib": "5.4.0"
+    },
+    "installed_on_D57_by_this_review": false
+  },
+  "current_main_vs_paper": {
+    "default_dataset": "single_lafan_run1_subject5",
+    "default_representation": "gencoord",
+    "default_actor_observation": "rep_state",
+    "default_actor_history": 1,
+    "paper_actor_observation": "proprio",
+    "paper_actor_history": 10,
+    "paper_main_representation": "unresolved",
+    "muon_commit": "0e5ff6bb00166fdbdb308ce23583f55948504fac",
+    "layernorm_gelu_commit": "aec4a5e4ba15c93c2b214e6cbb939613e50d2e64",
+    "replay_ratio": 16,
+    "derived_training_trigger_ratio": 0.4,
+    "derivation": "4096 / (10 * 2048 * 8) * 16",
+    "world_horizon_config": 8,
+    "observed_supervised_transitions_in_current_path": 7,
+    "original_paper_world_prediction_steps": 8
+  },
+  "datasets": {
+    "user_bones": {
+      "clip_count": 130394,
+      "duration_hours": 264.430633
+    },
+    "paper_bones": {
+      "clip_count": 129514,
+      "duration_hours": 264.56
+    },
+    "exact_membership_match": "unresolved_not_assumed_superset",
+    "lafan_target_count": 40
+  },
+  "readiness": {
+    "core_public_source": "available",
+    "research_dependency": "blocked",
+    "paper_run_config": "not_located_in_reviewed_readme_and_repository",
+    "paper_full_training_checkpoint": "not_located_in_reviewed_readme_and_releases",
+    "web_demo_inference_assets": "not_audited_no_claim_of_absence",
+    "paper_filtered_dataset_manifest": "not_located_in_reviewed_repository",
+    "full_clip_paper_evaluation_entry": "not_located_benchmark_is_throughput_play_is_interactive",
+    "full_training_resume": "not_provided_by_reviewed_save_and_warmstart_paths",
+    "two_gpu_paper_training_entry": "not_located_in_reviewed_repository",
+    "complete_velocity_RL_experiment": "not_established_by_current_motion_reward_multi_encoder_support",
+    "onnx_exporter": "available",
+    "complete_hardware_deployment_chain": "not_located_in_reviewed_repository"
+  },
+  "preparation": {
+    "current_priority": "O1_official_preparation",
+    "P12": "retained_as_backup_do_not_stop_if_started_elsewhere",
+    "proposed_server_workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+    "workspace_created_by_this_review": false,
+    "preserve_existing_project": "/root/autodl-tmp/robot-repro/supermimic",
+    "old_environment_mutation": false,
+    "training_launched": false,
+    "new_evaluation_or_inference": false,
+    "tests_or_benchmarks_run": false,
+    "large_artifact_migration_or_deletion": false
+  }
+}
+
