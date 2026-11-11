@@ -398,4 +398,6 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'finalize':
         print(json.dumps(finalize(STAGE/sys.argv[2]/(sys.argv[3]+'.json'),json.load(sys.stdin))))
     elif sys.argv[1] == 'finish':
-        write(STAGE/sys.argv[2]/'FINISHED.json',json.load(sys.stdin))
+        result=json.load(sys.stdin)
+        write(STAGE/sys.argv[2]/'FINISHED.json',result)
+        print(json.dumps(result))
