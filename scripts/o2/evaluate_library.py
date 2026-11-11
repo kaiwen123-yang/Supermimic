@@ -180,11 +180,11 @@ def evaluate(workspace, source):
         if label == "final" and source == "bones_full":
             write_json(output / "failure_windows_schema.json", {
                 "source": "same final formal BONES evaluation; no additional physics or WM calls",
-                "robot_state": "official GenCoord full_state observation, unchanged source ordering",
+                "robot_state": "root_pos(3; env origin already subtracted),root_quat_wxyz(4),joint_pos(29),root_lin_vel_w(3),root_ang_vel_w(3),joint_vel(29)",
                 "reference_state": "root_pos_w(3),root_quat_w_wxyz(4),root_lin_vel_w(3),root_ang_vel_w(3),joint_pos(29),joint_vel(29)",
                 "actual_context": [{"name": spec.name, "width": spec.dim} for spec in wm.sim_context.specs],
                 "context_values": "raw environment values (un-normalized); COM is actual body_ipos, not offset from baseline",
-                "env_origin": "environment world origin supplied for interpreting robot coordinates",
+                "env_origin": "environment world origin; root_pos in robot_state has already subtracted it",
                 "state_alignment": "initial state and each returned post-step state; references at corresponding advanced frame",
                 "reward_alignment": "native environment reward timing retained",
                 "window": "k=min(32,transitions before and including first hard failure); k+1 states, k actions/rewards; no padding"})
@@ -220,7 +220,10 @@ def evaluate(workspace, source):
                                                        "all_library_score_available": True})
         refresh_and_publish(workspace, f"{source}-{label}")
     env.close()
-    write_json(run_dir / f"{source}_worker.json", {"status": "completed", "at": now(), "worker_seconds": time.monotonic() - worker_started})
+    worker_record = {"status": "completed", "at": now(), "worker_seconds": time.monotonic() - worker_started,
+                     "timing_scope": "library initialization, all remaining nodes and their lightweight publication in this worker"}
+    write_json(run_dir / f"{source}_worker.json", worker_record)
+    write_json(result_dir / f"{source}_worker.json", worker_record)
 
 
 if __name__ == "__main__":

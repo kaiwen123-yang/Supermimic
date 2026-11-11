@@ -36,8 +36,15 @@ def refresh(workspace):
                           for source in ("bones_full", "lafan40_cross_library")
                           if (result_dir / "milestones" / label / source / "evaluation.json").exists()}
                    for label in NODE_ORDER if label in nodes}
+    for label, node in nodes.items():
+        completed_sources = list(evaluations.get(label, {}))
+        node["evaluation_status"] = ("not_requested" if label == "initial" else "completed" if len(completed_sources) == 2
+                                     else "partially_completed" if completed_sources else "pending_after_training_exit")
+        node["completed_evaluation_sources"] = completed_sources
+    write_json(result_dir / "saved_nodes.json", nodes)
     summary = {"campaign": CAMPAIGN, "run_name": RUN_NAME, "updated_at": now(), "status": stage["status"],
                "implementation_status": "deployed", "plan_commit": "df663ae4872c04f23848aaa528a42fb8cf457f93",
+               "data_conversion_started": True, "data_conversion_finished": (result_dir / "data_conversion.json").exists(),
                "stage": stage, "latest_training": progress, "saved_nodes": nodes, "evaluations": evaluations,
                "training_started": progress is not None,
                "training_finished": (run_dir / "training_child_exit.json").exists(),
