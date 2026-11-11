@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O1官方LAFAN40已正式运行。** 作者研究库dd51a9f和SuperMimic abc124c已在D57独立环境启动，tmux为sm-o1-official-lafan40-s0。2026-11-11约17:52开始，18:06已记录1211次collection和482次联合学习，并确认计数持续增长。单卡、seed0、GenCoord/proprio/history10，累计上限12h；约3h/6h和实际终点完整评分，正式R>=.82提前结束。当前尚无正式分数。保持活跃进程，不重启；P12及其他独立实现新实验暂缓。[启动与资源快照](results/20261111-o1-official-lafan40-s0/launch_status.json)、[结果状态](results/20261111-o1-official-lafan40-s0/summary.json)、[最新接续说明](docs/O1_OFFICIAL_RUN_20261111.md)、[执行协议](configs/o1_official_lafan40_protocol.json)。
+> **当前主线：O1官方LAFAN40已达标，正在收尾。** 最新正式节点hour_03：R=0.85882311、完整39/40。本段已观测R>=.82：是。[完整结果与全部节点](results/20261111-o1-official-lafan40-s0/summary.json)、[逐动作成绩](results/20261111-o1-official-lafan40-s0/README.md)、[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。保持活跃tmux，不重启或重置replay/LR。
 
 > **P11已全部完成并复核。** 原残差终点全BONES **R=.86375135、129152/130394完整、hard312/639**；高度约束 **R=.85693786、129598完整、hard305/639**。候选多完成446条，但普通质量和同输入WM预测较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点/LAFAN跨节点保持有优势，不能概括成全面退化。原WM在有效存活前缀就有误差积累；P12据此研究拟合窗口，不将预测误差等同于已证明梯度错误。[完整复核与论文逐项指标](docs/P11_REVIEW_20261111.md)、[派生数据](results/20261110-p11-root-height-consistency-s0/review_20261111.json)、[已完成结果](results/20261110-p11-root-height-consistency-s0/summary.json)。
 

@@ -1,22 +1,13 @@
-# O1 官方LAFAN40：作者研究库已取得
+# O1 official LAFAN40
 
-2026-11-11后续检索已取得作者公开的HybridRobotics/mjlab_research@dd51a9f，并采用SuperMimic@abc124c。独立环境、40条数据转换及正式运行适配已经完成；训练于北京时间约17:52在tmux sm-o1-official-lafan40-s0启动。18:06快照为1211次collection、482次联合学习，实际采样和三网络更新计数持续增长，进程未重启。当前尚无正式全40评分。
+Status: training. Updated: 2026-11-11T21:00:41.077023+08:00.
 
-- [作者新地址、固定commit与依赖版本依据](source_resolution.json)
-- [最新结果状态](summary.json)
-- [持续更新与资源快照](launch_status.json)
-- [实际安装环境](environment.json)与[实际运行config](actual_config.json)
-- [官方loader格式与40条逐动作映射](official_data_manifest.json)
-- [最新正式接入说明](../../docs/O1_OFFICIAL_RUN_20261111.md)
-- [实际解析的环境锁](../../configs/o1_official_resolved.uv.lock)
-- [13:42依赖尚未公开时的历史状态](readiness.json)
-- [40条实际数据索引](lafan40_index.csv)
-- [数据定义、关节/身体顺序及BONES现有引用](data_inventory.json)
-- [本轮执行交接与适配设计](../../docs/O1_EXECUTION_HANDOFF_20261111.md)
-- [O1执行协议，尚非已解析运行config](../../configs/o1_official_lafan40_protocol.json)
+| Fixed checkpoint | Mean normalized return | Complete / 40 | Training seconds |
+|---|---:|---:|---:|
+| hour_03 | 0.85882311 | 39 / 40 | 10800.1 |
 
-服务器工作区为`/root/autodl-tmp/robot-repro/supermimic-official-workspace`。`data/lafan40_existing50hz`指向现有P4工作数据，40个原NPZ共414702425字节，既有manifest记录441140帧、约2.45056h。初期lafan40_index.csv保留原项目索引；本轮official_data_manifest.json已提供完成转换后的官方ID和目标文件。转换只映射字段/关节顺序及根角速度坐标，没有重新插值或retarget。未执行测试/benchmark。
+Formal R >= 0.82 observed: True. All 40 clips, including failures, are in each milestone's per_clip.csv.
 
-作者研究源码及commit已取得；论文历史run config和BONES精确清单仍属另一个来源问题。本轮继续当前main GenCoord/proprio/history10首段，无需重新选择路线或批准训练。单卡、seed0、上限12h，约3h/6h/12h和实际终点完整评分，任一正式R>=.82结束本段。训练是否已启动/结束及分数以最新summary.json与D57现场progress.json为准，活跃tmux不重启。
+The official current-main GenCoord/proprio/history10 baseline uses a fresh seed-0 initialization. Historical paper run config is not claimed recovered. Large weights and logs remain on D57.
 
-P12继续暂缓；旧成果、环境、数据及现场其他任务均保留。这里没有新的控制效果成绩，不改变既有LAFAN1已达标结论。
+This run does not change the previously accepted independent LAFAN1 reproduction result.
