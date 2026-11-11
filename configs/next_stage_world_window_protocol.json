@@ -1,0 +1,417 @@
+{
+ "schema_version": 1,
+ "protocol_id": "p12-world-window-v1",
+ "stage": "P12",
+ "status": "planned",
+ "implementation_status": "not_started",
+ "training_started": false,
+ "planned_date_beijing": "2026-11-11",
+ "evidence_commit": "87690ce62dc1a5cf1e8b0fea91f02d9cf30dbae2",
+ "campaign": "20261111-p12-world-window-s0",
+ "review": "docs/P11_REVIEW_20261111.md",
+ "plan": "docs/P12_WORLD_WINDOW_PLAN.md",
+ "startup_prompt": "docs/P12_CODEX_START_PROMPT.md",
+ "authorization_scope_at_publication": "Publish P11 review and P12 plan; implementation/server launch follow the supplied Codex prompt. Publishing does not start training.",
+ "objective": "Full resume P11 residual36000; compare WM fitting k8/k16 with Actor H32. Assess live-prefix prediction, difficult skills, general quality and LAFAN retention.",
+ "acceptance": "LAFAN full40 normalized return>=0.82 was accepted as reproduced. P12 does not revoke that result or add acceptance requirements.",
+ "evidence": {
+  "established": [
+   "P11 height constraint was correctly implemented, but overall return and fixed-input WM accuracy declined; use its residual parent.",
+   "Residual WM errors grow at live steps8-16; report errors after survival vanishes separately.",
+   "Hard clips and effective k8 start bins reached the learner; exposure does not establish accurate critical-phase dynamics."
+  ],
+  "limits": [
+   "Seven fixed inputs are selected real failure tails, not a population sample.",
+   "k16 changes valid replay-window distribution and doubles predicted supervision steps at unchanged batch counts; this is not an equal-compute comparison.",
+   "k16 is a project research choice, not the paper default or a proven fix."
+  ]
+ },
+ "execution": {
+  "host": "autodl-d57",
+  "worktree": "/root/autodl-tmp/robot-repro/supermimic-p12-world-window",
+  "reuse_environment_from": "/root/autodl-tmp/robot-repro/supermimic",
+  "activate": "source activate.sh",
+  "shared_gpu": true,
+  "gpu_training_concurrency": 2,
+  "logical_cpu_budget": 25,
+  "torch_threads_per_training_and_evaluation": 2,
+  "max_cpu_aggregation_workers": 12,
+  "cpu_numeric_threads_per_worker": 1,
+  "startup_order": "Implement only required changes; reuse published parent scores and WM evidence; start control, restore and fill once, enter joint learning, then immediately start candidate. Keep both real jobs concurrent.",
+  "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
+  "evaluation_evidence_publication_concurrency": 1,
+  "training_uses_publication_lock": false,
+  "codex_window_max_hours": 4,
+  "tmux_survives_handoff": true,
+  "stop_other_projects": false,
+  "cpu_preparation": "None. Reuse the existing environment, G1 assets, manifests and original P9 read-only memmap backing files.",
+  "resource_basis": {
+   "device_total_mib": 97887,
+   "p11_training_process_mib_each": 42544,
+   "p11_two_training_processes_mib": 85088,
+   "p11_observed_total_used_mib_at_30000": 88558,
+   "cgroup_memory_max_bytes": 128849018880,
+   "estimated_candidate_extra_hidden_activation_gib": 1.5,
+   "estimate_scope": "Rough extra saved tensors for eight4096-batch WM steps; other intermediates need space. Not a measured phase peak or capacity test.",
+   "unchanged_allocations": [
+    "replay1000_per_environment",
+    "8192_Actor_H32",
+    "43_frame_Actor_reference",
+    "network_and_Adam_shapes"
+   ],
+   "interpretation": "Keep two8k learners. GPU memory occupancy is not compute utilization; cgroup usage includes file cache, and host availability is not container headroom."
+  },
+  "resource_reporting": "Use existing startup/publication telemetry: GPU process/allocated/reserved memory, phase times, cgroup max/current and anon/file/inactive_file. No monitoring service or capacity benchmark."
+ },
+ "parent": {
+  "campaign": "20261110-p11-root-height-consistency-s0",
+  "job": "full8k_residual_control",
+  "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency/outputs/runs/20261110-p11-root-height-consistency-s0-full8k_residual_control/checkpoint_0036000.pt",
+  "iteration": 36000,
+  "actor_updates": 35995,
+  "collected_sim_transitions": 646430720,
+  "known_inherited_training_seconds": 431060.78811862133,
+  "evaluation": "results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0036000/evaluation.json",
+  "lafan_evaluation": "results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0036000/lafan_retention.json",
+  "fixed_input_WM_evidence": "results/20261110-p11-root-height-consistency-s0/evidence/full8k_residual_control/manifest.json",
+  "restore": [
+   "Actor",
+   "WorldModel",
+   "Critic",
+   "all_three_Adam_states",
+   "sampler_returns_and_memory",
+   "saved_Torch_CPU_and_CUDA_RNG",
+   "global_iteration",
+   "actor_update_count",
+   "collected_transition_count",
+   "global_LR_schedule"
+  ],
+  "not_in_parent_checkpoint": [
+   "live_replay",
+   "live_simulator_state"
+  ],
+  "initial_reset": "Construct with reset_on_init=false; restore sampler and saved RNG before first actual reset, as implemented in P11.",
+  "once_per_new_process_replay_fill_steps": 64,
+  "do_not_add_wm_only_warmup": true,
+  "stage_statistics": "Start P12 exposure/offset counters at zero while restoring G/M and global training counts. Actual same-run recovery restores P12 counters and consumed time; a handoff never restarts a live process."
+ },
+ "jobs": {
+  "full8k_k8_control": {
+   "status": "planned",
+   "implementation_status": "not_started",
+   "training_started": false,
+   "run": "20261111-p12-world-window-s0-full8k_k8_control",
+   "tmux": "sm-p12-k8-control",
+   "config": "configs/bones_full_lafan_p12_full8k_k8_control.json",
+   "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p12-world-window/outputs/runs/20261111-p12-world-window-s0-full8k_k8_control",
+   "initialization": "full_resume",
+   "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency/outputs/runs/20261110-p11-root-height-consistency-s0-full8k_residual_control/checkpoint_0036000.pt",
+   "world_window": 8,
+   "world_root_height_mode": "residual",
+   "start_iteration": 36000,
+   "target_iteration": 45000,
+   "new_joint_updates": 9000,
+   "max_accumulated_stage_seconds": 72000,
+   "additional_wm_only_updates": 0,
+   "WM_prediction_steps_per_update": 327680,
+   "WM_prediction_steps_if_complete": 2949120000
+  },
+  "full8k_k16_world": {
+   "status": "planned",
+   "implementation_status": "not_started",
+   "training_started": false,
+   "run": "20261111-p12-world-window-s0-full8k_k16_world",
+   "tmux": "sm-p12-k16-world",
+   "config": "configs/bones_full_lafan_p12_full8k_k16_world.json",
+   "server_run_directory": "/root/autodl-tmp/robot-repro/supermimic-p12-world-window/outputs/runs/20261111-p12-world-window-s0-full8k_k16_world",
+   "initialization": "full_resume",
+   "source_checkpoint": "/root/autodl-tmp/robot-repro/supermimic-p11-root-height-consistency/outputs/runs/20261110-p11-root-height-consistency-s0-full8k_residual_control/checkpoint_0036000.pt",
+   "world_window": 16,
+   "world_root_height_mode": "residual",
+   "start_iteration": 36000,
+   "target_iteration": 45000,
+   "new_joint_updates": 9000,
+   "max_accumulated_stage_seconds": 72000,
+   "additional_wm_only_updates": 0,
+   "WM_prediction_steps_per_update": 655360,
+   "WM_prediction_steps_if_complete": 5898240000
+  }
+ },
+ "single_variable": {
+  "field": "world_window",
+  "control_value": 8,
+  "candidate_value": 16,
+  "unchanged": [
+   "world_root_height_mode=residual",
+   "H32",
+   "real_environments8192",
+   "imagined_batch8192",
+   "WM_batches10",
+   "WM_batch4096",
+   "Critic5x4_survival_weighted",
+   "all_three_Adam_states",
+   "global_LR",
+   "source_and_reset_quotas",
+   "loss_weights",
+   "reward_PD_noise_randomization_termination",
+   "network_parameter_names_and_shapes"
+  ],
+  "loss_reduction": "Retain (sum of existing state loss and BCE over k steps)/k. Do not multiply loss or learning rate by2.",
+  "optimizer_steps": "10 WM Adam steps and the existing Actor/Critic updates per joint iteration in both jobs.",
+  "supervision": "40960 WM window starts/update in both jobs; prediction steps327680 versus655360. Record actual window-length costs; do not halve candidate batch or double control updates to make a different experiment.",
+  "prefetch": "fit_world's logged qpos/BCE prefetch follows sample shape4096 x k x36. Actor H32 reference window remains43 frames; collect reference11 and history10 remain unchanged."
+ },
+ "common_training": {
+  "real_environments": 8192,
+  "imagined_batch": 8192,
+  "world_model_batches_per_update": 10,
+  "world_model_batch_size": 4096,
+  "imagination_horizon": 32,
+  "replay_steps_per_environment": 1000,
+  "collection_steps": "existing2/3 alternation",
+  "critic_epochs": 5,
+  "critic_minibatches": 4,
+  "critic_loss": "survival_weighted",
+  "world_root_height_mode": "residual",
+  "source_environment_counts": {
+   "lafan": 2048,
+   "bones": 6144
+  },
+  "reset_stratum_environment_counts": {
+   "lafan": 2048,
+   "bones_all": 5120,
+   "bones_hard": 1024
+  },
+  "hard_motion_manifest": "configs/p10_hard_motion_set.json",
+  "hard_motions": 639,
+  "reset_bin_frames": 50,
+  "sampling_semantics": "Two source groups, three overlapping reset strata. Hard remains in bones_all, shared restored G/M, original source EMA once per source; no hard-source duplicate update.",
+  "sampler_Gmax": 10,
+  "training_timeout_steps": 500,
+  "shared_goal_features": 710,
+  "actor_goal_encoder_features": 713,
+  "appended_current_root_position_error_features": 3,
+  "goal_dimension_note": "713 is the XYZ-augmented goal encoder only. The policy also consumes 10x93 observation history; 713 is not total Actor input.",
+  "observation_history_frames": 10,
+  "observation_features_per_frame": 93,
+  "actor_goal_latent_features": 32,
+  "root_feedback_scale_m": 0.3,
+  "actor_learning_rate_scale": 0.5,
+  "lr_schedule": "Continue inherited global cosine schedule unchanged; no batch/window-based learning-rate increase.",
+  "gamma": 0.99,
+  "lambda": 0.95,
+  "world_termination_loss": "aux_bce",
+  "imagined_termination": "analytic_smooth",
+  "termination_temperature": 0.05,
+  "joint_reference_directory": "/root/autodl-tmp/robot-repro/supermimic-p9-critic-full-scale/data/processed/bones_full_lafan_p9",
+  "reference_storage": "Exact same existing CPU read-only memmap files and manifests; no refilter, conversion, repack, copy or download.",
+  "actor_reference_window_frames": 43,
+  "other_parameters": "Preserve actual P11 residual36000 configuration, including goal/history, reward, physical termination, PD/action scale, noise, randomization and optimizer settings."
+ },
+ "replay_windows": {
+  "validity": "Keep original first_episode==last_episode for the sampled k-step window; no crossing physical termination, natural end or training timeout.",
+  "terminal_transition": "An actual terminating transition may be the last transition of a valid window.",
+  "initial_fill": "The existing64-step fill gives k16 global time starts9..48; do not increase fill or add WM-only training.",
+  "changed_distribution": "Episodes shorter than16 cannot supply k16 windows. N state frames permit start<=N-17. Some final bins cannot supply a k16 start, although their states can appear later in a window starting in an earlier bin.",
+  "not_allowed": [
+   "cross_episode_padding",
+   "repeat_terminal_frames",
+   "extra_sampling_to_fill_bins",
+   "automatic_curriculum_or_quota_change"
+  ]
+ },
+ "budget": {
+  "start_iteration": 36000,
+  "first_joint_iteration": 36001,
+  "target_iteration": 45000,
+  "new_joint_updates": 9000,
+  "max_accumulated_stage_seconds_per_job": 72000,
+  "stop_rule": "First of9000 new joint updates or20h accumulated new-stage training time.",
+  "replay_fill_counts_toward_stage": true,
+  "resume_restores_consumed_stage_time": true,
+  "cost_separation": "Parent history, formal evaluation, fixed evidence and publication are recorded separately. Resource contention during training remains part of training elapsed time.",
+  "expected_if_one_process_and_full_updates": {
+   "new_real_transitions_including_fill_per_job": 184844288,
+   "imagined_steps_per_job": 2359296000,
+   "WM_prediction_steps_control": 2949120000,
+   "WM_prediction_steps_candidate": 5898240000,
+   "final_actor_updates": 44995,
+   "final_collected_sim_transitions": 831275008
+  },
+  "cost_implementation": "Derive WM cost from actual config world_batches * world_batch_size * world_window * completed WM updates. Do not carry finish_p11.py's hardcoded*8 into candidate cost.",
+  "scope": "Fixed budget; no automatic extension or convergence claim."
+ },
+ "fixed_real_windows": {
+  "manifest": "configs/p11_fixed_real_windows.json",
+  "motions": 7,
+  "steps_each": 32,
+  "parent_evidence": "results/20261110-p11-root-height-consistency-s0/evidence/full8k_residual_control/manifest.json",
+  "parent_model_recomputed": false,
+  "new_model_instances": [
+   "full8k_k8_control actual endpoint",
+   "full8k_k16_world actual endpoint"
+  ],
+  "maximum_new_rollouts": 14,
+  "maximum_new_prediction_steps": 448,
+  "new_physics_rollouts": 0,
+  "scan_starts": false,
+  "midpoint_reruns": false,
+  "comparison": "Same seven recorded P10 hard failure inputs, initial qpos/qvel/previous_action, executed actions, context33 and reference frames. Predict recursively after the first real state; no Actor replacement actions.",
+  "report_steps": [
+   1,
+   4,
+   8,
+   16,
+   32
+  ],
+  "report": [
+   "z_error_m",
+   "vz_error_m_per_s",
+   "root_SO3_error_rad",
+   "joint_RMSE_rad",
+   "reward_error",
+   "analytic_and_learned_termination_named_separately",
+   "pre_reward_survival",
+   "height_velocity_residual",
+   "actual_iteration_and_config"
+  ],
+  "interpretation": "Separate steps1-8,9-16,17-32 and live versus zero-survival suffix behavior. Fixed failed inputs do not estimate the population; control scores decide utility.",
+  "loader": "Read each checkpoint's world_root_height_mode, expected residual. WM training k does not change the common32-step evidence protocol."
+ },
+ "normal_training_statistics": {
+  "reuse_only_existing_computation": true,
+  "additional_forward_backward_or_physics": false,
+  "groups": [
+   "lafan",
+   "fixed_hard_bones",
+   "other_bones"
+  ],
+  "retain": [
+   "per_clip_exposure",
+   "50_frame_bin_collect_WM_Actor_start_counts",
+   "flip_handstand_start_bin_physical_error_sums",
+   "height_consistency",
+   "actual_raw_weighted_Critic_and_zero_S_SSE",
+   "normal_gradient_and_timing",
+   "at_most4_selected_rollouts_per1000_updates"
+  ],
+  "per_WM_offset": {
+   "offsets": "control1..8, candidate1..16; same existing squared tensors.",
+   "sums": [
+    "z_squared_error_m2",
+    "vz_squared_error_m2_per_s2",
+    "root_SO3_squared_error_rad2",
+    "mean70_normalized_state_error",
+    "prediction_samples"
+   ],
+   "coordinates": "Zero-based70-error layout: z=2; vz=37 with squared error*9 to undo /3 scaling; SO3 squared error=sum coordinates3:6. Physical state uses vz=38.",
+   "reporting": "Report comparable1-8 aggregates and candidate9-16 separately. Own evolving replay distributions are not matched-input evidence."
+  },
+  "start_bin_semantics": "Original BONES source_clip_id plus floor(start_frame/50); all window-step errors belong to the sampled start bin. Explain structural last-bin exclusions instead of treating every zero start count as missing state training.",
+  "acceptance_counters": {
+   "implementation_scope": "Only if directly accumulated from Replay.sample's already-computed WM candidate valid mask and existing draw counts; no new random draws, rule changes or synchronous item calls.",
+   "counts": [
+    "requested_windows",
+    "returned_windows",
+    "proposals",
+    "valid_proposals"
+   ],
+   "rate": "valid_proposals/proposals, including valid surplus proposals discarded by existing2x oversampling; returned/proposals is not the validity rate.",
+   "separate_from_Actor_window1": true
+  },
+  "flush": "Accumulate detached sums/counts on device; flush compact values at existing1000-update blocks/formal nodes, not per-step CPU synchronization.",
+  "does_not_modify_sampling_or_curriculum": true
+ },
+ "evaluation": {
+  "parent36000": "Reuse existing P11 residual endpoint full BONES and LAFAN results.",
+  "bones_iterations": [
+   39000,
+   42000,
+   45000
+  ],
+  "lafan_iterations": [
+   39000,
+   42000,
+   45000
+  ],
+  "schedule_base_iteration": 36000,
+  "interval": 3000,
+  "batch_size": 1024,
+  "actual_endpoint": "Evaluate full BONES and LAFAN once if the time cap ends off schedule; reuse the same already-scored checkpoint.",
+  "protocol": "All130394 BONES clips from frame0 to original physical termination/natural end, no500-step evaluation cutoff; normalize per clip by0.1*(N-1); stable reference-length/source-id batching, original-id output.",
+  "groups": [
+   "all_bones",
+   "hard639",
+   "other_bones",
+   "20_categories",
+   "flip44",
+   "side_roll22",
+   "cartwheel120",
+   "handstand160",
+   "existing_monitor40_from_same_scores",
+   "lafan40"
+  ],
+  "comparisons": [
+   "fixed_endpoint",
+   "all_common_scheduled_nodes",
+   "parent_success_retained_lost_new_identity",
+   "parent_and_both_common_complete_quality",
+   "reward_components",
+   "root_XY_SO3_body_joint_quality",
+   "LAFAN_getups_runs_retention",
+   "actual_training_cost"
+  ],
+  "unequal_endpoints": "Report both actual endpoints; same-update comparisons use already available common nodes. Do not add training or physics to manufacture equal endpoints.",
+  "tail_capture": "Actual endpoint only: original P10 bounded rule, at most8 BONES tails from the same formal trajectory, lowest2 original ids in each existing group. LAFAN actual failed tails from the same evaluation.",
+  "scalars": "CSV parts of1000 clips, all failures retained, existing schema and compact summaries.",
+  "decision": "Accuracy or training-loss change alone is not success. Report difficult-skill gains, general/LAFAN tradeoffs and extra WM cost; no best-node selection or pooled success."
+ },
+ "anchors": {
+  "common_parent": "P11 residual_control36000",
+  "p11_alternative": "P11 velocity_height36000, retain and report without adopting its mode",
+  "general_quality": "P10 full8k_control27000",
+  "lafan_effect": "P9 LAFAN original-Critic60000",
+  "retain_checkpoints": true,
+  "re_evaluate_anchors": false
+ },
+ "publication": {
+  "push": [
+   "actual_code_and_configs",
+   "parent_lineage_and_real_costs",
+   "all_per_clip_scores",
+   "compact_offset_and_bin_statistics",
+   "448_step_endpoint_evidence",
+   "bounded_failure_tails",
+   "honest_final_comparison"
+  ],
+  "status_fields": "Refresh latest_training and observed iteration from actual latest/end data; distinguish training/evaluation/publication completion and historical snapshots.",
+  "git_transport": "Reuse the existing AutoDL process-only route and P11 score-push recovery: http.postBuffer=67108864.",
+  "http_postBuffer": 67108864,
+  "git_config_scope": "single publication process/invocation; no global Git/proxy/environment change",
+  "no_retraining_or_reevaluation_for_push_failure": true,
+  "no_generic_retry_framework": true,
+  "large_artifacts": "Keep on training server; per-update saves, rolling20 and milestone/parent protection remain.",
+  "local_computer_archiving_after_push": false,
+  "release_upload": false,
+  "tar_archive": false,
+  "automatic_stage_cleanup": false,
+  "user_backup_as_completion_step": false
+ },
+ "not_in_scope": [
+  "environment_setup_install_upgrade_rebuild",
+  "changes_to_other_projects_or_user_worktrees",
+  "defensive_programming",
+  "unit_mock_smoke_import_shape_hash_tests",
+  "recovery_drills",
+  "capacity_throughput_benchmarks",
+  "unrelated_scans_or_monitoring",
+  "third_learner_or_more_environments",
+  "different_hard_quota",
+  "root_height_constraint",
+  "H_BCE_LR_reward_PD_or_loss_weight_sweeps",
+  "WM_only_warmup",
+  "parent_WM_evidence_rerun",
+  "extra_seeds_PPO_hardware",
+  "automatic_budget_extension_or_next_stage"
+ ]
+}

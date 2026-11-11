@@ -1,0 +1,2528 @@
+{
+  "schema_version": 1,
+  "evidence_commit": "87690ce62dc1a5cf1e8b0fea91f02d9cf30dbae2",
+  "campaign": "20261110-p11-root-height-consistency-s0",
+  "review_date": "2026-11-11",
+  "method": "Published existing results and necessary scalar/bin arithmetic only; no new model inference, simulation, test, benchmark, archive or GitHub mutation.",
+  "metric_definitions": {
+    "R": "Per-clip reward sum/(0.1*full_reference_steps), arithmetic mean over clips; failed suffix scores zero.",
+    "C": "Per-clip executed/full-reference steps, then equal-clip mean; distinct from completed-clip fraction.",
+    "errors": "Errors use each clip's executed steps; common-complete sets are conditional comparisons.",
+    "bin_errors": "All k8 state errors assigned to sampled window start's50-frame bin. Error sums are populated for flip/handstand only; other hard rows have count data but absent error measurements.",
+    "own_replay": "Per-bin and source WM errors use each branch's evolving replay and are not same-input model comparisons.",
+    "gap": "R+1-C assumes only missing suffixes are filled perfectly without changing already executed trajectories, not a future policy bound."
+  },
+  "acceptance": {
+    "lafan_ge_point82_success_preserved": true,
+    "previous_p6_B33000_return": 0.86624655,
+    "previous_p9_lafan_control60000_return": 0.8904386964963542,
+    "no_new_acceptance_gate": true,
+    "boundary": "Full-library retention decline does not revoke previously accepted LAFAN>=.82 reproduction. Do not add40/40, extra seeds, from-scratch cost or hardware parity as retrospective acceptance conditions."
+  },
+  "completed": {
+    "both_iterations": 36000,
+    "new_joint_updates_per_job": 9000,
+    "new_WM_only_updates": 0,
+    "shared_parent": "P10 full8k_hard_practice27000",
+    "only_config_difference": "world_root_height_mode=residual versus velocity_trapezoid",
+    "real_envs": 8192,
+    "imagination_batch": 8192,
+    "WM_batches": 10,
+    "WM_batch": 4096,
+    "WM_k": 8,
+    "actor_H": 32,
+    "reset_quota": {
+      "lafan": 2048,
+      "bones_all": 5120,
+      "extra_hard": 1024
+    }
+  },
+  "nodes": [
+    {
+      "iteration": 30000,
+      "job": "full8k_residual_control",
+      "groups": {
+        "all_clips": {
+          "normalized_return": 0.8673844310057139,
+          "completion_fraction": 0.9954405926807698,
+          "mean_root_xy_error_m": 0.05912274562748914,
+          "mean_root_orientation_error_rad": 0.07789675360359302,
+          "mean_relative_body_position_error_m": 0.05539622067573577,
+          "mean_joint_rmse_rad": 0.1943933363372261,
+          "complete": 129407,
+          "failed": 987,
+          "body_orientation": 0.1373443613412509
+        },
+        "fixed_hard": {
+          "normalized_return": 0.422569801645633,
+          "completion_fraction": 0.6163520602974167,
+          "mean_root_xy_error_m": 0.11962253229671758,
+          "mean_root_orientation_error_rad": 0.17463477320718035,
+          "mean_relative_body_position_error_m": 0.10878107947446285,
+          "mean_joint_rmse_rad": 0.33643355223952665,
+          "complete": 285,
+          "failed": 354,
+          "body_orientation": 0.055783144768546865
+        },
+        "other_bones": {
+          "normalized_return": 0.8695749943609699,
+          "completion_fraction": 0.9973074769795867,
+          "mean_root_xy_error_m": 0.058824804402244385,
+          "mean_root_orientation_error_rad": 0.07742035119500258,
+          "mean_relative_body_position_error_m": 0.05513331809184762,
+          "mean_joint_rmse_rad": 0.19369383575565643,
+          "complete": 129122,
+          "failed": 633,
+          "body_orientation": 0.13774602306827463
+        }
+      },
+      "skills": {
+        "flip": {
+          "R": 0.3178783373325441,
+          "C": 0.42727509975725336,
+          "complete": 0,
+          "body_orientation": 0.05630510189692557
+        },
+        "side_roll": {
+          "R": 0.5771258631844716,
+          "C": 0.97778230737872,
+          "complete": 21,
+          "body_orientation": 0.09059733196885549
+        },
+        "cartwheel": {
+          "R": 0.48685982315356546,
+          "C": 0.8174485542433647,
+          "complete": 76,
+          "body_orientation": 0.07751223143711491
+        },
+        "handstand": {
+          "R": 0.05449527538535872,
+          "C": 0.1164734772168237,
+          "complete": 0,
+          "body_orientation": 0.004713605610161297
+        }
+      },
+      "parent": {
+        "denom": 129516,
+        "retained": 129208,
+        "lost": 308,
+        "new": 199
+      },
+      "lafan": {
+        "R": 0.7263158990395655,
+        "C": 0.8815234417558291,
+        "complete": 31,
+        "retained": 28,
+        "getups": 3,
+        "run": 3,
+        "lost_count": 5,
+        "new_count": 3,
+        "identity_source": "paired_comparison.json:nodes.30000.jobs.full8k_residual_control.lafan_retention"
+      }
+    },
+    {
+      "iteration": 30000,
+      "job": "full8k_velocity_height",
+      "groups": {
+        "all_clips": {
+          "normalized_return": 0.8464756242506526,
+          "completion_fraction": 0.9957834992289336,
+          "mean_root_xy_error_m": 0.062139503454145636,
+          "mean_root_orientation_error_rad": 0.08356636536831952,
+          "mean_relative_body_position_error_m": 0.05985134546326754,
+          "mean_joint_rmse_rad": 0.23345973085263913,
+          "complete": 129469,
+          "failed": 925,
+          "body_orientation": 0.12175832634554908
+        },
+        "fixed_hard": {
+          "normalized_return": 0.4277709747967718,
+          "completion_fraction": 0.6319697489171129,
+          "mean_root_xy_error_m": 0.12993247157618257,
+          "mean_root_orientation_error_rad": 0.1673541241037931,
+          "mean_relative_body_position_error_m": 0.1087525530261829,
+          "mean_joint_rmse_rad": 0.3271926176048114,
+          "complete": 300,
+          "failed": 339,
+          "body_orientation": 0.0544482460026645
+        },
+        "other_bones": {
+          "normalized_return": 0.8485376046830139,
+          "completion_fraction": 0.9975751603321608,
+          "mean_root_xy_error_m": 0.06180564574823855,
+          "mean_root_orientation_error_rad": 0.0831537386654415,
+          "mean_relative_body_position_error_m": 0.05961052336290387,
+          "mean_joint_rmse_rad": 0.23299812771877443,
+          "complete": 129169,
+          "failed": 586,
+          "body_orientation": 0.12208980599056563
+        }
+      },
+      "skills": {
+        "flip": {
+          "R": 0.3131310571170602,
+          "C": 0.4242450598165142,
+          "complete": 0,
+          "body_orientation": 0.05387680978819371
+        },
+        "side_roll": {
+          "R": 0.5973768013105466,
+          "C": 1,
+          "complete": 22,
+          "body_orientation": 0.09003224373749648
+        },
+        "cartwheel": {
+          "R": 0.4994828933416355,
+          "C": 0.8496916521711942,
+          "complete": 84,
+          "body_orientation": 0.07283392985996213
+        },
+        "handstand": {
+          "R": 0.05753179458385708,
+          "C": 0.1253970345068054,
+          "complete": 0,
+          "body_orientation": 0.005912628255666025
+        }
+      },
+      "parent": {
+        "denom": 129516,
+        "retained": 129255,
+        "lost": 261,
+        "new": 214
+      },
+      "lafan": {
+        "R": 0.7824293213873317,
+        "C": 0.9509747048337307,
+        "complete": 34,
+        "retained": 29,
+        "getups": 2,
+        "run": 4,
+        "lost_count": 4,
+        "new_count": 5,
+        "identity_source": "paired_comparison.json:nodes.30000.jobs.full8k_velocity_height.lafan_retention"
+      }
+    },
+    {
+      "iteration": 33000,
+      "job": "full8k_residual_control",
+      "groups": {
+        "all_clips": {
+          "normalized_return": 0.859340959594408,
+          "completion_fraction": 0.9957139987206944,
+          "mean_root_xy_error_m": 0.05562632505526663,
+          "mean_root_orientation_error_rad": 0.08017045271270784,
+          "mean_relative_body_position_error_m": 0.055334147137211374,
+          "mean_joint_rmse_rad": 0.2095260416219481,
+          "complete": 129514,
+          "failed": 880,
+          "body_orientation": 0.12869783393600287
+        },
+        "fixed_hard": {
+          "normalized_return": 0.4453788421992539,
+          "completion_fraction": 0.6502785027083834,
+          "mean_root_xy_error_m": 0.11748198919979583,
+          "mean_root_orientation_error_rad": 0.17133933064185475,
+          "mean_relative_body_position_error_m": 0.1058708643667307,
+          "mean_joint_rmse_rad": 0.33970452251213523,
+          "complete": 322,
+          "failed": 317,
+          "body_orientation": 0.057985716798496456
+        },
+        "other_bones": {
+          "normalized_return": 0.8613795846417313,
+          "completion_fraction": 0.99741515306505,
+          "mean_root_xy_error_m": 0.05532170658670395,
+          "mean_root_orientation_error_rad": 0.0797214764651893,
+          "mean_relative_body_position_error_m": 0.05508527069846406,
+          "mean_joint_rmse_rad": 0.20888495612012625,
+          "complete": 129192,
+          "failed": 563,
+          "body_orientation": 0.129046067474987
+        }
+      },
+      "skills": {
+        "flip": {
+          "R": 0.3187240761037396,
+          "C": 0.4277658192154469,
+          "complete": 0,
+          "body_orientation": 0.05611692659483676
+        },
+        "side_roll": {
+          "R": 0.5924737910485013,
+          "C": 1,
+          "complete": 22,
+          "body_orientation": 0.08369014842156294
+        },
+        "cartwheel": {
+          "R": 0.5656074128457249,
+          "C": 0.9253029714713017,
+          "complete": 103,
+          "body_orientation": 0.08665346672520347
+        },
+        "handstand": {
+          "R": 0.06080295679491469,
+          "C": 0.12977444308938263,
+          "complete": 0,
+          "body_orientation": 0.0048335577231061345
+        }
+      },
+      "parent": {
+        "denom": 129516,
+        "retained": 129313,
+        "lost": 203,
+        "new": 201
+      },
+      "lafan": {
+        "R": 0.7619693106495506,
+        "C": 0.9059610800150917,
+        "complete": 32,
+        "retained": 28,
+        "getups": 3,
+        "run": 4,
+        "lost_count": 5,
+        "new_count": 4,
+        "identity_source": "paired_comparison.json:nodes.33000.jobs.full8k_residual_control.lafan_retention"
+      }
+    },
+    {
+      "iteration": 33000,
+      "job": "full8k_velocity_height",
+      "groups": {
+        "all_clips": {
+          "normalized_return": 0.8633706776037134,
+          "completion_fraction": 0.9964826812820895,
+          "mean_root_xy_error_m": 0.055327225990296824,
+          "mean_root_orientation_error_rad": 0.07696901594566734,
+          "mean_relative_body_position_error_m": 0.05661498191959932,
+          "mean_joint_rmse_rad": 0.1993791443235163,
+          "complete": 129640,
+          "failed": 754,
+          "body_orientation": 0.132697544958031
+        },
+        "fixed_hard": {
+          "normalized_return": 0.434428512962518,
+          "completion_fraction": 0.6300112353576279,
+          "mean_root_xy_error_m": 0.1314366214413922,
+          "mean_root_orientation_error_rad": 0.16796233430934657,
+          "mean_relative_body_position_error_m": 0.10464580668109412,
+          "mean_joint_rmse_rad": 0.31271169118804265,
+          "complete": 300,
+          "failed": 339,
+          "body_orientation": 0.05826646305502682
+        },
+        "other_bones": {
+          "normalized_return": 0.8654830743761357,
+          "completion_fraction": 0.998287430647784,
+          "mean_root_xy_error_m": 0.054952412659841375,
+          "mean_root_orientation_error_rad": 0.07652090427032228,
+          "mean_relative_body_position_error_m": 0.05637844616357762,
+          "mean_joint_rmse_rad": 0.19882101941544827,
+          "complete": 129340,
+          "failed": 415,
+          "body_orientation": 0.1330640931552954
+        }
+      },
+      "skills": {
+        "flip": {
+          "R": 0.3169619790343689,
+          "C": 0.42574422938504064,
+          "complete": 0,
+          "body_orientation": 0.05704268153891243
+        },
+        "side_roll": {
+          "R": 0.5515361390166365,
+          "C": 0.9735353535353536,
+          "complete": 21,
+          "body_orientation": 0.08473404205404968
+        },
+        "cartwheel": {
+          "R": 0.49856914156898846,
+          "C": 0.8224322557495434,
+          "complete": 78,
+          "body_orientation": 0.07724960527223032
+        },
+        "handstand": {
+          "R": 0.06077231309454127,
+          "C": 0.12332805565985613,
+          "complete": 0,
+          "body_orientation": 0.0058603821596655385
+        }
+      },
+      "parent": {
+        "denom": 129516,
+        "retained": 129330,
+        "lost": 186,
+        "new": 310
+      },
+      "lafan": {
+        "R": 0.7748869730845609,
+        "C": 0.9267057787566522,
+        "complete": 32,
+        "retained": 29,
+        "getups": 4,
+        "run": 3,
+        "lost_count": 4,
+        "new_count": 3,
+        "identity_source": "paired_comparison.json:nodes.33000.jobs.full8k_velocity_height.lafan_retention"
+      }
+    },
+    {
+      "iteration": 36000,
+      "job": "full8k_residual_control",
+      "groups": {
+        "all_clips": {
+          "normalized_return": 0.8637513542923851,
+          "completion_fraction": 0.994606495635289,
+          "mean_root_xy_error_m": 0.05426127645170373,
+          "mean_root_orientation_error_rad": 0.08341024044112234,
+          "mean_relative_body_position_error_m": 0.05493735115270633,
+          "mean_joint_rmse_rad": 0.19911330836187557,
+          "complete": 129152,
+          "failed": 1242,
+          "body_orientation": 0.1333733156651048
+        },
+        "fixed_hard": {
+          "normalized_return": 0.44230235846655547,
+          "completion_fraction": 0.6383062627590094,
+          "mean_root_xy_error_m": 0.1098559993322765,
+          "mean_root_orientation_error_rad": 0.17515181013784714,
+          "mean_relative_body_position_error_m": 0.10446437044178497,
+          "mean_joint_rmse_rad": 0.332756348152379,
+          "complete": 312,
+          "failed": 327,
+          "body_orientation": 0.05999133525547323
+        },
+        "other_bones": {
+          "normalized_return": 0.8658268497132379,
+          "completion_fraction": 0.9963611551767936,
+          "mean_root_xy_error_m": 0.053987491025934566,
+          "mean_root_orientation_error_rad": 0.0829584438780904,
+          "mean_relative_body_position_error_m": 0.054693447138789826,
+          "mean_joint_rmse_rad": 0.1984551610656165,
+          "complete": 128840,
+          "failed": 915,
+          "body_orientation": 0.13373469738821175
+        }
+      },
+      "skills": {
+        "flip": {
+          "R": 0.32126084753546635,
+          "C": 0.4275041642947503,
+          "complete": 0,
+          "body_orientation": 0.05806449918773005
+        },
+        "side_roll": {
+          "R": 0.5718706652659546,
+          "C": 0.9382750582750582,
+          "complete": 20,
+          "body_orientation": 0.08853525479499896
+        },
+        "cartwheel": {
+          "R": 0.5274609979147818,
+          "C": 0.866119339611451,
+          "complete": 90,
+          "body_orientation": 0.084411813252907
+        },
+        "handstand": {
+          "R": 0.05874825211939413,
+          "C": 0.12366074419919022,
+          "complete": 0,
+          "body_orientation": 0.004753721552975974
+        }
+      },
+      "parent": {
+        "denom": 129516,
+        "retained": 128977,
+        "lost": 539,
+        "new": 175
+      },
+      "lafan": {
+        "R": 0.7331356818442496,
+        "C": 0.8594195148566918,
+        "complete": 29,
+        "retained": 26,
+        "getups": 0,
+        "run": 3,
+        "lost_count": 7,
+        "new_count": 3,
+        "identity_source": "paired_comparison.json:nodes.36000.jobs.full8k_residual_control.lafan_retention"
+      }
+    },
+    {
+      "iteration": 36000,
+      "job": "full8k_velocity_height",
+      "groups": {
+        "all_clips": {
+          "normalized_return": 0.8569378573701086,
+          "completion_fraction": 0.9962367856890271,
+          "mean_root_xy_error_m": 0.07677787071628342,
+          "mean_root_orientation_error_rad": 0.0950242916172245,
+          "mean_relative_body_position_error_m": 0.057623535685949835,
+          "mean_joint_rmse_rad": 0.1933427240806146,
+          "complete": 129598,
+          "failed": 796,
+          "body_orientation": 0.13535069327372623
+        },
+        "fixed_hard": {
+          "normalized_return": 0.433515959847515,
+          "completion_fraction": 0.6355219306902262,
+          "mean_root_xy_error_m": 0.1383050552501978,
+          "mean_root_orientation_error_rad": 0.20822600294825333,
+          "mean_relative_body_position_error_m": 0.10621954935372277,
+          "mean_joint_rmse_rad": 0.29832861787818155,
+          "complete": 305,
+          "failed": 334,
+          "body_orientation": 0.05891745897429665
+        },
+        "other_bones": {
+          "normalized_return": 0.8590230686723086,
+          "completion_fraction": 0.9980131857687484,
+          "mean_root_xy_error_m": 0.07647486989999742,
+          "mean_root_orientation_error_rad": 0.09446681103042202,
+          "mean_relative_body_position_error_m": 0.05738421656349814,
+          "mean_joint_rmse_rad": 0.19282570364874918,
+          "complete": 129293,
+          "failed": 462,
+          "body_orientation": 0.13572710140225597
+        }
+      },
+      "skills": {
+        "flip": {
+          "R": 0.3183456578842662,
+          "C": 0.4264683773513011,
+          "complete": 0,
+          "body_orientation": 0.05735290823935036
+        },
+        "side_roll": {
+          "R": 0.5549105510571044,
+          "C": 0.9442594904517502,
+          "complete": 20,
+          "body_orientation": 0.08671118896817644
+        },
+        "cartwheel": {
+          "R": 0.49538009981487086,
+          "C": 0.8335901598723301,
+          "complete": 81,
+          "body_orientation": 0.08026574881218887
+        },
+        "handstand": {
+          "R": 0.05933044955668089,
+          "C": 0.12893852353603688,
+          "complete": 0,
+          "body_orientation": 0.007301556012396393
+        }
+      },
+      "parent": {
+        "denom": 129516,
+        "retained": 129307,
+        "lost": 209,
+        "new": 291
+      },
+      "lafan": {
+        "R": 0.7108031479292178,
+        "C": 0.8641586492986472,
+        "complete": 29,
+        "retained": 27,
+        "getups": 2,
+        "run": 3,
+        "lost_count": 6,
+        "new_count": 2,
+        "identity_source": "paired_comparison.json:nodes.36000.jobs.full8k_velocity_height.lafan_retention"
+      }
+    }
+  ],
+  "quality": {
+    "gap": {
+      "parent": {
+        "all_clips": {
+          "R": 0.859214803229341,
+          "C": 0.9957921334962984,
+          "one_minus_C": 0.0042078665037016405,
+          "C_minus_R": 0.1365773302669574,
+          "conditional_perfect_tail": 0.8634226697330426,
+          "body_orientation_executed_gap": 0.07000378943640523
+        },
+        "fixed_hard": {
+          "R": 0.429153584679531,
+          "C": 0.6284831501063255,
+          "one_minus_C": 0.3715168498936745,
+          "C_minus_R": 0.19932956542679447,
+          "conditional_perfect_tail": 0.8006704345732054,
+          "body_orientation_executed_gap": 0.07030304064381343
+        },
+        "other_bones": {
+          "R": 0.8613327109681802,
+          "C": 0.9976010074540355,
+          "one_minus_C": 0.00239899254596454,
+          "C_minus_R": 0.13626829648585526,
+          "conditional_perfect_tail": 0.8637317035141449,
+          "body_orientation_executed_gap": 0.07000231572424376
+        }
+      },
+      "control": {
+        "all_clips": {
+          "R": 0.8637513542923851,
+          "C": 0.994606495635289,
+          "one_minus_C": 0.005393504364710977,
+          "C_minus_R": 0.13085514134290388,
+          "conditional_perfect_tail": 0.8691448586570961,
+          "body_orientation_executed_gap": 0.06554798346195301
+        },
+        "fixed_hard": {
+          "R": 0.44230235846655547,
+          "C": 0.6383062627590094,
+          "one_minus_C": 0.36169373724099063,
+          "C_minus_R": 0.1960039042924539,
+          "conditional_perfect_tail": 0.8039960957075462,
+          "body_orientation_executed_gap": 0.06766991729632865
+        },
+        "other_bones": {
+          "R": 0.8658268497132379,
+          "C": 0.9963611551767936,
+          "one_minus_C": 0.003638844823206422,
+          "C_minus_R": 0.1305343054635557,
+          "conditional_perfect_tail": 0.8694656945364442,
+          "body_orientation_executed_gap": 0.06553753364714698
+        }
+      },
+      "velocity": {
+        "all_clips": {
+          "R": 0.8569378573701086,
+          "C": 0.9962367856890271,
+          "one_minus_C": 0.003763214310972929,
+          "C_minus_R": 0.13929892831891844,
+          "conditional_perfect_tail": 0.8607010716810815,
+          "body_orientation_executed_gap": 0.06389666386407919
+        },
+        "fixed_hard": {
+          "R": 0.433515959847515,
+          "C": 0.6355219306902262,
+          "one_minus_C": 0.3644780693097738,
+          "C_minus_R": 0.2020059708427112,
+          "conditional_perfect_tail": 0.7979940291572889,
+          "body_orientation_executed_gap": 0.0681869271637486
+        },
+        "other_bones": {
+          "R": 0.8590230686723086,
+          "C": 0.9980131857687484,
+          "one_minus_C": 0.001986814231251577,
+          "C_minus_R": 0.13899011709643982,
+          "conditional_perfect_tail": 0.8610098829035602,
+          "body_orientation_executed_gap": 0.06387553575149374
+        }
+      }
+    },
+    "reward_deltas": {
+      "relative_body_position": {
+        "parent": 0.19004181152257077,
+        "control": 0.19079678620709317,
+        "velocity": 0.19047744519258963,
+        "velocity_minus_control": -0.000319341014503538,
+        "control_minus_parent": 0.0007549746845224026,
+        "velocity_minus_parent": 0.00043563367001886455
+      },
+      "body_orientation": {
+        "parent": 0.12915463726285445,
+        "control": 0.1333733156651048,
+        "velocity": 0.13535069327372623,
+        "velocity_minus_control": 0.0019773776086214334,
+        "control_minus_parent": 0.004218678402250348,
+        "velocity_minus_parent": 0.006196056010871781
+      },
+      "body_linear_velocity": {
+        "parent": 0.18590674094233592,
+        "control": 0.1857447289532114,
+        "velocity": 0.18333482262627074,
+        "velocity_minus_control": -0.0024099063269406584,
+        "control_minus_parent": -0.00016201198912452197,
+        "velocity_minus_parent": -0.0025719183160651804
+      },
+      "body_angular_velocity": {
+        "parent": 0.1766437431844623,
+        "control": 0.17646752723707088,
+        "velocity": 0.17494396357488948,
+        "velocity_minus_control": -0.0015235636621813986,
+        "control_minus_parent": -0.00017621594739142266,
+        "velocity_minus_parent": -0.0016997796095728213
+      },
+      "global_root_position": {
+        "parent": 0.0938800344284463,
+        "control": 0.09458891198527306,
+        "velocity": 0.09150016678206684,
+        "velocity_minus_control": -0.0030887452032062196,
+        "control_minus_parent": 0.0007088775568267619,
+        "velocity_minus_parent": -0.0023798676463794577
+      },
+      "global_root_orientation": {
+        "parent": 0.09457182019702225,
+        "control": 0.09405975321551736,
+        "velocity": 0.09299647950938189,
+        "velocity_minus_control": -0.001063273706135473,
+        "control_minus_parent": -0.0005120669815048828,
+        "velocity_minus_parent": -0.0015753406876403558
+      },
+      "action_difference_penalty": {
+        "parent": -0.008851150596417822,
+        "control": -0.009142814510471168,
+        "velocity": -0.009935049833452614,
+        "velocity_minus_control": -0.0007922353229814459,
+        "control_minus_parent": -0.0002916639140533462,
+        "velocity_minus_parent": -0.0010838992370347921
+      },
+      "soft_joint_limit_penalty": {
+        "parent": -0.0021328339781982934,
+        "control": -0.002136854724670813,
+        "velocity": -0.00173066401592187,
+        "velocity_minus_control": 0.00040619070874894306,
+        "control_minus_parent": -0.000004020746472519626,
+        "velocity_minus_parent": 0.00040216996227642344
+      }
+    },
+    "category_changes": [
+      {
+        "category": "Advanced Locomotion",
+        "clips": 5936,
+        "parent_R": 0.7438524915050315,
+        "control_R": 0.7439232117525296,
+        "velocity_R": 0.7563789615480905,
+        "parent_fail": 97,
+        "control_fail": 358,
+        "velocity_fail": 88
+      },
+      {
+        "category": "Baseline",
+        "clips": 19726,
+        "parent_R": 0.8592925213783004,
+        "control_R": 0.8586829345072605,
+        "velocity_R": 0.8607350152388253,
+        "parent_fail": 311,
+        "control_fail": 379,
+        "velocity_fail": 218
+      },
+      {
+        "category": "Basic Locomotion Neutral",
+        "clips": 28440,
+        "parent_R": 0.8665367996710625,
+        "control_R": 0.8657496847172212,
+        "velocity_R": 0.8509956168754881,
+        "parent_fail": 29,
+        "control_fail": 68,
+        "velocity_fail": 66
+      },
+      {
+        "category": "Basic Locomotion Styles",
+        "clips": 10736,
+        "parent_R": 0.8747906213583312,
+        "control_R": 0.8836977751069925,
+        "velocity_R": 0.8732234815176136,
+        "parent_fail": 2,
+        "control_fail": 7,
+        "velocity_fail": 10
+      },
+      {
+        "category": "Communication",
+        "clips": 3657,
+        "parent_R": 0.8959827872701032,
+        "control_R": 0.9056465134786372,
+        "velocity_R": 0.9038874141570524,
+        "parent_fail": 0,
+        "control_fail": 0,
+        "velocity_fail": 0
+      },
+      {
+        "category": "Complex Actions",
+        "clips": 528,
+        "parent_R": 0.8484094859167692,
+        "control_R": 0.8471608843507693,
+        "velocity_R": 0.8244434473341927,
+        "parent_fail": 1,
+        "control_fail": 7,
+        "velocity_fail": 4
+      },
+      {
+        "category": "Consuming",
+        "clips": 1124,
+        "parent_R": 0.8942865185019002,
+        "control_R": 0.8997790173177198,
+        "velocity_R": 0.8855626116058346,
+        "parent_fail": 1,
+        "control_fail": 2,
+        "velocity_fail": 2
+      },
+      {
+        "category": "Dancing",
+        "clips": 10886,
+        "parent_R": 0.7857256407182941,
+        "control_R": 0.7920425470758164,
+        "velocity_R": 0.778222292437206,
+        "parent_fail": 18,
+        "control_fail": 28,
+        "velocity_fail": 21
+      },
+      {
+        "category": "Environments",
+        "clips": 584,
+        "parent_R": 0.8746018295362532,
+        "control_R": 0.8851141293783509,
+        "velocity_R": 0.8744320305131611,
+        "parent_fail": 0,
+        "control_fail": 0,
+        "velocity_fail": 1
+      },
+      {
+        "category": "Gestures",
+        "clips": 17294,
+        "parent_R": 0.905570476259561,
+        "control_R": 0.9118731573404122,
+        "velocity_R": 0.9100250410309816,
+        "parent_fail": 19,
+        "control_fail": 15,
+        "velocity_fail": 21
+      },
+      {
+        "category": "Household",
+        "clips": 1318,
+        "parent_R": 0.9047981973400971,
+        "control_R": 0.9167799408620215,
+        "velocity_R": 0.9159345142556233,
+        "parent_fail": 0,
+        "control_fail": 0,
+        "velocity_fail": 0
+      },
+      {
+        "category": "Looking and Pointing",
+        "clips": 180,
+        "parent_R": 0.9137713806928848,
+        "control_R": 0.923991350968573,
+        "velocity_R": 0.9202960606438835,
+        "parent_fail": 0,
+        "control_fail": 0,
+        "velocity_fail": 0
+      },
+      {
+        "category": "Magic",
+        "clips": 152,
+        "parent_R": 0.9116059484412183,
+        "control_R": 0.9111669848285807,
+        "velocity_R": 0.914661901087375,
+        "parent_fail": 0,
+        "control_fail": 0,
+        "velocity_fail": 0
+      },
+      {
+        "category": "Martial Arts",
+        "clips": 20,
+        "parent_R": 0.8269165247681313,
+        "control_R": 0.8667391879837799,
+        "velocity_R": 0.8484909995415493,
+        "parent_fail": 1,
+        "control_fail": 0,
+        "velocity_fail": 0
+      },
+      {
+        "category": "Object Interaction",
+        "clips": 9305,
+        "parent_R": 0.9074233628617826,
+        "control_R": 0.9136186203209056,
+        "velocity_R": 0.9097136966984856,
+        "parent_fail": 2,
+        "control_fail": 3,
+        "velocity_fail": 3
+      },
+      {
+        "category": "Object Manipulation",
+        "clips": 11516,
+        "parent_R": 0.8935857707160851,
+        "control_R": 0.9040040704385212,
+        "velocity_R": 0.8896023201754798,
+        "parent_fail": 0,
+        "control_fail": 1,
+        "velocity_fail": 3
+      },
+      {
+        "category": "Other",
+        "clips": 2081,
+        "parent_R": 0.8901632310225944,
+        "control_R": 0.9033429249885477,
+        "velocity_R": 0.8951292419761455,
+        "parent_fail": 0,
+        "control_fail": 0,
+        "velocity_fail": 0
+      },
+      {
+        "category": "Sports",
+        "clips": 3855,
+        "parent_R": 0.788817307799242,
+        "control_R": 0.7955585353338098,
+        "velocity_R": 0.7895136639201819,
+        "parent_fail": 231,
+        "control_fail": 222,
+        "velocity_fail": 210
+      },
+      {
+        "category": "Stunts",
+        "clips": 359,
+        "parent_R": 0.5656747648848401,
+        "control_R": 0.5847804093906741,
+        "velocity_R": 0.5796050541384647,
+        "parent_fail": 146,
+        "control_fail": 137,
+        "velocity_fail": 135
+      },
+      {
+        "category": "Unusual Locomotion",
+        "clips": 2697,
+        "parent_R": 0.6811318851007754,
+        "control_R": 0.6992577952745332,
+        "velocity_R": 0.6986306481214248,
+        "parent_fail": 20,
+        "control_fail": 15,
+        "velocity_fail": 14
+      }
+    ],
+    "lafan_stability": {
+      "full8k_residual_control": {
+        "mean_R": 0.7404736305111218,
+        "common_three_count": 23,
+        "union_count": 36,
+        "identity_source": "paired_comparison.json:nodes[*].jobs.full8k_residual_control.lafan_retention.completed_motion_names"
+      },
+      "full8k_velocity_height": {
+        "mean_R": 0.7560398141337035,
+        "common_three_count": 26,
+        "union_count": 38,
+        "identity_source": "paired_comparison.json:nodes[*].jobs.full8k_velocity_height.lafan_retention.completed_motion_names"
+      }
+    },
+    "endpoint_parent_changes": {
+      "full8k_residual_control": {
+        "parent_successes": 129516,
+        "retained": 128977,
+        "lost": 539,
+        "new": 175
+      },
+      "full8k_velocity_height": {
+        "parent_successes": 129516,
+        "retained": 129307,
+        "lost": 209,
+        "new": 291
+      }
+    },
+    "delta_decomposition": {
+      "global_R": -0.006813496922276507,
+      "hard_R": -0.008786398619040459,
+      "other_R": -0.006803781040929269,
+      "hard_contribution": -0.00004305802964528163,
+      "other_contribution": -0.006770438892631389,
+      "global_completed": 446,
+      "hard_completed": -7,
+      "other_completed": 453
+    },
+    "endpoint_lafan_failure_source": "paired_comparison.json:nodes.36000.jobs[*].lafan_retention.failed_motions"
+  },
+  "endpoint_common_quality": {
+    "count": 128803,
+    "conditional_only": true,
+    "quality": {
+      "parent": {
+        "motions": 128803,
+        "completed_motions": 128803,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.8644767460636535,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.06028650593288861,
+          "mean_root_orientation_error_rad": 0.0775883564191056,
+          "mean_relative_body_position_error_m": 0.058574921135620815,
+          "mean_joint_rmse_rad": 0.21454848640125887
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.19104812644862038,
+          "body_orientation": 0.1301066757173687,
+          "body_linear_velocity": 0.18693746816574303,
+          "body_angular_velocity": 0.17766877136581818,
+          "global_root_position": 0.09447702476939278,
+          "global_root_orientation": 0.09512058171331185,
+          "action_difference_penalty": -0.008799413127151682,
+          "soft_joint_limit_penalty": -0.002082489257648927
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.13552325393634646
+      },
+      "full8k_residual_control": {
+        "motions": 128803,
+        "completed_motions": 128803,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.8699794370740219,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.052822062265021445,
+          "mean_root_orientation_error_rad": 0.08130940550417791,
+          "mean_relative_body_position_error_m": 0.054232451935922646,
+          "mean_joint_rmse_rad": 0.19760075850735517
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.19200244354651777,
+          "body_orientation": 0.1344077660020735,
+          "body_linear_velocity": 0.18702806989118098,
+          "body_angular_velocity": 0.17773941334522275,
+          "global_root_position": 0.0952456013672556,
+          "global_root_orientation": 0.09471393301253538,
+          "action_difference_penalty": -0.009069598675093764,
+          "soft_joint_limit_penalty": -0.002088191682473011
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.13002056292597808
+      },
+      "full8k_velocity_height": {
+        "motions": 128803,
+        "completed_motions": 128803,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.8618935308690002,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.07477499394604309,
+          "mean_root_orientation_error_rad": 0.09327054849633178,
+          "mean_relative_body_position_error_m": 0.05694473253582691,
+          "mean_joint_rmse_rad": 0.1919608405260778
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.19139708492094615,
+          "body_orientation": 0.13630408230239785,
+          "body_linear_velocity": 0.18427626366026273,
+          "body_angular_velocity": 0.17588925493089216,
+          "global_root_position": 0.09204704400568868,
+          "global_root_orientation": 0.09350300263573585,
+          "action_difference_penalty": -0.009881545703236062,
+          "soft_joint_limit_penalty": -0.001641656146892963
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.13810646913099978
+      }
+    },
+    "fixed_hard_quality": {
+      "parent": {
+        "motions": 251,
+        "completed_motions": 251,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.7059690223927744,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.15966269897530988,
+          "mean_root_orientation_error_rad": 0.16145344195238526,
+          "mean_relative_body_position_error_m": 0.0968677556502082,
+          "mean_joint_rmse_rad": 0.33923437237647497
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.17566626988766348,
+          "body_orientation": 0.08018115398083253,
+          "body_linear_velocity": 0.16855144491750257,
+          "body_angular_velocity": 0.14561891511726718,
+          "global_root_position": 0.07968022901309062,
+          "global_root_orientation": 0.08339983152293898,
+          "action_difference_penalty": -0.01827365988816699,
+          "soft_joint_limit_penalty": -0.008855162624071395
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.29403097760722563
+      },
+      "full8k_residual_control": {
+        "motions": 251,
+        "completed_motions": 251,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.7192750611259416,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.11991211763277305,
+          "mean_root_orientation_error_rad": 0.15707225625687352,
+          "mean_relative_body_position_error_m": 0.0927951409246394,
+          "mean_joint_rmse_rad": 0.31496646100807546
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.17704830412101474,
+          "body_orientation": 0.08634902567421426,
+          "body_linear_velocity": 0.17007119911070567,
+          "body_angular_velocity": 0.1471817324366259,
+          "global_root_position": 0.08418281956050938,
+          "global_root_orientation": 0.08413220333514228,
+          "action_difference_penalty": -0.020298012474867077,
+          "soft_joint_limit_penalty": -0.009392211061987305
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.28072493887405836
+      },
+      "full8k_velocity_height": {
+        "motions": 251,
+        "completed_motions": 251,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.7091779234083327,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.14898811151688982,
+          "mean_root_orientation_error_rad": 0.1665057679817566,
+          "mean_relative_body_position_error_m": 0.0936270859569389,
+          "mean_joint_rmse_rad": 0.3192306007188547
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.17674482732311506,
+          "body_orientation": 0.08390028917254753,
+          "body_linear_velocity": 0.1682454066165437,
+          "body_angular_velocity": 0.14575207577805616,
+          "global_root_position": 0.08015008532208542,
+          "global_root_orientation": 0.0824386200578154,
+          "action_difference_penalty": -0.01927766305613258,
+          "soft_joint_limit_penalty": -0.008775718065037845
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.29082207659166726
+      }
+    }
+  },
+  "endpoint_lafan_common_quality": {
+    "conditional_only": true,
+    "quality": {
+      "parent": {
+        "motions": 24,
+        "completed_motions": 24,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.8596001193631703,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.07425287536655863,
+          "mean_root_orientation_error_rad": 0.07242889578143756,
+          "mean_relative_body_position_error_m": 0.058423835008094706,
+          "mean_joint_rmse_rad": 0.18159083214898905
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.1912866079836962,
+          "body_orientation": 0.14713221008064173,
+          "body_linear_velocity": 0.17944292359255345,
+          "body_angular_velocity": 0.16815210461272592,
+          "global_root_position": 0.09212721319452431,
+          "global_root_orientation": 0.09582542526561107,
+          "action_difference_penalty": -0.012701895529423595,
+          "soft_joint_limit_penalty": -0.0016644702112359056
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.14039988063682973
+      },
+      "full8k_residual_control": {
+        "motions": 24,
+        "completed_motions": 24,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.8714681648953094,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.0639222872753938,
+          "mean_root_orientation_error_rad": 0.06900329173853,
+          "mean_relative_body_position_error_m": 0.052984360295037426,
+          "mean_joint_rmse_rad": 0.1527363102262219
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.1924472151791233,
+          "body_orientation": 0.15614118146289138,
+          "body_linear_velocity": 0.17964905581449195,
+          "body_angular_velocity": 0.16868414434619738,
+          "global_root_position": 0.09300779792184444,
+          "global_root_orientation": 0.09603672435812287,
+          "action_difference_penalty": -0.013186382920320061,
+          "soft_joint_limit_penalty": -0.0013115715796723467
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.12853183510469057
+      },
+      "full8k_velocity_height": {
+        "motions": 24,
+        "completed_motions": 24,
+        "failed_motions": 0,
+        "means": {
+          "normalized_return": 0.8415815900920021,
+          "completion_fraction": 1,
+          "mean_root_xy_error_m": 0.1094600905974706,
+          "mean_root_orientation_error_rad": 0.0851738415658474,
+          "mean_relative_body_position_error_m": 0.059961727199455105,
+          "mean_joint_rmse_rad": 0.16108299077798924
+        },
+        "reward_components_normalized": {
+          "relative_body_position": 0.1908566773065974,
+          "body_orientation": 0.15121899828207083,
+          "body_linear_velocity": 0.17247139465561304,
+          "body_angular_velocity": 0.1628632901757115,
+          "global_root_position": 0.08596474587981974,
+          "global_root_orientation": 0.09444286238469364,
+          "action_difference_penalty": -0.0150511286113827,
+          "soft_joint_limit_penalty": -0.0011852502825350966
+        },
+        "missing_tail_gap": 0,
+        "executed_quality_gap": 0.15841840990799794
+      }
+    },
+    "count": 24,
+    "identity_source": "paired_comparison.json:nodes.36000.lafan_parent_and_both_common_complete.names"
+  },
+  "exposure": {
+    "full8k_residual_control": {
+      "phase_shares": {
+        "resets": {
+          "total": 1431741,
+          "groups": {
+            "lafan": {
+              "count": 186847,
+              "share": 0.13050335221244624,
+              "remaining32_share": 0.48025924954642035
+            },
+            "hard_bones": {
+              "count": 335372,
+              "share": 0.2342406901806961,
+              "remaining32_share": 0.2944342401870162
+            },
+            "other_bones": {
+              "count": 909522,
+              "share": 0.6352559576068577,
+              "remaining32_share": 0.48045127000776233
+            }
+          }
+        },
+        "WM_windows": {
+          "total": 368640000,
+          "groups": {
+            "lafan": {
+              "count": 94373815,
+              "share": 0.25600535753038195,
+              "remaining32_share": 0.009743995196125111
+            },
+            "hard_bones": {
+              "count": 44463512,
+              "share": 0.12061499565972222,
+              "remaining32_share": 0.1402775831112936
+            },
+            "other_bones": {
+              "count": 229802673,
+              "share": 0.6233796468098959,
+              "remaining32_share": 0.1053551975002484
+            }
+          }
+        },
+        "Actor_starts": {
+          "total": 73728000,
+          "groups": {
+            "lafan": {
+              "count": 18429266,
+              "share": 0.24996291775173612,
+              "remaining32_share": 0.02005012028151311
+            },
+            "hard_bones": {
+              "count": 9342518,
+              "share": 0.12671601019965278,
+              "remaining32_share": 0.18024059466623452
+            },
+            "other_bones": {
+              "count": 45956216,
+              "share": 0.6233210720486111,
+              "remaining32_share": 0.1426090651153698
+            }
+          }
+        },
+        "real_transitions": {
+          "total": 184844288,
+          "groups": {
+            "lafan": {
+              "count": 46211072,
+              "share": 0.25,
+              "remaining32_share": 0.020047122040362967
+            },
+            "hard_bones": {
+              "count": 23422588,
+              "share": 0.12671523828748227,
+              "remaining32_share": 0.18072759508897993
+            },
+            "other_bones": {
+              "count": 115210628,
+              "share": 0.6232847617125177,
+              "remaining32_share": 0.14263548671915927
+            }
+          }
+        }
+      },
+      "clip_and_bin_groups": {
+        "flip": {
+          "clips": 44,
+          "clip_totals": {
+            "resets": {
+              "sum": 18937,
+              "min": 237
+            },
+            "WM_windows": {
+              "sum": 2125687,
+              "min": 26540
+            },
+            "Actor_starts": {
+              "sum": 455338,
+              "min": 5745
+            },
+            "real_transitions": {
+              "sum": 1135451,
+              "min": 14212
+            },
+            "unique_reset_bins_visited": {
+              "sum": 296,
+              "min": 5
+            }
+          },
+          "bins": 296,
+          "real_bins": {
+            "zero": 0,
+            "min": 642,
+            "median": 3585
+          },
+          "WM_bins": {
+            "zero": 4,
+            "min": 0,
+            "median": 6623
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 264,
+            "median": 1442
+          },
+          "all_sample_totals": {
+            "real": 1135451,
+            "WM": 2125687,
+            "Actor": 455338,
+            "z_squared_error": 4581.748129576312,
+            "vz_squared_error": 497822.3352843999,
+            "SO3_squared_error": 43832.919367816714,
+            "prediction_samples": 17005496,
+            "z_RMSE": 0.0164142466027011,
+            "vz_RMSE": 0.17109705609371142,
+            "SO3_RMSE": 0.050769810982698484
+          },
+          "bin0_sample_totals": {
+            "real": 44146,
+            "WM": 93154,
+            "Actor": 17949,
+            "z_squared_error": 56.20760054709097,
+            "vz_squared_error": 2517.0142082963325,
+            "SO3_squared_error": 386.07969210696973,
+            "prediction_samples": 745232,
+            "z_RMSE": 0.008684639098437875,
+            "vz_RMSE": 0.0581161834527024,
+            "SO3_RMSE": 0.02276107299495928
+          },
+          "error_scope": "This skill's k8 errors on the branch's own evolving replay."
+        },
+        "side_roll": {
+          "clips": 22,
+          "clip_totals": {
+            "resets": {
+              "sum": 5919,
+              "min": 183
+            },
+            "WM_windows": {
+              "sum": 1076215,
+              "min": 25163
+            },
+            "Actor_starts": {
+              "sum": 220200,
+              "min": 5274
+            },
+            "real_transitions": {
+              "sum": 549761,
+              "min": 13277
+            },
+            "unique_reset_bins_visited": {
+              "sum": 118,
+              "min": 4
+            }
+          },
+          "bins": 118,
+          "real_bins": {
+            "zero": 0,
+            "min": 751,
+            "median": 4529
+          },
+          "WM_bins": {
+            "zero": 0,
+            "min": 1326,
+            "median": 8533
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 276,
+            "median": 1822
+          },
+          "all_sample_totals": {
+            "real": 549761,
+            "WM": 1076215,
+            "Actor": 220200,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "bin0_sample_totals": {
+            "real": 22397,
+            "WM": 47245,
+            "Actor": 8990,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "error_scope": "No per-bin physical error measurement for this group; null errors mean unmeasured."
+        },
+        "cartwheel": {
+          "clips": 120,
+          "clip_totals": {
+            "resets": {
+              "sum": 46941,
+              "min": 152
+            },
+            "WM_windows": {
+              "sum": 7419229,
+              "min": 20416
+            },
+            "Actor_starts": {
+              "sum": 1523527,
+              "min": 4562
+            },
+            "real_transitions": {
+              "sum": 3824818,
+              "min": 11537
+            },
+            "unique_reset_bins_visited": {
+              "sum": 732,
+              "min": 4
+            }
+          },
+          "bins": 732,
+          "real_bins": {
+            "zero": 0,
+            "min": 537,
+            "median": 4618
+          },
+          "WM_bins": {
+            "zero": 26,
+            "min": 0,
+            "median": 8826
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 209,
+            "median": 1821
+          },
+          "all_sample_totals": {
+            "real": 3824818,
+            "WM": 7419229,
+            "Actor": 1523527,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "bin0_sample_totals": {
+            "real": 118156,
+            "WM": 246664,
+            "Actor": 47471,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "error_scope": "No per-bin physical error measurement for this group; null errors mean unmeasured."
+        },
+        "handstand": {
+          "clips": 160,
+          "clip_totals": {
+            "resets": {
+              "sum": 153806,
+              "min": 376
+            },
+            "WM_windows": {
+              "sum": 7451798,
+              "min": 14273
+            },
+            "Actor_starts": {
+              "sum": 1829470,
+              "min": 3838
+            },
+            "real_transitions": {
+              "sum": 4562799,
+              "min": 9573
+            },
+            "unique_reset_bins_visited": {
+              "sum": 1082,
+              "min": 3
+            }
+          },
+          "bins": 1082,
+          "real_bins": {
+            "zero": 0,
+            "min": 867,
+            "median": 4303
+          },
+          "WM_bins": {
+            "zero": 20,
+            "min": 0,
+            "median": 6899
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 318,
+            "median": 1725
+          },
+          "all_sample_totals": {
+            "real": 4562799,
+            "WM": 7451798,
+            "Actor": 1829470,
+            "z_squared_error": 53984.75600574111,
+            "vz_squared_error": 2258006.0595278526,
+            "SO3_squared_error": 183371.83275373606,
+            "prediction_samples": 59614384,
+            "z_RMSE": 0.030092622773513284,
+            "vz_RMSE": 0.1946197996628977,
+            "SO3_RMSE": 0.055461394163315504
+          },
+          "bin0_sample_totals": {
+            "real": 368317,
+            "WM": 658585,
+            "Actor": 147661,
+            "z_squared_error": 4602.467202089204,
+            "vz_squared_error": 187143.35543978683,
+            "SO3_squared_error": 14313.38068642786,
+            "prediction_samples": 5268680,
+            "z_RMSE": 0.02955591712989938,
+            "vz_RMSE": 0.18846742419064197,
+            "SO3_RMSE": 0.05212189537227917
+          },
+          "error_scope": "This skill's k8 errors on the branch's own evolving replay."
+        },
+        "all_hard": {
+          "clips": 639,
+          "clip_totals": {
+            "resets": {
+              "sum": 335372,
+              "min": 152
+            },
+            "WM_windows": {
+              "sum": 44463512,
+              "min": 14273
+            },
+            "Actor_starts": {
+              "sum": 9342518,
+              "min": 3663
+            },
+            "real_transitions": {
+              "sum": 23422588,
+              "min": 9130
+            },
+            "unique_reset_bins_visited": {
+              "sum": 4286,
+              "min": 3
+            }
+          },
+          "bins": 4286,
+          "real_bins": {
+            "zero": 0,
+            "min": 533,
+            "median": 4500
+          },
+          "WM_bins": {
+            "zero": 66,
+            "min": 0,
+            "median": 7705
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 197,
+            "median": 1802
+          },
+          "all_sample_totals": {
+            "real": 23422588,
+            "WM": 44463512,
+            "Actor": 9342518,
+            "z_squared_error": 58566.5041353174,
+            "vz_squared_error": 2755828.394812251,
+            "SO3_squared_error": 227204.7521215531,
+            "prediction_samples": 76619880,
+            "z_RMSE": 0.027647375881206873,
+            "vz_RMSE": 0.1896510936932168,
+            "SO3_RMSE": 0.05445502623322596
+          },
+          "bin0_sample_totals": {
+            "real": 847307,
+            "WM": 1663668,
+            "Actor": 340389,
+            "z_squared_error": 4658.674802636294,
+            "vz_squared_error": 189660.36964808314,
+            "SO3_squared_error": 14699.460378534826,
+            "prediction_samples": 6013912,
+            "z_RMSE": 0.02783252856149731,
+            "vz_RMSE": 0.17758642392140933,
+            "SO3_RMSE": 0.04943928275232103
+          },
+          "error_scope": "Error sums here cover flip and handstand only; count totals cover all639 hard clips."
+        }
+      },
+      "fixed_old_input_start_bins": [
+        {
+          "motion": "flip_180_R_009__A304_M",
+          "source_clip_id": 17,
+          "start_bin": 2,
+          "real": 5229,
+          "WM": 10999,
+          "Actor": 2116,
+          "prediction_samples": 87992,
+          "z_RMSE": 0.015090118021428891,
+          "vz_RMSE": 0.11880190571163242,
+          "SO3_RMSE": 0.038450466217573004
+        },
+        {
+          "motion": "flip_360_004__A304_M",
+          "source_clip_id": 165,
+          "start_bin": 1,
+          "real": 3371,
+          "WM": 5830,
+          "Actor": 1432,
+          "prediction_samples": 46640,
+          "z_RMSE": 0.031002604028411176,
+          "vz_RMSE": 0.34291456809406834,
+          "SO3_RMSE": 0.0966917074545376
+        },
+        {
+          "motion": "handstand_ff_start_270_R_001__A305",
+          "source_clip_id": 52,
+          "start_bin": 0,
+          "real": 1799,
+          "WM": 3270,
+          "Actor": 765,
+          "prediction_samples": 26160,
+          "z_RMSE": 0.025116407479942298,
+          "vz_RMSE": 0.16847729517430343,
+          "SO3_RMSE": 0.046462551177285226
+        },
+        {
+          "motion": "side_roll_R_003__A415_M",
+          "source_clip_id": 10848,
+          "start_bin": 1,
+          "real": 3239,
+          "WM": 6680,
+          "Actor": 1253,
+          "prediction_samples": 0,
+          "z_RMSE": null,
+          "vz_RMSE": null,
+          "SO3_RMSE": null
+        },
+        {
+          "motion": "tiger_jump_to_shoulder_roll_R_001__A304",
+          "source_clip_id": 1877,
+          "start_bin": 1,
+          "real": 3498,
+          "WM": 6904,
+          "Actor": 1489,
+          "prediction_samples": 0,
+          "z_RMSE": null,
+          "vz_RMSE": null,
+          "SO3_RMSE": null
+        },
+        {
+          "motion": "tiger_jump_to_shoulder_roll_R_003__A415_M",
+          "source_clip_id": 967,
+          "start_bin": 1,
+          "real": 3248,
+          "WM": 6796,
+          "Actor": 1275,
+          "prediction_samples": 0,
+          "z_RMSE": null,
+          "vz_RMSE": null,
+          "SO3_RMSE": null
+        }
+      ],
+      "all_reset_bins_visited": 4286,
+      "valid_k8_bin_coverage": {
+        "bins": 4286,
+        "WM_zero": 66,
+        "all_zero_WM_bins_are_last_natural_tail_with_remaining_steps_between": [
+          1,
+          7
+        ],
+        "all_actor_bins_nonzero": true,
+        "all_real_bins_nonzero": true,
+        "all_eligible_WM_bins_nonzero": true,
+        "no_bin0_missing": true,
+        "zero_WM_remaining_reference_steps_count": {
+          "1": 4,
+          "2": 16,
+          "3": 8,
+          "4": 10,
+          "5": 12,
+          "6": 6,
+          "7": 10
+        }
+      },
+      "WM_source_errors": {
+        "lafan": {
+          "prediction_samples": 754990520,
+          "state_components": {
+            "root_position_m2": 0.00004861649562848608,
+            "root_rotation_rad2": 0.0003150603722638202,
+            "joint_position_rad2": 0.00027429591695305377,
+            "root_linear_velocity_scaled_mse": 0.0004284003284839299,
+            "root_angular_velocity_scaled_mse": 0.000608940467960308,
+            "joint_velocity_scaled_mse": 0.0012532685005297534
+          },
+          "termination_bce": 0.00001685654990583319
+        },
+        "hard_bones": {
+          "prediction_samples": 355708096,
+          "state_components": {
+            "root_position_m2": 0.00015711207490339655,
+            "root_rotation_rad2": 0.0008206414642749611,
+            "joint_position_rad2": 0.0009257714184985506,
+            "root_linear_velocity_scaled_mse": 0.0014100590303614325,
+            "root_angular_velocity_scaled_mse": 0.001633789437986646,
+            "joint_velocity_scaled_mse": 0.0031353299342191687
+          },
+          "termination_bce": 0.0011804229531591794
+        },
+        "other_bones": {
+          "prediction_samples": 1838421384,
+          "state_components": {
+            "root_position_m2": 0.00003374953925785095,
+            "root_rotation_rad2": 0.00016630263917858022,
+            "joint_position_rad2": 0.00016292388707252325,
+            "root_linear_velocity_scaled_mse": 0.00024480966520856615,
+            "root_angular_velocity_scaled_mse": 0.0003048524787917833,
+            "joint_velocity_scaled_mse": 0.0005819833667613319
+          },
+          "termination_bce": 0.000010531403035579658
+        }
+      },
+      "WM_height_physical_means": {
+        "lafan": {
+          "predicted_signed_residual_m": -0.00005168742295965586,
+          "predicted_abs_residual_m": 0.0030048689886500238,
+          "predicted_residual_squared_m2": 0.000017531902580815563,
+          "real_signed_residual_m": 0.000010923489228990054,
+          "real_abs_residual_m": 0.000186258490824981,
+          "real_residual_squared_m2": 7.207193800966457e-8,
+          "z_squared_error_m2": 0.0000876129550033691,
+          "vz_squared_error_m2_per_s2": 0.004103124985682599,
+          "root_SO3_squared_error_rad2": 0.0009451811167849195
+        },
+        "hard_bones": {
+          "predicted_signed_residual_m": -0.0009269677707151379,
+          "predicted_abs_residual_m": 0.0036646486352616796,
+          "predicted_residual_squared_m2": 0.00003791228791985345,
+          "real_signed_residual_m": -7.23967662610075e-7,
+          "real_abs_residual_m": 0.00019521362695349245,
+          "real_residual_squared_m2": 1.2629472578219595e-7,
+          "z_squared_error_m2": 0.00035334894064364855,
+          "vz_squared_error_m2_per_s2": 0.018360620678100476,
+          "root_SO3_squared_error_rad2": 0.002461924392842461
+        },
+        "other_bones": {
+          "predicted_signed_residual_m": -0.00008522913070350769,
+          "predicted_abs_residual_m": 0.002605421742913918,
+          "predicted_residual_squared_m2": 0.000012781289466818418,
+          "real_signed_residual_m": 0.000004016128587681234,
+          "real_abs_residual_m": 0.0001275228440970826,
+          "real_residual_squared_m2": 3.660928761380289e-8,
+          "z_squared_error_m2": 0.00005709189720696387,
+          "vz_squared_error_m2_per_s2": 0.0019085712929814052,
+          "root_SO3_squared_error_rad2": 0.0004989079175388815
+        }
+      },
+      "Actor_height_means": {
+        "lafan": {
+          "S_weighted_abs_residual_m": 0.0022618360917480724,
+          "S_weighted_signed_residual_m": -0.0000028755857350258697
+        },
+        "hard_bones": {
+          "S_weighted_abs_residual_m": 0.002580433777154536,
+          "S_weighted_signed_residual_m": -0.0006151309252306509
+        },
+        "other_bones": {
+          "S_weighted_abs_residual_m": 0.0016238173449705242,
+          "S_weighted_signed_residual_m": -0.0000020215913729813367
+        }
+      }
+    },
+    "full8k_velocity_height": {
+      "phase_shares": {
+        "resets": {
+          "total": 1435988,
+          "groups": {
+            "lafan": {
+              "count": 188120,
+              "share": 0.13100388025526677,
+              "remaining32_share": 0.48355305124388687
+            },
+            "hard_bones": {
+              "count": 337187,
+              "share": 0.23481185079541056,
+              "remaining32_share": 0.2946999736051509
+            },
+            "other_bones": {
+              "count": 910681,
+              "share": 0.6341842689493227,
+              "remaining32_share": 0.48235770813270507
+            }
+          }
+        },
+        "WM_windows": {
+          "total": 368640000,
+          "groups": {
+            "lafan": {
+              "count": 94343210,
+              "share": 0.2559223361545139,
+              "remaining32_share": 0.009920639757752571
+            },
+            "hard_bones": {
+              "count": 44465824,
+              "share": 0.12062126736111112,
+              "remaining32_share": 0.1405528209710001
+            },
+            "other_bones": {
+              "count": 229830966,
+              "share": 0.623456396484375,
+              "remaining32_share": 0.1052214173785442
+            }
+          }
+        },
+        "Actor_starts": {
+          "total": 73728000,
+          "groups": {
+            "lafan": {
+              "count": 18438150,
+              "share": 0.2500834147135417,
+              "remaining32_share": 0.02040134178320493
+            },
+            "hard_bones": {
+              "count": 9344683,
+              "share": 0.12674537489149307,
+              "remaining32_share": 0.1811040567133203
+            },
+            "other_bones": {
+              "count": 45945167,
+              "share": 0.6231712103949653,
+              "remaining32_share": 0.14248678212443977
+            }
+          }
+        },
+        "real_transitions": {
+          "total": 184844288,
+          "groups": {
+            "lafan": {
+              "count": 46211072,
+              "share": 0.25,
+              "remaining32_share": 0.02035728580371388
+            },
+            "hard_bones": {
+              "count": 23427186,
+              "share": 0.1267401132784801,
+              "remaining32_share": 0.1810202471607132
+            },
+            "other_bones": {
+              "count": 115206030,
+              "share": 0.6232598867215199,
+              "remaining32_share": 0.14247712554629302
+            }
+          }
+        }
+      },
+      "clip_and_bin_groups": {
+        "flip": {
+          "clips": 44,
+          "clip_totals": {
+            "resets": {
+              "sum": 19110,
+              "min": 259
+            },
+            "WM_windows": {
+              "sum": 2148416,
+              "min": 27683
+            },
+            "Actor_starts": {
+              "sum": 458757,
+              "min": 6030
+            },
+            "real_transitions": {
+              "sum": 1145734,
+              "min": 15193
+            },
+            "unique_reset_bins_visited": {
+              "sum": 296,
+              "min": 5
+            }
+          },
+          "bins": 296,
+          "real_bins": {
+            "zero": 0,
+            "min": 674,
+            "median": 3621
+          },
+          "WM_bins": {
+            "zero": 4,
+            "min": 0,
+            "median": 6572
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 279,
+            "median": 1444
+          },
+          "all_sample_totals": {
+            "real": 1145734,
+            "WM": 2148416,
+            "Actor": 458757,
+            "z_squared_error": 2103.0339153149916,
+            "vz_squared_error": 453015.0771016943,
+            "SO3_squared_error": 51578.53911095073,
+            "prediction_samples": 17187328,
+            "z_RMSE": 0.01106162562088211,
+            "vz_RMSE": 0.16234994492235047,
+            "SO3_RMSE": 0.0547810479645514
+          },
+          "bin0_sample_totals": {
+            "real": 45941,
+            "WM": 96022,
+            "Actor": 18302,
+            "z_squared_error": 15.962095007060935,
+            "vz_squared_error": 2557.8230917018413,
+            "SO3_squared_error": 396.9425951493324,
+            "prediction_samples": 768176,
+            "z_RMSE": 0.004558422530889106,
+            "vz_RMSE": 0.05770386254729174,
+            "SO3_RMSE": 0.02273178213964316
+          },
+          "error_scope": "This skill's k8 errors on the branch's own evolving replay."
+        },
+        "side_roll": {
+          "clips": 22,
+          "clip_totals": {
+            "resets": {
+              "sum": 5978,
+              "min": 175
+            },
+            "WM_windows": {
+              "sum": 1074871,
+              "min": 25481
+            },
+            "Actor_starts": {
+              "sum": 220749,
+              "min": 5381
+            },
+            "real_transitions": {
+              "sum": 549141,
+              "min": 13436
+            },
+            "unique_reset_bins_visited": {
+              "sum": 118,
+              "min": 4
+            }
+          },
+          "bins": 118,
+          "real_bins": {
+            "zero": 0,
+            "min": 630,
+            "median": 4517
+          },
+          "WM_bins": {
+            "zero": 0,
+            "min": 1445,
+            "median": 8636
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 280,
+            "median": 1841
+          },
+          "all_sample_totals": {
+            "real": 549141,
+            "WM": 1074871,
+            "Actor": 220749,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "bin0_sample_totals": {
+            "real": 22413,
+            "WM": 47473,
+            "Actor": 8904,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "error_scope": "No per-bin physical error measurement for this group; null errors mean unmeasured."
+        },
+        "cartwheel": {
+          "clips": 120,
+          "clip_totals": {
+            "resets": {
+              "sum": 47481,
+              "min": 175
+            },
+            "WM_windows": {
+              "sum": 7395624,
+              "min": 20621
+            },
+            "Actor_starts": {
+              "sum": 1520275,
+              "min": 4854
+            },
+            "real_transitions": {
+              "sum": 3813676,
+              "min": 12241
+            },
+            "unique_reset_bins_visited": {
+              "sum": 732,
+              "min": 4
+            }
+          },
+          "bins": 732,
+          "real_bins": {
+            "zero": 0,
+            "min": 588,
+            "median": 4527
+          },
+          "WM_bins": {
+            "zero": 26,
+            "min": 0,
+            "median": 8871
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 234,
+            "median": 1811
+          },
+          "all_sample_totals": {
+            "real": 3813676,
+            "WM": 7395624,
+            "Actor": 1520275,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "bin0_sample_totals": {
+            "real": 121687,
+            "WM": 253954,
+            "Actor": 48501,
+            "z_squared_error": 0,
+            "vz_squared_error": 0,
+            "SO3_squared_error": 0,
+            "prediction_samples": 0,
+            "z_RMSE": null,
+            "vz_RMSE": null,
+            "SO3_RMSE": null
+          },
+          "error_scope": "No per-bin physical error measurement for this group; null errors mean unmeasured."
+        },
+        "handstand": {
+          "clips": 160,
+          "clip_totals": {
+            "resets": {
+              "sum": 155189,
+              "min": 363
+            },
+            "WM_windows": {
+              "sum": 7592045,
+              "min": 14187
+            },
+            "Actor_starts": {
+              "sum": 1858334,
+              "min": 3624
+            },
+            "real_transitions": {
+              "sum": 4640487,
+              "min": 9136
+            },
+            "unique_reset_bins_visited": {
+              "sum": 1082,
+              "min": 3
+            }
+          },
+          "bins": 1082,
+          "real_bins": {
+            "zero": 0,
+            "min": 664,
+            "median": 4323
+          },
+          "WM_bins": {
+            "zero": 20,
+            "min": 0,
+            "median": 6896
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 293,
+            "median": 1739
+          },
+          "all_sample_totals": {
+            "real": 4640487,
+            "WM": 7592045,
+            "Actor": 1858334,
+            "z_squared_error": 21298.300417635175,
+            "vz_squared_error": 5511648.256569303,
+            "SO3_squared_error": 242150.8365497808,
+            "prediction_samples": 60736360,
+            "z_RMSE": 0.018726132586349312,
+            "vz_RMSE": 0.30124258567317413,
+            "SO3_RMSE": 0.063142039643728
+          },
+          "bin0_sample_totals": {
+            "real": 376051,
+            "WM": 669513,
+            "Actor": 150247,
+            "z_squared_error": 1787.7733324670817,
+            "vz_squared_error": 472238.07812869374,
+            "SO3_squared_error": 19277.202877245258,
+            "prediction_samples": 5356104,
+            "z_RMSE": 0.01826971307419093,
+            "vz_RMSE": 0.2969313144411783,
+            "SO3_RMSE": 0.05999257573231423
+          },
+          "error_scope": "This skill's k8 errors on the branch's own evolving replay."
+        },
+        "all_hard": {
+          "clips": 639,
+          "clip_totals": {
+            "resets": {
+              "sum": 337187,
+              "min": 151
+            },
+            "WM_windows": {
+              "sum": 44465824,
+              "min": 14187
+            },
+            "Actor_starts": {
+              "sum": 9344683,
+              "min": 3624
+            },
+            "real_transitions": {
+              "sum": 23427186,
+              "min": 9136
+            },
+            "unique_reset_bins_visited": {
+              "sum": 4286,
+              "min": 3
+            }
+          },
+          "bins": 4286,
+          "real_bins": {
+            "zero": 0,
+            "min": 535,
+            "median": 4535
+          },
+          "WM_bins": {
+            "zero": 66,
+            "min": 0,
+            "median": 7874
+          },
+          "Actor_bins": {
+            "zero": 0,
+            "min": 193,
+            "median": 1816
+          },
+          "all_sample_totals": {
+            "real": 23427186,
+            "WM": 44465824,
+            "Actor": 9344683,
+            "z_squared_error": 23401.334332950177,
+            "vz_squared_error": 5964663.333670999,
+            "SO3_squared_error": 293729.37566073093,
+            "prediction_samples": 77923688,
+            "z_RMSE": 0.017329481201557,
+            "vz_RMSE": 0.27666754627117646,
+            "SO3_RMSE": 0.061395839441901606
+          },
+          "bin0_sample_totals": {
+            "real": 853487,
+            "WM": 1671801,
+            "Actor": 340728,
+            "z_squared_error": 1803.7354274741429,
+            "vz_squared_error": 474795.9012203956,
+            "SO3_squared_error": 19674.145472394594,
+            "prediction_samples": 6124280,
+            "z_RMSE": 0.017161644387895445,
+            "vz_RMSE": 0.27843636887848255,
+            "SO3_RMSE": 0.0566787703986636
+          },
+          "error_scope": "Error sums here cover flip and handstand only; count totals cover all639 hard clips."
+        }
+      },
+      "fixed_old_input_start_bins": [
+        {
+          "motion": "flip_180_R_009__A304_M",
+          "source_clip_id": 17,
+          "start_bin": 2,
+          "real": 5010,
+          "WM": 10252,
+          "Actor": 1906,
+          "prediction_samples": 82016,
+          "z_RMSE": 0.009070703887655998,
+          "vz_RMSE": 0.13091910068780874,
+          "SO3_RMSE": 0.03892156009770898
+        },
+        {
+          "motion": "flip_360_004__A304_M",
+          "source_clip_id": 165,
+          "start_bin": 1,
+          "real": 2869,
+          "WM": 4731,
+          "Actor": 1151,
+          "prediction_samples": 37848,
+          "z_RMSE": 0.02317631238837218,
+          "vz_RMSE": 0.3470043363365602,
+          "SO3_RMSE": 0.1120762501461511
+        },
+        {
+          "motion": "handstand_ff_start_270_R_001__A305",
+          "source_clip_id": 52,
+          "start_bin": 0,
+          "real": 1888,
+          "WM": 3464,
+          "Actor": 736,
+          "prediction_samples": 27712,
+          "z_RMSE": 0.015601688237473864,
+          "vz_RMSE": 0.250349112104802,
+          "SO3_RMSE": 0.05247580814139673
+        },
+        {
+          "motion": "side_roll_R_003__A415_M",
+          "source_clip_id": 10848,
+          "start_bin": 1,
+          "real": 2677,
+          "WM": 5542,
+          "Actor": 1061,
+          "prediction_samples": 0,
+          "z_RMSE": null,
+          "vz_RMSE": null,
+          "SO3_RMSE": null
+        },
+        {
+          "motion": "tiger_jump_to_shoulder_roll_R_001__A304",
+          "source_clip_id": 1877,
+          "start_bin": 1,
+          "real": 4679,
+          "WM": 8982,
+          "Actor": 1852,
+          "prediction_samples": 0,
+          "z_RMSE": null,
+          "vz_RMSE": null,
+          "SO3_RMSE": null
+        },
+        {
+          "motion": "tiger_jump_to_shoulder_roll_R_003__A415_M",
+          "source_clip_id": 967,
+          "start_bin": 1,
+          "real": 3297,
+          "WM": 6898,
+          "Actor": 1297,
+          "prediction_samples": 0,
+          "z_RMSE": null,
+          "vz_RMSE": null,
+          "SO3_RMSE": null
+        }
+      ],
+      "all_reset_bins_visited": 4286,
+      "valid_k8_bin_coverage": {
+        "bins": 4286,
+        "WM_zero": 66,
+        "all_zero_WM_bins_are_last_natural_tail_with_remaining_steps_between": [
+          1,
+          7
+        ],
+        "all_actor_bins_nonzero": true,
+        "all_real_bins_nonzero": true,
+        "all_eligible_WM_bins_nonzero": true,
+        "no_bin0_missing": true,
+        "zero_WM_remaining_reference_steps_count": {
+          "1": 4,
+          "2": 16,
+          "3": 8,
+          "4": 10,
+          "5": 12,
+          "6": 6,
+          "7": 10
+        }
+      },
+      "WM_source_errors": {
+        "lafan": {
+          "prediction_samples": 754745680,
+          "state_components": {
+            "root_position_m2": 0.0000326041840767642,
+            "root_rotation_rad2": 0.0003359026013657121,
+            "joint_position_rad2": 0.0002855072165537964,
+            "root_linear_velocity_scaled_mse": 0.00048178780948299557,
+            "root_angular_velocity_scaled_mse": 0.0006456602327090818,
+            "joint_velocity_scaled_mse": 0.0012969114556603432
+          },
+          "termination_bce": 0.000017259053987234315
+        },
+        "hard_bones": {
+          "prediction_samples": 355726592,
+          "state_components": {
+            "root_position_m2": 0.00008884847519401174,
+            "root_rotation_rad2": 0.0009222809242830366,
+            "joint_position_rad2": 0.0009395347476809917,
+            "root_linear_velocity_scaled_mse": 0.0018526201442512855,
+            "root_angular_velocity_scaled_mse": 0.0017839413428832943,
+            "joint_velocity_scaled_mse": 0.003144779025255093
+          },
+          "termination_bce": 0.0011289669056182953
+        },
+        "other_bones": {
+          "prediction_samples": 1838647728,
+          "state_components": {
+            "root_position_m2": 0.000023379496084071806,
+            "root_rotation_rad2": 0.00018065127817857597,
+            "joint_position_rad2": 0.00017401858228093244,
+            "root_linear_velocity_scaled_mse": 0.000285307691158522,
+            "root_angular_velocity_scaled_mse": 0.00033043878793816904,
+            "joint_velocity_scaled_mse": 0.0006123762745995746
+          },
+          "termination_bce": 0.000009666516005990115
+        }
+      },
+      "WM_height_physical_means": {
+        "lafan": {
+          "predicted_signed_residual_m": -2.8121930696974113e-13,
+          "predicted_abs_residual_m": 1.4154150059544746e-8,
+          "predicted_residual_squared_m2": 2.773726327995464e-16,
+          "real_signed_residual_m": 0.000010865657419925971,
+          "real_abs_residual_m": 0.00018719785811922022,
+          "real_residual_squared_m2": 7.273098635408048e-8,
+          "z_squared_error_m2": 0.000025816621603591626,
+          "vz_squared_error_m2_per_s2": 0.004742245437326415,
+          "root_SO3_squared_error_rad2": 0.00100770780410269
+        },
+        "hard_bones": {
+          "predicted_signed_residual_m": 3.896568117227631e-12,
+          "predicted_abs_residual_m": 1.1612459480063661e-8,
+          "predicted_residual_squared_m2": 2.1786313827653262e-16,
+          "real_signed_residual_m": -8.40776054520131e-7,
+          "real_abs_residual_m": 0.00019406457379496795,
+          "real_residual_squared_m2": 1.2179545372964203e-7,
+          "z_squared_error_m2": 0.00013072474325033018,
+          "vz_squared_error_m2_per_s2": 0.029124907449866615,
+          "root_SO3_squared_error_rad2": 0.0027668427728292527
+        },
+        "other_bones": {
+          "predicted_signed_residual_m": -5.820746290944286e-13,
+          "predicted_abs_residual_m": 1.4435208961614686e-8,
+          "predicted_residual_squared_m2": 2.8350252295675757e-16,
+          "real_signed_residual_m": 0.000003957055929592032,
+          "real_abs_residual_m": 0.00012842318537508582,
+          "real_residual_squared_m2": 3.741998379874913e-8,
+          "z_squared_error_m2": 0.000013853085251897317,
+          "vz_squared_error_m2_per_s2": 0.002336324354879776,
+          "root_SO3_squared_error_rad2": 0.0005419538345371131
+        }
+      },
+      "Actor_height_means": {
+        "lafan": {
+          "S_weighted_abs_residual_m": 1.4155222299609703e-8,
+          "S_weighted_signed_residual_m": 2.736882985919422e-13
+        },
+        "hard_bones": {
+          "S_weighted_abs_residual_m": 1.1361750064967856e-8,
+          "S_weighted_signed_residual_m": 8.967233446689497e-12
+        },
+        "other_bones": {
+          "S_weighted_abs_residual_m": 1.4437027144412799e-8,
+          "S_weighted_signed_residual_m": 7.742311990130775e-13
+        }
+      }
+    }
+  },
+  "cost": {
+    "full8k_residual_control": {
+      "stage_wall_seconds": 49036.74617130868,
+      "inherited_training_seconds": 382024.04194731265,
+      "total_known_training_seconds": 431060.78811862133,
+      "new_joint_updates": 9000,
+      "new_sim_transitions": 184844288,
+      "imagined_steps": 2359296000,
+      "WM_prediction_steps": 2949120000,
+      "evaluation_wall_seconds": 8023.443051578477,
+      "shared_gpu": true
+    },
+    "full8k_velocity_height": {
+      "stage_wall_seconds": 50571.58064955287,
+      "inherited_training_seconds": 382024.04194731265,
+      "total_known_training_seconds": 432595.6225968655,
+      "new_joint_updates": 9000,
+      "new_sim_transitions": 184844288,
+      "imagined_steps": 2359296000,
+      "WM_prediction_steps": 2949120000,
+      "evaluation_wall_seconds": 7759.822825476527,
+      "shared_gpu": true
+    }
+  },
+  "bones_tail": {
+    "full8k_residual_control": {
+      "nodes": [
+        30000,
+        33000,
+        36000
+      ],
+      "mean_R": 0.8634922482975024,
+      "common_complete": 128758
+    },
+    "full8k_velocity_height": {
+      "nodes": [
+        30000,
+        33000,
+        36000
+      ],
+      "mean_R": 0.8555947197414916,
+      "common_complete": 129100
+    }
+  },
+  "causal_boundaries": [
+    "Velocity-height does not show overall control/real fixed-window accuracy benefit at this budget, but does retain446 more complete clips and higher three-node coverage intersection; it is not uniformly inferior in every metric or node.",
+    "Candidate endpoint body-orientation contribution and joint RMSE improve relative to control. The main R losses instead involve root position, body linear/angular velocity and root orientation.",
+    "Residual control LAFAN loss occurs despite no new root-height structural intervention; candidate is not the sole cause of ongoing retention instability. Candidate has higher three-node mean LAFAN R and common success despite lower endpoint R.",
+    "All eligible50-frame k8-start bins are visited. Absence of entire eligible bins is not supported as the remaining critical-phase explanation. This does not prove each exact state/action neighborhood or phase is accurately learned.",
+    "Candidate low own-replay k8 z error and nearlyzero kinematic residual do not imply long-rollout accuracy; own-replay velocity/rotation tradeoffs and paired fixed-window errors must be kept distinct.",
+    "Height construction is one rejected approach at this fixed budget, not proof that all kinematic structure or longer WM learning is ineffective.",
+    "Existing LAFAN>=.82 success remains accepted; no extra seeds or new acceptance thresholds are imposed."
+  ],
+  "p12_recommendation": {
+    "parent": "Both full-resume P11 residual36000, preserving learned hard skills, sampler and optimizer history; P10 control27000 remains historical global-quality anchor.",
+    "hypothesis": "Test WM k8 versus k16 with Actor H32 unchanged, retaining residual height, quotas,8192 learner sizes, LR and all other mechanics.",
+    "budget": "Prefer9000 new joint updates or20h;39k/42k/45k common formal nodes. Based on P11 timing k16 increases WM portion, not a guaranteed wall time.",
+    "evidence": "Reuse existing seven P10 fixed actual input/action/context windows and already published P11residual36000 predictions as parent. Only two new endpoints require14x32=448 prediction steps; no new simulator or start/window scans.",
+    "sampling_caveat": "k16 changes valid windows/phase support and doubles prediction steps per equal-window WM update. Record actual effective sample counts; do not call training-input distributions identical or silently alter sampler/padding.",
+    "decision": "Long-alive same-input prediction accuracy plus real hard control, all/other quality and LAFAN retention; report tradeoffs and fixed-budget negative results without automatic extension."
+  },
+  "sources": [
+    "results/20261110-p11-root-height-consistency-s0/summary.json",
+    "results/20261110-p11-root-height-consistency-s0/conclusion.md",
+    "results/20261110-p11-root-height-consistency-s0/paired_comparison.json",
+    "results/20261110-p11-root-height-consistency-s0/jobs/full8k_residual_control/actual_config.json",
+    "results/20261110-p11-root-height-consistency-s0/jobs/full8k_residual_control/comparison.json",
+    "results/20261110-p11-root-height-consistency-s0/jobs/full8k_residual_control/training.json",
+    "results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0036000/evaluation.json",
+    "results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0036000/hard_exposure_0036000.json",
+    "results/20261110-p11-root-height-consistency-s0/jobs/full8k_velocity_height/actual_config.json",
+    "results/20261110-p11-root-height-consistency-s0/jobs/full8k_velocity_height/comparison.json",
+    "results/20261110-p11-root-height-consistency-s0/jobs/full8k_velocity_height/training.json",
+    "results/20261110-p11-root-height-consistency-s0-full8k_velocity_height/milestones/iteration_0036000/evaluation.json",
+    "results/20261110-p11-root-height-consistency-s0-full8k_velocity_height/milestones/iteration_0036000/hard_exposure_0036000.json",
+    "configs/p10_hard_motion_set.json",
+    "results/20261110-p11-root-height-consistency-s0/evidence/manifest.json"
+  ],
+  "review_type": "Independent published-result review and arithmetic; no new training, inference, simulation, tests, benchmarks, archive or GitHub mutation.",
+  "publication": {
+    "status": "completed",
+    "training_done": true,
+    "full_clip_evaluation_done": true,
+    "lightweight_results_published": true,
+    "recovery": {
+      "observed_beijing": "2026-11-11T10:46:03.301301+08:00",
+      "failed_phase": "Git push of completed 36000 scoring",
+      "error": "curl 65 unable to rewind rpc post data",
+      "recovered_score_commit": "8b3ca246b5e134c01605f1e3107985ca3f6c2463",
+      "transport_override": "process-only http.postBuffer=67108864",
+      "training_restarted": false,
+      "formal_evaluations_rerun": false,
+      "pending_fixed_WM_windows_at_recovery_start": 7,
+      "status": "completed",
+      "remaining_fixed_WM_windows": 0,
+      "completed_beijing": "2026-11-11T10:49:10.426925+08:00",
+      "evidence_total_rollouts": 21,
+      "evidence_total_prediction_steps": 672
+    },
+    "source": "summary.json:jobs.full8k_residual_control.publication_recovery",
+    "reporting_boundary": "The control36000 interruption was Git transport after scoring, recovered by pushing the existing score commit and finishing already prescribed fixed-window evidence. Training and formal evaluations were not rerun. Old handoff wording is not current completion state."
+  },
+  "mechanism_evidence": {
+    "stepwise_error_mechanism": {
+      "path": "review_evidence_20261111/stepwise_error_mechanism.json",
+      "scope": "Already published fixed seven real input/action windows; stepwise model-error arithmetic, no new rollout."
+    },
+    "control_active_prefix_mechanism": {
+      "path": "review_evidence_20261111/control_active_prefix_mechanism.json",
+      "scope": "Current residual36000 model active-survival prefixes; distinguish live model error from already-dead suffixes."
+    },
+    "current36000_true_failure_summary": {
+      "path": "review_evidence_20261111/current36000_true_failure_summary.json",
+      "scope": "Already recorded real36000 formal failure windows; real failure outcomes are distinct from fixed old-input model predictions."
+    }
+  },
+  "planned_next_stage": {
+    "campaign": "20261111-p12-world-window-s0",
+    "status": "planned_not_started",
+    "review": "../../docs/P11_REVIEW_20261111.md",
+    "plan": "../../docs/P12_WORLD_WINDOW_PLAN.md",
+    "protocol": "../../configs/next_stage_world_window_protocol.json",
+    "shared_parent": "P11 full8k_residual_control checkpoint36000, fullresume",
+    "only_research_difference": "WM autoregressive fitting window k8 versus k16; both retain residual root-height mode and Actor H32.",
+    "same_settings": {
+      "real_envs": 8192,
+      "imagination_batch": 8192,
+      "WM_batches": 10,
+      "WM_batch": 4096,
+      "reset_quota": {
+        "lafan": 2048,
+        "bones_all_including_hard": 5120,
+        "hard_extra": 1024
+      },
+      "Actor_H": 32,
+      "critic": "Existing survival_weighted",
+      "optimizers": "Same three Adam states and global LR schedule",
+      "reward_and_termination": "Unchanged"
+    },
+    "start_iteration": 36000,
+    "new_joint_updates": 9000,
+    "target_iteration": 45000,
+    "max_new_stage_hours_per_job": 20,
+    "formal_BONES_and_LAFAN_iterations": [
+      39000,
+      42000,
+      45000
+    ],
+    "nominal_completed_budget": {
+      "normal_new_real_transitions": 184320000,
+      "necessary_initial_replay_fill": 524288,
+      "imagined_steps": 2359296000,
+      "control_WM_prediction_steps": 2949120000,
+      "candidate_WM_prediction_steps": 5898240000
+    },
+    "fixed_evidence": {
+      "input_set": "Existing seven fixed P10 actual windows",
+      "parent": "Reuse published P11residual36000 predictions on exactly these inputs",
+      "new_endpoint_rollouts": 14,
+      "new_endpoint_prediction_steps": 448,
+      "no_new_physics_or_start_scan": true
+    },
+    "boundary": "Longer window changes valid-window eligibility and phase support, not only arithmetic horizon. Record effective WM/Actor counts and normal-forward errors; do not silently change sampler or pad short episodes. Equal joint-update budgets are not equal WM compute.",
+    "decision": "Use fixed endpoint and all common nodes: real flip/handstand progress, side_roll/cartwheel retention, all/other-BONES quality, common-complete errors, LAFAN retention and same-input active-prefix/long-rollout model accuracy. Report tradeoffs and budget-limited negative results, no automatic extension."
+  }
+}
