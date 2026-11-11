@@ -5531,18 +5531,18 @@
     "20261110-p11-root-height-consistency-s0": {
       "status": "running",
       "training_started": true,
-      "training_done": false,
-      "full_clip_evaluation_done": false,
+      "training_done": true,
+      "full_clip_evaluation_done": true,
       "lightweight_results_published": false,
       "jobs": {
         "full8k_residual_control": {
           "job": "full8k_residual_control",
           "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
           "tmux": "sm-p11-residual",
-          "status": "running",
+          "status": "publishing",
           "training_started": true,
-          "training_done": false,
-          "full_clip_evaluation_done": false,
+          "training_done": true,
+          "full_clip_evaluation_done": true,
           "lightweight_results_published": false,
           "initialization": "full_resume",
           "start_iteration": 27000,
@@ -7158,7 +7158,97 @@
                 "executed_quality_gap": 0.1305343054635557
               }
             }
-          }
+          },
+          "publication_recovery": {
+            "observed_beijing": "2026-11-11T10:46:03.301301+08:00",
+            "failed_phase": "Git push of completed 36000 scoring",
+            "error": "curl 65 unable to rewind rpc post data",
+            "recovered_score_commit": "8b3ca246b5e134c01605f1e3107985ca3f6c2463",
+            "transport_override": "process-only http.postBuffer=67108864",
+            "training_restarted": false,
+            "formal_evaluations_rerun": false,
+            "pending_fixed_WM_windows": 7
+          },
+          "final_iteration": 36000,
+          "training_snapshot": {
+            "status": "budget_completed",
+            "method": "supermimic",
+            "iteration": 36000,
+            "actor_updates": 35995,
+            "sim_transitions": 646430720,
+            "wall_seconds": 222744.6502099391,
+            "stage_wall_seconds": 49036.74617130868,
+            "new_training_iterations": 9000,
+            "new_joint_updates": 9000,
+            "new_wm_only_updates": 0,
+            "new_actor_updates": 9000,
+            "new_sim_transitions": 184844288,
+            "start_iteration": 27000,
+            "target_iteration": 36000,
+            "world_termination_loss": "aux_bce",
+            "full_clip_evaluation_done": false,
+            "qualification_pass": false
+          },
+          "cost": {
+            "stage_wall_seconds": 49036.74617130868,
+            "inherited_training_seconds": 382024.04194731265,
+            "total_known_training_seconds": 431060.78811862133,
+            "new_joint_updates": 9000,
+            "new_sim_transitions": 184844288,
+            "imagined_steps": 2359296000,
+            "WM_prediction_steps": 2949120000,
+            "evaluation_wall_seconds": 8023.443051578477,
+            "shared_gpu": true
+          },
+          "evaluated_bones_iterations": [
+            30000,
+            33000,
+            36000
+          ],
+          "evaluated_lafan_iterations": [
+            30000,
+            33000,
+            36000
+          ],
+          "publications": [
+            {
+              "status": "published",
+              "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+              "iteration": 30000,
+              "final": false,
+              "bones_evaluated": true,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0030000",
+              "results_commit": "2dc8fa68a3657237177aed635d08afd3b039a0d4",
+              "completed_unix": 1794299319.110538
+            },
+            {
+              "status": "published",
+              "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+              "iteration": 33000,
+              "final": false,
+              "bones_evaluated": true,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0033000",
+              "results_commit": "c2e258b8d8e97f7b91fc758d6d4959074c670a19",
+              "completed_unix": 1794315800.6770048
+            },
+            {
+              "status": "published",
+              "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+              "iteration": 36000,
+              "final": true,
+              "bones_evaluated": true,
+              "lafan_evaluated": true,
+              "github_release": false,
+              "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0036000",
+              "results_commit": "8b3ca246b5e134c01605f1e3107985ca3f6c2463",
+              "completed_unix": 1794365163.2990487,
+              "recovery": "Existing score commit pushed with process-only http.postBuffer=67108864; no training or evaluation rerun."
+            }
+          ]
         },
         "full8k_velocity_height": {
           "job": "full8k_velocity_height",
@@ -8870,7 +8960,7 @@
       "automatic_stage_cleanup": false,
       "backup_status": "awaiting_user_export_not_confirmed",
       "implementation_status": "implemented_and_formally_running",
-      "formal_evaluation_done": false,
+      "formal_evaluation_done": true,
       "execution_authorization": "User authorized implementation and formal P11 launch on 2026-11-10."
     }
   },
@@ -9762,8 +9852,8 @@
     "review_data": "results/20261108-p10-8k-hard-practice-s0/review_20261110.json",
     "plan_and_review_published": true,
     "training_started": true,
-    "training_done": false,
-    "formal_evaluation_done": false,
+    "training_done": true,
+    "formal_evaluation_done": true,
     "lightweight_results_published": false,
     "completed_parent_campaign": "20261108-p10-8k-hard-practice-s0",
     "proposed_campaign": "20261110-p11-root-height-consistency-s0",
@@ -9774,10 +9864,10 @@
         "job": "full8k_residual_control",
         "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
         "tmux": "sm-p11-residual",
-        "status": "running",
+        "status": "publishing",
         "training_started": true,
-        "training_done": false,
-        "full_clip_evaluation_done": false,
+        "training_done": true,
+        "full_clip_evaluation_done": true,
         "lightweight_results_published": false,
         "initialization": "full_resume",
         "start_iteration": 27000,
@@ -11393,7 +11483,97 @@
               "executed_quality_gap": 0.1305343054635557
             }
           }
-        }
+        },
+        "publication_recovery": {
+          "observed_beijing": "2026-11-11T10:46:03.301301+08:00",
+          "failed_phase": "Git push of completed 36000 scoring",
+          "error": "curl 65 unable to rewind rpc post data",
+          "recovered_score_commit": "8b3ca246b5e134c01605f1e3107985ca3f6c2463",
+          "transport_override": "process-only http.postBuffer=67108864",
+          "training_restarted": false,
+          "formal_evaluations_rerun": false,
+          "pending_fixed_WM_windows": 7
+        },
+        "final_iteration": 36000,
+        "training_snapshot": {
+          "status": "budget_completed",
+          "method": "supermimic",
+          "iteration": 36000,
+          "actor_updates": 35995,
+          "sim_transitions": 646430720,
+          "wall_seconds": 222744.6502099391,
+          "stage_wall_seconds": 49036.74617130868,
+          "new_training_iterations": 9000,
+          "new_joint_updates": 9000,
+          "new_wm_only_updates": 0,
+          "new_actor_updates": 9000,
+          "new_sim_transitions": 184844288,
+          "start_iteration": 27000,
+          "target_iteration": 36000,
+          "world_termination_loss": "aux_bce",
+          "full_clip_evaluation_done": false,
+          "qualification_pass": false
+        },
+        "cost": {
+          "stage_wall_seconds": 49036.74617130868,
+          "inherited_training_seconds": 382024.04194731265,
+          "total_known_training_seconds": 431060.78811862133,
+          "new_joint_updates": 9000,
+          "new_sim_transitions": 184844288,
+          "imagined_steps": 2359296000,
+          "WM_prediction_steps": 2949120000,
+          "evaluation_wall_seconds": 8023.443051578477,
+          "shared_gpu": true
+        },
+        "evaluated_bones_iterations": [
+          30000,
+          33000,
+          36000
+        ],
+        "evaluated_lafan_iterations": [
+          30000,
+          33000,
+          36000
+        ],
+        "publications": [
+          {
+            "status": "published",
+            "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+            "iteration": 30000,
+            "final": false,
+            "bones_evaluated": true,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0030000",
+            "results_commit": "2dc8fa68a3657237177aed635d08afd3b039a0d4",
+            "completed_unix": 1794299319.110538
+          },
+          {
+            "status": "published",
+            "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+            "iteration": 33000,
+            "final": false,
+            "bones_evaluated": true,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0033000",
+            "results_commit": "c2e258b8d8e97f7b91fc758d6d4959074c670a19",
+            "completed_unix": 1794315800.6770048
+          },
+          {
+            "status": "published",
+            "run": "20261110-p11-root-height-consistency-s0-full8k_residual_control",
+            "iteration": 36000,
+            "final": true,
+            "bones_evaluated": true,
+            "lafan_evaluated": true,
+            "github_release": false,
+            "result_url": "https://github.com/kaiwen123-yang/Supermimic/tree/main/results/20261110-p11-root-height-consistency-s0-full8k_residual_control/milestones/iteration_0036000",
+            "results_commit": "8b3ca246b5e134c01605f1e3107985ca3f6c2463",
+            "completed_unix": 1794365163.2990487,
+            "recovery": "Existing score commit pushed with process-only http.postBuffer=67108864; no training or evaluation rerun."
+          }
+        ]
       },
       "full8k_velocity_height": {
         "job": "full8k_velocity_height",
@@ -13115,7 +13295,7 @@
     },
     "automatic_stage_cleanup": false,
     "authorization_scope_at_publication": "Analyze completed P10 and publish next plan; implementation and server launch occur when the user supplies the startup prompt to Codex.",
-    "full_clip_evaluation_done": false,
+    "full_clip_evaluation_done": true,
     "summary": "results/20261110-p11-root-height-consistency-s0/summary.json",
     "backup_status": "awaiting_user_export_not_confirmed",
     "execution_authorization": "User authorized implementation and formal P11 launch on 2026-11-10."
