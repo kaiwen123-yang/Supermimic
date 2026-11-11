@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O2官方完整BONES。** 数据转换与启动准备中（preparing）。BONES-only 130394条、seed0从零、4096环境；累计12h或1000000 collection先到停止，无回报早停。训练子进程退出后依次评分全部实际节点的BONES与LAFAN40。状态见results/20261111-o2-official-bones-s0/summary.json，接续见docs/O2_EXECUTION_HANDOFF.md。tmux sm-o2-official-bones-s0；保持活跃状态和累计预算，不重启replay/LR。O1成果保留，P12继续暂停。
+> **当前主线：O2官方完整BONES。** 正式训练已启动（training）。BONES-only 130394条、seed0从零、4096环境；累计12h或1000000 collection先到停止，无回报早停。训练子进程退出后依次评分全部实际节点的BONES与LAFAN40。状态见results/20261111-o2-official-bones-s0/summary.json，接续见docs/O2_EXECUTION_HANDOFF.md。tmux sm-o2-official-bones-s0；保持活跃状态和累计预算，不重启replay/LR。O1成果保留，P12继续暂停。
 
 > **O1官方LAFAN40首段已完成并复核。** seed0从零训练，首个约3h正式节点 **R=0.85882311、39/40**；约3h8m17s实际终点 **R=0.87443989、40/40**，已达到0.82目标并正常停止。全40根XY时间均值0.765250m，完成率与跟踪精度分别报告。[完整复核](docs/O1_REVIEW_20261111.md)、[派生统计](results/20261111-o1-official-lafan40-s0/review_20261111.json)、[全部正式节点](results/20261111-o1-official-lafan40-s0/summary.json)、[逐动作成绩](results/20261111-o1-official-lafan40-s0/README.md)、[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。O1不补6h/12h或追加预算；新O2按本轮独立方案推进。
 
