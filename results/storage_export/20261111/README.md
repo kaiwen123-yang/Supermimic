@@ -17,3 +17,8 @@ Last observed server free bytes: 413832290304.
 
 Every deletion follows successful download, identical archive byte counts, full local decompressed read and a fresh file-identity/dependency check. No hashes, simulations, restore tests, package installation, GPU use, directory deletion or Release upload.
 All H-drive archives remain until the user decides to remove them. Failed/changed/active files remain on the server; details are in status.json and the local receipts.
+
+
+## Subsequent explicitly authorized NPZ cleanup
+
+The completed migration figures above are historical. The subsequent P8/P9 per-clip NPZ cleanup and current server retention are recorded in [npz_cleanup/README.md](npz_cleanup/README.md) and [npz_cleanup/result.json](npz_cleanup/result.json). H-drive archives and original migration records remain unchanged.
