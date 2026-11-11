@@ -20,10 +20,16 @@ REMOTE = '/root/autodl-tmp/robot-repro/supermimic/work/storage_export_20261111'
 SCRIPT = REMOTE+'/storage_export_h_remote.py'
 SSH = r'C:\Windows\System32\OpenSSH\ssh.exe'
 SCP = r'C:\Windows\System32\OpenSSH\scp.exe'
+SFTP = r'C:\Windows\System32\OpenSSH\sftp.exe'
 TAR = r'C:\Windows\System32\tar.exe'
 GIT = r'C:\Program Files\Git\cmd\git.exe'
 OPTIONS = ['-o','BatchMode=yes','-o','Compression=no','-o','ServerAliveInterval=30','-o','ServerAliveCountMax=10']
-WORKERS = 4
+WORKERS = 8
+PACK_WORKERS = 8
+PACK_SLOTS = queue.Queue()
+RESUME_PACK_SLOTS = {}
+RESUME_BATCHES = set()
+LOCAL_READERS = threading.Semaphore(4)
 LOCK = threading.Lock()
 PAUSED = threading.Event()
 STATES = {}
@@ -39,7 +45,8 @@ def write(p,obj):
 
 def remote(*args,payload=None):
     cmd=['/root/miniconda3/bin/python',SCRIPT,*args]
-    p=subprocess.run([SSH,*OPTIONS,'autodl-d57',*cmd],input=json.dumps(payload).encode() if payload is not None else None,
+    input_args={'input':json.dumps(payload).encode()} if payload is not None else {'stdin':subprocess.DEVNULL}
+    p=subprocess.run([SSH,*OPTIONS,'autodl-d57',*cmd],**input_args,
                      stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     if p.returncode:
         raise RuntimeError(p.stderr.decode(errors='replace')[-2000:])
@@ -123,7 +130,7 @@ def summary():
     return {'session':SESSION,'updated_at':datetime.now(timezone(timedelta(hours=8))).isoformat(),
             'status':'paused_training_slowdown' if PAUSED.is_set() else 'running',
             'local_root':str(ARCHIVE),'tmux_local':'sm-export-h-20261111','tmux_server':'sm-export-h-20261111',
-            'workers':WORKERS,'bandwidth_limit':None,'planned_files':PLAN['file_count'],'planned_source_bytes':PLAN['source_bytes'],
+            'workers':WORKERS,'pack_workers':PACK_WORKERS,'bandwidth_limit':None,'planned_files':PLAN['file_count'],'planned_source_bytes':PLAN['source_bytes'],
             'planned_move_bytes':PLAN['planned_move_bytes'],'planned_keep_bytes':PLAN['planned_keep_bytes'],
             'total_batches':len(PLAN['batches']),'completed_batches':len(done),
             'verified_archive_bytes':sum(x.get('local_bytes',0) for x in done),
@@ -144,7 +151,8 @@ def update(batch_id,**values):
         write(META/'summary.json',summary())
 
 
-def worker(slot,todo):
+def worker(worker_id,todo):
+    time.sleep((worker_id-1)*0.2)
     while not PAUSED.is_set():
         try:
             stub=todo.get_nowait()
@@ -153,35 +161,63 @@ def worker(slot,todo):
         batch_id=stub['id']
         b=json.loads((META/'batches'/(batch_id+'.json')).read_text(encoding='utf-8'))
         try:
-            update(batch_id,status='packing',category=b['category'],campaign=b['campaign'],run=b['run'],source_bytes=b['source_bytes'])
-            remote('submit',str(slot),payload=b)
-            while True:
-                packed=remote('poll',SESSION,batch_id)
-                if packed['status']!='packing':
-                    break
-                time.sleep(3)
+            saved_packed=META/'packed'/(batch_id+'.json')
+            cached=json.loads(saved_packed.read_text(encoding='utf-8')) if batch_id in RESUME_BATCHES and saved_packed.exists() else None
+            if cached and cached['status']=='packed':
+                packed=cached
+            else:
+                reserved_slot=RESUME_PACK_SLOTS.pop(batch_id,None)
+                pack_slot=reserved_slot if reserved_slot is not None else PACK_SLOTS.get()
+                try:
+                    update(batch_id,status='packing',category=b['category'],campaign=b['campaign'],run=b['run'],source_bytes=b['source_bytes'])
+                    if reserved_slot is None:
+                        remote('submit',str(pack_slot),payload=b)
+                    while True:
+                        packed=remote('poll',SESSION,batch_id)
+                        if packed['status']!='packing':
+                            break
+                        time.sleep(3)
+                finally:
+                    PACK_SLOTS.put(pack_slot)
+            if 'entry_indices' in packed:
+                packed['entries']=[b['entries'][i] for i in packed.pop('entry_indices')]
+                packed['skipped']=[{'source_path':b['entries'][i]['source_path'],'reason':group['reason']}
+                                   for group in packed.pop('skipped_groups') for i in group['indices']]
             write(META/'packed'/(batch_id+'.json'),packed)
             if packed['status']=='paused':
                 PAUSED.set()
             if packed['status']!='packed':
-                update(batch_id,status=packed['status'],detail=packed)
+                update(batch_id,status=packed['status'],detail={k:packed[k] for k in ('status','reason','error') if k in packed},
+                       skipped_files=len(packed.get('skipped',[])),packed_record=str(META/'packed'/(batch_id+'.json')))
                 continue
             incoming=ARCHIVE/'98_incoming'/(b['archive_name']+'.partial')
             final=ARCHIVE/b['local_relative_path']
-            if incoming.exists() or final.exists():
-                raise RuntimeError('existing local name retained; no overwrite or mixing partial archives')
+            if final.exists() or (incoming.exists() and batch_id not in RESUME_BATCHES):
+                raise RuntimeError('existing local name retained; resume only explicitly interrupted batches')
+            present=incoming.stat().st_size if incoming.exists() else 0
+            if batch_id in RESUME_BATCHES:
+                actual=remote('archive-stat',SESSION,batch_id)
+                if (actual['size_bytes'],actual['mtime_ns'],actual['inode'])!=(packed['server_bytes'],packed['archive_mtime_ns'],packed['archive_inode']):
+                    raise RuntimeError('closed server archive changed; existing local prefix retained')
+                if present>packed['server_bytes']:
+                    raise RuntimeError('local prefix is larger than the closed server archive')
             update(batch_id,status='downloading',server_bytes=packed['server_bytes'],incoming_path=str(incoming))
             start=time.time()
-            with (META/(batch_id+'.transfer.log')).open('wb') as log:
-                subprocess.run([SCP,'-q',*OPTIONS,'autodl-d57:'+packed['server_archive_path'],str(incoming)],stdout=log,stderr=log,check=True)
+            with (META/(batch_id+'.transfer.log')).open('ab') as log:
+                if present and present<packed['server_bytes']:
+                    command=f'reget "{packed["server_archive_path"]}" "{incoming.as_posix()}"\n'
+                    subprocess.run([SFTP,'-b','-',*OPTIONS,'autodl-d57'],input=command.encode(),stdout=log,stderr=log,check=True)
+                elif not present:
+                    subprocess.run([SCP,'-q',*OPTIONS,'autodl-d57:'+packed['server_archive_path'],str(incoming)],stdin=subprocess.DEVNULL,stdout=log,stderr=log,check=True)
             local_bytes=incoming.stat().st_size
             if local_bytes!=packed['server_bytes']:
                 raise RuntimeError('download byte count differs; source retained')
             seconds=time.time()-start
             update(batch_id,status='reading_local_archive',local_bytes=local_bytes,transfer_seconds=seconds,
-                   transfer_MiB_s=local_bytes/seconds/1024**2)
-            with (META/(batch_id+'.read.log')).open('wb') as log:
-                subprocess.run([TAR,'-xOf',str(incoming)],stdout=subprocess.DEVNULL,stderr=log,check=True)
+                   resumed_from_bytes=present,transfer_MiB_s=(local_bytes-present)/max(seconds,0.001)/1024**2)
+            with LOCAL_READERS:
+                with (META/(batch_id+'.read.log')).open('ab') as log:
+                    subprocess.run([TAR,'-xOf',str(incoming)],stdout=subprocess.DEVNULL,stderr=log,check=True)
             final.parent.mkdir(parents=True,exist_ok=True)
             incoming.rename(final)
             ack={'local_archive_path':str(final),'local_bytes':local_bytes,'local_read_status':'complete',
@@ -193,7 +229,7 @@ def worker(slot,todo):
             write(META/'receipts'/(batch_id+'.json'),receipt)
             update(batch_id,status='complete',exported_source_bytes=sum(e['size_bytes'] for e in packed['entries']),
                    deleted_bytes=receipt['deleted_bytes'],kept_bytes=receipt['kept_bytes'],
-                   deleted_files=len(receipt['deleted']),kept_files=len(receipt['kept']),skipped=packed['skipped'],
+                   deleted_files=len(receipt['deleted']),kept_files=len(receipt['kept']),skipped_files=len(packed['skipped']),
                    server_free_bytes=receipt['disk_after']['free'],server_temp_removed=receipt['server_temp_removed'],
                    completed_unix=receipt['completed_unix'])
         except Exception as exc:
@@ -201,7 +237,7 @@ def worker(slot,todo):
             print(json.dumps({'batch':batch_id,'error':repr(exc),'source':'retained unless a deletion receipt records otherwise'}),flush=True)
         else:
             print(json.dumps({'batch':batch_id,'complete':True,'archive_bytes':local_bytes,'deleted_bytes':receipt['deleted_bytes'],
-                              'MiB_s':round(local_bytes/seconds/1024**2,2)}),flush=True)
+                              'MiB_s':round((local_bytes-present)/max(seconds,0.001)/1024**2,2)}),flush=True)
         finally:
             todo.task_done()
 
@@ -215,7 +251,7 @@ def publish(label):
            f"Status: {s['status']}. Snapshot: {s['updated_at']}.",'',
            'This is the user-authorized one-time migration, not the normal experiment publication workflow.',
            'Local destination: `H:\\Supermimic`. Full frozen file manifests, confirmations and exact deletion receipts remain in `00_inventory\\20261111_1144`.',
-           'Four concurrent transfer sequences, no bandwidth cap; up to two zstd threads per compressed batch. Most NPZ/checkpoint batches use uncompressed tar. Existing archives are transferred directly.',
+           f"{s['workers']} concurrent transfer sequences and {s.get('pack_workers',4)} server packing workers, no bandwidth cap; up to two zstd threads per compressed batch. Most NPZ/checkpoint batches use uncompressed tar. Existing archives are transferred directly.",
            'The live initial process check found no Supermimic computation/publication and no P12 worktree. P12 remains reserved, and every batch rechecks live processes/config paths before source deletion.',
            'All parent/final/milestone checkpoints (including P6 B33000, P11 endpoints, P10 control27000 and P9 LAFAN60000), processed backing data, fixed P10/P11 evidence, source, environments, assets and Git/stash remain on D57.',
            '',f"Completed batches: {s['completed_batches']}/{s['total_batches']}.",
@@ -250,9 +286,16 @@ def run():
     ctypes.windll.kernel32.SetPriorityClass(ctypes.windll.kernel32.GetCurrentProcess(),0x8000)
     for p in (META/'status').glob('*.json'):
         s=json.loads(p.read_text(encoding='utf-8'));STATES[s['id']]=s
+    handoff_path=META/'concurrency_handoff.json'
+    handoff=json.loads(handoff_path.read_text(encoding='utf-8')) if handoff_path.exists() else {'packing_slots':{},'resume_batches':[]}
+    RESUME_BATCHES.update(b for b in handoff['resume_batches'] if STATES.get(b,{}).get('status')!='complete')
+    RESUME_PACK_SLOTS.update({b:int(slot) for b,slot in handoff['packing_slots'].items() if b in RESUME_BATCHES})
+    for slot in range(1,PACK_WORKERS+1):
+        if slot not in RESUME_PACK_SLOTS.values():
+            PACK_SLOTS.put(slot)
     todo=queue.Queue()
     for b in PLAN['batches']:
-        if b['id'] not in STATES:
+        if b['id'] not in STATES or b['id'] in RESUME_BATCHES:
             todo.put(b)
     with LOCK:
         write(META/'summary.json',summary())

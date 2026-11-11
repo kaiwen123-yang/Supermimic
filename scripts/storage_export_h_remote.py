@@ -266,6 +266,7 @@ def pack(request_path):
     b = json.loads(request_path.read_text())
     session = request_path.parent
     observed = snapshot()
+    write(request_path.with_suffix('.activity.json'),observed)
     if not training_gate(session, observed):
         return {'status':'paused','reason':'sustained training slowdown'}
     entries, skipped = [], []
@@ -363,11 +364,18 @@ def finalize(request_path, acknowledgement):
 
 def serve(session,slot):
     last = None
+    pointer = session/f'slot{slot}.json'
+    if pointer.exists():
+        prior=json.loads(pointer.read_text())
+        if (session/(prior['id']+'.packed.json')).exists():
+            last=(prior['id'],prior.get('submitted_unix'))
     while not (session/'FINISHED.json').exists():
         pointer = session/f'slot{slot}.json'
         if pointer.exists() and not (session/'PAUSE.json').exists():
-            batch_id = json.loads(pointer.read_text())['id']
-            if batch_id != last:
+            task=json.loads(pointer.read_text())
+            batch_id=task['id']
+            key=(batch_id,task.get('submitted_unix'))
+            if key != last:
                 request_path=session/(batch_id+'.json')
                 try:
                     result=pack(request_path)
@@ -375,7 +383,7 @@ def serve(session,slot):
                     result={'status':'error','id':batch_id,'error':repr(exc)}
                 write(request_path.with_suffix('.packed.json'),result)
                 print(json.dumps({'time':time.time(),'id':batch_id,'status':result['status']}),flush=True)
-                last=batch_id
+                last=key
         time.sleep(1)
 
 
@@ -389,14 +397,33 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'submit':
         request=json.load(sys.stdin)
         session=STAGE/request['session']
+        previous=session/(request['id']+'.packed.json')
+        if previous.exists() and json.loads(previous.read_text())['status']!='packed':
+            previous.rename(session/(request['id']+f'.packed.previous-{time.time_ns()}.json'))
         write(session/(request['id']+'.json'),request)
-        write(session/f'slot{sys.argv[2]}.json',{'id':request['id']})
+        write(session/f'slot{sys.argv[2]}.json',{'id':request['id'],'submitted_unix':time.time()})
         print(json.dumps({'submitted':request['id']}))
     elif sys.argv[1] == 'poll':
         p=STAGE/sys.argv[2]/(sys.argv[3]+'.packed.json')
-        print(p.read_text() if p.exists() else '{"status":"packing"}')
+        if not p.exists():
+            print('{"status":"packing"}')
+        else:
+            result=json.loads(p.read_text())
+            request=json.loads((STAGE/sys.argv[2]/(sys.argv[3]+'.json')).read_text())
+            positions={e['source_path']:i for i,e in enumerate(request['entries'])}
+            result['entry_indices']=[positions[e['source_path']] for e in result.pop('entries',[])]
+            groups=collections.defaultdict(list)
+            for entry in result.pop('skipped',[]):
+                groups[entry['reason']].append(positions[entry['source_path']])
+            result['skipped_groups']=[{'reason':reason,'indices':indices} for reason,indices in groups.items()]
+            print(json.dumps(result,separators=(',',':')))
     elif sys.argv[1] == 'finalize':
         print(json.dumps(finalize(STAGE/sys.argv[2]/(sys.argv[3]+'.json'),json.load(sys.stdin))))
+    elif sys.argv[1] == 'archive-stat':
+        packed=json.loads((STAGE/sys.argv[2]/(sys.argv[3]+'.packed.json')).read_text())
+        p=Path(packed['server_archive_path'])
+        st=p.stat()
+        print(json.dumps({'source_path':str(p),'size_bytes':st.st_size,'mtime_ns':st.st_mtime_ns,'inode':st.st_ino}))
     elif sys.argv[1] == 'finish':
         result=json.load(sys.stdin)
         write(STAGE/sys.argv[2]/'FINISHED.json',result)
