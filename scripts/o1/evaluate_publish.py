@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
 import fcntl
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
@@ -27,8 +29,47 @@ def publish(result_dir: Path, label: str) -> str:
     files = [path for path in result_dir.rglob("*") if path.suffix in {".json", ".csv", ".md"} and path.is_file()]
     tree = [{"path": f"results/{CAMPAIGN}/{path.relative_to(result_dir).as_posix()}",
              "mode": "100644", "type": "blob", "content": path.read_text()} for path in files]
+    summary_path = result_dir / "summary.json"
+    if summary_path.exists():
+        summary = json.loads(summary_path.read_text())
+        finished = summary["training_finished"]
+        reached = summary["target_reached"]
+        phase = "首段已完成" if finished else ("已达标，正在收尾" if reached else "正在训练")
+        last = summary["evaluations"].get(label)
+        score = (f"最新正式节点{label}：R={last['mean_normalized_return']:.8f}、完整{last['completed']}/40。"
+                 if last is not None else "正式评分尚未完成。")
+        root_items = {item["path"]: item for item in github(f"git/trees/{base_tree}")["tree"]}
+        result_items = {item["path"]: item for item in github(f"git/trees/{root_items['results']['sha']}")["tree"]}
+
+        def read_blob(sha):
+            blob = github(f"git/blobs/{sha}")
+            return base64.b64decode(blob["content"]).decode()
+
+        index = json.loads(read_blob(result_items["index.json"]["sha"]))
+        campaign = index["campaigns"][CAMPAIGN]
+        campaign.update(status=summary["status"], training_started=True,
+                        formal_evaluation_started=bool(summary["evaluations"]),
+                        latest_training=summary["latest_training"], target_reached=reached)
+        campaign["runs"][0]["status"] = summary["status"]
+        campaign["runs"][0]["latest_evaluation"] = last
+        tree.append({"path": "results/index.json", "mode": "100644", "type": "blob",
+                     "content": json.dumps(index, indent=2, ensure_ascii=False) + "\n"})
+        agents = read_blob(root_items["AGENTS.md"]["sha"])
+        continuation = "不自动加预算或启动下一阶段。" if finished else "保持活跃tmux，不重启或重置replay/LR。"
+        line = (f"- **当前主线O1：官方LAFAN40{phase}。** {score}本段已观测R>=.82：{'是' if reached else '否'}。"
+                f"当前完整状态见results/{CAMPAIGN}/summary.json，接续见docs/O1_OFFICIAL_RUN_20261111.md。"
+                "D57工作区supermimic-official-workspace，tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。"
+                + continuation + "P12及其他独立实现新实验暂缓，既有LAFAN验收成果和其他任务保留。")
+        agents = re.sub(r"(?m)^- \*\*当前主线O1：.*$", lambda match: line, agents, count=1)
+        tree.append({"path": "AGENTS.md", "mode": "100644", "type": "blob", "content": agents})
+        readme = read_blob(root_items["README.md"]["sha"])
+        line = (f"> **当前主线：O1官方LAFAN40{phase}。** {score}本段已观测R>=.82：{'是' if reached else '否'}。"
+                f"[完整结果与全部节点](results/{CAMPAIGN}/summary.json)、[逐动作成绩](results/{CAMPAIGN}/README.md)、"
+                "[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。" + continuation)
+        readme = re.sub(r"(?m)^> \*\*当前主线：O1.*$", lambda match: line, readme, count=1)
+        tree.append({"path": "README.md", "mode": "100644", "type": "blob", "content": readme})
     created = github("git/trees", "POST", {"base_tree": base_tree, "tree": tree})
-    commit = github("git/commits", "POST", {"message": f"Publish O1 official LAFAN40 {label} full evaluation",
+    commit = github("git/commits", "POST", {"message": f"Publish O1 official LAFAN40 {label}",
                       "tree": created["sha"], "parents": [head]})
     github("git/refs/heads/main", "PATCH", {"sha": commit["sha"], "force": False})
     return commit["sha"]

@@ -1,6 +1,6 @@
 # O1 Codex 官方复现执行提示词
 
-用户于2026-11-11确认：下一步专心复现官方代码。作者研究库现已取得。先读[最新正式接入说明](O1_OFFICIAL_RUN_20261111.md)和结果目录的当前状态；复用已有源码、环境与40条转换文件。若已有活跃O1 tmux则保持连续，不重启；P12及独立实现的新实验暂缓。
+用户于2026-11-11确认：下一步专心复现官方代码。作者研究库、独立环境与数据接入已完成，O1正式训练于约17:52启动并持续更新。先读[最新正式接入说明](O1_OFFICIAL_RUN_20261111.md)和结果目录的当前状态；保持活跃sm-o1-official-lafan40-s0连续，不重复启动、重建replay或重置LR。P12及独立实现的新实验暂缓。
 
 将下方正文交给可以连接autodl-d57的Codex：
 
@@ -9,11 +9,11 @@
 
 目标是连续完成必要环境/数据/评测准备，并在条件具备后直接开展第一段完整LAFAN40官方训练、评分和轻量发布。之前“只准备、不训练”的限制已被这次执行计划替代，不要因此停在建议或再次询问是否开始。尚未取得的真实依赖不能伪装成已解决。
 
-使用autodl-d57，复用 /root/autodl-tmp/robot-repro/supermimic-official-workspace 已有官方源码与data/lafan40_existing50hz引用，先读docs/O1_EXECUTION_HANDOFF_20261111.md。supermimic与待取得的mjlab_research按官方README作为兄弟目录，取得匹配依赖后使用独立Python3.13环境。原项目 /root/autodl-tmp/robot-repro/supermimic 的环境、数据、G1资产、工作树、Git/stash及checkpoint保留；不修改Conda base、MPC-RL、π系列或其他任务，不停止任何已有训练/评分/迁移。
+使用autodl-d57，复用 /root/autodl-tmp/robot-repro/supermimic-official-workspace 的两份相邻官方源码、supermimic/.venv及data/lafan40_official_npz。先读docs/O1_OFFICIAL_RUN_20261111.md和当前summary/progress；不重复安装或转换。原项目 /root/autodl-tmp/robot-repro/supermimic 的环境、数据、G1资产、工作树、Git/stash及checkpoint保留；不修改Conda base、MPC-RL、π系列或其他任务，不停止任何已有训练/评分/迁移。
 
 本轮已取得作者新地址HybridRobotics/mjlab_research@dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd，并采用README已改为该地址的SuperMimic@abc124c1bd5976341034668af3d12c087f2f1f55。abc相对旧5ef仅修改README/包描述/CI地址，学习源码不变。不要再将旧kevinzakka地址404当当前阻塞；实际来源及核心依赖版本见source_resolution.json。先检查sm-o1-official-lafan40-s0和outputs/o1-official-lafan40-s0/progress.json，若活跃则不重启；若仍在安装或接入，只完成剩余工作后按已授权预算正式启动。
 
-若依赖仍不可取得，完成不依赖它的源码落地、实际数据索引整理、运行配置和最小评测/保存适配设计，推送状态与精确缺失项；不安装一套猜测环境、不假报跑通、不转去旧P12。取得匹配依赖后按官方pyproject/uv.lock在新目录建立环境，原.venv和base不动。
+依赖与运行入口现已就绪，既有活跃进程继续按3h/6h和实际终点进行完整评分、发布。若进程真实退出，先读取failure.json、日志、已耗时间和实际checkpoint再针对处理；当前未实现完整resume，不把网络权重加载当完整恢复。已有评分发布失败时复用已算分数，不重训重评，不转去P12。
 
 首条正式运行是完整LAFAN40，seed=0，run_name=o1-official-lafan40-s0。优先使用作者确切实验配置；若无法取得历史主配置，就明确标注为当前官方main GenCoord/proprio/history10基线，保留该版本整体算法。默认单条lafan_run1_subject5和rep_state/history1不代表论文完整实验。原网络checkpoint不续入，不加入XYZ713、hard配额、存活加权Critic、BCE或P11局部z修正。
 

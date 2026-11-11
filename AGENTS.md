@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前主线O1：作者研究库已取得，正在接入正式运行。** 阅读docs/O1_OFFICIAL_RUN_20261111.md、configs/o1_official_lafan40_protocol.json及results/20261111-o1-official-lafan40-s0的最新summary/现场记录。作者新地址为HybridRobotics/mjlab_research，固定dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd；SuperMimic新main固定abc124c1bd5976341034668af3d12c087f2f1f55，较先前5ef仅README/包描述/CI地址变更。D57官方工作区已取得两源码并将40条现有动作转换为真实loader格式，原数据保留。新环境按研究库锁固定核心版本Torch2.14.0、Warp1.18.0、MuJoCo/mujoco-warp3.16.0；当前正在安装，未据此宣称训练已启动。scripts/o1已接入12h预算、本地固定节点、完整评分和轻量发布，准备完成即直接正式训练。若现场已有sm-o1-official-lafan40-s0活跃tmux，保持连续，不重复启动。旧13:42 readiness.json为依赖未公开时历史记录。P12及其他独立实现新实验暂缓，保留旧成果和其他运行任务。
+- **当前主线O1：官方LAFAN40正式训练已启动并持续更新。** 阅读docs/O1_OFFICIAL_RUN_20261111.md、configs/o1_official_lafan40_protocol.json及results/20261111-o1-official-lafan40-s0的最新summary/launch_status。D57会话sm-o1-official-lafan40-s0于2026-11-11约17:52启动；18:06快照为collection1211、learning482、WM批更新4820、Actor482、Critic小批更新9640，此后以现场progress.json为准，不把collection当联合学习数。工作区supermimic-official-workspace；官方SuperMimic固定abc124c1bd5976341034668af3d12c087f2f1f55，作者公开研究库HybridRobotics/mjlab_research固定dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd。独立Python3.13环境和40条真实loader格式数据已就绪，Torch2.14.0、Warp1.18.0、MuJoCo/mujoco-warp3.16.0。scripts/o1接入累计12h、约3h/6h及实际终点全40评分和轻量发布，正式R>=.82提前结束；当前尚无正式分数。保持活跃tmux连续，不重复启动、重建replay或重置LR；未实施完整resume。旧13:42 readiness.json为历史阻塞记录。P12及其他独立实现新实验暂缓，旧成果和其他运行任务保留。
 - **P11最新结论：** 两路均36000，原残差全BONES R=.86375135、129152/130394完整、hard312/639；高度约束R=.85693786、129598完整、hard305/639。候选多446条完整主要来自普通动作，回报及同输入WM误差较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点与LAFAN跨节点保持有优势，不称全面退化。当前原WM在仍存活的倒立第16步高度已低估.100342m（S=.997672），与旧P9飘高诊断不同。合法k8起点bin全部得到WM曝光，66个零起点bin均为参考自然末尾不足8步，不能说关键开头未进learner。来源见本轮复核及review_20261111.json。
 - **P11两路训练、评分、固定证据与轻量发布已完成。** 启动核实时间 2026-11-10T11:23:31.198241+08:00；实际状态见results/20261110-p11-root-height-consistency-s0/summary.json。两路已按各自真实预算终点完成，不重复启动P10/P11或自动追加预算。两路同P10 hard27000完整resume，仅比较root-z残差与同次预测速度梯形高度；各8192/8192/WM10×4096，原hard配额，新增9000联合更新或累计20h，到36000；全BONES/LAFAN节点30000/33000/36000及实际终点。父七窗224步预测已完成，终点两WM各同输入一次。
 - P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11也已完成；当前新增工作以顶部O1准备计划为准。
@@ -44,7 +44,7 @@
 
 - 本次固定用户dd28b969e7ab33a3e285f2caa7469e745f7cb5a0与官方5efbf114e11f725c31d83e217be987c13c0e4ce2；原论文v1与最新v2核心公式和实验附录未实质变化。当前main的Muon、LayerNorm/GELU等后续改动不能倒推为独立实现读错论文。
 - 核心算法闭环已对齐；动力学输出/积分、WM损失、目标预览、Actor信息条件、sampler与Critic语义不同。比较报告是静态机制证据，不把差异当已证明的唯一性能根因，不给虚假的复现完成百分比。
-- 按O1执行提示词，在 /root/autodl-tmp/robot-repro/supermimic-official-workspace 使用相邻supermimic/mjlab_research及独立Python3.13环境。两份官方源码与LAFAN40格式转换已实际完成；独立环境按新研究库要求安装。原项目.venv、Conda base、G1资产、源码/工作树、数据和其他任务不改。
+- 按O1执行提示词，在 /root/autodl-tmp/robot-repro/supermimic-official-workspace 使用相邻supermimic/mjlab_research及独立Python3.13环境。源码、40条格式转换、独立环境均已完成，正式训练活跃；不重复安装或重启。原项目.venv、Conda base、G1资产、源码/工作树、数据和其他任务不改。
 - 原kevinzakka/mjlab_research地址仍404，但作者README已改为HybridRobotics/mjlab_research且本轮成功取得。后续使用这份作者研究库，不再把旧地址404作为阻塞，也不以普通mjlab或社区实现替代。无需向作者发Issue/邮件来取得本轮已公开的依赖。
 - 分开官方当前main基线和论文历史主配置。默认单动作、rep_state/history1不能充当论文完整LAFAN40/proprio/history10；GenCoord/MaxCoord主成绩归属仍待run配置。旧网络权重不能直接作为官方resume。
 - 复用已有数据，必要时按真实loader做最小格式适配；130394与129514条成员未对齐，不任意删880条凑数。benchmark.py不是完整评分；完整评测与产物适配不得改核心奖励/失败条件。

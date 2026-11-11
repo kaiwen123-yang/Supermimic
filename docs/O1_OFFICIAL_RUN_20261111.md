@@ -1,6 +1,8 @@
 # O1：作者公开研究库后的正式接入
 
-2026-11-11，本轮后续检索找到了作者正式发布的[HybridRobotics/mjlab_research](https://github.com/HybridRobotics/mjlab_research)。原kevinzakka地址仍404，但已不构成源码获取阻塞。当前执行状态以[O1结果目录](../results/20261111-o1-official-lafan40-s0/)中的summary.json和D57现场progress.json为准；此前13:42的readiness.json是依赖尚未公开时的历史快照。
+2026-11-11，本轮后续检索找到了作者正式发布的[HybridRobotics/mjlab_research](https://github.com/HybridRobotics/mjlab_research)。原kevinzakka地址仍404，但已不构成源码获取阻塞。独立环境和数据已就绪，正式训练于北京时间约17:52启动；18:06快照为1211次collection、482次联合学习、4820次WM批更新、482次Actor更新和9640次Critic小批更新，较前次观察持续增长。当前执行状态以[summary.json](../results/20261111-o1-official-lafan40-s0/summary.json)和D57现场progress.json为准；此前13:42的readiness.json是依赖尚未公开时的历史快照。
+
+现有tmux为`sm-o1-official-lafan40-s0`，启动后没有重启。按当前累计训练时钟，固定节点约为11月11日20:52、23:52和11月12日05:52；这些是保存节点，完整评分随后按共享锁排队。首段尚无正式评分，不把正常训练损失或想象回报当正式LAFAN40成绩。实际环境见[environment.json](../results/20261111-o1-official-lafan40-s0/environment.json)，实际config见[actual_config.json](../results/20261111-o1-official-lafan40-s0/actual_config.json)。
 
 ## 版本与依赖
 

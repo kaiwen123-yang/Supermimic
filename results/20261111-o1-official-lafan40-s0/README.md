@@ -1,8 +1,11 @@
 # O1 官方LAFAN40：作者研究库已取得
 
-2026-11-11后续检索已取得作者公开的HybridRobotics/mjlab_research@dd51a9f，并采用README更新后的SuperMimic@abc124c。原kevinzakka地址仍404，但源码获取阻塞已经解除。当前正在安装独立环境，40条数据转换及正式运行适配已经完成；这份准备发布不等于训练已启动。
+2026-11-11后续检索已取得作者公开的HybridRobotics/mjlab_research@dd51a9f，并采用SuperMimic@abc124c。独立环境、40条数据转换及正式运行适配已经完成；训练于北京时间约17:52在tmux sm-o1-official-lafan40-s0启动。18:06快照为1211次collection、482次联合学习，实际采样和三网络更新计数持续增长，进程未重启。当前尚无正式全40评分。
 
 - [作者新地址、固定commit与依赖版本依据](source_resolution.json)
+- [最新结果状态](summary.json)
+- [持续更新与资源快照](launch_status.json)
+- [实际安装环境](environment.json)与[实际运行config](actual_config.json)
 - [官方loader格式与40条逐动作映射](official_data_manifest.json)
 - [最新正式接入说明](../../docs/O1_OFFICIAL_RUN_20261111.md)
 - [实际解析的环境锁](../../configs/o1_official_resolved.uv.lock)
