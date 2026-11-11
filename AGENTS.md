@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前主线O2：官方BONES完整库方案已发布，尚未启动（plan_published_not_started）。** 用户本轮确认继续推进；入口为docs/O2_OFFICIAL_BONES_PLAN.md、configs/o2_official_bones_protocol.json及docs/O2_CODEX_START_PROMPT.md。该启动词覆盖必要数据/执行适配完成后的正式运行；本次方案发布尚未实施适配、连接D57或启动训练，不把计划记成已执行。BONES-only 130394条、seed0从零、单路4096环境，首段上限12h或1000000 collection steps先到；3h/6h/final保存，训练子进程实际退出后依次完成全BONES及LAFAN40三节点评分。O1已成功不重跑，P12及其他独立实现新实验暂缓。
+- **当前主线O2：** 数据转换与启动准备中（preparing）。BONES-only 130394条、seed0从零、4096环境；累计12h或1000000 collection先到停止，无回报早停。训练子进程退出后依次评分全部实际节点的BONES与LAFAN40。状态见results/20261111-o2-official-bones-s0/summary.json，接续见docs/O2_EXECUTION_HANDOFF.md。tmux sm-o2-official-bones-s0；保持活跃状态和累计预算，不重启replay/LR。O1成果保留，P12继续暂停。
 - **O1历史首段已完成并复核。** seed0从零训练，首个正式3h节点R=0.85882311、39/40；实际终点约3h8m17s，R=0.87443989、40/40，因formal_return_target_reached停止。全40的XY时间均值0.765250m、9条>=1m，完整执行与精确全局跟踪分开报告。复核见docs/O1_REVIEW_20261111.md及results/20261111-o1-official-lafan40-s0/review_20261111.json，当前完成状态见summary.json。D57工作区supermimic-official-workspace，历史tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。latest_training的evaluation_pending是退出快照，final已完成。不重跑O1、不补6h/12h或追加O1预算。O2来自本轮新的继续任务，按独立O2方案接续；既有LAFAN验收成果和其他任务保留。
 - **P11最新结论：** 两路均36000，原残差全BONES R=.86375135、129152/130394完整、hard312/639；高度约束R=.85693786、129598完整、hard305/639。候选多446条完整主要来自普通动作，回报及同输入WM误差较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点与LAFAN跨节点保持有优势，不称全面退化。当前原WM在仍存活的倒立第16步高度已低估.100342m（S=.997672），与旧P9飘高诊断不同。合法k8起点bin全部得到WM曝光，66个零起点bin均为参考自然末尾不足8步，不能说关键开头未进learner。来源见本轮复核及review_20261111.json。
 - **P11两路训练、评分、固定证据与轻量发布已完成。** 启动核实时间 2026-11-10T11:23:31.198241+08:00；实际状态见results/20261110-p11-root-height-consistency-s0/summary.json。两路已按各自真实预算终点完成，不重复启动P10/P11或自动追加预算。两路同P10 hard27000完整resume，仅比较root-z残差与同次预测速度梯形高度；各8192/8192/WM10×4096，原hard配额，新增9000联合更新或累计20h，到36000；全BONES/LAFAN节点30000/33000/36000及实际终点。父七窗224步预测已完成，终点两WM各同输入一次。
@@ -41,9 +41,9 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O2官方BONES（方案已发布，尚未启动）
+## O2官方BONES（数据转换与启动准备中）
 
-- 当前状态为plan_published_not_started；本次仅发布方案、协议与Codex启动词，尚未完成O2执行适配，也未连接D57或启动训练。用户本轮“来”已确认继续推进；能访问D57的执行会话按docs/O2_CODEX_START_PROMPT.md完成必要适配后直接正式运行，不再沿用旧O1交接的“只准备下一阶段”限制。O1完成记录与P12暂缓状态保留。
+- O2已由本轮明确执行授权启动；状态以顶部和campaign summary为准。沿既有官方环境与保留数据执行，O1不重跑，P12暂缓。
 - campaign=20261111-o2-official-bones-s0；run=o2-official-bones-s0；tmux=sm-o2-official-bones-s0。复用/root/autodl-tmp/robot-repro/supermimic-official-workspace及其既有独立环境，固定HybridRobotics/supermimic@abc124c1bd5976341034668af3d12c087f2f1f55和HybridRobotics/mjlab_research@dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd。不重新setup、安装、下载、retarget或恢复全量逐clip NPZ。
 - BONES-only 130394条，seed0从零初始化WM/Actor/Critic，不加载O1权重或声称full resume。单卡4096真实环境，WM每次10×2048、horizon配置8；Actor batch4096、H32，proprio/history10。保留官方学习算法、奖励、终止、采样与日程；不加入LAFAN配额、旧hard quota、713维反馈、BCE、存活加权Critic或P11高度约束。
 - 数据沿用保留的P9连续store及manifest，从qpos/qvel按O1关节与坐标映射分块生成官方六字段packed目录；combined源offset441140映射到packed0，BONES共47727908帧。约12.624GiB为六字段float32静态参考，不是总训练显存。使用作者已有packed loader，不重写训练loader、不任意删除880条以凑作者129514条。
