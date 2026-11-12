@@ -4,6 +4,8 @@ Plan: `e517e5c8332559514a6d49ec571aef9df70a04e3`. Campaign: `20261112-o3-officia
 
 The O3 adapters and identical detached-statistics patch are in `scripts/o3`. Runtime state is authoritative in the campaign summary and D57 outputs. Do not restart active training. O1/P6 acceptance and O2 3h/6h anchors remain protected; P12 remains paused.
 
+Started on 2026-11-12 at 18:31:37.534 Beijing time; the shared training deadline is 2026-11-13 at 02:31:37.534. Driver PID 925574; control PID 925982; quarter PID 925983. At 18:33:18 both children had reached 141 collections / 54 new joint updates and continued running. Actual Adam/Muon LR and inherited active normalizer counts were recorded in `launch_status.json`; no restart or budget reset occurred. The whole GPU used 68650 MiB (about 67.04 GiB) at that observation. Initial loading and CUDA capture have passed through the normal training path; formal O3 scores are still pending.
+
 - Host: `autodl-d57`; workspace: `/root/autodl-tmp/robot-repro/supermimic-official-workspace`.
 - User code: `/root/autodl-tmp/robot-repro/supermimic-o3-official-bones`; deployed wrappers: workspace `/work/o3`.
 - Isolated official source: workspace `/supermimic-o3-stability`, base `abc124c1bd5976341034668af3d12c087f2f1f55`; existing mjlab research `dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd`.

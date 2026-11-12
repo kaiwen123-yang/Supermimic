@@ -1,0 +1,435 @@
+{
+  "observed_at": "2026-11-12T18:33:18.690776+08:00",
+  "status": "both_training_children_running",
+  "tmux": "sm-o3-bones-lr-s0",
+  "budget": {
+    "start_epoch": 1794479497.5341325,
+    "deadline_epoch": 1794508297.5341325,
+    "shared_training_seconds": 28800,
+    "started_at": "2026-11-12T18:31:37.534147+08:00",
+    "deadline_at": "2026-11-13T02:31:37.534132+08:00",
+    "scope": "entire campaign including child imports, initialization, contention and interruptions"
+  },
+  "resources": {
+    "at": "2026-11-12T18:33:18.690905+08:00",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 68650 MiB, 97887 MiB, 99 %",
+    "cgroup_memory_current": "118947389440",
+    "cgroup_memory": {
+      "anon": 10468290560,
+      "file": 107243200512,
+      "inactive_file": 49170665472
+    }
+  },
+  "arms": {
+    "control": {
+      "progress": {
+        "campaign": "20261112-o3-official-bones-lr-s0",
+        "arm": "control",
+        "run_name": "o3-bones-lr-control-s0",
+        "status": "running",
+        "updated_at": "2026-11-12T18:33:18.520669+08:00",
+        "training_seconds": 100.92257285118103,
+        "campaign_training_wall_seconds": 100.98654747009277,
+        "deadline_epoch": 1794508297.5341325,
+        "parent": {
+          "campaign": "20261111-o2-official-bones-s0",
+          "node": "hour_03",
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+          "training_seconds": 10800.263551399112,
+          "collection_steps": 79816,
+          "real_transitions": 326926336,
+          "joint_learning_phases": 31924,
+          "actor_updates": 31924,
+          "bones_R": 0.9350195502553713,
+          "bones_completed": 130215,
+          "bones_failed": 179,
+          "full_resume": false,
+          "reuse_existing_formal_scores": true
+        },
+        "full_resume": false,
+        "collection_steps": 141,
+        "real_transitions": 577536,
+        "learning_phases": 54,
+        "world_model_batch_updates": 540,
+        "actor_updates": 54,
+        "critic_minibatch_updates": 1080
+      },
+      "source_import_path": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o3-stability/src/supermimic/runners/supermimic_runner.py",
+      "actual_optimizer_lr": {
+        "wm": [
+          {
+            "type": "Adam",
+            "lr": [
+              0.00019999999494757503
+            ]
+          },
+          {
+            "type": "Muon",
+            "lr": [
+              0.0002
+            ]
+          }
+        ],
+        "actor": [
+          {
+            "type": "Adam",
+            "lr": [
+              0.00019999999494757503
+            ]
+          },
+          {
+            "type": "Muon",
+            "lr": [
+              0.0002
+            ]
+          }
+        ],
+        "critic": [
+          {
+            "type": "Adam",
+            "lr": [
+              0.00019999999494757503
+            ]
+          },
+          {
+            "type": "Muon",
+            "lr": [
+              0.0002
+            ]
+          }
+        ]
+      },
+      "initial_normalizer_counts": {
+        "wm.state_normalizer": 326926336,
+        "wm.action_normalizer": 326926336,
+        "actor.obs_normalizer": 326926336,
+        "actor.goal_normalizers.motion": 326926336,
+        "actor.goal_normalizers.velocity": 0
+      },
+      "last_training_statistics": {
+        "campaign": "20261112-o3-official-bones-lr-s0",
+        "arm": "control",
+        "run_name": "o3-bones-lr-control-s0",
+        "status": "running",
+        "updated_at": "2026-11-12T18:33:18.520669+08:00",
+        "training_seconds": 100.92257285118103,
+        "campaign_training_wall_seconds": 100.98654747009277,
+        "deadline_epoch": 1794508297.5341325,
+        "parent": {
+          "campaign": "20261111-o2-official-bones-s0",
+          "node": "hour_03",
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+          "training_seconds": 10800.263551399112,
+          "collection_steps": 79816,
+          "real_transitions": 326926336,
+          "joint_learning_phases": 31924,
+          "actor_updates": 31924,
+          "bones_R": 0.9350195502553713,
+          "bones_completed": 130215,
+          "bones_failed": 179,
+          "full_resume": false,
+          "reuse_existing_formal_scores": true
+        },
+        "full_resume": false,
+        "collection_steps": 141,
+        "real_transitions": 577536,
+        "learning_phases": 54,
+        "world_model_batch_updates": 540,
+        "actor_updates": 54,
+        "critic_minibatch_updates": 1080,
+        "statistics_kind": "collection_reset_window_and_last_joint_update_snapshot",
+        "losses_and_imagination_last_update": {
+          "Loss/state": 0.00506275100633502,
+          "Loss/root_pos": 5.544902137444296e-07,
+          "Loss/root_ori": 4.305194124754053e-06,
+          "Loss/joint_pos": 3.5212764487368986e-05,
+          "Loss/joint_vel": 0.047181230038404465,
+          "Policy/reward": 14.653867721557617,
+          "Policy/dense_return": 2.5600028038024902,
+          "Policy/bootstrap_return": 6.818471908569336,
+          "Policy/end_survival_mean": 0.9999939203262329,
+          "Policy/bootstrap_value_raw_mean": 9.405086517333984,
+          "Policy/bootstrap_value_raw_min": 2.888700246810913,
+          "Policy/bootstrap_value_raw_max": 9.9552001953125,
+          "Policy/bootstrap_value_raw_upper_clamp_fraction": 0.0,
+          "Policy/bootstrap_value_clamped_mean": 9.405086517333984,
+          "Policy/bootstrap_value_clamped_min": 2.888700246810913,
+          "Policy/bootstrap_value_clamped_max": 9.9552001953125,
+          "Policy/bootstrap_value_clamped_upper_clamp_fraction": 0.0,
+          "Policy/grad_norm": 0.8840744495391846,
+          "Policy/value_function": 0.0039075822569429874,
+          "Policy/gae_raw_mean": 9.397096633911133,
+          "Policy/gae_raw_min": 2.71402907371521,
+          "Policy/gae_raw_max": 9.954940795898438,
+          "Policy/gae_raw_upper_clamp_fraction": 0.0,
+          "Policy/gae_clamped_mean": 9.397096633911133,
+          "Policy/gae_clamped_min": 2.71402907371521,
+          "Policy/gae_clamped_max": 9.954940795898438,
+          "Policy/gae_clamped_upper_clamp_fraction": 0.0,
+          "Policy/critic_rollout_raw_mean": 9.395817756652832,
+          "Policy/critic_rollout_raw_min": 2.669692277908325,
+          "Policy/critic_rollout_raw_max": 9.955682754516602,
+          "Policy/critic_rollout_raw_upper_clamp_fraction": 0.0,
+          "Policy/critic_last_raw_mean": 9.405086517333984,
+          "Policy/critic_last_raw_min": 2.888700246810913,
+          "Policy/critic_last_raw_max": 9.9552001953125,
+          "Policy/critic_last_raw_upper_clamp_fraction": 0.0,
+          "Policy/bc_loss": 0.0
+        },
+        "window": {
+          "kind": "since_previous_log_window",
+          "collection": {
+            "raw_reward_sum": 3710.6872464615153,
+            "transition_count": 40960.0,
+            "hard_count": 1.0,
+            "timeout_count": 173.0,
+            "motion_end_count": 173.0,
+            "hard_and_timeout": 0.0,
+            "hard_and_motion_end": 0.0,
+            "episode_count": 174.0,
+            "episode_return_sum": 1710.4731534705497,
+            "episode_length_sum": 19004.0,
+            "timeout_without_motion_end": 0.0,
+            "timeout_and_motion_end": 173.0
+          },
+          "actual_reset_count": 174.0,
+          "actual_resets": {
+            "hard639": 8.0,
+            "nonhard": 166.0,
+            "category/Advanced Locomotion": 3.0,
+            "category/Baseline": 22.0,
+            "category/Basic Locomotion Neutral": 33.0,
+            "category/Basic Locomotion Styles": 25.0,
+            "category/Communication": 6.0,
+            "category/Complex Actions": 2.0,
+            "category/Consuming": 2.0,
+            "category/Dancing": 14.0,
+            "category/Environments": 1.0,
+            "category/Gestures": 16.0,
+            "category/Household": 1.0,
+            "category/Looking and Pointing": 0.0,
+            "category/Magic": 0.0,
+            "category/Martial Arts": 0.0,
+            "category/Object Interaction": 26.0,
+            "category/Object Manipulation": 8.0,
+            "category/Other": 1.0,
+            "category/Sports": 2.0,
+            "category/Stunts": 8.0,
+            "category/Unusual Locomotion": 4.0,
+            "skill/flip": 0.0,
+            "skill/side_roll": 0.0,
+            "skill/cartwheel": 0.0,
+            "skill/handstand": 0.0
+          },
+          "reset_count_boundary": "from formal initial reset; categories partition, named skills may overlap"
+        },
+        "window_collection_end": 141
+      }
+    },
+    "quarter": {
+      "progress": {
+        "campaign": "20261112-o3-official-bones-lr-s0",
+        "arm": "quarter",
+        "run_name": "o3-bones-lr-quarter-s0",
+        "status": "running",
+        "updated_at": "2026-11-12T18:33:18.521021+08:00",
+        "training_seconds": 100.92113208770752,
+        "campaign_training_wall_seconds": 100.9868974685669,
+        "deadline_epoch": 1794508297.5341325,
+        "parent": {
+          "campaign": "20261111-o2-official-bones-s0",
+          "node": "hour_03",
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+          "training_seconds": 10800.263551399112,
+          "collection_steps": 79816,
+          "real_transitions": 326926336,
+          "joint_learning_phases": 31924,
+          "actor_updates": 31924,
+          "bones_R": 0.9350195502553713,
+          "bones_completed": 130215,
+          "bones_failed": 179,
+          "full_resume": false,
+          "reuse_existing_formal_scores": true
+        },
+        "full_resume": false,
+        "collection_steps": 141,
+        "real_transitions": 577536,
+        "learning_phases": 54,
+        "world_model_batch_updates": 540,
+        "actor_updates": 54,
+        "critic_minibatch_updates": 1080
+      },
+      "source_import_path": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o3-stability/src/supermimic/runners/supermimic_runner.py",
+      "actual_optimizer_lr": {
+        "wm": [
+          {
+            "type": "Adam",
+            "lr": [
+              4.999999873689376e-05
+            ]
+          },
+          {
+            "type": "Muon",
+            "lr": [
+              5e-05
+            ]
+          }
+        ],
+        "actor": [
+          {
+            "type": "Adam",
+            "lr": [
+              4.999999873689376e-05
+            ]
+          },
+          {
+            "type": "Muon",
+            "lr": [
+              5e-05
+            ]
+          }
+        ],
+        "critic": [
+          {
+            "type": "Adam",
+            "lr": [
+              4.999999873689376e-05
+            ]
+          },
+          {
+            "type": "Muon",
+            "lr": [
+              5e-05
+            ]
+          }
+        ]
+      },
+      "initial_normalizer_counts": {
+        "wm.state_normalizer": 326926336,
+        "wm.action_normalizer": 326926336,
+        "actor.obs_normalizer": 326926336,
+        "actor.goal_normalizers.motion": 326926336,
+        "actor.goal_normalizers.velocity": 0
+      },
+      "last_training_statistics": {
+        "campaign": "20261112-o3-official-bones-lr-s0",
+        "arm": "quarter",
+        "run_name": "o3-bones-lr-quarter-s0",
+        "status": "running",
+        "updated_at": "2026-11-12T18:33:18.521021+08:00",
+        "training_seconds": 100.92113208770752,
+        "campaign_training_wall_seconds": 100.9868974685669,
+        "deadline_epoch": 1794508297.5341325,
+        "parent": {
+          "campaign": "20261111-o2-official-bones-s0",
+          "node": "hour_03",
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+          "training_seconds": 10800.263551399112,
+          "collection_steps": 79816,
+          "real_transitions": 326926336,
+          "joint_learning_phases": 31924,
+          "actor_updates": 31924,
+          "bones_R": 0.9350195502553713,
+          "bones_completed": 130215,
+          "bones_failed": 179,
+          "full_resume": false,
+          "reuse_existing_formal_scores": true
+        },
+        "full_resume": false,
+        "collection_steps": 141,
+        "real_transitions": 577536,
+        "learning_phases": 54,
+        "world_model_batch_updates": 540,
+        "actor_updates": 54,
+        "critic_minibatch_updates": 1080,
+        "statistics_kind": "collection_reset_window_and_last_joint_update_snapshot",
+        "losses_and_imagination_last_update": {
+          "Loss/state": 0.00495939003303647,
+          "Loss/root_pos": 4.451092650015198e-07,
+          "Loss/root_ori": 3.5320590541232377e-06,
+          "Loss/joint_pos": 3.62051505362615e-05,
+          "Loss/joint_vel": 0.050772774964571,
+          "Policy/reward": 14.659932136535645,
+          "Policy/dense_return": 2.5573947429656982,
+          "Policy/bootstrap_return": 6.824962615966797,
+          "Policy/end_survival_mean": 0.9999496936798096,
+          "Policy/bootstrap_value_raw_mean": 9.414205551147461,
+          "Policy/bootstrap_value_raw_min": 2.348165512084961,
+          "Policy/bootstrap_value_raw_max": 9.965007781982422,
+          "Policy/bootstrap_value_raw_upper_clamp_fraction": 0.0,
+          "Policy/bootstrap_value_clamped_mean": 9.414205551147461,
+          "Policy/bootstrap_value_clamped_min": 2.348165512084961,
+          "Policy/bootstrap_value_clamped_max": 9.965007781982422,
+          "Policy/bootstrap_value_clamped_upper_clamp_fraction": 0.0,
+          "Policy/grad_norm": 0.5378839373588562,
+          "Policy/value_function": 0.00552957272157073,
+          "Policy/gae_raw_mean": 9.402844429016113,
+          "Policy/gae_raw_min": 2.3717410564422607,
+          "Policy/gae_raw_max": 9.964859008789062,
+          "Policy/gae_raw_upper_clamp_fraction": 0.0,
+          "Policy/gae_clamped_mean": 9.402844429016113,
+          "Policy/gae_clamped_min": 2.3717410564422607,
+          "Policy/gae_clamped_max": 9.964859008789062,
+          "Policy/gae_clamped_upper_clamp_fraction": 0.0,
+          "Policy/critic_rollout_raw_mean": 9.40073013305664,
+          "Policy/critic_rollout_raw_min": 2.1172540187835693,
+          "Policy/critic_rollout_raw_max": 9.969715118408203,
+          "Policy/critic_rollout_raw_upper_clamp_fraction": 0.0,
+          "Policy/critic_last_raw_mean": 9.414205551147461,
+          "Policy/critic_last_raw_min": 2.348165512084961,
+          "Policy/critic_last_raw_max": 9.965007781982422,
+          "Policy/critic_last_raw_upper_clamp_fraction": 0.0,
+          "Policy/bc_loss": 0.0
+        },
+        "window": {
+          "kind": "since_previous_log_window",
+          "collection": {
+            "raw_reward_sum": 3691.6141629409976,
+            "transition_count": 40960.0,
+            "hard_count": 1.0,
+            "timeout_count": 144.0,
+            "motion_end_count": 144.0,
+            "hard_and_timeout": 0.0,
+            "hard_and_motion_end": 0.0,
+            "episode_count": 145.0,
+            "episode_return_sum": 1643.8682878604159,
+            "episode_length_sum": 18257.0,
+            "timeout_without_motion_end": 0.0,
+            "timeout_and_motion_end": 144.0
+          },
+          "actual_reset_count": 145.0,
+          "actual_resets": {
+            "hard639": 9.0,
+            "nonhard": 136.0,
+            "category/Advanced Locomotion": 2.0,
+            "category/Baseline": 74.0,
+            "category/Basic Locomotion Neutral": 13.0,
+            "category/Basic Locomotion Styles": 11.0,
+            "category/Communication": 3.0,
+            "category/Complex Actions": 2.0,
+            "category/Consuming": 1.0,
+            "category/Dancing": 6.0,
+            "category/Environments": 0.0,
+            "category/Gestures": 8.0,
+            "category/Household": 0.0,
+            "category/Looking and Pointing": 0.0,
+            "category/Magic": 0.0,
+            "category/Martial Arts": 0.0,
+            "category/Object Interaction": 4.0,
+            "category/Object Manipulation": 6.0,
+            "category/Other": 2.0,
+            "category/Sports": 2.0,
+            "category/Stunts": 9.0,
+            "category/Unusual Locomotion": 2.0,
+            "skill/flip": 0.0,
+            "skill/side_roll": 0.0,
+            "skill/cartwheel": 0.0,
+            "skill/handstand": 0.0
+          },
+          "reset_count_boundary": "from formal initial reset; categories partition, named skills may overlap"
+        },
+        "window_collection_end": 141
+      }
+    }
+  }
+}

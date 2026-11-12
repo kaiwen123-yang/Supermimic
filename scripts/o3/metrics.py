@@ -1,4 +1,4 @@
-"""CPU summaries of the saved complete, unfiltered O2 score rows."""
+"""CPU summaries of saved complete O3 scores, retaining corrected O2 metrics."""
 import csv
 import json
 from collections import defaultdict

@@ -1,4 +1,4 @@
-"""One loaded official library, fixed environments, all actual O2 checkpoints."""
+"""One loaded official library, fixed environments, all unique O3 arm checkpoints."""
 from __future__ import annotations
 
 import argparse
@@ -164,7 +164,7 @@ def evaluate(workspace, source):
     for label in labels:
         output = result_dir / "milestones" / label / source
         if (output / "evaluation.json").exists():
-            print(f"O2_KEEP_EXISTING_SCORE {source} {label}", flush=True)
+            print(f"O3_KEEP_EXISTING_SCORE {source} {label}", flush=True)
             continue
         started = time.monotonic()
         payload = torch.load(nodes[label]["checkpoint"], map_location=device, weights_only=False)
@@ -204,7 +204,7 @@ def evaluate(workspace, source):
             rows.extend(batch_rows)
             write_json(output / "evaluation_progress.json", {"status": "evaluating", "at": now(), "completed_batches": index + 1,
                 "scored_clips": len(rows), "total_clips": len(clips), "all_library_score_available": False})
-            print(f"O2_EVALUATE {source} {label} batch={index+1} clips={len(rows)}/{len(clips)}", flush=True)
+            print(f"O3_EVALUATE {source} {label} batch={index+1} clips={len(rows)}/{len(clips)}", flush=True)
         index = write_score_parts(output, rows, source)
         result = {**aggregate(rows), "groups": groups(rows, source), "source": source, "label": label,
                   "checkpoint": nodes[label]["checkpoint"], "checkpoint_metadata": metadata,

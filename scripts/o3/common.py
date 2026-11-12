@@ -1,4 +1,4 @@
-"""Paths and small artifacts for the bounded official BONES campaign."""
+"""Paths and small artifacts for the bounded O3 official BONES campaign."""
 from __future__ import annotations
 
 import csv
