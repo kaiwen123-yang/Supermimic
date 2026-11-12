@@ -1,5 +1,7 @@
 # O2 Codex 启动提示词：官方完整BONES首段
 
+> **历史任务已完成：O2 的训练、全部正式评分和轻量发布均已结束。以下正文仅保留为当时执行记录，不再作为重跑或追加预算指令。** 3h 为 R=.93501955、130215/130394 完整；6h 为 .87472977、129997 完整；final 为 .62929250、83910 完整。后续以 [O2复核](O2_REVIEW_20261112.md)、[O3稳定性方案](O3_OFFICIAL_BONES_STABILITY_PLAN.md)及 [O3启动提示词](O3_CODEX_START_PROMPT.md)为准。O3当前仅发布方案，适配与服务器运行尚未开始。
+
 本次计划已确定，执行端完成必要适配后直接训练、评分和轻量发布。计划发布不等于服务器已启动。把下面正文交给能够连接autodl-d57的Codex。
 
 ```text
@@ -27,3 +29,4 @@ campaign=20261111-o2-official-bones-s0，run=o2-official-bones-s0，tmux=sm-o2-o
 
 把实际代码、config、数据索引、全部逐clip CSV分片、紧凑统计、小证据和结论推GitHub；训练节点先推元信息并标评分待执行，评分后推完整成绩。大checkpoint/数组/视频/完整日志留服务器，不Release/tar/本机归档或阶段清理，不介入H盘迁移。及时同步README、AGENTS、results/index和campaign summary，区分计划、已启动、训练结束、评分中、完成。全部实际固定节点的BONES和LAFAN评分及轻量发布结束后交付，不自动加时/seed/变体或开O3。
 ```
+

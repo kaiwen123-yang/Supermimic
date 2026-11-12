@@ -1,0 +1,87 @@
+{
+  "campaign": "20261112-o3-official-bones-lr-s0",
+  "planned_date_beijing": "2026-11-12",
+  "status": "plan_published_not_started",
+  "implementation_status": "pending_O3_adapters_and_common_diagnostic_patch_on_D57",
+  "source_review_commit": "d7acc105accfeca663a2341a846d527dbd10c28b",
+  "plan": "docs/O3_OFFICIAL_BONES_STABILITY_PLAN.md",
+  "protocol": "configs/o3_official_bones_stability_protocol.json",
+  "start_prompt": "docs/O3_CODEX_START_PROMPT.md",
+  "initialization": "matched_weights_only_warm_start",
+  "full_resume": false,
+  "parent": {
+    "campaign": "20261111-o2-official-bones-s0",
+    "node": "hour_03",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+    "training_seconds": 10800.263551399112,
+    "collection_steps": 79816,
+    "real_transitions": 326926336,
+    "joint_learning_phases": 31924,
+    "actor_updates": 31924,
+    "bones_R": 0.9350195502553713,
+    "bones_completed": 130215,
+    "bones_failed": 179,
+    "full_resume": false,
+    "reuse_existing_formal_scores": true
+  },
+  "planned_arms": [
+    {
+      "id": "control",
+      "run_name": "o3-bones-lr-control-s0",
+      "wm_lr": 0.0002,
+      "actor_lr": 0.0002,
+      "critic_lr": 0.0002,
+      "base_lr_multiplier": 1
+    },
+    {
+      "id": "quarter",
+      "run_name": "o3-bones-lr-quarter-s0",
+      "wm_lr": 5e-05,
+      "actor_lr": 5e-05,
+      "critic_lr": 5e-05,
+      "base_lr_multiplier": 0.25
+    }
+  ],
+  "planned_budget": {
+    "shared_campaign_training_seconds": 28800,
+    "clock_start": "driver_immediately_before_first_formal_training_child_launch",
+    "one_persisted_campaign_start_and_deadline": true,
+    "new_joint_learning_phases_per_arm": 32000,
+    "stop_rule": "each_arm_stops_at_32000_new_joint_updates_or_same_shared_deadline_whichever_first",
+    "includes": [
+      "imports",
+      "whole_library_loading",
+      "initialization",
+      "compilation",
+      "normal_replay_collection",
+      "contention",
+      "checkpoint_IO",
+      "staggered_start",
+      "real_interruption_time"
+    ],
+    "preparation_evaluation_publication_separately_timed": true,
+    "deadline_never_reset": true,
+    "checkpoint_new_joint_phases": [
+      8000,
+      16000,
+      32000
+    ],
+    "save_actual_endpoint": true,
+    "deduplicate_final_aliases": true,
+    "return_based_early_stop": null,
+    "parent_counts_separate": true,
+    "max_interaction_seconds": 14400,
+    "tmux_continues_across_interactions": true,
+    "automatic_extension": false,
+    "overlapping_publication_time_not_deducted": true
+  },
+  "training_started": false,
+  "training_finished": false,
+  "formal_evaluation_started": false,
+  "formal_evaluation_finished": false,
+  "results": {},
+  "previous_lafan_acceptance_preserved": true,
+  "O2_hour03_BONES_return_reference_preserved": true,
+  "P12": "paused",
+  "publication_scope": "review_plan_protocol_prompt_only_no_O3_execution"
+}

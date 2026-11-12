@@ -1,0 +1,365 @@
+{
+  "protocol_id": "supermimic-o3-official-bones-stability-v1",
+  "planned_date_beijing": "2026-11-12",
+  "status": "plan_published_not_started",
+  "implementation_status": "pending_O3_adapters_and_common_diagnostic_patch_on_D57",
+  "source_review_commit": "d7acc105accfeca663a2341a846d527dbd10c28b",
+  "campaign": "20261112-o3-official-bones-lr-s0",
+  "objective": "Matched weights-only warm-start comparison of original versus quarter fixed learning rate; preserve official learning semantics and measure quality retention and difficult-motion coverage.",
+  "documents": {
+    "review": "docs/O2_REVIEW_20261112.md",
+    "plan": "docs/O3_OFFICIAL_BONES_STABILITY_PLAN.md",
+    "start_prompt": "docs/O3_CODEX_START_PROMPT.md"
+  },
+  "sources": {
+    "supermimic": "abc124c1bd5976341034668af3d12c087f2f1f55",
+    "mjlab_research": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd",
+    "runtime": "reuse_existing_O1_O2_venv_no_install_or_upgrade",
+    "baseline": "official_current_main_GenCoord_proprio_history10"
+  },
+  "execution": {
+    "host": "autodl-d57",
+    "workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+    "python": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/.venv/bin/python",
+    "isolated_official_source": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o3-stability",
+    "user_repo_code": "scripts/o3",
+    "deployed_code": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/work/o3",
+    "tmux": "sm-o3-bones-lr-s0",
+    "campaign_state_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261112-o3-official-bones-lr-s0",
+    "explicit_process_local_import_path": true,
+    "edit_existing_official_O1_O2_trees": false
+  },
+  "parent": {
+    "campaign": "20261111-o2-official-bones-s0",
+    "node": "hour_03",
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+    "training_seconds": 10800.263551399112,
+    "collection_steps": 79816,
+    "real_transitions": 326926336,
+    "joint_learning_phases": 31924,
+    "actor_updates": 31924,
+    "bones_R": 0.9350195502553713,
+    "bones_completed": 130215,
+    "bones_failed": 179,
+    "full_resume": false,
+    "reuse_existing_formal_scores": true
+  },
+  "initialization": {
+    "kind": "matched_weights_only_warm_start",
+    "seed": 0,
+    "restore": [
+      "world_model_bundle_dynamics_and_sim_context",
+      "actor_state_dict_including_active_normalizers",
+      "critic_state_dict",
+      "runner_architecture_and_config"
+    ],
+    "newly_initialize": [
+      "Muon_and_Adam_states",
+      "replay_buffer",
+      "ReturnSampler_values_counts_effort",
+      "simulator_episode_state",
+      "RNG_stream"
+    ],
+    "copy_normalizer_count_and_moments_together": true,
+    "load_before_any_collection_or_update": true,
+    "strict_state_dict_load": true,
+    "replace_model_objects_after_optimizer_construction": false,
+    "load_order": [
+      "load_runner_cfg({'runner_cfg':payload['runner_cfg']})",
+      "set_cfg_wm_lr_and_cfg_policy_lr_before_Runner_construction",
+      "runner._wm.load_bundle(payload['world_model'])",
+      "runner.policy_learner.actor.load_state_dict(payload['actor'])",
+      "runner.policy_learner.critic.load_state_dict(payload['critic'])",
+      "env.reset_then_seed_sim_history"
+    ],
+    "cold_replay": "unchanged_official_num_transitions_at_least_wm_horizon_then_normal_Ratio_updates",
+    "extra_64_or_1000_step_prefill": false,
+    "WM_only_warmup": false,
+    "keep_official_causal_history_padding": true,
+    "matched_seed_not_identical_post_divergence_trajectories": true
+  },
+  "arms": [
+    {
+      "id": "control",
+      "run_name": "o3-bones-lr-control-s0",
+      "wm_lr": 0.0002,
+      "actor_lr": 0.0002,
+      "critic_lr": 0.0002,
+      "base_lr_multiplier": 1
+    },
+    {
+      "id": "quarter",
+      "run_name": "o3-bones-lr-quarter-s0",
+      "wm_lr": 5e-05,
+      "actor_lr": 5e-05,
+      "critic_lr": 5e-05,
+      "base_lr_multiplier": 0.25
+    }
+  ],
+  "only_training_variable": "common_fixed_base_learning_rate_multiplier_for_all_three_networks_and_both_optimizer_types",
+  "unchanged": {
+    "task": "SuperMimic-GenCoord-G1",
+    "representation": "gencoord",
+    "actor_obs": "proprio",
+    "history_length": 10,
+    "real_environments": 4096,
+    "wm_batches": 10,
+    "wm_batch_size": 2048,
+    "wm_horizon_config": 8,
+    "wm_supervised_successors_current_code": 7,
+    "actor_batch_size": 4096,
+    "actor_horizon": 32,
+    "policy_batches": 1,
+    "replay_steps_per_env": 1000,
+    "replay_ratio": 16,
+    "learning_phases_per_collection": 0.4,
+    "gamma": 0.99,
+    "lambda": 0.95,
+    "optimizer_split": "upstream_Muon_hidden_Linear_weights_and_Adam_other_parameters",
+    "network_and_loss": "exact_parent_official_configuration",
+    "sampler": "official_ReturnSampler_unchanged",
+    "training_DR_reward_termination_action_scaling": "parent_official_configuration",
+    "motion_slots": 1,
+    "velocity_slots": 0,
+    "wandb_run_path": null
+  },
+  "prohibited_cointerventions": [
+    "new_hard_or_LAFAN_training_quota",
+    "new_data_filter_or_retargeting",
+    "GenCoord_encoder_bias_fix_in_this_LR_comparison",
+    "cosine_scheduler_or_all_Adam_switch",
+    "gamma_or_lambda_change",
+    "XYZ_BCE_survival_weighted_Critic_from_independent_implementation",
+    "P11_root_height_or_P12_window_changes",
+    "parent_normalizer_reset"
+  ],
+  "dataset": {
+    "training": "BONES_only",
+    "clips": 130394,
+    "frames": 47727908,
+    "reference_transitions": 47597514,
+    "control_hz": 50,
+    "packed_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/bones130394_official_packed",
+    "reuse_existing_packed_and_identity_index": true,
+    "reconvert_or_redownload": false,
+    "reorder_or_remove_clips": false,
+    "hard_analysis_only": "configs/p10_hard_motion_set.json",
+    "lafan_evaluation_only": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/lafan40_official_npz/manifest.json"
+  },
+  "budget": {
+    "shared_campaign_training_seconds": 28800,
+    "clock_start": "driver_immediately_before_first_formal_training_child_launch",
+    "one_persisted_campaign_start_and_deadline": true,
+    "new_joint_learning_phases_per_arm": 32000,
+    "stop_rule": "each_arm_stops_at_32000_new_joint_updates_or_same_shared_deadline_whichever_first",
+    "includes": [
+      "imports",
+      "whole_library_loading",
+      "initialization",
+      "compilation",
+      "normal_replay_collection",
+      "contention",
+      "checkpoint_IO",
+      "staggered_start",
+      "real_interruption_time"
+    ],
+    "preparation_evaluation_publication_separately_timed": true,
+    "deadline_never_reset": true,
+    "checkpoint_new_joint_phases": [
+      8000,
+      16000,
+      32000
+    ],
+    "save_actual_endpoint": true,
+    "deduplicate_final_aliases": true,
+    "return_based_early_stop": null,
+    "parent_counts_separate": true,
+    "max_interaction_seconds": 14400,
+    "tmux_continues_across_interactions": true,
+    "automatic_extension": false,
+    "overlapping_publication_time_not_deducted": true
+  },
+  "concurrency": {
+    "GPU_training_processes": 2,
+    "preferred_mode": "parallel_on_existing_single_GPU_if_actual_other_jobs_allow",
+    "fallback": "serial_same_protocol_and_same_shared_deadline_if_existing_work_prevents_co_residency",
+    "observed_O2_whole_GPU_mib": 34253,
+    "two_arm_memory_estimate_not_measured_peak": true,
+    "scoring_waits_for_all_training_children_exit": true,
+    "GPU_scoring_processes": 1,
+    "torch_threads_per_process": 2,
+    "torch_interop_threads_per_process": 2,
+    "CPU_metadata_workers_max": 12,
+    "CPU_worker_threads": 1,
+    "capacity_benchmark": false,
+    "stop_other_tasks": false
+  },
+  "diagnostics": {
+    "both_arms_identical": true,
+    "patch_scope": "detached_statistics_from_existing_forward_collection_reset_draws",
+    "save_patch_in_user_repo": true,
+    "new_network_forward_calls": 0,
+    "new_physics_rollouts": 0,
+    "extra_replay_or_reset_draws": 0,
+    "extra_per_step_CPU_synchronization": false,
+    "cadence": "device_accumulators_then_existing_log_cadence_and_formal_nodes",
+    "real_training": [
+      "raw_reward_sum_count",
+      "hard_termination_counts",
+      "motion_end_timeout_counts_with_overlap_semantics",
+      "episode_return_length_sums_counts"
+    ],
+    "imagination": [
+      "dense_discounted_survival_weighted_return_before_bootstrap",
+      "actual_bootstrap_contribution",
+      "end_survival_mean",
+      "existing_raw_and_clamped_Critic_and_GAE_target_stats",
+      "upper_clamp_fraction"
+    ],
+    "normalizers": [
+      "count",
+      "mean_vector_norm",
+      "std_min_p50_p95_max"
+    ],
+    "normalizer_scope": "WM_state_action_and_active_Actor_obs_motion_goal_only_no_Critic_normalizer",
+    "actual_reset_exposure": [
+      "hard639_nonhard",
+      "categories",
+      "fixed_named_skills"
+    ],
+    "reset_hook": "delegate_original_external_sampling_once_then_count_returned_frames_using_exclusive_motion_ends",
+    "loss_sampler_rng_optimizer_order_unchanged": true,
+    "training_metrics_are_not_formal_R": true
+  },
+  "evaluation": {
+    "protocol": "unchanged_corrected_O2_formal_metrics",
+    "order": [
+      "all_training_children_exit",
+      "one_BONES_worker_loads_once_scores_all_unique_arm_nodes",
+      "BONES_worker_exits",
+      "one_LAFAN40_worker_scores_same_nodes",
+      "comparisons_and_publication"
+    ],
+    "bones_envs": 4096,
+    "bones_batches": 32,
+    "last_real_clips": 3418,
+    "last_inactive_padding": 678,
+    "lafan_envs": 40,
+    "reload_each_checkpoint_model_and_frozen_normalizers": true,
+    "full_batch_reset_under_inference_mode": true,
+    "frame_zero": true,
+    "deterministic": true,
+    "foot_friction": 1,
+    "training_DR_and_noise": false,
+    "auto_reset": false,
+    "disable_training_timeout_only": true,
+    "hard_conditions_unchanged": true,
+    "reference_transitions": "N_minus_1",
+    "per_clip_R": "native_reward_sum/(0.1*(N-1))",
+    "failure_tail_in_denominator": true,
+    "macro_clip_weighting": true,
+    "completed": "all_N_minus_1_transitions_and_no_hard_failure",
+    "manual_reset_inactive_and_padding_done_rows": true,
+    "per_clip_part_rows": 2000,
+    "reuse_completed_parts_on_publication_failure": true,
+    "re_evaluate_O1_or_O2_parent": false,
+    "partial_not_full_score": true,
+    "primary_paired_node": "new_joint_32000_if_both_exist_else_highest_saved_common_new_update_node",
+    "secondary_paired_nodes": [
+      8000,
+      16000
+    ],
+    "unequal_update_final_not_matched": true
+  },
+  "comparison": {
+    "references": [
+      "O2_hour_03_quality_anchor",
+      "O2_hour_06_difficult_coverage_reference_not_matched_control"
+    ],
+    "report": [
+      "full_R_complete_failed",
+      "hard_nonhard_categories_skills",
+      "length_strata_0_2_5_10_20_60_infinity_seconds",
+      "new_lost_common_complete_vs_parent_and_between_arms",
+      "common_complete_XY_SO3_body_quality",
+      "same_179_parent_failures_and_57_three_six_hour_common_failures_analysis_only",
+      "LAFAN40_cross_library_separately"
+    ],
+    "no_per_clip_best_model_splicing": true,
+    "decision": "publish_full_matched_trajectory_and_whole_checkpoint_tradeoffs_keep_parent_until_new_results_justify_selection",
+    "paper_references": {
+      "SONIC_R": 0.9,
+      "author_single_GPU_failures": 25,
+      "author_motion_count": 129514,
+      "member_alignment_unresolved": true
+    },
+    "inference_scope": "single_seed_matched_warm_start_not_unique_root_cause_or_exact_historical_paper_recipe",
+    "update_scope": {
+      "parent_joint_phases": 31924,
+      "max_new_phases": 32000,
+      "ancestry_sum_with_weight_restart": 63924,
+      "nearest_O2_reference": "hour_06_64746_joint_phases",
+      "O2_final_130314_scale_validated_by_this_stage": false
+    }
+  },
+  "evidence": {
+    "same_formal_rollout_only": true,
+    "scope": "each_arm_actual_final_BONES_node",
+    "max_windows_per_arm": 8,
+    "max_real_transitions_per_window": 32,
+    "short_window": "k=min(32,executed_clip_transitions),k+1_states,k_actions_rewards,valid_length,no_padding_no_cross_reset",
+    "selection": "reuse_O2_disjoint_lowest_original_source_id_failure_rules",
+    "new_replay_or_WM_prediction": false,
+    "videos": false
+  },
+  "publication": {
+    "lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
+    "scoring_and_Git_concurrency": 1,
+    "training_holds_lock": false,
+    "scope": "new_or_changed_lightweight_files_only",
+    "git": [
+      "actual_code_common_diagnostic_patch",
+      "protocol_actual_configs",
+      "initialization_deadline_counters",
+      "all_per_clip_scores",
+      "compact_training_sampling_normalization_statistics",
+      "paired_parent_comparisons",
+      "bounded_failure_windows",
+      "conclusion_status"
+    ],
+    "large_artifacts": "remain_on_D57",
+    "ordinary_checkpoints_keep_latest_per_arm": 20,
+    "protect": [
+      "all_historical_protected_files",
+      "O2_hour_03_hour_06_final",
+      "O3_initial_8k_16k_32k_actual_final_score_referenced"
+    ],
+    "automatic_archive_or_stage_cleanup": false,
+    "full_resume_supported": false,
+    "automatic_O4": false
+  },
+  "preparation_evidence": {
+    "scope": "read_existing_O2_artifacts_only_before_shared_training_clock",
+    "O2_checkpoint_normalizer_summaries": [
+      "hour_03",
+      "hour_06",
+      "final"
+    ],
+    "read_checkpoint_on_CPU_without_Runner_or_forward": true,
+    "normalizer_summary_fields": [
+      "count",
+      "mean_vector_norm",
+      "std_min_p50_p95_max"
+    ],
+    "O2_existing_real_training_metrics": "extract_time_collection_real_episode_reward_length_termination_if_present_in_existing_console_or_offline_wandb",
+    "outputs": "small_source_labelled_tables_in_O2_result_directory",
+    "missing_existing_metric": "record_unavailable_and_continue_no_new_simulation_inference_dependency_install_or_probe",
+    "do_not_change_O3_training_variable_based_on_unproven_statistic": true
+  },
+  "current_execution": {
+    "O3_adapters_implemented": false,
+    "server_connected_this_plan_turn": false,
+    "training_started": false,
+    "evaluation_started": false
+  }
+}
