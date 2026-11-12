@@ -1,6 +1,6 @@
 # O3 official BONES fixed-LR comparison
 
-Status: **evaluating_lafan**. Updated: 2026-11-13T02:12:50.882662+08:00.
+Status: **completed**. Updated: 2026-11-13T02:13:10.752851+08:00.
 
 Same O2 3h WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG on both arms. full_resume=false.
 control: fixed 2e-4; quarter: fixed 5e-5. 4096 real environments each; at most 32000 new joint updates per arm.
