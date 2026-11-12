@@ -1,6 +1,6 @@
 # O2 official full BONES
 
-Status: **evaluating_lafan**. Updated: 2026-11-12T11:59:22.290919+08:00.
+Status: **evaluating_lafan**. Updated: 2026-11-12T11:59:52.662847+08:00.
 
 Fresh seed0, BONES-only 130394 clips, official GenCoord/proprio/history10, 4096 environments.
 Training ends at cumulative 43200 seconds or 1000000 collections. No return-based early stop.
@@ -12,6 +12,7 @@ Training ends at cumulative 43200 seconds or 1000000 collections. No return-base
 | hour_06 | bones_full | 0.87472977 | 129997/130394 | 21600.2 |
 | hour_06 | lafan40_cross_library | 0.62468111 | 26/40 | 21600.2 |
 | final | bones_full | 0.62929250 | 83910/130394 | 43200.0 |
+| final | lafan40_cross_library | 0.03270170 | 0/40 | 43200.0 |
 
 Training checkpoints are saved before scoring. A BONES worker scores all saved nodes only after the training child exits; a separate LAFAN40 worker follows.
 All scored clips, including failures, are retained in each node's CSV parts. Dataset indices preserve original BONES IDs.
