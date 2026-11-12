@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-11-12T11:20:00.127226+08:00",
+  "failed_stage": {
+    "status": "failed",
+    "at": "2026-11-12T10:47:11.940986+08:00",
+    "driver_pid": 874283
+  },
+  "training_child_exit": {
+    "status": "exited",
+    "pid": 874549,
+    "exit_code": 0,
+    "observed_exit_at": "2026-11-12T10:45:08.338851+08:00"
+  },
+  "completed_formal_batch": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/score_batches/bones_full/hour_03/batch_000.csv",
+  "retained_clips": 4096,
+  "traceback": "To disable the print warning: m.opt.warn_overflow &= ~mjw.OverflowType.LS_ITERATIONS (or = 0 for all)\nlinesearch iterations limit reached - please increase ls_iterations beyond 20\nTo disable the print warning: m.opt.warn_overflow &= ~mjw.OverflowType.LS_ITERATIONS (or = 0 for all)\nlinesearch iterations limit reached - please increase ls_iterations beyond 20\nTo disable the print warning: m.opt.warn_overflow &= ~mjw.OverflowType.LS_ITERATIONS (or = 0 for all)\nlinesearch iterations limit reached - please increase ls_iterations beyond 20\nTo disable the print warning: m.opt.warn_overflow &= ~mjw.OverflowType.LS_ITERATIONS (or = 0 for all)\nO2_EVALUATE bones_full hour_03 batch=1 clips=4096/130394\nTraceback (most recent call last):\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/../work/o2/evaluate_library.py\", line 242, in <module>\n    evaluate(args.workspace, args.source)\n    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/../work/o2/evaluate_library.py\", line 198, in evaluate\n    batch_rows = score_batch(base, motion, wm, actor, runner_cfg, cfg,\n        ordered[first:first + batch_size], batch_size, device,\n        output / \"failure_windows\" if label == \"final\" and source == \"bones_full\" else None)\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/../work/o2/evaluate_library.py\", line 48, in score_batch\n    obs = reset_batch(base, motion, clips, batch_size, device)\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/../work/o2/evaluate_library.py\", line 27, in reset_batch\n    base.reset()\n    ~~~~~~~~~~^^\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research/src/mjlab/envs/manager_based_rl_env.py\", line 371, in reset\n    self._reset_idx(env_ids)\n    ~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research/src/mjlab/envs/manager_based_rl_env.py\", line 583, in _reset_idx\n    self.scene.reset(env_ids)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research/src/mjlab/scene/scene.py\", line 201, in reset\n    sensor.reset(env_ids)\n    ~~~~~~~~~~~~^^^^^^^^^\n  File \"/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research/src/mjlab/sensor/contact_sensor.py\", line 365, in reset\n    buf[env_ids] = 0.0\n    ~~~^^^^^^^^^\nRuntimeError: Inplace update to inference tensor outside InferenceMode is not allowed.You can make a clone to get a normal tensor before doing inplace update.See https://github.com/pytorch/rfcs/pull/17 for more details.\n",
+  "cause": "batch reset outside inference_mode mutates contact sensor history created by preceding inference rollout",
+  "fix_commit": "98a1d58",
+  "fix": "run complete score_batch including reset under torch.inference_mode",
+  "continuation": "--start-at bones; read existing completed batch 0; execute only missing batches",
+  "training_restarted": false,
+  "additional_training_budget": 0,
+  "extra_tests_or_rollouts": false
+}
