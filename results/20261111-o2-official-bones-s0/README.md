@@ -1,6 +1,6 @@
 # O2 official full BONES
 
-Status: **training**. Updated: 2026-11-12T10:45:01.024657+08:00.
+Status: **training_completed_evaluation_pending**. Updated: 2026-11-12T10:45:19.921544+08:00.
 
 Fresh seed0, BONES-only 130394 clips, official GenCoord/proprio/history10, 4096 environments.
 Training ends at cumulative 43200 seconds or 1000000 collections. No return-based early stop.
