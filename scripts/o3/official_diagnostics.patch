@@ -1,0 +1,91 @@
+--- a/src/supermimic/runners/supermimic_runner.py
++++ b/src/supermimic/runners/supermimic_runner.py
+@@ -627,6 +627,7 @@
+       self._advance_sim_history(next_obs["actor"].to(self.device), dones)
+       terminated = self.env.unwrapped.termination_manager.terminated
+       self.logger.process_env_step(rewards, terminated, extras)
++      self.o3_diagnostics.collection(rewards, self.env.unwrapped.termination_manager)
+ 
+       if self._sampler is not None:
+         # A failure on a step that also times out counts as the time-out.
+--- a/src/supermimic/learners/policy_learner.py
++++ b/src/supermimic/learners/policy_learner.py
+@@ -34,6 +34,14 @@
+ class ActorCriticPolicyLearnerCfg(BpttPolicyLearnerCfg):
+   gamma: float = 0.99
+   lam: float = 0.95
++
++
++
++def detached_value_stats(name, tensor, upper):
++  """Reductions of already computed values, returned by the captured update."""
++  value = tensor.detach()
++  return {name + "_mean": value.mean(), name + "_min": value.min(),
++          name + "_max": value.max(), name + "_upper_clamp_fraction": (value > upper).float().mean()}
+ 
+ 
+ def gae_returns(
+@@ -113,13 +121,19 @@
+       if cfg.survival_masking:
+         survival = survival * (1 - term_prob)
+       obs = next_obs
+-    ret = ret + self._bootstrap(obs, survival, term_prob)
++    dense_return = ret.detach().mean()
++    bootstrap = self._bootstrap(obs, survival, term_prob)
++    ret = ret + bootstrap
+     loss = (-ret + aux_loss).mean()
+     grad_norm = _optimize_step(
+       self.actor_optimizers, loss, self.actor_params, 1.0, cfg.grad_clip_value
+     )
+     return {
+       "return": ret.mean().detach(),
++      "dense_return": dense_return,
++      "bootstrap_return": bootstrap.detach().mean(),
++      "end_survival_mean": survival.detach().mean(),
++      **self._o3_bootstrap_stats,
+       "grad_norm": grad_norm,
+       **self._fit_critic(rollout, obs),
+       **getattr(self.actor, "auxiliary_stats", lambda: {})(),
+@@ -166,7 +180,10 @@
+     self, obs: TensorDict, survival: torch.Tensor, term_prob: torch.Tensor
+   ) -> torch.Tensor:
+     self.critic.requires_grad_(False)
+-    value = self.critic(obs["critic"]).clamp(max=self._v_max).squeeze(-1)
++    raw_value = self.critic(obs["critic"])
++    value = raw_value.clamp(max=self._v_max).squeeze(-1)
++    self._o3_bootstrap_stats = detached_value_stats("bootstrap_value_raw", raw_value, self._v_max)
++    self._o3_bootstrap_stats.update(detached_value_stats("bootstrap_value_clamped", value, self._v_max))
+     alive = survival if self.cfg.survival_masking else 1.0 - term_prob
+     return self.cfg.gamma**self.cfg.horizon * value * alive
+ 
+@@ -177,14 +194,19 @@
+     with torch.no_grad():
+       values = self.critic(steps["critic"])
+       last_value = self.critic(last_obs["critic"])
+-    returns = gae_returns(
++    raw_returns = gae_returns(
+       values,
+       last_value,
+       steps["reward"].unsqueeze(-1),
+       steps["done"].unsqueeze(-1),
+       self.cfg.gamma,
+       self.cfg.lam,
+-    ).clamp(max=self._v_max)
++    )
++    returns = raw_returns.clamp(max=self._v_max)
++    diagnostics = detached_value_stats("gae_raw", raw_returns, self._v_max)
++    diagnostics.update(detached_value_stats("gae_clamped", returns, self._v_max))
++    diagnostics.update(detached_value_stats("critic_rollout_raw", values, self._v_max))
++    diagnostics.update(detached_value_stats("critic_last_raw", last_value, self._v_max))
+     obs, returns = steps["critic"].flatten(0, 1), returns.flatten(0, 1)
+     perm = torch.randperm(len(returns) // 4 * 4, device=returns.device)
+     self.critic.requires_grad_(True)
+@@ -196,7 +218,7 @@
+           self.critic_optimizers, loss, self.critic.parameters(), max_norm=1.0
+         )
+         losses.append(loss.detach())
+-    return {"value_function": torch.stack(losses).mean()}
++    return {"value_function": torch.stack(losses).mean(), **diagnostics}
+ 
+   def _graph_state(self) -> list[torch.Tensor]:
+     return super()._graph_state() + graph_state([self.critic], self.critic_optimizers)

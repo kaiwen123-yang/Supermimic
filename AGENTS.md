@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前主线O3：官方BONES稳定性方案已发布，尚未执行（plan_published_not_started）。** 入口为docs/O3_OFFICIAL_BONES_STABILITY_PLAN.md、configs/o3_official_bones_stability_protocol.json和docs/O3_CODEX_START_PROMPT.md。本次仅发布O2复核、下一段方案/协议/启动词；尚未实施O3运行适配、连接D57或启动训练。两路从O2同一3h权重热启动，原LR2e-4与统一0.25倍LR5e-5比较；各4096环境、新增最多32000次联合更新，共享整个campaign最多8h训练墙钟。O1/P6成果保留，P12继续暂停。
+- **当前主线O3：** 运行适配已部署，待正式启动（prepared）。同O2 3h权重与完整normalizer热启动，full_resume=false；control固定LR2e-4、quarter固定5e-5，各4096环境、新增最多32000联合更新，共享一个8h训练期限。状态见results/20261112-o3-official-bones-lr-s0/summary.json，接续见docs/O3_EXECUTION_HANDOFF.md。tmux sm-o3-bones-lr-s0；不重启活动replay或重置期限。保护O2 3h/6h与O1/P6成果，P12继续暂停。
 - **O2已完成并复核。** BONES-only 130394条、seed0从零、4096环境；3h R=.93501955、130215条完整，6h R=.87472977、129997条完整，12h实际final R=.62929250、83910条完整。LAFAN跨库完整数25/26/0。3h作为良好主锚点，6h作为困难覆盖参照；后期回撤不撤销3h成绩。详见docs/O2_REVIEW_20261112.md及results/20261111-o2-official-bones-s0/summary.json。历史tmux sm-o2-official-bones-s0已结束，不重启、不追加O2预算；latest_training的evaluation_pending是训练退出快照，全部评分与轻量发布已完成。
 - **O1历史首段已完成并复核。** seed0从零训练，首个正式3h节点R=0.85882311、39/40；实际终点约3h8m17s，R=0.87443989、40/40，因formal_return_target_reached停止。全40的XY时间均值0.765250m、9条>=1m，完整执行与精确全局跟踪分开报告。复核见docs/O1_REVIEW_20261111.md及results/20261111-o1-official-lafan40-s0/review_20261111.json，当前完成状态见summary.json。D57工作区supermimic-official-workspace，历史tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。latest_training的evaluation_pending是退出快照，final已完成。不重跑O1、不补6h/12h或追加O1预算。O2亦已完成，新阶段按顶部O3独立方案接续；既有LAFAN验收成果和其他任务保留。
 - **P11最新结论：** 两路均36000，原残差全BONES R=.86375135、129152/130394完整、hard312/639；高度约束R=.85693786、129598完整、hard305/639。候选多446条完整主要来自普通动作，回报及同输入WM误差较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点与LAFAN跨节点保持有优势，不称全面退化。当前原WM在仍存活的倒立第16步高度已低估.100342m（S=.997672），与旧P9飘高诊断不同。合法k8起点bin全部得到WM曝光，66个零起点bin均为参考自然末尾不足8步，不能说关键开头未进learner。来源见本轮复核及review_20261111.json。
@@ -42,9 +42,9 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O3官方BONES稳定性（方案已发布，尚未执行）
+## O3官方BONES稳定性（运行适配已部署，待正式启动）
 
-- campaign=20261112-o3-official-bones-lr-s0；run为o3-bones-lr-control-s0和o3-bones-lr-quarter-s0。当前仅发布方案、协议与启动词，O3运行适配尚待执行端实施，未启动服务器训练。执行端收到docs/O3_CODEX_START_PROMPT.md后按其范围完成必要适配和正式运行，不重跑O2或独立实现旧阶段。
+- campaign=20261112-o3-official-bones-lr-s0；O3运行适配已部署；当前执行状态以顶部summary和handoff为准。两路run和tmux保持协议身份，不重复启动。
 - 共用O2 hour_03的/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt；恢复同一WM/Actor/Critic及normalizer/sim-context bundle，两路按相同规则新建optimizer、replay、sampler和随机状态。明确weights warm-start、full_resume=false，父31924联合更新和本段新增计数分开；旧O2 6h不是严格匹配control。保护3h、6h和全部历史节点。
 - 唯一比较为三网络固定LR统一倍率：control2e-4、quarter5e-5；构建learner前设置，保持官方Muon/Adam分配和capture路径。各4096真实环境，WM10×2048/窗口8、Actor4096/H32、GenCoord/proprio/history10；数据、奖励、终止、DR、采样及其余参数不变。当前Muon的float LR在CUDA graph捕获后固定，不仅套Python scheduler；不把本次0.25倍干预称论文Adam+cosine的精确复原。
 - 两路优先并行，各新增最多32000次联合更新；整个campaign共享最多28800秒训练墙钟，从driver启动首个正式训练child之前计时，包含初始化、争用和实际中断，不是每路各8h，也不因交接/错误恢复重置。固定新增8000/16000/32000及实际final只保存；比较双方实际存在的共同更新节点，不将不等更新量final当配对。单Codex交互≤4h，tmux可跨窗口连续。
