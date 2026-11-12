@@ -1,6 +1,6 @@
 # O3 official BONES fixed-LR comparison
 
-Status: **evaluating_lafan**. Updated: 2026-11-13T02:06:44.853709+08:00.
+Status: **evaluating_lafan**. Updated: 2026-11-13T02:09:50.601911+08:00.
 
 Same O2 3h WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG on both arms. full_resume=false.
 control: fixed 2e-4; quarter: fixed 5e-5. 4096 real environments each; at most 32000 new joint updates per arm.
@@ -17,6 +17,7 @@ Shared campaign training deadline: 2026-11-13T02:31:37.534132+08:00. Initializat
 | quarter/update_08000 | bones_full | 8000 | 0.94680545 | 130258/130394 |
 | quarter/update_08000 | lafan40_cross_library | 8000 | 0.65155078 | 26/40 |
 | quarter/update_16000 | bones_full | 16000 | 0.94757578 | 130300/130394 |
+| quarter/update_16000 | lafan40_cross_library | 16000 | 0.63926816 | 24/40 |
 | quarter/update_32000 | bones_full | 32000 | 0.94430475 | 130307/130394 |
 
 Initial scores reuse O2 3h; final aliases are evaluated once. All unique actual nodes and failed clips are retained.
