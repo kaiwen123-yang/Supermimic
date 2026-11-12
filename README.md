@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O3官方BONES稳定性。** 两路训练已结束，等待评分（training_completed_evaluation_pending）。同O2 3h权重与完整normalizer热启动，full_resume=false；control固定LR2e-4、quarter固定5e-5，各4096环境、新增最多32000联合更新，共享一个8h训练期限。状态见results/20261112-o3-official-bones-lr-s0/summary.json，接续见docs/O3_EXECUTION_HANDOFF.md。tmux sm-o3-bones-lr-s0；不重启活动replay或重置期限。保护O2 3h/6h与O1/P6成果，P12继续暂停。
+> **当前主线：O3官方BONES稳定性。** 两路训练已结束，正在全BONES评分（evaluating_bones）。同O2 3h权重与完整normalizer热启动，full_resume=false；control固定LR2e-4、quarter固定5e-5，各4096环境、新增最多32000联合更新，共享一个8h训练期限。状态见results/20261112-o3-official-bones-lr-s0/summary.json，接续见docs/O3_EXECUTION_HANDOFF.md。tmux sm-o3-bones-lr-s0；不重启活动replay或重置期限。保护O2 3h/6h与O1/P6成果，P12继续暂停。
 
 > **O2官方完整BONES已完成并复核。** 3h **R=.93501955、130215/130394完整**；6h **R=.87472977、129997完整**；12h实际final **R=.62929250、83910完整**。3h作为良好主锚点，6h作为困难覆盖参照：hard完整数552→597/639，但普通动作质量回撤，最终发生大范围退化。LAFAN跨库完整数25/26/0。3h超过论文SONIC的.90回报参照，作者单卡25失败及精确成员对齐仍另行区分。[本轮复核](docs/O2_REVIEW_20261112.md)、[全部结果](results/20261111-o2-official-bones-s0/summary.json)、[逐动作入口](results/20261111-o2-official-bones-s0/README.md)。历史tmux sm-o2-official-bones-s0已结束，不重启或追加O2预算。
 
