@@ -1,10 +1,10 @@
 # O3 official BONES fixed-LR comparison
 
-Status: **prepared**. Updated: 2026-11-12T18:31:23.991876+08:00.
+Status: **training**. Updated: 2026-11-12T18:31:37.538259+08:00.
 
 Same O2 3h WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG on both arms. full_resume=false.
 control: fixed 2e-4; quarter: fixed 5e-5. 4096 real environments each; at most 32000 new joint updates per arm.
-Shared campaign training deadline: not started. Initialization and contention are included.
+Shared campaign training deadline: 2026-11-13T02:31:37.534132+08:00. Initialization and contention are included.
 
 | Arm/node | Library | New updates | R | Complete / all |
 |---|---|---:|---:|---:|
