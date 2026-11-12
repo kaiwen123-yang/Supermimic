@@ -1,0 +1,132 @@
+{
+  "normalizers": {
+    "wm.state_normalizer": {
+      "count": 654630912,
+      "mean_vector_norm": 2.1485307216644287,
+      "std_min_p50_p95_max": [
+        0.10620669275522232,
+        0.6377564668655396,
+        2.247796058654785,
+        2.4063291549682617
+      ]
+    },
+    "wm.action_normalizer": {
+      "count": 654630912,
+      "mean_vector_norm": 1.7861239910125732,
+      "std_min_p50_p95_max": [
+        0.14750531315803528,
+        0.4667299687862396,
+        0.7629721760749817,
+        0.9219451546669006
+      ]
+    },
+    "actor.obs_normalizer": {
+      "count": 654630912,
+      "mean_vector_norm": 4.529040813446045,
+      "std_min_p50_p95_max": [
+        0.10630356520414352,
+        0.957220733165741,
+        2.279247283935547,
+        4.559259414672852
+      ]
+    },
+    "actor.goal_normalizers.motion": {
+      "count": 654630912,
+      "mean_vector_norm": 7.276615142822266,
+      "std_min_p50_p95_max": [
+        0.07676678895950317,
+        0.5326195955276489,
+        1.9276434183120728,
+        2.512650489807129
+      ]
+    },
+    "actor.goal_normalizers.velocity": {
+      "count": 0,
+      "mean_vector_norm": 0.0,
+      "std_min_p50_p95_max": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "optimizers": {
+    "wm": [
+      {
+        "type": "Adam",
+        "lr": [
+          0.00019999999494757503
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          0.0002
+        ]
+      }
+    ],
+    "actor": [
+      {
+        "type": "Adam",
+        "lr": [
+          0.00019999999494757503
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          0.0002
+        ]
+      }
+    ],
+    "critic": [
+      {
+        "type": "Adam",
+        "lr": [
+          0.00019999999494757503
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          0.0002
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "campaign": "20261112-o3-official-bones-lr-s0",
+    "arm": "control",
+    "run_name": "o3-bones-lr-control-s0",
+    "status": "running",
+    "updated_at": "2026-11-13T00:43:59.294177+08:00",
+    "training_seconds": 22341.69608926773,
+    "campaign_training_wall_seconds": 22341.760063409805,
+    "deadline_epoch": 1794508297.5341325,
+    "parent": {
+      "campaign": "20261111-o2-official-bones-s0",
+      "node": "hour_03",
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+      "training_seconds": 10800.263551399112,
+      "collection_steps": 79816,
+      "real_transitions": 326926336,
+      "joint_learning_phases": 31924,
+      "actor_updates": 31924,
+      "bones_R": 0.9350195502553713,
+      "bones_completed": 130215,
+      "bones_failed": 179,
+      "full_resume": false,
+      "reuse_existing_formal_scores": true
+    },
+    "full_resume": false,
+    "collection_steps": 80006,
+    "real_transitions": 327704576,
+    "learning_phases": 32000,
+    "world_model_batch_updates": 320000,
+    "actor_updates": 32000,
+    "critic_minibatch_updates": 640000,
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-control-s0/checkpoints/checkpoint_000080006.pt",
+    "evaluation_label": "update_32000"
+  }
+}
