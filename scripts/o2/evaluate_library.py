@@ -43,7 +43,9 @@ def reset_batch(base, motion, clips, batch_size, device):
     return obs
 
 
+@torch.inference_mode()
 def score_batch(base, motion, wm, actor, runner_cfg, cfg, clips, batch_size, device, evidence_dir):
+    # The preceding batch creates sensor-history inference tensors; reset them in the same mode.
     count = len(clips)
     obs = reset_batch(base, motion, clips, batch_size, device)
     ref_steps = torch.tensor([c["frames"] - 1 for c in clips] + [0] * (batch_size - count), device=device)

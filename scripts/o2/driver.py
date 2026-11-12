@@ -29,6 +29,7 @@ def main():
             code = process.wait()
         if code:
             stage("failed")
+            publish(f"{script}-failed")
             raise RuntimeError(f"{script} exited {code}; saved artifacts and budget retained")
         return process.pid
 
@@ -50,9 +51,11 @@ def main():
         publish("training-exited")
     if args.start_at in {"prepare", "bones"}:
         stage("evaluating_bones")
+        publish("bones-scoring-start")
         child("evaluate_library", "--source", "bones_full")
     if args.start_at in {"prepare", "bones", "lafan"}:
         stage("evaluating_lafan")
+        publish("lafan-scoring-start")
         child("evaluate_library", "--source", "lafan40_cross_library")
     stage("completed")
     publish("completed")

@@ -48,7 +48,7 @@ def refresh(workspace):
                "stage": stage, "latest_training": progress, "saved_nodes": nodes, "evaluations": evaluations,
                "training_started": progress is not None,
                "training_finished": (run_dir / "training_child_exit.json").exists(),
-               "formal_evaluation_started": stage["status"] in {"evaluating_bones", "evaluating_lafan", "completed"},
+               "formal_evaluation_started": (result_dir / "evaluation_execution.json").exists(),
                "formal_evaluation_finished": bool(evaluations) and all(len(v) == 2 for v in evaluations.values()),
                "initialization": "fresh_seed0_BONES_only", "parent_checkpoint": None, "full_resume": False,
                "budget_seconds": 43200, "max_collection_steps": 1000000, "return_early_stop": None,
