@@ -1,6 +1,6 @@
 {
   "campaign": "20261112-o3-official-bones-lr-s0",
-  "updated_at": "2026-11-13T00:56:17.089512+08:00",
+  "updated_at": "2026-11-13T01:06:55.911499+08:00",
   "status": "evaluating_bones",
   "plan_commit": "e517e5c8332559514a6d49ec571aef9df70a04e3",
   "implementation_status": "deployed_common_statistics_patch",
@@ -171,7 +171,10 @@
             "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-control-s0/checkpoints/checkpoint_000040006.pt",
             "evaluation_label": "update_16000"
           },
-          "evaluation_status": "pending_after_all_training_exit"
+          "evaluation_status": "partially_completed",
+          "completed_evaluation_sources": [
+            "bones_full"
+          ]
         },
         "update_32000": {
           "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-control-s0/checkpoints/checkpoint_000080006.pt",
@@ -3756,7 +3759,10 @@
         "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-control-s0/checkpoints/checkpoint_000040006.pt",
         "evaluation_label": "update_16000"
       },
-      "evaluation_status": "pending_after_all_training_exit",
+      "evaluation_status": "partially_completed",
+      "completed_evaluation_sources": [
+        "bones_full"
+      ],
       "arm": "control",
       "run_name": "o3-bones-lr-control-s0",
       "label": "update_16000",
@@ -5044,7 +5050,1106 @@
         "interpretation": "official algorithm on project 130394 BONES; paper membership not identical"
       }
     },
-    "control/update_16000": {},
+    "control/update_16000": {
+      "bones_full": {
+        "clip_count": 130394,
+        "completed": 130165,
+        "failed": 229,
+        "failure_rate": 0.001756215776799546,
+        "mean_normalized_return": 0.9301624657535615,
+        "mean_completion_fraction": 0.9990949058825881,
+        "executed_transitions": 47558578,
+        "reference_transitions": 47597514,
+        "quality": {
+          "root_position_error_m": 0.1087728248172797,
+          "root_xy_error_m": 0.10679805806379547,
+          "root_z_absolute_error_m": 0.00973875252406306,
+          "root_orientation_error_rad": 0.04503780087872898,
+          "relative_body_position_error_m": 0.028068415532054396,
+          "relative_body_orientation_error_rad": 0.10921648285013003
+        },
+        "normalized_reward_contributions": {
+          "reward_motion_global_root_pos": 0.08529468397193919,
+          "reward_motion_global_root_ori": 0.09805016634073274,
+          "reward_motion_body_pos": 0.1965159616498389,
+          "reward_motion_body_ori": 0.1804004612229291,
+          "reward_motion_body_lin_vel": 0.19135857265343734,
+          "reward_motion_body_ang_vel": 0.18722596762465568,
+          "reward_action_rate_l2": -0.007573568050211049,
+          "reward_joint_limit": -0.0011097853136609508
+        },
+        "groups": {
+          "categories": {
+            "Advanced Locomotion": {
+              "clip_count": 5936,
+              "completed": 5915,
+              "failed": 21,
+              "failure_rate": 0.003537735849056604,
+              "mean_normalized_return": 0.8831043366295785,
+              "mean_completion_fraction": 0.9978363208163361,
+              "executed_transitions": 2048323,
+              "reference_transitions": 2051612,
+              "quality": {
+                "root_position_error_m": 0.15942636140661096,
+                "root_xy_error_m": 0.1539874552199931,
+                "root_z_absolute_error_m": 0.021338531066550773,
+                "root_orientation_error_rad": 0.0770761418422828,
+                "relative_body_position_error_m": 0.041574604458784054,
+                "relative_body_orientation_error_rad": 0.14570920326329098
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.07585045773737124,
+                "reward_motion_global_root_ori": 0.09479619065483931,
+                "reward_motion_body_pos": 0.19361106848369303,
+                "reward_motion_body_ori": 0.1673360275994845,
+                "reward_motion_body_lin_vel": 0.1857944322165912,
+                "reward_motion_body_ang_vel": 0.17962754494497235,
+                "reward_action_rate_l2": -0.011078706533498989,
+                "reward_joint_limit": -0.0028326840308130364
+              }
+            },
+            "Baseline": {
+              "clip_count": 19726,
+              "completed": 19709,
+              "failed": 17,
+              "failure_rate": 0.0008618067525093785,
+              "mean_normalized_return": 0.9351570344758395,
+              "mean_completion_fraction": 0.9995196969976754,
+              "executed_transitions": 6676073,
+              "reference_transitions": 6677832,
+              "quality": {
+                "root_position_error_m": 0.08521822364850405,
+                "root_xy_error_m": 0.08292151569430344,
+                "root_z_absolute_error_m": 0.009384130889431231,
+                "root_orientation_error_rad": 0.04113530794408459,
+                "relative_body_position_error_m": 0.026847315310159832,
+                "relative_body_orientation_error_rad": 0.09717453842673171
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.08956921172593915,
+                "reward_motion_global_root_ori": 0.09851679301236596,
+                "reward_motion_body_pos": 0.19657986419223078,
+                "reward_motion_body_ori": 0.18543008704606273,
+                "reward_motion_body_lin_vel": 0.18975694979890342,
+                "reward_motion_body_ang_vel": 0.1859445682380591,
+                "reward_action_rate_l2": -0.009787880003600528,
+                "reward_joint_limit": -0.0008525651770225243
+              }
+            },
+            "Basic Locomotion Neutral": {
+              "clip_count": 28440,
+              "completed": 28425,
+              "failed": 15,
+              "failure_rate": 0.0005274261603375527,
+              "mean_normalized_return": 0.9310600574317505,
+              "mean_completion_fraction": 0.9997646326728968,
+              "executed_transitions": 10432967,
+              "reference_transitions": 10435779,
+              "quality": {
+                "root_position_error_m": 0.12108823524123838,
+                "root_xy_error_m": 0.11915962908271222,
+                "root_z_absolute_error_m": 0.00960882797846962,
+                "root_orientation_error_rad": 0.04864681915595156,
+                "relative_body_position_error_m": 0.027420487804555346,
+                "relative_body_orientation_error_rad": 0.10429548340025006
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.08312032039017044,
+                "reward_motion_global_root_ori": 0.0979701097014346,
+                "reward_motion_body_pos": 0.1967647731727729,
+                "reward_motion_body_ori": 0.1823345435794433,
+                "reward_motion_body_lin_vel": 0.19108571486224973,
+                "reward_motion_body_ang_vel": 0.1880128419116065,
+                "reward_action_rate_l2": -0.007531022419460322,
+                "reward_joint_limit": -0.0006972293917225238
+              }
+            },
+            "Basic Locomotion Styles": {
+              "clip_count": 10736,
+              "completed": 10736,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9358852473913828,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 4671355,
+              "reference_transitions": 4671355,
+              "quality": {
+                "root_position_error_m": 0.14944892106432084,
+                "root_xy_error_m": 0.14857941766937632,
+                "root_z_absolute_error_m": 0.007778228468420155,
+                "root_orientation_error_rad": 0.0407713987803878,
+                "relative_body_position_error_m": 0.025765570244968766,
+                "relative_body_orientation_error_rad": 0.09802326843174017
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.0780780947164703,
+                "reward_motion_global_root_ori": 0.09867636364873947,
+                "reward_motion_body_pos": 0.1975087321096618,
+                "reward_motion_body_ori": 0.18443909915726003,
+                "reward_motion_body_lin_vel": 0.19299752963218958,
+                "reward_motion_body_ang_vel": 0.19051600255651874,
+                "reward_action_rate_l2": -0.006041341758788043,
+                "reward_joint_limit": -0.0002892383157709371
+              }
+            },
+            "Communication": {
+              "clip_count": 3657,
+              "completed": 3657,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9568296149326231,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 1196109,
+              "reference_transitions": 1196109,
+              "quality": {
+                "root_position_error_m": 0.049065861773591575,
+                "root_xy_error_m": 0.04822694975802678,
+                "root_z_absolute_error_m": 0.005600014787917831,
+                "root_orientation_error_rad": 0.028366461389375,
+                "relative_body_position_error_m": 0.022805119272432714,
+                "relative_body_orientation_error_rad": 0.10222033960562817
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.095563031596016,
+                "reward_motion_global_root_ori": 0.09934236673262992,
+                "reward_motion_body_pos": 0.1979648317994359,
+                "reward_motion_body_ori": 0.18211526243874318,
+                "reward_motion_body_lin_vel": 0.19716181790851223,
+                "reward_motion_body_ang_vel": 0.19134068884266653,
+                "reward_action_rate_l2": -0.00526266095857883,
+                "reward_joint_limit": -0.0013957291218037334
+              }
+            },
+            "Complex Actions": {
+              "clip_count": 528,
+              "completed": 522,
+              "failed": 6,
+              "failure_rate": 0.011363636363636364,
+              "mean_normalized_return": 0.9020870517919715,
+              "mean_completion_fraction": 0.9938492458094804,
+              "executed_transitions": 538845,
+              "reference_transitions": 541448,
+              "quality": {
+                "root_position_error_m": 0.19896881593943916,
+                "root_xy_error_m": 0.19779245526102776,
+                "root_z_absolute_error_m": 0.010238842818963317,
+                "root_orientation_error_rad": 0.055972306297557166,
+                "relative_body_position_error_m": 0.028884092576479024,
+                "relative_body_orientation_error_rad": 0.11245200686846245
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.06967853906730165,
+                "reward_motion_global_root_ori": 0.09685787546580521,
+                "reward_motion_body_pos": 0.19549199072304732,
+                "reward_motion_body_ori": 0.17994162486679288,
+                "reward_motion_body_lin_vel": 0.18791452681094703,
+                "reward_motion_body_ang_vel": 0.18243607158387726,
+                "reward_action_rate_l2": -0.00919968338518023,
+                "reward_joint_limit": -0.0010338988308377425
+              }
+            },
+            "Consuming": {
+              "clip_count": 1124,
+              "completed": 1124,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9507048961496183,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 552075,
+              "reference_transitions": 552075,
+              "quality": {
+                "root_position_error_m": 0.10005245998613431,
+                "root_xy_error_m": 0.0993528222374202,
+                "root_z_absolute_error_m": 0.006438209131063445,
+                "root_orientation_error_rad": 0.03577688395335283,
+                "relative_body_position_error_m": 0.02587316110701299,
+                "relative_body_orientation_error_rad": 0.10617524124169472
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.0870179794565798,
+                "reward_motion_global_root_ori": 0.09888129104122463,
+                "reward_motion_body_pos": 0.1972991813830576,
+                "reward_motion_body_ori": 0.18119183773040695,
+                "reward_motion_body_lin_vel": 0.19636619715382994,
+                "reward_motion_body_ang_vel": 0.1948368365127461,
+                "reward_action_rate_l2": -0.003559556843770601,
+                "reward_joint_limit": -0.0013288759723808006
+              }
+            },
+            "Dancing": {
+              "clip_count": 10886,
+              "completed": 10875,
+              "failed": 11,
+              "failure_rate": 0.0010104721660848797,
+              "mean_normalized_return": 0.8552678709582071,
+              "mean_completion_fraction": 0.9996230847832949,
+              "executed_transitions": 3867745,
+              "reference_transitions": 3868859,
+              "quality": {
+                "root_position_error_m": 0.1892704089125172,
+                "root_xy_error_m": 0.1873476663189769,
+                "root_z_absolute_error_m": 0.012892367236871238,
+                "root_orientation_error_rad": 0.06587560800127039,
+                "relative_body_position_error_m": 0.03544046229771376,
+                "relative_body_orientation_error_rad": 0.139495785588331
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.07171852607354709,
+                "reward_motion_global_root_ori": 0.0964722110388395,
+                "reward_motion_body_pos": 0.19503645899056105,
+                "reward_motion_body_ori": 0.17079271015604636,
+                "reward_motion_body_lin_vel": 0.17785761308121684,
+                "reward_motion_body_ang_vel": 0.16327705528007244,
+                "reward_action_rate_l2": -0.018763631990882854,
+                "reward_joint_limit": -0.0011230770367837606
+              }
+            },
+            "Environments": {
+              "clip_count": 584,
+              "completed": 584,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9319553814672513,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 342049,
+              "reference_transitions": 342049,
+              "quality": {
+                "root_position_error_m": 0.14785138953760274,
+                "root_xy_error_m": 0.14707865415815102,
+                "root_z_absolute_error_m": 0.006564942619662492,
+                "root_orientation_error_rad": 0.036884920627892295,
+                "relative_body_position_error_m": 0.02642842352195001,
+                "relative_body_orientation_error_rad": 0.10294136632505758
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.07763941916650005,
+                "reward_motion_global_root_ori": 0.09883529480874427,
+                "reward_motion_body_pos": 0.19715382489196212,
+                "reward_motion_body_ori": 0.1824156304641644,
+                "reward_motion_body_lin_vel": 0.19273753274038052,
+                "reward_motion_body_ang_vel": 0.18979361054097188,
+                "reward_action_rate_l2": -0.005869670150349378,
+                "reward_joint_limit": -0.0007502664653148871
+              }
+            },
+            "Gestures": {
+              "clip_count": 17294,
+              "completed": 17271,
+              "failed": 23,
+              "failure_rate": 0.0013299410200069389,
+              "mean_normalized_return": 0.962406856825882,
+              "mean_completion_fraction": 0.9994712957089249,
+              "executed_transitions": 4525940,
+              "reference_transitions": 4530299,
+              "quality": {
+                "root_position_error_m": 0.04562520625763802,
+                "root_xy_error_m": 0.044664521467336536,
+                "root_z_absolute_error_m": 0.005995860016116294,
+                "root_orientation_error_rad": 0.029388639194232263,
+                "relative_body_position_error_m": 0.022750376920103038,
+                "relative_body_orientation_error_rad": 0.09890451140852778
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.09614260660419412,
+                "reward_motion_global_root_ori": 0.09912310579172848,
+                "reward_motion_body_pos": 0.19769343959143057,
+                "reward_motion_body_ori": 0.18261823865008,
+                "reward_motion_body_lin_vel": 0.19732333490103762,
+                "reward_motion_body_ang_vel": 0.1944960310764417,
+                "reward_action_rate_l2": -0.003591779631606002,
+                "reward_joint_limit": -0.0013981259683339933
+              }
+            },
+            "Household": {
+              "clip_count": 1318,
+              "completed": 1318,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.964341832677621,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 551355,
+              "reference_transitions": 551355,
+              "quality": {
+                "root_position_error_m": 0.04958982392031207,
+                "root_xy_error_m": 0.04792643112077025,
+                "root_z_absolute_error_m": 0.0071936230345754654,
+                "root_orientation_error_rad": 0.033215823958516,
+                "relative_body_position_error_m": 0.02492503219297966,
+                "relative_body_orientation_error_rad": 0.10103091846235879
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.09561263503975324,
+                "reward_motion_global_root_ori": 0.0991230017123095,
+                "reward_motion_body_pos": 0.19767267386020518,
+                "reward_motion_body_ori": 0.18251401417374877,
+                "reward_motion_body_lin_vel": 0.1981336588618788,
+                "reward_motion_body_ang_vel": 0.19575621278457378,
+                "reward_action_rate_l2": -0.003004999276645446,
+                "reward_joint_limit": -0.0014653702152508529
+              }
+            },
+            "Looking and Pointing": {
+              "clip_count": 180,
+              "completed": 180,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9698757800877645,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 66676,
+              "reference_transitions": 66676,
+              "quality": {
+                "root_position_error_m": 0.045480299261346405,
+                "root_xy_error_m": 0.04459978347123737,
+                "root_z_absolute_error_m": 0.0056467725838621015,
+                "root_orientation_error_rad": 0.030703921058020656,
+                "relative_body_position_error_m": 0.022376678609167755,
+                "relative_body_orientation_error_rad": 0.09236050499887774
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.09623157216061497,
+                "reward_motion_global_root_ori": 0.09927491764604723,
+                "reward_motion_body_pos": 0.19808321027817838,
+                "reward_motion_body_ori": 0.1848983306439802,
+                "reward_motion_body_lin_vel": 0.19807741855504682,
+                "reward_motion_body_ang_vel": 0.196355482262701,
+                "reward_action_rate_l2": -0.0022581491975004323,
+                "reward_joint_limit": -0.0007870082043617416
+              }
+            },
+            "Magic": {
+              "clip_count": 152,
+              "completed": 152,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9589459277928123,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 59805,
+              "reference_transitions": 59805,
+              "quality": {
+                "root_position_error_m": 0.053173861949002976,
+                "root_xy_error_m": 0.05193329384252867,
+                "root_z_absolute_error_m": 0.007305466841531701,
+                "root_orientation_error_rad": 0.032182472307558274,
+                "relative_body_position_error_m": 0.02542788374174624,
+                "relative_body_orientation_error_rad": 0.10315922021517834
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.09512285033087153,
+                "reward_motion_global_root_ori": 0.09925730542584969,
+                "reward_motion_body_pos": 0.1976224611300796,
+                "reward_motion_body_ori": 0.1814615839371845,
+                "reward_motion_body_lin_vel": 0.19745898648748772,
+                "reward_motion_body_ang_vel": 0.1931736585670343,
+                "reward_action_rate_l2": -0.004444589610759554,
+                "reward_joint_limit": -0.0007063341938574429
+              }
+            },
+            "Martial Arts": {
+              "clip_count": 20,
+              "completed": 19,
+              "failed": 1,
+              "failure_rate": 0.05,
+              "mean_normalized_return": 0.8859574316950496,
+              "mean_completion_fraction": 0.9736734693877551,
+              "executed_transitions": 4213,
+              "reference_transitions": 4342,
+              "quality": {
+                "root_position_error_m": 0.13108193763778878,
+                "root_xy_error_m": 0.12867405728705172,
+                "root_z_absolute_error_m": 0.01196523690793647,
+                "root_orientation_error_rad": 0.05152846712754163,
+                "relative_body_position_error_m": 0.03278633744122847,
+                "relative_body_orientation_error_rad": 0.10841015769780413
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.0766078749636511,
+                "reward_motion_global_root_ori": 0.09522104641766028,
+                "reward_motion_body_pos": 0.1905686440429751,
+                "reward_motion_body_ori": 0.177328729206421,
+                "reward_motion_body_lin_vel": 0.18081308195510315,
+                "reward_motion_body_ang_vel": 0.17736447168404573,
+                "reward_action_rate_l2": -0.010899346727129472,
+                "reward_joint_limit": -0.001047074804823482
+              }
+            },
+            "Object Interaction": {
+              "clip_count": 9305,
+              "completed": 9305,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9573260326324559,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 4297693,
+              "reference_transitions": 4297693,
+              "quality": {
+                "root_position_error_m": 0.091915700518716,
+                "root_xy_error_m": 0.09120541254466748,
+                "root_z_absolute_error_m": 0.005652449409687561,
+                "root_orientation_error_rad": 0.032204621308300777,
+                "relative_body_position_error_m": 0.023840881480586596,
+                "relative_body_orientation_error_rad": 0.09733173079512887
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.08793682687673374,
+                "reward_motion_global_root_ori": 0.09917654776514692,
+                "reward_motion_body_pos": 0.19773267880347262,
+                "reward_motion_body_ori": 0.18335843248139677,
+                "reward_motion_body_lin_vel": 0.1969821004750815,
+                "reward_motion_body_ang_vel": 0.19591558078465174,
+                "reward_action_rate_l2": -0.002800990101297548,
+                "reward_joint_limit": -0.0009751502258950192
+              }
+            },
+            "Object Manipulation": {
+              "clip_count": 11516,
+              "completed": 11515,
+              "failed": 1,
+              "failure_rate": 8.68357068426537e-05,
+              "mean_normalized_return": 0.9556907349586933,
+              "mean_completion_fraction": 0.9999628702494879,
+              "executed_transitions": 4185314,
+              "reference_transitions": 4185562,
+              "quality": {
+                "root_position_error_m": 0.07770307445622973,
+                "root_xy_error_m": 0.07634021770284541,
+                "root_z_absolute_error_m": 0.007260152393481144,
+                "root_orientation_error_rad": 0.038961405285932796,
+                "relative_body_position_error_m": 0.025719391436844923,
+                "relative_body_orientation_error_rad": 0.10137925406433253
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.09030304358429425,
+                "reward_motion_global_root_ori": 0.09873031600513507,
+                "reward_motion_body_pos": 0.1973977209229118,
+                "reward_motion_body_ori": 0.18254167387390804,
+                "reward_motion_body_lin_vel": 0.19645635115931456,
+                "reward_motion_body_ang_vel": 0.19498957937165717,
+                "reward_action_rate_l2": -0.0035247939379558836,
+                "reward_joint_limit": -0.0012031618248355286
+              }
+            },
+            "Other": {
+              "clip_count": 2081,
+              "completed": 2081,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9509398684692254,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 934515,
+              "reference_transitions": 934515,
+              "quality": {
+                "root_position_error_m": 0.08994045832385508,
+                "root_xy_error_m": 0.08792893596579007,
+                "root_z_absolute_error_m": 0.010297016666046243,
+                "root_orientation_error_rad": 0.03970626448424027,
+                "relative_body_position_error_m": 0.02850922573493275,
+                "relative_body_orientation_error_rad": 0.10545162196805898
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.0882877959725432,
+                "reward_motion_global_root_ori": 0.09869334746204797,
+                "reward_motion_body_pos": 0.19698688908523998,
+                "reward_motion_body_ori": 0.18051986948867205,
+                "reward_motion_body_lin_vel": 0.19618596838335176,
+                "reward_motion_body_ang_vel": 0.19477696884914641,
+                "reward_action_rate_l2": -0.0034232359424611085,
+                "reward_joint_limit": -0.0010877406759081992
+              }
+            },
+            "Sports": {
+              "clip_count": 3855,
+              "completed": 3809,
+              "failed": 46,
+              "failure_rate": 0.011932555123216601,
+              "mean_normalized_return": 0.8813718854175976,
+              "mean_completion_fraction": 0.9931953119082431,
+              "executed_transitions": 1326024,
+              "reference_transitions": 1334877,
+              "quality": {
+                "root_position_error_m": 0.1624643501712423,
+                "root_xy_error_m": 0.15835740990707944,
+                "root_z_absolute_error_m": 0.017733819038809676,
+                "root_orientation_error_rad": 0.05732840376703917,
+                "relative_body_position_error_m": 0.03915426714406482,
+                "relative_body_orientation_error_rad": 0.15553671383381523
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.07776258537213517,
+                "reward_motion_global_root_ori": 0.09620039430806103,
+                "reward_motion_body_pos": 0.1920184648147793,
+                "reward_motion_body_ori": 0.16955231163592865,
+                "reward_motion_body_lin_vel": 0.1827464863417139,
+                "reward_motion_body_ang_vel": 0.1773463785800656,
+                "reward_action_rate_l2": -0.011445527024521188,
+                "reward_joint_limit": -0.0028092140980501223
+              }
+            },
+            "Stunts": {
+              "clip_count": 359,
+              "completed": 281,
+              "failed": 78,
+              "failure_rate": 0.21727019498607242,
+              "mean_normalized_return": 0.6919935531701854,
+              "mean_completion_fraction": 0.8900219059601016,
+              "executed_transitions": 104604,
+              "reference_transitions": 115854,
+              "quality": {
+                "root_position_error_m": 0.18717677623831738,
+                "root_xy_error_m": 0.1802920533629368,
+                "root_z_absolute_error_m": 0.026354926641471793,
+                "root_orientation_error_rad": 0.14246496357435795,
+                "relative_body_position_error_m": 0.05971515632203376,
+                "relative_body_orientation_error_rad": 0.2531636073072806
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.06599270065678442,
+                "reward_motion_global_root_ori": 0.07765896225182414,
+                "reward_motion_body_pos": 0.1649280608779304,
+                "reward_motion_body_ori": 0.12286754727283118,
+                "reward_motion_body_lin_vel": 0.14957770045011676,
+                "reward_motion_body_ang_vel": 0.1370522436455885,
+                "reward_action_rate_l2": -0.02053518801700326,
+                "reward_joint_limit": -0.005548478276262338
+              }
+            },
+            "Unusual Locomotion": {
+              "clip_count": 2697,
+              "completed": 2687,
+              "failed": 10,
+              "failure_rate": 0.0037078235076010383,
+              "mean_normalized_return": 0.8829264576498983,
+              "mean_completion_fraction": 0.9978329608972146,
+              "executed_transitions": 1176898,
+              "reference_transitions": 1179418,
+              "quality": {
+                "root_position_error_m": 0.1705490702484398,
+                "root_xy_error_m": 0.16095695794498877,
+                "root_z_absolute_error_m": 0.027073282483353896,
+                "root_orientation_error_rad": 0.07553002289619602,
+                "relative_body_position_error_m": 0.04211148937862717,
+                "relative_body_orientation_error_rad": 0.1662836987200281
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.07604710374996387,
+                "reward_motion_global_root_ori": 0.095023193568959,
+                "reward_motion_body_pos": 0.1936781016218709,
+                "reward_motion_body_ori": 0.15980748686100507,
+                "reward_motion_body_lin_vel": 0.18729123839351056,
+                "reward_motion_body_ang_vel": 0.1804096326161435,
+                "reward_action_rate_l2": -0.007869516182864317,
+                "reward_joint_limit": -0.0014607885787169292
+              }
+            }
+          },
+          "reference_duration_seconds": {
+            "0_2": {
+              "clip_count": 1591,
+              "completed": 1591,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9280947108888805,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 140933,
+              "reference_transitions": 140933,
+              "quality": {
+                "root_position_error_m": 0.06860799746261169,
+                "root_xy_error_m": 0.06593115374078355,
+                "root_z_absolute_error_m": 0.010579355417349182,
+                "root_orientation_error_rad": 0.04395253258638128,
+                "relative_body_position_error_m": 0.026202234639209523,
+                "relative_body_orientation_error_rad": 0.09129057702509116
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.09300721809914553,
+                "reward_motion_global_root_ori": 0.09834672073203436,
+                "reward_motion_body_pos": 0.19672523079054255,
+                "reward_motion_body_ori": 0.18607520422532625,
+                "reward_motion_body_lin_vel": 0.1852638865632163,
+                "reward_motion_body_ang_vel": 0.18145672706898244,
+                "reward_action_rate_l2": -0.012436886500765697,
+                "reward_joint_limit": -0.0003433955890020788
+              }
+            },
+            "2_5": {
+              "clip_count": 49538,
+              "completed": 49456,
+              "failed": 82,
+              "failure_rate": 0.0016552949251079979,
+              "mean_normalized_return": 0.9298526804845724,
+              "mean_completion_fraction": 0.9991387745580846,
+              "executed_transitions": 9068676,
+              "reference_transitions": 9077297,
+              "quality": {
+                "root_position_error_m": 0.08351268562919303,
+                "root_xy_error_m": 0.08131345069663531,
+                "root_z_absolute_error_m": 0.009905212435721643,
+                "root_orientation_error_rad": 0.04498058991308806,
+                "relative_body_position_error_m": 0.027471115532748995,
+                "relative_body_orientation_error_rad": 0.10527494957434287
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.08940743468812044,
+                "reward_motion_global_root_ori": 0.09807697138247264,
+                "reward_motion_body_pos": 0.1965238102603428,
+                "reward_motion_body_ori": 0.1821392085287197,
+                "reward_motion_body_lin_vel": 0.18952856447505212,
+                "reward_motion_body_ang_vel": 0.18482964029213542,
+                "reward_action_rate_l2": -0.009594011984572302,
+                "reward_joint_limit": -0.001058942771737717
+              }
+            },
+            "5_10": {
+              "clip_count": 57353,
+              "completed": 57246,
+              "failed": 107,
+              "failure_rate": 0.0018656391121650133,
+              "mean_normalized_return": 0.9286427170868015,
+              "mean_completion_fraction": 0.9989488194833596,
+              "executed_transitions": 19778245,
+              "reference_transitions": 19797276,
+              "quality": {
+                "root_position_error_m": 0.1137062060882617,
+                "root_xy_error_m": 0.1117929691123528,
+                "root_z_absolute_error_m": 0.009932741693852998,
+                "root_orientation_error_rad": 0.046357609811167155,
+                "relative_body_position_error_m": 0.028684283557682443,
+                "relative_body_orientation_error_rad": 0.11301502499039415
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.08405616375182214,
+                "reward_motion_global_root_ori": 0.09791195545421756,
+                "reward_motion_body_pos": 0.1964317008700275,
+                "reward_motion_body_ori": 0.1789475300338913,
+                "reward_motion_body_lin_vel": 0.1917995468745349,
+                "reward_motion_body_ang_vel": 0.18761372790084702,
+                "reward_action_rate_l2": -0.006891041853068937,
+                "reward_joint_limit": -0.0012268716141974874
+              }
+            },
+            "10_20": {
+              "clip_count": 18309,
+              "completed": 18273,
+              "failed": 36,
+              "failure_rate": 0.0019662461084712438,
+              "mean_normalized_return": 0.9364803400729559,
+              "mean_completion_fraction": 0.9992335269249418,
+              "executed_transitions": 12010263,
+              "reference_transitions": 12020242,
+              "quality": {
+                "root_position_error_m": 0.13637683577973972,
+                "root_xy_error_m": 0.1345960367249318,
+                "root_z_absolute_error_m": 0.009174688137481618,
+                "root_orientation_error_rad": 0.04212759842921662,
+                "relative_body_position_error_m": 0.027919381233708438,
+                "relative_body_orientation_error_rad": 0.10964041920147855
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.0809517849995994,
+                "reward_motion_global_root_ori": 0.09829568490451997,
+                "reward_motion_body_pos": 0.19669111031052092,
+                "reward_motion_body_ori": 0.17978571198928617,
+                "reward_motion_body_lin_vel": 0.194644351466172,
+                "reward_motion_body_ang_vel": 0.19170345490582744,
+                "reward_action_rate_l2": -0.004624018886412613,
+                "reward_joint_limit": -0.0009677453534108114
+              }
+            },
+            "20_60": {
+              "clip_count": 3109,
+              "completed": 3105,
+              "failed": 4,
+              "failure_rate": 0.001286587327114828,
+              "mean_normalized_return": 0.9305485633442986,
+              "mean_completion_fraction": 0.9996674992917114,
+              "executed_transitions": 4443422,
+              "reference_transitions": 4444727,
+              "quality": {
+                "root_position_error_m": 0.21479442303923782,
+                "root_xy_error_m": 0.21419592680157115,
+                "root_z_absolute_error_m": 0.0069669883211578455,
+                "root_orientation_error_rad": 0.04001570862986394,
+                "relative_body_position_error_m": 0.028863326348746245,
+                "relative_body_orientation_error_rad": 0.11188269190837824
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.07132456989104552,
+                "reward_motion_global_root_ori": 0.09848336395164176,
+                "reward_motion_body_pos": 0.19658845589702814,
+                "reward_motion_body_ori": 0.17917935723813366,
+                "reward_motion_body_lin_vel": 0.19558200200584927,
+                "reward_motion_body_ang_vel": 0.19388809480629746,
+                "reward_action_rate_l2": -0.0034121971490854506,
+                "reward_joint_limit": -0.0010850889320856748
+              }
+            },
+            "60_inf": {
+              "clip_count": 494,
+              "completed": 494,
+              "failed": 0,
+              "failure_rate": 0.0,
+              "mean_normalized_return": 0.9077409022033589,
+              "mean_completion_fraction": 1.0,
+              "executed_transitions": 2117039,
+              "reference_transitions": 2117039,
+              "quality": {
+                "root_position_error_m": 0.5081084802875946,
+                "root_xy_error_m": 0.5079102563469841,
+                "root_z_absolute_error_m": 0.006166927825335536,
+                "root_orientation_error_rad": 0.04050816204626428,
+                "relative_body_position_error_m": 0.022994637255906572,
+                "relative_body_orientation_error_rad": 0.08870415409320395
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.04070356124293259,
+                "reward_motion_global_root_ori": 0.09862731618554574,
+                "reward_motion_body_pos": 0.19788979847490418,
+                "reward_motion_body_ori": 0.18691713802720458,
+                "reward_motion_body_lin_vel": 0.1949424391894128,
+                "reward_motion_body_ang_vel": 0.1932139068217543,
+                "reward_action_rate_l2": -0.004050554853969016,
+                "reward_joint_limit": -0.0005027083533183404
+              }
+            }
+          },
+          "fixed_hard639": {
+            "clip_count": 639,
+            "completed": 524,
+            "failed": 115,
+            "failure_rate": 0.17996870109546165,
+            "mean_normalized_return": 0.6355139477803292,
+            "mean_completion_fraction": 0.9017676754279852,
+            "executed_transitions": 181371,
+            "reference_transitions": 200037,
+            "quality": {
+              "root_position_error_m": 0.30291918008059265,
+              "root_xy_error_m": 0.2893889410808819,
+              "root_z_absolute_error_m": 0.047543588641637505,
+              "root_orientation_error_rad": 0.13963529581293815,
+              "relative_body_position_error_m": 0.08506620522032943,
+              "relative_body_orientation_error_rad": 0.4166415373754767
+            },
+            "normalized_reward_contributions": {
+              "reward_motion_global_root_pos": 0.05299753509448017,
+              "reward_motion_global_root_ori": 0.07915823077354452,
+              "reward_motion_body_pos": 0.15774025796791283,
+              "reward_motion_body_ori": 0.09928818139237806,
+              "reward_motion_body_lin_vel": 0.14408935831872244,
+              "reward_motion_body_ang_vel": 0.13363857225771616,
+              "reward_action_rate_l2": -0.023075512529430693,
+              "reward_joint_limit": -0.008322679617171414
+            }
+          },
+          "non_hard": {
+            "clip_count": 129755,
+            "completed": 129641,
+            "failed": 114,
+            "failure_rate": 0.0008785788601595315,
+            "mean_normalized_return": 0.931613511208341,
+            "mean_completion_fraction": 0.9995742099576566,
+            "executed_transitions": 47377207,
+            "reference_transitions": 47397477,
+            "quality": {
+              "root_position_error_m": 0.10781671891759757,
+              "root_xy_error_m": 0.10589885900211833,
+              "root_z_absolute_error_m": 0.009552576343729894,
+              "root_orientation_error_rad": 0.04457193983859212,
+              "relative_body_position_error_m": 0.027787720471279802,
+              "relative_body_orientation_error_rad": 0.10770251722382122
+            },
+            "normalized_reward_contributions": {
+              "reward_motion_global_root_pos": 0.08545373663374566,
+              "reward_motion_global_root_ori": 0.09814320280813234,
+              "reward_motion_body_pos": 0.19670691902838114,
+              "reward_motion_body_ori": 0.18079991208657,
+              "reward_motion_body_lin_vel": 0.1915913577327012,
+              "reward_motion_body_ang_vel": 0.18748986763343745,
+              "reward_action_rate_l2": -0.007497226155700461,
+              "reward_joint_limit": -0.001074264220370186
+            }
+          },
+          "skills": {
+            "flip": {
+              "clip_count": 44,
+              "completed": 30,
+              "failed": 14,
+              "failure_rate": 0.3181818181818182,
+              "mean_normalized_return": 0.6041314154108872,
+              "mean_completion_fraction": 0.847553986338648,
+              "executed_transitions": 11683,
+              "reference_transitions": 13650,
+              "quality": {
+                "root_position_error_m": 0.28683989500130114,
+                "root_xy_error_m": 0.27956491462621913,
+                "root_z_absolute_error_m": 0.030480073921885287,
+                "root_orientation_error_rad": 0.1325235776646866,
+                "relative_body_position_error_m": 0.06363429426316011,
+                "relative_body_orientation_error_rad": 0.24944454783952824
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.050418956992348635,
+                "reward_motion_global_root_ori": 0.07392962356474102,
+                "reward_motion_body_pos": 0.15509023692863416,
+                "reward_motion_body_ori": 0.12083652816927114,
+                "reward_motion_body_lin_vel": 0.1259593710311708,
+                "reward_motion_body_ang_vel": 0.12080723691228522,
+                "reward_action_rate_l2": -0.035887261955636955,
+                "reward_joint_limit": -0.007023280263426312
+              }
+            },
+            "side_roll": {
+              "clip_count": 22,
+              "completed": 11,
+              "failed": 11,
+              "failure_rate": 0.5,
+              "mean_normalized_return": 0.43245211574806197,
+              "mean_completion_fraction": 0.6910297024440641,
+              "executed_transitions": 3765,
+              "reference_transitions": 5478,
+              "quality": {
+                "root_position_error_m": 0.289118659409236,
+                "root_xy_error_m": 0.2763917197782077,
+                "root_z_absolute_error_m": 0.04237539544600028,
+                "root_orientation_error_rad": 0.2763681466526864,
+                "relative_body_position_error_m": 0.08933489663655977,
+                "relative_body_orientation_error_rad": 0.37241739801785484
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.033867196094073966,
+                "reward_motion_global_root_ori": 0.05154394849310539,
+                "reward_motion_body_pos": 0.1184750066293385,
+                "reward_motion_body_ori": 0.0857363700582636,
+                "reward_motion_body_lin_vel": 0.0915978160647327,
+                "reward_motion_body_ang_vel": 0.08461051402876875,
+                "reward_action_rate_l2": -0.02503888799022106,
+                "reward_joint_limit": -0.008339849754630861
+              }
+            },
+            "cartwheel": {
+              "clip_count": 120,
+              "completed": 110,
+              "failed": 10,
+              "failure_rate": 0.08333333333333333,
+              "mean_normalized_return": 0.6601655449746742,
+              "mean_completion_fraction": 0.9531091682788871,
+              "executed_transitions": 31693,
+              "reference_transitions": 33488,
+              "quality": {
+                "root_position_error_m": 0.42016565589794674,
+                "root_xy_error_m": 0.4155158553605414,
+                "root_z_absolute_error_m": 0.026145518108432183,
+                "root_orientation_error_rad": 0.15748923616531843,
+                "relative_body_position_error_m": 0.07248202740093,
+                "relative_body_orientation_error_rad": 0.2688619495758305
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.04489200260016845,
+                "reward_motion_global_root_ori": 0.08006875641292983,
+                "reward_motion_body_pos": 0.1697801110806291,
+                "reward_motion_body_ori": 0.1275327887226424,
+                "reward_motion_body_lin_vel": 0.13600847427506788,
+                "reward_motion_body_ang_vel": 0.13229852844550657,
+                "reward_action_rate_l2": -0.02239071823309462,
+                "reward_joint_limit": -0.00802440253783012
+              }
+            },
+            "handstand": {
+              "clip_count": 160,
+              "completed": 133,
+              "failed": 27,
+              "failure_rate": 0.16875,
+              "mean_normalized_return": 0.4902991352910807,
+              "mean_completion_fraction": 0.8896161260333726,
+              "executed_transitions": 45074,
+              "reference_transitions": 50695,
+              "quality": {
+                "root_position_error_m": 0.47468134183868216,
+                "root_xy_error_m": 0.43957989718827684,
+                "root_z_absolute_error_m": 0.1111342019044133,
+                "root_orientation_error_rad": 0.11989577350896725,
+                "relative_body_position_error_m": 0.15138575455042988,
+                "relative_body_orientation_error_rad": 0.8942798338157264
+              },
+              "normalized_reward_contributions": {
+                "reward_motion_global_root_pos": 0.029918781734793797,
+                "reward_motion_global_root_ori": 0.0818393202896156,
+                "reward_motion_body_pos": 0.13258273535402362,
+                "reward_motion_body_ori": 0.02519852370041311,
+                "reward_motion_body_lin_vel": 0.13783555369414735,
+                "reward_motion_body_ang_vel": 0.12698417994033487,
+                "reward_action_rate_l2": -0.029288961376441797,
+                "reward_joint_limit": -0.014771001685342126
+              }
+            }
+          }
+        },
+        "source": "bones_full",
+        "label": "control/update_16000",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-control-s0/checkpoints/checkpoint_000040006.pt",
+        "checkpoint_metadata": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "control",
+          "run_name": "o3-bones-lr-control-s0",
+          "status": "running",
+          "updated_at": "2026-11-12T21:38:42.202394+08:00",
+          "training_seconds": 11224.604302406311,
+          "campaign_training_wall_seconds": 11224.668276309967,
+          "deadline_epoch": 1794508297.5341325,
+          "parent": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "full_resume": false,
+          "collection_steps": 40006,
+          "real_transitions": 163864576,
+          "learning_phases": 16000,
+          "world_model_batch_updates": 160000,
+          "actor_updates": 16000,
+          "critic_minibatch_updates": 320000,
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-control-s0/checkpoints/checkpoint_000040006.pt",
+          "evaluation_label": "update_16000"
+        },
+        "evaluated_at": "2026-11-13T01:06:47.622025+08:00",
+        "evaluation_seconds_this_process": 435.6676447056234,
+        "per_clip_index": {
+          "records": 130394,
+          "rows_per_part": 2000,
+          "parts": [
+            "per_clip_0000.csv",
+            "per_clip_0001.csv",
+            "per_clip_0002.csv",
+            "per_clip_0003.csv",
+            "per_clip_0004.csv",
+            "per_clip_0005.csv",
+            "per_clip_0006.csv",
+            "per_clip_0007.csv",
+            "per_clip_0008.csv",
+            "per_clip_0009.csv",
+            "per_clip_0010.csv",
+            "per_clip_0011.csv",
+            "per_clip_0012.csv",
+            "per_clip_0013.csv",
+            "per_clip_0014.csv",
+            "per_clip_0015.csv",
+            "per_clip_0016.csv",
+            "per_clip_0017.csv",
+            "per_clip_0018.csv",
+            "per_clip_0019.csv",
+            "per_clip_0020.csv",
+            "per_clip_0021.csv",
+            "per_clip_0022.csv",
+            "per_clip_0023.csv",
+            "per_clip_0024.csv",
+            "per_clip_0025.csv",
+            "per_clip_0026.csv",
+            "per_clip_0027.csv",
+            "per_clip_0028.csv",
+            "per_clip_0029.csv",
+            "per_clip_0030.csv",
+            "per_clip_0031.csv",
+            "per_clip_0032.csv",
+            "per_clip_0033.csv",
+            "per_clip_0034.csv",
+            "per_clip_0035.csv",
+            "per_clip_0036.csv",
+            "per_clip_0037.csv",
+            "per_clip_0038.csv",
+            "per_clip_0039.csv",
+            "per_clip_0040.csv",
+            "per_clip_0041.csv",
+            "per_clip_0042.csv",
+            "per_clip_0043.csv",
+            "per_clip_0044.csv",
+            "per_clip_0045.csv",
+            "per_clip_0046.csv",
+            "per_clip_0047.csv",
+            "per_clip_0048.csv",
+            "per_clip_0049.csv",
+            "per_clip_0050.csv",
+            "per_clip_0051.csv",
+            "per_clip_0052.csv",
+            "per_clip_0053.csv",
+            "per_clip_0054.csv",
+            "per_clip_0055.csv",
+            "per_clip_0056.csv",
+            "per_clip_0057.csv",
+            "per_clip_0058.csv",
+            "per_clip_0059.csv",
+            "per_clip_0060.csv",
+            "per_clip_0061.csv",
+            "per_clip_0062.csv",
+            "per_clip_0063.csv",
+            "per_clip_0064.csv",
+            "per_clip_0065.csv"
+          ],
+          "order": "original_source_clip_id",
+          "columns": [
+            "clip_id",
+            "source_clip_id",
+            "source",
+            "name",
+            "category",
+            "package",
+            "reference_frames",
+            "reference_transitions",
+            "executed_transitions",
+            "reward_sum",
+            "max_step_reward",
+            "normalization_denominator",
+            "normalized_return",
+            "completion_fraction",
+            "hard_failure",
+            "completed",
+            "termination_reason",
+            "root_position_error_m",
+            "root_xy_error_m",
+            "root_z_absolute_error_m",
+            "root_orientation_error_rad",
+            "relative_body_position_error_m",
+            "relative_body_orientation_error_rad",
+            "reward_motion_global_root_pos",
+            "reward_motion_global_root_ori",
+            "reward_motion_body_pos",
+            "reward_motion_body_ori",
+            "reward_motion_body_lin_vel",
+            "reward_motion_body_ang_vel",
+            "reward_action_rate_l2",
+            "reward_joint_limit"
+          ],
+          "integer_columns": [
+            "clip_id",
+            "executed_transitions",
+            "reference_frames",
+            "reference_transitions",
+            "source_clip_id"
+          ],
+          "boolean_columns": [
+            "completed",
+            "hard_failure"
+          ],
+          "string_columns": [
+            "category",
+            "name",
+            "package",
+            "source",
+            "termination_reason"
+          ]
+        },
+        "all_library_score_available": true,
+        "return_over_SONIC_0p90": true,
+        "interpretation": "official algorithm on project 130394 BONES; paper membership not identical"
+      }
+    },
     "control/update_32000": {},
     "quarter/update_08000": {},
     "quarter/update_16000": {},
