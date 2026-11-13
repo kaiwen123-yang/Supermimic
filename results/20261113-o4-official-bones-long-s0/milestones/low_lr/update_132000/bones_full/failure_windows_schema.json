@@ -1,0 +1,24 @@
+{
+  "source": "same final formal BONES evaluation; no additional physics or WM calls",
+  "robot_state": "root_pos(3; env origin already subtracted),root_quat_wxyz(4),joint_pos(29),root_lin_vel_w(3),root_ang_vel_w(3),joint_vel(29)",
+  "reference_state": "root_pos_w(3),root_quat_w_wxyz(4),root_lin_vel_w(3),root_ang_vel_w(3),joint_pos(29),joint_vel(29)",
+  "actual_context": [
+    {
+      "name": "foot_friction",
+      "width": 1
+    },
+    {
+      "name": "base_com",
+      "width": 3
+    },
+    {
+      "name": "encoder_bias",
+      "width": 29
+    }
+  ],
+  "context_values": "raw environment values (un-normalized); COM is actual body_ipos, not offset from baseline",
+  "env_origin": "environment world origin; root_pos in robot_state has already subtracted it",
+  "state_alignment": "initial state and each returned post-step state; references at corresponding advanced frame",
+  "reward_alignment": "native environment reward timing retained",
+  "window": "k=min(32,transitions before and including first hard failure); k+1 states, k actions/rewards; no padding"
+}

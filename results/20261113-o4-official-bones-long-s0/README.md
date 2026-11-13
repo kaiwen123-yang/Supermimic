@@ -1,6 +1,6 @@
 # O4 official BONES continuous low-LR run
 
-Status: **evaluating_bones**. Training: **completed**. Updated: 2026-11-14T01:07:45.672516+08:00.
+Status: **evaluating_bones**. Training: **completed**. Updated: 2026-11-14T01:18:56.685547+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments; 132000/132000 continuous new joint updates.
@@ -13,6 +13,7 @@ Ancestor 63924 updates are provenance only. Failed/interrupted training is never
 | low_lr/update_32000 | bones_full | 32000 | 0.90437763 | 130301/130394 |
 | low_lr/update_64000 | bones_full | 64000 | 0.80227512 | 123339/130394 |
 | low_lr/update_96000 | bones_full | 96000 | 0.47643112 | 60091/130394 |
+| low_lr/update_132000 | bones_full | 132000 | 0.62798132 | 83266/130394 |
 
 Initial scores reuse O3 quarter32k: BONES R=.94430475, 130307/130394 complete, 87 failed. Final aliases are evaluated once.
 Quarter16k remains the quality anchor (R=.94757578). O2 hour03/hour06 are separate historical references.
