@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O4官方低LR较长连续训练。** 全BONES评分已结束，正在LAFAN跨库评分（evaluating_lafan）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、单路4096环境，目标新增132000连续联合更新，无后台小时截止。实际训练状态completed，新增132000更新；状态见results/20261113-o4-official-bones-long-s0/summary.json，接续见docs/O4_EXECUTION_HANDOFF.md。tmux sm-o4-bones-long-s0；不重启活动训练。保护O3 quarter16k/32k、O2/O1/P6成果，P12继续暂停。
+> **当前主线：O4官方低LR较长连续训练。** 132000连续更新、全部实际节点评分与轻量发布已完成（completed）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、单路4096环境，目标新增132000连续联合更新，无后台小时截止。实际训练状态completed，新增132000更新；状态见results/20261113-o4-official-bones-long-s0/summary.json，接续见docs/O4_EXECUTION_HANDOFF.md。tmux sm-o4-bones-long-s0；不重启活动训练。保护O3 quarter16k/32k、O2/O1/P6成果，P12继续暂停。
 
 > **O3已完成并复核。** 同新增32000更新，quarter低LR **R=.94430475、130307/130394完整、87失败**，control **R=.89208292、395失败**。共同完整129943条的XY约15.9cm→7.2cm。quarter16k **R=.94757578**为质量锚、32k为覆盖锚；16k→32k仍有小幅回撤，长期稳定待O4检验。[完整复核](docs/O3_REVIEW_20261113.md)、[派生统计](results/20261112-o3-official-bones-lr-s0/review_20261113.json)、[全部结果](results/20261112-o3-official-bones-lr-s0/README.md)。O3已结束，不重复启动。
 
