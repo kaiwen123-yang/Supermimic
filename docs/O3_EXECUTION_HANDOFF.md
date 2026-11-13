@@ -1,5 +1,7 @@
 # O3 official BONES execution handoff
 
+> **历史已完成。** O3训练、全部实际节点评分与轻量发布已完成并于2026-11-13复核。以下保留原执行范围/交接供溯源，不再作为重跑指令；下一阶段使用[O4启动提示词](O4_CODEX_START_PROMPT.md)，结果见[O3复核](O3_REVIEW_20261113.md)。
+
 Plan: `e517e5c8332559514a6d49ec571aef9df70a04e3`. Campaign: `20261112-o3-official-bones-lr-s0`.
 
 The O3 adapters and identical detached-statistics patch are in `scripts/o3`. Runtime state is authoritative in the campaign summary and D57 outputs. Do not restart active training. O1/P6 acceptance and O2 3h/6h anchors remain protected; P12 remains paused.
@@ -27,3 +29,4 @@ Preparation reads three existing O2 checkpoints on CPU and existing console line
 Publication uses authenticated `gh` Git-data operations on the current main tree and a non-force ref update. It changes only O3 artifacts, the two O2 preparation tables, current status lines and result index. Uncommitted historical worktrees and stash are untouched. Publication failures keep scores and report pending status; retry publishing without training or scoring again.
 
 Read `summary.json` for the current phase. Training started, training exited, scoring and completed are distinct. Large data/checkpoints/logs remain on D57; no Release, tar, H-drive migration, new stage or budget extension is part of O3.
+
