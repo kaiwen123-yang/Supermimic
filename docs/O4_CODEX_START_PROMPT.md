@@ -1,6 +1,6 @@
 # O4 Codex 启动提示词
 
-> 当前状态：训练已退出，正在全BONES评分。以下为原启动提示词；已存在活动O4时只观察接续，不重复启动。实时状态见[执行交接](O4_EXECUTION_HANDOFF.md)。
+> 当前状态：全BONES评分已结束，正在LAFAN跨库评分。以下为原启动提示词；已存在活动O4时只观察接续，不重复启动。实时状态见[执行交接](O4_EXECUTION_HANDOFF.md)。
 
 ```text
 继续 kaiwen123-yang/Supermimic 的官方复现主线。先同步仓库最新 main 并读取：
