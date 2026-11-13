@@ -1,6 +1,6 @@
 # O4 official BONES continuous low-LR run
 
-Status: **prepared**. Training: **not_started**. Updated: 2026-11-13T12:02:53.624733+08:00.
+Status: **training**. Training: **running**. Updated: 2026-11-13T12:03:08.649415+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments; 0/132000 continuous new joint updates.

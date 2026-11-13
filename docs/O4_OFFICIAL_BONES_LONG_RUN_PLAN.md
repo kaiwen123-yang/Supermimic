@@ -1,6 +1,6 @@
 # O4：官方低学习率方案的较长连续训练
 
-状态：**运行适配已部署，待正式启动**。当前实际状态见 [O4执行交接](O4_EXECUTION_HANDOFF.md) 和 campaign summary；以下保留完整执行方案。
+状态：**单路正式训练运行中**。当前实际状态见 [O4执行交接](O4_EXECUTION_HANDOFF.md) 和 campaign summary；以下保留完整执行方案。
 
 ## 1. 本轮决定及依据
 
