@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前主线O4：** 132000连续联合更新已结束，等待评分（training_completed_evaluation_pending）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、单路4096环境，目标新增132000连续联合更新，无后台小时截止。实际训练状态completed，新增132000更新；状态见results/20261113-o4-official-bones-long-s0/summary.json，接续见docs/O4_EXECUTION_HANDOFF.md。tmux sm-o4-bones-long-s0；不重启活动训练。保护O3 quarter16k/32k、O2/O1/P6成果，P12继续暂停。
+- **当前主线O4：** 训练已退出，正在全BONES评分（evaluating_bones）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、单路4096环境，目标新增132000连续联合更新，无后台小时截止。实际训练状态completed，新增132000更新；状态见results/20261113-o4-official-bones-long-s0/summary.json，接续见docs/O4_EXECUTION_HANDOFF.md。tmux sm-o4-bones-long-s0；不重启活动训练。保护O3 quarter16k/32k、O2/O1/P6成果，P12继续暂停。
 - **O3已完成并复核：** 两路均新增32000更新；quarter5e-5的BONES R=.94430475、130307完整/87失败，control2e-4为.89208292、395失败。quarter16k R=.94757578为质量锚、32k为覆盖锚，两者及O2/O1/P6成果保护。最终87=父原失败残留32+父已成功新失55；hard42/non-hard45。16k→32k仍有小幅质量回撤，不能声称长段稳定已解决。O3历史tmux已结束，不重启或追加预算；实际完成状态见results/20261112-o3-official-bones-lr-s0/summary.json，latest_training.evaluation_pending为历史退出快照。
 - **O2已完成并复核。** BONES-only 130394条、seed0从零、4096环境；3h R=.93501955、130215条完整，6h R=.87472977、129997条完整，12h实际final R=.62929250、83910条完整。LAFAN跨库完整数25/26/0。3h作为良好主锚点，6h作为困难覆盖参照；后期回撤不撤销3h成绩。详见docs/O2_REVIEW_20261112.md及results/20261111-o2-official-bones-s0/summary.json。历史tmux sm-o2-official-bones-s0已结束，不重启、不追加O2预算；latest_training的evaluation_pending是训练退出快照，全部评分与轻量发布已完成。
 - **O1历史首段已完成并复核。** seed0从零训练，首个正式3h节点R=0.85882311、39/40；实际终点约3h8m17s，R=0.87443989、40/40，因formal_return_target_reached停止。全40的XY时间均值0.765250m、9条>=1m，完整执行与精确全局跟踪分开报告。复核见docs/O1_REVIEW_20261111.md及results/20261111-o1-official-lafan40-s0/review_20261111.json，当前完成状态见summary.json。D57工作区supermimic-official-workspace，历史tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。latest_training的evaluation_pending是退出快照，final已完成。不重跑O1、不补6h/12h或追加O1预算。O2亦已完成，新阶段按顶部O4独立方案接续；既有LAFAN验收成果和其他任务保留。
@@ -43,7 +43,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O4官方低LR较长连续段（132000连续联合更新已结束，等待评分）
+## O4官方低LR较长连续段（训练已退出，正在全BONES评分）
 
 - campaign=20261113-o4-official-bones-long-s0，run=o4-bones-low-lr-long-s0，tmux=sm-o4-bones-long-s0。用户代码工作树/root/autodl-tmp/robot-repro/supermimic-o4-official-bones；官方工作区仍supermimic-official-workspace，复用已有supermimic-o3-stability统计源码树，不重复apply patch。完整执行要求由O4方案、协议和启动词定义。
 - 父为O3 quarter/checkpoint_000080006.pt，只恢复WM bundle/Actor/Critic及完整normalizer；optimizer/replay/sampler/RNG重建，full_resume=false。三网络固定5e-5在learner/capture前设置，其余官方GenCoord/proprio/history10、4096环境、WM10×2048/k8、Actor4096/H32、数据/奖励/终止/DR/原sampler不变。不加hard或LAFAN配额，不改算法变量。
