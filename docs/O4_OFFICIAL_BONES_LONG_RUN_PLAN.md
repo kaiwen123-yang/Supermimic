@@ -1,6 +1,6 @@
 # O4：官方低学习率方案的较长连续训练
 
-状态：**计划已发布，尚未在 D57 实施或启动。** O3 已完成；本文件不代表 O4 已训练。启动入口见 [O4 Codex 提示词](O4_CODEX_START_PROMPT.md)，机器可读范围见 [O4 协议](../configs/o4_official_bones_long_run_protocol.json)。
+状态：**运行适配已部署，待正式启动**。当前实际状态见 [O4执行交接](O4_EXECUTION_HANDOFF.md) 和 campaign summary；以下保留完整执行方案。
 
 ## 1. 本轮决定及依据
 

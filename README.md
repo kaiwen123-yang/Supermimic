@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前主线：O4官方低LR较长连续训练，计划已发布、尚未启动。** 从O3 quarter32k权重热启动，固定5e-5、单路新增132000连续联合更新；本段不设后台小时截止，按有限更新数结束。保存16k/32k/64k/96k/132k，训练退出后统一评分。见[O4方案](docs/O4_OFFICIAL_BONES_LONG_RUN_PLAN.md)、[协议](configs/o4_official_bones_long_run_protocol.json)、[Codex启动词](docs/O4_CODEX_START_PROMPT.md)。P12暂缓，历史成功保留。
+> **当前主线：O4官方低LR较长连续训练。** 运行适配已部署，待正式启动（prepared）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、单路4096环境，目标新增132000连续联合更新，无后台小时截止。实际训练状态not_started，新增0更新；状态见results/20261113-o4-official-bones-long-s0/summary.json，接续见docs/O4_EXECUTION_HANDOFF.md。tmux sm-o4-bones-long-s0；不重启活动训练。保护O3 quarter16k/32k、O2/O1/P6成果，P12继续暂停。
 
 > **O3已完成并复核。** 同新增32000更新，quarter低LR **R=.94430475、130307/130394完整、87失败**，control **R=.89208292、395失败**。共同完整129943条的XY约15.9cm→7.2cm。quarter16k **R=.94757578**为质量锚、32k为覆盖锚；16k→32k仍有小幅回撤，长期稳定待O4检验。[完整复核](docs/O3_REVIEW_20261113.md)、[派生统计](results/20261112-o3-official-bones-lr-s0/review_20261113.json)、[全部结果](results/20261112-o3-official-bones-lr-s0/README.md)。O3已结束，不重复启动。
 
@@ -30,7 +30,7 @@
 
 - 论文：[arXiv:2610.28480v1](https://arxiv.org/abs/2610.28480v1)
 - 作者项目：[supermimic.github.io](https://supermimic.github.io/)
-- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，当前发布O4单路低LR长段方案，尚未实施或启动，P12及独立实现新实验暂缓。
+- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，O4单路低LR长段已实施，实时状态见顶部summary与执行交接，P12及独立实现新实验暂缓。
 - 本仓库属于用户复现项目，不是作者官方仓库。O1实际使用[官方核心源码](https://github.com/HybridRobotics/supermimic/tree/abc124c1bd5976341034668af3d12c087f2f1f55)及[作者研究环境](https://github.com/HybridRobotics/mjlab_research/tree/dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd)，在相邻独立工作区运行，未混入既有独立训练实现。初始5efbf114源码比较保留供溯源，研究依赖已取得，旧地址404不再阻塞。论文历史精确run配置和BONES筛选成员仍未取得，当前结果明确标为官方当前源码GenCoord/proprio/history10基线。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
 
 ## D57 环境

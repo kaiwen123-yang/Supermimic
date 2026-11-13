@@ -1,15 +1,33 @@
 {
   "campaign": "20261113-o4-official-bones-long-s0",
-  "planned_date_beijing": "2026-11-13",
-  "status": "planned",
-  "implementation_status": "pending_o4_adapter",
-  "source_review_commit": "b79dfbaffc3175d907dbe94bed74175968b5f50d",
-  "review": "docs/O3_REVIEW_20261113.md",
-  "plan": "docs/O4_OFFICIAL_BONES_LONG_RUN_PLAN.md",
-  "protocol": "configs/o4_official_bones_long_run_protocol.json",
-  "start_prompt": "docs/O4_CODEX_START_PROMPT.md",
-  "run_name": "o4-bones-low-lr-long-s0",
-  "tmux": "sm-o4-bones-long-s0",
+  "updated_at": "2026-11-13T12:02:53.624733+08:00",
+  "status": "prepared",
+  "plan_commit": "97593b997dfadbdbd3603b24eec1e933a8138105",
+  "implementation_status": "deployed_o4_adapter_reusing_o3_statistics",
+  "stage": {
+    "status": "prepared",
+    "at": "2026-11-13T12:02:53.545450+08:00",
+    "driver_pid": 981884,
+    "training": {
+      "status": "not_started",
+      "child_exited": false,
+      "target_reached": false,
+      "new_joint_updates": 0,
+      "target_joint_updates": 132000,
+      "children_exit": {}
+    }
+  },
+  "budget": null,
+  "arms": {
+    "low_lr": {
+      "run_name": "o4-bones-low-lr-long-s0",
+      "latest_training": null,
+      "saved_nodes": {},
+      "actual_config": null
+    }
+  },
+  "actual_unique_nodes": {},
+  "evaluations": {},
   "parent": {
     "campaign": "20261112-o3-official-bones-lr-s0",
     "arm": "quarter",
@@ -46,30 +64,38 @@
     "active_normalizer_count": 654630912,
     "reuse_existing_formal_scores": true
   },
-  "initialization": "weights_only_warm_start",
   "full_resume": false,
-  "planned_new_joint_updates": 132000,
-  "wall_deadline_enabled": false,
-  "deadline_epoch": null,
-  "planned_milestones": [
-    16000,
-    32000,
-    64000,
-    96000,
-    132000
-  ],
+  "initialization": "weights_only_warm_start",
   "training_started": false,
+  "training_status": "not_started",
+  "training_finished": false,
   "training_done": false,
+  "new_joint_updates": 0,
+  "target_new_joint_updates": 132000,
+  "training_children_exit": {},
+  "formal_evaluation_started": false,
+  "formal_evaluation_finished": false,
   "formal_evaluation_done": false,
+  "publication": "included_in_this_commit",
+  "execution_snapshot_published": true,
   "lightweight_results_published": false,
-  "publication_scope": "O3 review and O4 plan/protocol/prompt only; no O4 runtime execution.",
-  "previous_lafan_acceptance_preserved": true,
+  "BONES_clips": 130394,
   "protected_O3_anchors": [
     "quarter/update_16000",
     "quarter/update_32000"
   ],
+  "protected_O2_nodes": [
+    "hour_03",
+    "hour_06",
+    "final"
+  ],
+  "O1_P6_acceptance_preserved": true,
   "P12": "paused",
+  "large_artifacts": {
+    "low_lr": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o4-bones-low-lr-long-s0"
+  },
+  "backup_status": "not_confirmed_by_user",
   "automatic_extension": false,
-  "large_artifacts": "remain on D57",
-  "backup_status": "not_confirmed_by_user"
+  "automatic_restart": false,
+  "latest_training_semantics": "Historical child progress/exit snapshot; current completion fields are above."
 }
