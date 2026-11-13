@@ -2,7 +2,11 @@
 
 Plan commit: `97593b997dfadbdbd3603b24eec1e933a8138105`. Campaign: `20261113-o4-official-bones-long-s0`.
 
-The O4 adapters are implemented in `scripts/o4`. Current execution is recorded in the campaign `summary.json` and D57 process/progress files; implementation alone is not evidence of training start or completion. The launch observation will be recorded after the actual training loop advances.
+O4 is running in tmux. The training child started on **2026-11-13 at 12:03:08.648 Beijing time**. Driver PID: **981884**; training PID: **982087**. At **12:07:35**, the same process had completed **622 new joint updates, 1561 collections and 6393856 real transitions**, with 6220 WM batch updates and 12440 Critic minibatch updates. The current phase is training; formal scores remain pending. See the published `launch_status.json` and live D57 `progress.json` for the observation and current progress.
+
+Implementation commit: `73a8b21193168e3692530c306e151e897c125254`, based on the required plan commit. Initial Adam/Muon LR was verified from the actual optimizer metadata for all three networks: 5e-5. All four active normalizers retained count **654630912** and the inherited statistics. The unused velocity-goal normalizer remains at zero, as in the parent. The observed GPU process used **34318 MiB** and no second compute process was present. No environment or data preparation was repeated.
+
+The normal training logs from update 50 to 622 span 189.530 seconds, about **3.018 joint updates/s**. At the 12:07 observation this projects training completion to **2026-11-14 around 00:13 Beijing**, followed by approximately **75–120 minutes** for five-node BONES/LAFAN scoring and publication, giving **01:28–02:13** for all results. This is an early measured estimate, not a deadline; later GPU sharing, throughput and network conditions can move it. O3's six-node BONES/LAFAN workers took 3924.4/1142.7 seconds including their publication.
 
 - Host: `autodl-d57`; tmux: `sm-o4-bones-long-s0`.
 - User code: `/root/autodl-tmp/robot-repro/supermimic-o4-official-bones`.

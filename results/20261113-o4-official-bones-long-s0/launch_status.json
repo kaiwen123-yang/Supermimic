@@ -1,0 +1,149 @@
+{
+  "observed_at": "2026-11-13T12:07:35.203099+08:00",
+  "campaign": "20261113-o4-official-bones-long-s0",
+  "tmux": "sm-o4-bones-long-s0",
+  "driver_pid": 981884,
+  "training_children": {
+    "low_lr": {
+      "pid": 982087,
+      "started_at": "2026-11-13T12:03:08.648443+08:00"
+    }
+  },
+  "implementation_commit": "73a8b21193168e3692530c306e151e897c125254",
+  "progress": {
+    "campaign": "20261113-o4-official-bones-long-s0",
+    "arm": "low_lr",
+    "run_name": "o4-bones-low-lr-long-s0",
+    "status": "running",
+    "updated_at": "2026-11-13T12:07:35.048355+08:00",
+    "training_seconds": 266.3382771015167,
+    "campaign_training_wall_seconds": 266.4013285636902,
+    "wall_deadline_enabled": false,
+    "deadline_epoch": null,
+    "lineage_joint_updates_for_provenance_only": 64546,
+    "full_resume": false,
+    "collection_steps": 1561,
+    "real_transitions": 6393856,
+    "learning_phases": 622,
+    "world_model_batch_updates": 6220,
+    "actor_updates": 622,
+    "critic_minibatch_updates": 12440
+  },
+  "optimizer_initial": {
+    "wm": [
+      {
+        "type": "Adam",
+        "lr": [
+          4.999999873689376e-05
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          5e-05
+        ]
+      }
+    ],
+    "actor": [
+      {
+        "type": "Adam",
+        "lr": [
+          4.999999873689376e-05
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          5e-05
+        ]
+      }
+    ],
+    "critic": [
+      {
+        "type": "Adam",
+        "lr": [
+          4.999999873689376e-05
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          5e-05
+        ]
+      }
+    ]
+  },
+  "initial_normalizers": {
+    "wm.state_normalizer": {
+      "count": 654630912,
+      "mean_vector_norm": 2.1447463035583496,
+      "std_min_p50_p95_max": [
+        0.10349472612142563,
+        0.6121989488601685,
+        2.087975025177002,
+        2.288311243057251
+      ]
+    },
+    "wm.action_normalizer": {
+      "count": 654630912,
+      "mean_vector_norm": 1.7544394731521606,
+      "std_min_p50_p95_max": [
+        0.14852374792099,
+        0.42286473512649536,
+        0.7190755605697632,
+        0.8559147119522095
+      ]
+    },
+    "actor.obs_normalizer": {
+      "count": 654630912,
+      "mean_vector_norm": 4.128118991851807,
+      "std_min_p50_p95_max": [
+        0.10359175503253937,
+        0.8928413987159729,
+        2.1501853466033936,
+        3.626497745513916
+      ]
+    },
+    "actor.goal_normalizers.motion": {
+      "count": 654630912,
+      "mean_vector_norm": 7.19008207321167,
+      "std_min_p50_p95_max": [
+        0.0717642605304718,
+        0.5281388759613037,
+        2.0433578491210938,
+        2.6488678455352783
+      ]
+    },
+    "actor.goal_normalizers.velocity": {
+      "count": 0,
+      "mean_vector_norm": 0.0,
+      "std_min_p50_p95_max": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "gpu_processes": "982087, 34318 MiB",
+  "continuous_process_observed": true,
+  "training_restarted": false,
+  "estimate": {
+    "sample_start_updates": 50,
+    "sample_end_updates": 622,
+    "sample_seconds": 189.53038454055786,
+    "updates_per_second": 3.017985751395956,
+    "training_end_beijing": "2026-11-14T00:13:06.886421+08:00",
+    "evaluation_and_publication_allowance_seconds": [
+      4500,
+      7200
+    ],
+    "all_results_window_beijing": [
+      "2026-11-14T01:28:06.886421+08:00",
+      "2026-11-14T02:13:06.886421+08:00"
+    ],
+    "basis": "Normal training logs after the first 50 updates; O3 six-node BONES/LAFAN workers took 3924.4/1142.7 seconds; O4 has five normal unique nodes.",
+    "wall_deadline": null,
+    "uncertainty": "Early-run projection, depends on subsequent GPU sharing, training throughput and publication latency."
+  }
+}

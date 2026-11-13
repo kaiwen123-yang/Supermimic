@@ -1,9 +1,9 @@
 # O4 official BONES continuous low-LR run
 
-Status: **training**. Training: **running**. Updated: 2026-11-13T12:03:08.649415+08:00.
+Status: **training**. Training: **running**. Updated: 2026-11-13T12:08:16.356303+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
-Fixed LR=5e-5; 4096 environments; 0/132000 continuous new joint updates.
+Fixed LR=5e-5; 4096 environments; 746/132000 continuous new joint updates.
 No wall-clock deadline or return-based early stop. Saves: 16k/32k/64k/96k/132k and actual final.
 Ancestor 63924 updates are provenance only. Failed/interrupted training is never restarted automatically.
 
