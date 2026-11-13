@@ -1,6 +1,6 @@
 # O4 official BONES continuous low-LR run
 
-Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-14T01:22:45.875264+08:00.
+Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-14T01:26:22.779822+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments; 132000/132000 continuous new joint updates.
@@ -10,6 +10,7 @@ Ancestor 63924 updates are provenance only. Failed/interrupted training is never
 | Node | Library | New updates | R | Complete / all |
 |---|---|---:|---:|---:|
 | low_lr/update_16000 | bones_full | 16000 | 0.92672114 | 130323/130394 |
+| low_lr/update_16000 | lafan40_cross_library | 16000 | 0.63524271 | 25/40 |
 | low_lr/update_32000 | bones_full | 32000 | 0.90437763 | 130301/130394 |
 | low_lr/update_64000 | bones_full | 64000 | 0.80227512 | 123339/130394 |
 | low_lr/update_96000 | bones_full | 96000 | 0.47643112 | 60091/130394 |
