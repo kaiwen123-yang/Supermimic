@@ -1,0 +1,155 @@
+{
+  "normalizers": {
+    "wm.state_normalizer": {
+      "count": 1637695488,
+      "mean_vector_norm": 2.166884660720825,
+      "std_min_p50_p95_max": [
+        0.10583390295505524,
+        0.6244009733200073,
+        2.2530345916748047,
+        2.3988935947418213
+      ]
+    },
+    "wm.action_normalizer": {
+      "count": 1637695488,
+      "mean_vector_norm": 1.8416491746902466,
+      "std_min_p50_p95_max": [
+        0.14955510199069977,
+        0.44376102089881897,
+        0.8003225326538086,
+        0.9673581719398499
+      ]
+    },
+    "actor.obs_normalizer": {
+      "count": 1637695488,
+      "mean_vector_norm": 4.42222785949707,
+      "std_min_p50_p95_max": [
+        0.10593310743570328,
+        0.9483231902122498,
+        2.347287654876709,
+        4.590495586395264
+      ]
+    },
+    "actor.goal_normalizers.motion": {
+      "count": 1637695488,
+      "mean_vector_norm": 7.431745529174805,
+      "std_min_p50_p95_max": [
+        0.05936890095472336,
+        0.5225192308425903,
+        1.945336937904358,
+        2.4767160415649414
+      ]
+    },
+    "actor.goal_normalizers.velocity": {
+      "count": 0,
+      "mean_vector_norm": 0.0,
+      "std_min_p50_p95_max": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "optimizers": {
+    "wm": [
+      {
+        "type": "Adam",
+        "lr": [
+          4.999999873689376e-05
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          5e-05
+        ]
+      }
+    ],
+    "actor": [
+      {
+        "type": "Adam",
+        "lr": [
+          4.999999873689376e-05
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          5e-05
+        ]
+      }
+    ],
+    "critic": [
+      {
+        "type": "Adam",
+        "lr": [
+          4.999999873689376e-05
+        ]
+      },
+      {
+        "type": "Muon",
+        "lr": [
+          5e-05
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "campaign": "20261113-o4-official-bones-long-s0",
+    "arm": "low_lr",
+    "run_name": "o4-bones-low-lr-long-s0",
+    "status": "running",
+    "updated_at": "2026-11-13T20:56:02.347377+08:00",
+    "training_seconds": 31973.63730621338,
+    "campaign_training_wall_seconds": 31973.70035791397,
+    "wall_deadline_enabled": false,
+    "deadline_epoch": null,
+    "parent": {
+      "campaign": "20261112-o3-official-bones-lr-s0",
+      "arm": "quarter",
+      "node": "update_32000",
+      "aliases": [
+        "final"
+      ],
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+      "segment_joint_updates": 32000,
+      "segment_collection_steps": 80006,
+      "segment_real_transitions": 327704576,
+      "segment_training_seconds": 22340.7045006752,
+      "ancestor": {
+        "campaign": "20261111-o2-official-bones-s0",
+        "node": "hour_03",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+        "training_seconds": 10800.263551399112,
+        "collection_steps": 79816,
+        "real_transitions": 326926336,
+        "joint_learning_phases": 31924,
+        "actor_updates": 31924,
+        "bones_R": 0.9350195502553713,
+        "bones_completed": 130215,
+        "bones_failed": 179,
+        "full_resume": false,
+        "reuse_existing_formal_scores": true
+      },
+      "lineage_joint_updates": 63924,
+      "lineage_collection_steps": 159822,
+      "lineage_real_transitions": 654630912,
+      "bones_R": 0.9443047501120772,
+      "bones_completed": 130307,
+      "bones_failed": 87,
+      "active_normalizer_count": 654630912,
+      "reuse_existing_formal_scores": true
+    },
+    "lineage_joint_updates_for_provenance_only": 159924,
+    "full_resume": false,
+    "collection_steps": 240006,
+    "real_transitions": 983064576,
+    "learning_phases": 96000,
+    "world_model_batch_updates": 960000,
+    "actor_updates": 96000,
+    "critic_minibatch_updates": 1920000,
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o4-bones-low-lr-long-s0/checkpoints/checkpoint_000240006.pt",
+    "evaluation_label": "update_96000"
+  }
+}
