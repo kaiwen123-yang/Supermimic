@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前新增主线：O5官方优化器对照。** 双路正式训练运行中（training）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、两路各4096环境，各新增32000连续联合更新，合计64000，无后台小时截止。Muon无衰减与全Adam无衰减对照。实际训练状态running，新增{'muon_wd0': 0, 'adam_wd0': 0}更新；状态见results/20261115-o5-official-optimizer-s0/summary.json，接续见docs/O5_EXECUTION_HANDOFF.md。tmux sm-o5-optimizer-s0；不重启活动训练。保护O3 quarter16k/32k、O4全部固定节点和O2/O1/P6成果，P12继续暂停，不自动开O6。
+> **当前新增主线：O5官方优化器对照。** 双路正式训练运行中（training）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、两路各4096环境，各新增32000连续联合更新，合计64000，无后台小时截止。Muon无衰减与全Adam无衰减对照。实际训练状态running，新增{'muon_wd0': 246, 'adam_wd0': 246}更新；状态见results/20261115-o5-official-optimizer-s0/summary.json，接续见docs/O5_EXECUTION_HANDOFF.md。tmux sm-o5-optimizer-s0；不重启活动训练。保护O3 quarter16k/32k、O4全部固定节点和O2/O1/P6成果，P12继续暂停，不自动开O6。
 
 > **O4已完成并复核：固定低LR没有解决长段退化。** +16k **R=.92672114、71失败**，是总覆盖参照，但同一完成集合XY已由父的7.19cm增至10.72cm；+32k **.90437763/93失败**，+64k **.80227512/7055失败**，+96k **.47643112/70303失败**，final **.62798132/47128失败**。96k→final部分恢复，仍明显低于父节点。保护O3 quarter16k/32k及O4全部固定节点，不从坏final默认续训。[完整复核](docs/O4_REVIEW_20261115.md)、[派生统计](results/20261113-o4-official-bones-long-s0/review_20261115.json)、[全部成绩](results/20261113-o4-official-bones-long-s0/README.md)。
 

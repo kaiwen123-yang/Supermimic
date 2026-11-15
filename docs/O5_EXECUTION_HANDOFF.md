@@ -1,6 +1,6 @@
 # O5 执行交接
 
-更新时间：2026-11-15T17:04:47.316553+08:00。当前实际状态：**training**。
+更新时间：2026-11-15T17:08:38.966169+08:00。当前实际状态：**training**。
 
 - tmux：`sm-o5-optimizer-s0`。若已有活动进程或budget.json，只观察接续，不重复启动训练。
 - 工作区：`/root/autodl-tmp/robot-repro/supermimic-official-workspace`；用户代码工作树：`/root/autodl-tmp/robot-repro/supermimic-o5-official-optimizer`。
@@ -12,10 +12,10 @@
 
 | Arm | 当前训练状态 | 新增 / 32000 | 已观察退出 |
 |---|---|---:|---|
-| muon_wd0 | not_started | 0 | False |
-| adam_wd0 | not_started | 0 | False |
+| muon_wd0 | running | 246 | False |
+| adam_wd0 | running | 246 | False |
 
-合计：0/64000。
+合计：492/64000。
 - 驱动日志：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261115-o5-official-optimizer-s0/driver.log`。
 - PID记录：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261115-o5-official-optimizer-s0/training_children.json`；真实退出：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261115-o5-official-optimizer-s0/training_children_exit.json`。
 - 各run的`train_official.log`、`progress.json`和`nodes.json`保留实时与退出快照。
