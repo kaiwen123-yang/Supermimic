@@ -1,6 +1,6 @@
 # O5 official optimizer comparison
 
-Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-16T00:30:51.637586+08:00.
+Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-16T00:34:20.402671+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments per arm; updates per arm {'muon_wd0': 32000, 'adam_wd0': 32000}, target 32000 each; total 64000/64000.
@@ -19,6 +19,7 @@ Ancestor 63924 updates are provenance only. Failed/interrupted training is never
 | adam_wd0/update_08000 | bones_full | 8000 | 0.92371814 | 130254/130394 |
 | adam_wd0/update_08000 | lafan40_cross_library | 8000 | 0.62055261 | 25/40 |
 | adam_wd0/update_16000 | bones_full | 16000 | 0.93826439 | 130268/130394 |
+| adam_wd0/update_16000 | lafan40_cross_library | 16000 | 0.63163493 | 25/40 |
 | adam_wd0/update_32000 | bones_full | 32000 | 0.92838634 | 130304/130394 |
 
 Initial scores reuse O3 quarter32k: BONES R=.94430475, 130307/130394 complete, 87 failed. Final aliases are evaluated once.
