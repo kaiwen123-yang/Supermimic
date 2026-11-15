@@ -1,0 +1,2398 @@
+{
+  "metadata": {
+    "campaign": "20261115-o5-official-optimizer-s0",
+    "arm": "muon_wd0",
+    "run_name": "o5-bones-muon-wd0-s0",
+    "status": "running",
+    "updated_at": "2026-11-15T23:02:26.433830+08:00",
+    "training_seconds": 21459.05952811241,
+    "campaign_training_wall_seconds": 21459.12201690674,
+    "wall_deadline_enabled": false,
+    "deadline_epoch": null,
+    "parent": {
+      "campaign": "20261112-o3-official-bones-lr-s0",
+      "arm": "quarter",
+      "node": "update_32000",
+      "aliases": [
+        "final"
+      ],
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+      "segment_joint_updates": 32000,
+      "segment_collection_steps": 80006,
+      "segment_real_transitions": 327704576,
+      "segment_training_seconds": 22340.7045006752,
+      "ancestor": {
+        "campaign": "20261111-o2-official-bones-s0",
+        "node": "hour_03",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+        "training_seconds": 10800.263551399112,
+        "collection_steps": 79816,
+        "real_transitions": 326926336,
+        "joint_learning_phases": 31924,
+        "actor_updates": 31924,
+        "bones_R": 0.9350195502553713,
+        "bones_completed": 130215,
+        "bones_failed": 179,
+        "full_resume": false,
+        "reuse_existing_formal_scores": true
+      },
+      "lineage_joint_updates": 63924,
+      "lineage_collection_steps": 159822,
+      "lineage_real_transitions": 654630912,
+      "bones_R": 0.9443047501120772,
+      "bones_completed": 130307,
+      "bones_failed": 87,
+      "active_normalizer_count": 654630912,
+      "reuse_existing_formal_scores": true
+    },
+    "lineage_joint_updates_for_provenance_only": 95924,
+    "full_resume": false,
+    "collection_steps": 80006,
+    "real_transitions": 327704576,
+    "learning_phases": 32000,
+    "world_model_batch_updates": 320000,
+    "actor_updates": 32000,
+    "critic_minibatch_updates": 640000,
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+    "evaluation_label": "update_32000"
+  },
+  "parameters": [
+    {
+      "network": "wm",
+      "parameter_name": "mlp.0.weight",
+      "shape": [
+        2048,
+        130
+      ],
+      "numel": 266240,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "mlp.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 49.390133317504585,
+      "RMS": 0.09572018870878599,
+      "relative_to_initial": 1.0267083908697068
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.0.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "biases",
+      "owner_module": "mlp.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 26.75561061323595,
+      "RMS": 0.5912210531064345,
+      "relative_to_initial": 1.0872774495927433
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.1.weight",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "mlp.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 41.372266392087894,
+      "RMS": 0.9142065662156764,
+      "relative_to_initial": 0.994508655957225
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.1.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "mlp.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 12.93774797277964,
+      "RMS": 0.2858865414010935,
+      "relative_to_initial": 1.070062261037582
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.3.weight",
+      "shape": [
+        2048,
+        2048
+      ],
+      "numel": 4194304,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "mlp.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 59.05392011860054,
+      "RMS": 0.02883492193291042,
+      "relative_to_initial": 2.017578688940846
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.3.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "biases",
+      "owner_module": "mlp.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 3.58754190067802,
+      "RMS": 0.07927422518000948,
+      "relative_to_initial": 1.0879034269750503
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.4.weight",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "mlp.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 54.46531381806147,
+      "RMS": 1.2035247731313947,
+      "relative_to_initial": 1.0272235689299591
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.4.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "mlp.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 22.939737245536485,
+      "RMS": 0.5069013676548894,
+      "relative_to_initial": 1.0842828213668352
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.6.weight",
+      "shape": [
+        2048,
+        2048
+      ],
+      "numel": 4194304,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "mlp.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 57.72205256476382,
+      "RMS": 0.028184595978888585,
+      "relative_to_initial": 2.1173905096070937
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.6.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "biases",
+      "owner_module": "mlp.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 8.648454587952768,
+      "RMS": 0.19110565268516597,
+      "relative_to_initial": 1.0390366105518523
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.7.weight",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "mlp.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 52.189144347622225,
+      "RMS": 1.1532280585164765,
+      "relative_to_initial": 1.0439385933608474
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.7.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "mlp.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 14.760474416959502,
+      "RMS": 0.3261634860550817,
+      "relative_to_initial": 1.0667659099639561
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.9.weight",
+      "shape": [
+        35,
+        2048
+      ],
+      "numel": 71680,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "mlp.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 38.37011792621709,
+      "RMS": 0.14331582090296607,
+      "relative_to_initial": 1.0618009367795083
+    },
+    {
+      "network": "wm",
+      "parameter_name": "mlp.9.bias",
+      "shape": [
+        35
+      ],
+      "numel": 35,
+      "parameter_kind": "biases",
+      "owner_module": "mlp.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.09574214533162931,
+      "RMS": 0.016183376296772498,
+      "relative_to_initial": 1.1072153126174504
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.0.weight",
+      "shape": [
+        2048,
+        640
+      ],
+      "numel": 1310720,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "encoders.motion.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 47.972768952063674,
+      "RMS": 0.0419024892366038,
+      "relative_to_initial": 1.0227473695243363
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.0.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.motion.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 5.645155136479633,
+      "RMS": 0.12474148368296308,
+      "relative_to_initial": 1.1016933849411086
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.1.weight",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 44.446744200452045,
+      "RMS": 0.9821435695563592,
+      "relative_to_initial": 0.9958786687104285
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.1.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 2.165423008264015,
+      "RMS": 0.04784954041502682,
+      "relative_to_initial": 1.0789599676176056
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.3.weight",
+      "shape": [
+        1024,
+        2048
+      ],
+      "numel": 2097152,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "encoders.motion.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 46.16117175478337,
+      "RMS": 0.03187585700715258,
+      "relative_to_initial": 1.0786214327635182
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.3.bias",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.motion.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.736448326173734,
+      "RMS": 0.023014010192929188,
+      "relative_to_initial": 1.0403413044587149
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.4.weight",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 32.886017495044186,
+      "RMS": 1.0276880467201308,
+      "relative_to_initial": 1.0021111784290133
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.4.bias",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 1.1727104207753913,
+      "RMS": 0.03664720064923098,
+      "relative_to_initial": 1.0316310685457373
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.6.weight",
+      "shape": [
+        512,
+        1024
+      ],
+      "numel": 524288,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "encoders.motion.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 22.736312336898354,
+      "RMS": 0.031400391860539424,
+      "relative_to_initial": 1.0785644760255493
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.6.bias",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.motion.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.5854552944605655,
+      "RMS": 0.025873713049664553,
+      "relative_to_initial": 1.0168569520346948
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.7.weight",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 23.356905263783865,
+      "RMS": 1.0322391312220836,
+      "relative_to_initial": 1.0043588121350076
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.7.bias",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.8047297804731912,
+      "RMS": 0.0355643677997097,
+      "relative_to_initial": 1.0873889475377758
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.9.weight",
+      "shape": [
+        256,
+        512
+      ],
+      "numel": 131072,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "encoders.motion.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 9.4598682922411,
+      "RMS": 0.026129441478809714,
+      "relative_to_initial": 1.0679527356302696
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.9.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.motion.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 1.0992980724576404,
+      "RMS": 0.06870612952860253,
+      "relative_to_initial": 1.0376351208185477
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.10.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.10",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 16.032830470965223,
+      "RMS": 1.0020519044353264,
+      "relative_to_initial": 0.9998843938506347
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.10.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.motion.10",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.3961584936113653,
+      "RMS": 0.02475990585071033,
+      "relative_to_initial": 1.0097426040440347
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.12.weight",
+      "shape": [
+        32,
+        256
+      ],
+      "numel": 8192,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "encoders.motion.12",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 4.93538873661007,
+      "RMS": 0.054528856928885754,
+      "relative_to_initial": 1.012378104497671
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.motion.12.bias",
+      "shape": [
+        32
+      ],
+      "numel": 32,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.motion.12",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.21264051818437835,
+      "RMS": 0.03758988809079882,
+      "relative_to_initial": 1.0022067234174754
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.0.weight",
+      "shape": [
+        2048,
+        3
+      ],
+      "numel": 6144,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "encoders.velocity.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 26.271458560287012,
+      "RMS": 0.33516493891341853,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.0.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.velocity.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 15.064848664846238,
+      "RMS": 0.33288927026443377,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.1.weight",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 45.254833995939045,
+      "RMS": 1.0,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.1.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.0,
+      "RMS": 0.0,
+      "relative_to_initial": null
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.3.weight",
+      "shape": [
+        1024,
+        2048
+      ],
+      "numel": 2097152,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "encoders.velocity.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 18.477984999044224,
+      "RMS": 0.012759676265124484,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.3.bias",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.velocity.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.4153831205474107,
+      "RMS": 0.012980722517106585,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.4.weight",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 32.0,
+      "RMS": 1.0,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.4.bias",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.0,
+      "RMS": 0.0,
+      "relative_to_initial": null
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.6.weight",
+      "shape": [
+        512,
+        1024
+      ],
+      "numel": 524288,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "encoders.velocity.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 13.074198143924892,
+      "RMS": 0.01805635579325364,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.6.bias",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.velocity.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.40070463776843546,
+      "RMS": 0.01770881041368499,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.7.weight",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 22.627416997969522,
+      "RMS": 1.0,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.7.bias",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.0,
+      "RMS": 0.0,
+      "relative_to_initial": null
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.9.weight",
+      "shape": [
+        256,
+        512
+      ],
+      "numel": 131072,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "encoders.velocity.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 9.238172791220954,
+      "RMS": 0.02551708838455231,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.9.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.velocity.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.4101738555136975,
+      "RMS": 0.025635865969606094,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.10.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.10",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 16.0,
+      "RMS": 1.0,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.10.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "encoders.velocity.10",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.0,
+      "RMS": 0.0,
+      "relative_to_initial": null
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.12.weight",
+      "shape": [
+        32,
+        256
+      ],
+      "numel": 8192,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "encoders.velocity.12",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 3.286139438081748,
+      "RMS": 0.03630705438425242,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "encoders.velocity.12.bias",
+      "shape": [
+        32
+      ],
+      "numel": 32,
+      "parameter_kind": "biases",
+      "owner_module": "encoders.velocity.12",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.20572319010101153,
+      "RMS": 0.036367065691938615,
+      "relative_to_initial": 1.0
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.0.weight",
+      "shape": [
+        2048,
+        962
+      ],
+      "numel": 1970176,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "decoder.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 65.48621937343829,
+      "RMS": 0.04665491542129145,
+      "relative_to_initial": 1.031234138103944
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.0.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "biases",
+      "owner_module": "decoder.0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 6.067942050887668,
+      "RMS": 0.1340838428759274,
+      "relative_to_initial": 1.0857456497206863
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.1.weight",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 44.07050949380526,
+      "RMS": 0.9738298785442444,
+      "relative_to_initial": 0.9966842070609141
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.1.bias",
+      "shape": [
+        2048
+      ],
+      "numel": 2048,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 3.4398313677682135,
+      "RMS": 0.0760102526964719,
+      "relative_to_initial": 1.0631483272139617
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.3.weight",
+      "shape": [
+        1024,
+        2048
+      ],
+      "numel": 2097152,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "decoder.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 43.463489666305655,
+      "RMS": 0.03001301589558219,
+      "relative_to_initial": 1.0668392407052567
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.3.bias",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "biases",
+      "owner_module": "decoder.3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.6551302697134755,
+      "RMS": 0.02047282092854611,
+      "relative_to_initial": 1.041780373609766
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.4.weight",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 33.08347387274803,
+      "RMS": 1.033858558523376,
+      "relative_to_initial": 1.003855435868764
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.4.bias",
+      "shape": [
+        1024
+      ],
+      "numel": 1024,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 2.410208285706721,
+      "RMS": 0.07531900892833503,
+      "relative_to_initial": 1.0519484686988796
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.6.weight",
+      "shape": [
+        512,
+        1024
+      ],
+      "numel": 524288,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "decoder.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 21.574657112914075,
+      "RMS": 0.02979606708264868,
+      "relative_to_initial": 1.0646477886817312
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.6.bias",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "biases",
+      "owner_module": "decoder.6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.5340698970722945,
+      "RMS": 0.023602777865463803,
+      "relative_to_initial": 1.0460558334976664
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.7.weight",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 23.52314881689609,
+      "RMS": 1.039586127705471,
+      "relative_to_initial": 1.0059146119043645
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.7.bias",
+      "shape": [
+        512
+      ],
+      "numel": 512,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.7",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 1.1703144852080491,
+      "RMS": 0.05172108178821593,
+      "relative_to_initial": 1.0612812955192243
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.9.weight",
+      "shape": [
+        256,
+        512
+      ],
+      "numel": 131072,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "decoder.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 9.767304285542899,
+      "RMS": 0.026978621461796134,
+      "relative_to_initial": 1.0633426761229
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.9.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "biases",
+      "owner_module": "decoder.9",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.5495224562835614,
+      "RMS": 0.03434515351772259,
+      "relative_to_initial": 1.0114791670055758
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.10.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.10",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 20.55178208839885,
+      "RMS": 1.284486380524928,
+      "relative_to_initial": 1.011291791786475
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.10.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "decoder.10",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 2.757509090496517,
+      "RMS": 0.17234431815603232,
+      "relative_to_initial": 1.0398058351904147
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.12.weight",
+      "shape": [
+        29,
+        256
+      ],
+      "numel": 7424,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "decoder.12",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 10.755563891441069,
+      "RMS": 0.12482862963162733,
+      "relative_to_initial": 1.0328096448261228
+    },
+    {
+      "network": "actor",
+      "parameter_name": "decoder.12.bias",
+      "shape": [
+        29
+      ],
+      "numel": 29,
+      "parameter_kind": "biases",
+      "owner_module": "decoder.12",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.20451816495183292,
+      "RMS": 0.037978069804080694,
+      "relative_to_initial": 0.9773213497119403
+    },
+    {
+      "network": "critic",
+      "parameter_name": "0.weight",
+      "shape": [
+        256,
+        771
+      ],
+      "numel": 197376,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 225.28952606579406,
+      "RMS": 0.5071002559251666,
+      "relative_to_initial": 1.0430625391763517
+    },
+    {
+      "network": "critic",
+      "parameter_name": "0.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "biases",
+      "owner_module": "0",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 9.80408853930625,
+      "RMS": 0.6127555337066406,
+      "relative_to_initial": 1.1120401851050217
+    },
+    {
+      "network": "critic",
+      "parameter_name": "1.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 23.150876539290945,
+      "RMS": 1.446929783705684,
+      "relative_to_initial": 1.1208058109313286
+    },
+    {
+      "network": "critic",
+      "parameter_name": "1.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "1",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 11.2483357067657,
+      "RMS": 0.7030209816728562,
+      "relative_to_initial": 0.9939140713011697
+    },
+    {
+      "network": "critic",
+      "parameter_name": "3.weight",
+      "shape": [
+        128,
+        256
+      ],
+      "numel": 32768,
+      "parameter_kind": "official_Muon_inner_Linear_weights",
+      "owner_module": "3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 1,
+        "group_index": 0,
+        "type": "Muon"
+      },
+      "Frobenius_norm": 12.479682308933501,
+      "RMS": 0.06894115615391147,
+      "relative_to_initial": 2.843185148591473
+    },
+    {
+      "network": "critic",
+      "parameter_name": "3.bias",
+      "shape": [
+        128
+      ],
+      "numel": 128,
+      "parameter_kind": "biases",
+      "owner_module": "3",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 3.126398666725499,
+      "RMS": 0.27633721224177266,
+      "relative_to_initial": 2.4083744211864753
+    },
+    {
+      "network": "critic",
+      "parameter_name": "4.weight",
+      "shape": [
+        128
+      ],
+      "numel": 128,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 39.07421021375776,
+      "RMS": 3.453704876457096,
+      "relative_to_initial": 1.228400417877521
+    },
+    {
+      "network": "critic",
+      "parameter_name": "4.bias",
+      "shape": [
+        128
+      ],
+      "numel": 128,
+      "parameter_kind": "LayerNorm_affine",
+      "owner_module": "4",
+      "owner_type": "LayerNorm",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 15.807334113498062,
+      "RMS": 1.3971841430169902,
+      "relative_to_initial": 1.2025148413907398
+    },
+    {
+      "network": "critic",
+      "parameter_name": "6.weight",
+      "shape": [
+        1,
+        128
+      ],
+      "numel": 128,
+      "parameter_kind": "first_last_Linear_weights",
+      "owner_module": "6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 7.708042000110213,
+      "RMS": 0.6813010959935812,
+      "relative_to_initial": 1.447675961257295
+    },
+    {
+      "network": "critic",
+      "parameter_name": "6.bias",
+      "shape": [
+        1
+      ],
+      "numel": 1,
+      "parameter_kind": "biases",
+      "owner_module": "6",
+      "owner_type": "Linear",
+      "optimizer_group": {
+        "optimizer_index": 0,
+        "group_index": 0,
+        "type": "Adam"
+      },
+      "Frobenius_norm": 0.8079041242599487,
+      "RMS": 0.8079041242599487,
+      "relative_to_initial": 1.6852998288823577
+    }
+  ],
+  "groups": {
+    "wm/first_last_Linear_weights": {
+      "numel": 337920,
+      "tensor_count": 2,
+      "sum_squared_norm": 3911.6512187926824,
+      "Frobenius_norm": 62.543194823998896,
+      "RMS": 0.10759029883822084
+    },
+    "wm/biases": {
+      "numel": 6179,
+      "tensor_count": 4,
+      "sum_squared_norm": 803.5380894944988,
+      "Frobenius_norm": 28.3467474235493,
+      "RMS": 0.36061528974474377
+    },
+    "wm/LayerNorm_affine": {
+      "numel": 12288,
+      "tensor_count": 6,
+      "sum_squared_norm": 8313.330095969884,
+      "Frobenius_norm": 91.17746484724108,
+      "RMS": 0.8225208417747232
+    },
+    "wm/official_Muon_inner_Linear_weights": {
+      "numel": 8388608,
+      "tensor_count": 2,
+      "sum_squared_norm": 6819.200833663411,
+      "Frobenius_norm": 82.57845259910972,
+      "RMS": 0.028511613189805843
+    },
+    "actor/first_last_Linear_weights": {
+      "numel": 3310848,
+      "tensor_count": 6,
+      "sum_squared_norm": 7430.859952649891,
+      "Frobenius_norm": 86.20243588582571,
+      "RMS": 0.04737507567872297
+    },
+    "actor/biases": {
+      "numel": 11613,
+      "tensor_count": 15,
+      "sum_squared_norm": 299.3780497248575,
+      "Frobenius_norm": 17.302544602596967,
+      "RMS": 0.16056014970846386
+    },
+    "actor/LayerNorm_affine": {
+      "numel": 23040,
+      "tensor_count": 24,
+      "sum_squared_norm": 11745.524095225095,
+      "Frobenius_norm": 108.37676916768231,
+      "RMS": 0.7139946583753896
+    },
+    "actor/official_Muon_inner_Linear_weights": {
+      "numel": 8257536,
+      "tensor_count": 9,
+      "sum_squared_norm": 5784.93820433338,
+      "Frobenius_norm": 76.05878124407056,
+      "RMS": 0.02646818272608816
+    },
+    "critic/first_last_Linear_weights": {
+      "numel": 197504,
+      "tensor_count": 2,
+      "sum_squared_norm": 50814.78446642557,
+      "Frobenius_norm": 225.42134873703858,
+      "RMS": 0.5072325276430178
+    },
+    "critic/biases": {
+      "numel": 385,
+      "tensor_count": 3,
+      "sum_squared_norm": 106.54722978385536,
+      "Frobenius_norm": 10.322171757137902,
+      "RMS": 0.5260665845562111
+    },
+    "critic/LayerNorm_affine": {
+      "numel": 768,
+      "tensor_count": 4,
+      "sum_squared_norm": 2439.1538563142826,
+      "Frobenius_norm": 49.387790559148144,
+      "RMS": 1.782128385875315
+    },
+    "critic/official_Muon_inner_Linear_weights": {
+      "numel": 32768,
+      "tensor_count": 1,
+      "sum_squared_norm": 155.7424705319078,
+      "Frobenius_norm": 12.479682308933501,
+      "RMS": 0.06894115615391148
+    }
+  },
+  "scope": "learnable parameter objects, including temporarily frozen WM; excludes normalizer buffers",
+  "norm_definition": "L2 over every tensor element; Frobenius for matrices",
+  "zero_initial_norm_ratio": null,
+  "optimizers": {
+    "wm": [
+      {
+        "type": "torch.optim.adam.Adam",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 4.999999873689376e-05,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": true,
+              "differentiable": false,
+              "fused": true,
+              "decoupled_weight_decay": false
+            },
+            "parameters": [
+              {
+                "name": "mlp.0.weight",
+                "shape": [
+                  2048,
+                  130
+                ],
+                "numel": 266240
+              },
+              {
+                "name": "mlp.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.3.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.4.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.4.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.6.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.7.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.7.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.9.weight",
+                "shape": [
+                  35,
+                  2048
+                ],
+                "numel": 71680
+              },
+              {
+                "name": "mlp.9.bias",
+                "shape": [
+                  35
+                ],
+                "numel": 35
+              }
+            ],
+            "parameter_count": 12,
+            "numel": 356387,
+            "effective_lr": 4.999999873689376e-05,
+            "lr_storage": "device_tensor"
+          }
+        ]
+      },
+      {
+        "type": "torch.optim.Muon",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 5e-05,
+              "weight_decay": 0.0,
+              "momentum": 0.95,
+              "nesterov": true,
+              "ns_coefficients": [
+                3.4445,
+                -4.775,
+                2.0315
+              ],
+              "eps": 1e-07,
+              "ns_steps": 5,
+              "adjust_lr_fn": "match_rms_adamw"
+            },
+            "parameters": [
+              {
+                "name": "mlp.3.weight",
+                "shape": [
+                  2048,
+                  2048
+                ],
+                "numel": 4194304
+              },
+              {
+                "name": "mlp.6.weight",
+                "shape": [
+                  2048,
+                  2048
+                ],
+                "numel": 4194304
+              }
+            ],
+            "parameter_count": 2,
+            "numel": 8388608,
+            "effective_lr": 5e-05,
+            "lr_storage": "python_float"
+          }
+        ]
+      }
+    ],
+    "actor": [
+      {
+        "type": "torch.optim.adam.Adam",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 4.999999873689376e-05,
+              "betas": [
+                0.9,
+                0.95
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": true,
+              "differentiable": false,
+              "fused": true,
+              "decoupled_weight_decay": false
+            },
+            "parameters": [
+              {
+                "name": "encoders.motion.0.weight",
+                "shape": [
+                  2048,
+                  640
+                ],
+                "numel": 1310720
+              },
+              {
+                "name": "encoders.motion.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.motion.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.motion.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.motion.3.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.motion.4.weight",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.motion.4.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.motion.6.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.motion.7.weight",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.motion.7.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.motion.9.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.motion.10.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.motion.10.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.motion.12.weight",
+                "shape": [
+                  32,
+                  256
+                ],
+                "numel": 8192
+              },
+              {
+                "name": "encoders.motion.12.bias",
+                "shape": [
+                  32
+                ],
+                "numel": 32
+              },
+              {
+                "name": "encoders.velocity.0.weight",
+                "shape": [
+                  2048,
+                  3
+                ],
+                "numel": 6144
+              },
+              {
+                "name": "encoders.velocity.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.velocity.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.velocity.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.velocity.3.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.velocity.4.weight",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.velocity.4.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.velocity.6.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.velocity.7.weight",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.velocity.7.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.velocity.9.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.velocity.10.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.velocity.10.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.velocity.12.weight",
+                "shape": [
+                  32,
+                  256
+                ],
+                "numel": 8192
+              },
+              {
+                "name": "encoders.velocity.12.bias",
+                "shape": [
+                  32
+                ],
+                "numel": 32
+              },
+              {
+                "name": "decoder.0.weight",
+                "shape": [
+                  2048,
+                  962
+                ],
+                "numel": 1970176
+              },
+              {
+                "name": "decoder.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "decoder.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "decoder.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "decoder.3.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "decoder.4.weight",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "decoder.4.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "decoder.6.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "decoder.7.weight",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "decoder.7.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "decoder.9.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "decoder.10.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "decoder.10.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "decoder.12.weight",
+                "shape": [
+                  29,
+                  256
+                ],
+                "numel": 7424
+              },
+              {
+                "name": "decoder.12.bias",
+                "shape": [
+                  29
+                ],
+                "numel": 29
+              }
+            ],
+            "parameter_count": 45,
+            "numel": 3345501,
+            "effective_lr": 4.999999873689376e-05,
+            "lr_storage": "device_tensor"
+          }
+        ]
+      },
+      {
+        "type": "torch.optim.Muon",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 5e-05,
+              "weight_decay": 0.0,
+              "momentum": 0.95,
+              "nesterov": true,
+              "ns_coefficients": [
+                3.4445,
+                -4.775,
+                2.0315
+              ],
+              "eps": 1e-07,
+              "ns_steps": 5,
+              "adjust_lr_fn": "match_rms_adamw"
+            },
+            "parameters": [
+              {
+                "name": "encoders.motion.3.weight",
+                "shape": [
+                  1024,
+                  2048
+                ],
+                "numel": 2097152
+              },
+              {
+                "name": "encoders.motion.6.weight",
+                "shape": [
+                  512,
+                  1024
+                ],
+                "numel": 524288
+              },
+              {
+                "name": "encoders.motion.9.weight",
+                "shape": [
+                  256,
+                  512
+                ],
+                "numel": 131072
+              },
+              {
+                "name": "encoders.velocity.3.weight",
+                "shape": [
+                  1024,
+                  2048
+                ],
+                "numel": 2097152
+              },
+              {
+                "name": "encoders.velocity.6.weight",
+                "shape": [
+                  512,
+                  1024
+                ],
+                "numel": 524288
+              },
+              {
+                "name": "encoders.velocity.9.weight",
+                "shape": [
+                  256,
+                  512
+                ],
+                "numel": 131072
+              },
+              {
+                "name": "decoder.3.weight",
+                "shape": [
+                  1024,
+                  2048
+                ],
+                "numel": 2097152
+              },
+              {
+                "name": "decoder.6.weight",
+                "shape": [
+                  512,
+                  1024
+                ],
+                "numel": 524288
+              },
+              {
+                "name": "decoder.9.weight",
+                "shape": [
+                  256,
+                  512
+                ],
+                "numel": 131072
+              }
+            ],
+            "parameter_count": 9,
+            "numel": 8257536,
+            "effective_lr": 5e-05,
+            "lr_storage": "python_float"
+          }
+        ]
+      }
+    ],
+    "critic": [
+      {
+        "type": "torch.optim.adam.Adam",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 4.999999873689376e-05,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": true,
+              "differentiable": false,
+              "fused": true,
+              "decoupled_weight_decay": false
+            },
+            "parameters": [
+              {
+                "name": "0.weight",
+                "shape": [
+                  256,
+                  771
+                ],
+                "numel": 197376
+              },
+              {
+                "name": "0.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "1.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "1.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "3.bias",
+                "shape": [
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "4.weight",
+                "shape": [
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "4.bias",
+                "shape": [
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "6.weight",
+                "shape": [
+                  1,
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "6.bias",
+                "shape": [
+                  1
+                ],
+                "numel": 1
+              }
+            ],
+            "parameter_count": 9,
+            "numel": 198657,
+            "effective_lr": 4.999999873689376e-05,
+            "lr_storage": "device_tensor"
+          }
+        ]
+      },
+      {
+        "type": "torch.optim.Muon",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 5e-05,
+              "weight_decay": 0.0,
+              "momentum": 0.95,
+              "nesterov": true,
+              "ns_coefficients": [
+                3.4445,
+                -4.775,
+                2.0315
+              ],
+              "eps": 1e-07,
+              "ns_steps": 5,
+              "adjust_lr_fn": "match_rms_adamw"
+            },
+            "parameters": [
+              {
+                "name": "3.weight",
+                "shape": [
+                  128,
+                  256
+                ],
+                "numel": 32768
+              }
+            ],
+            "parameter_count": 1,
+            "numel": 32768,
+            "effective_lr": 5e-05,
+            "lr_storage": "python_float"
+          }
+        ]
+      }
+    ]
+  }
+}

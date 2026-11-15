@@ -1,9 +1,9 @@
 # O5 official optimizer comparison
 
-Status: **training**. Training: **running**. Updated: 2026-11-15T17:08:38.966169+08:00.
+Status: **training_completed_evaluation_pending**. Training: **completed**. Updated: 2026-11-15T23:02:39.866928+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
-Fixed LR=5e-5; 4096 environments per arm; updates per arm {'muon_wd0': 246, 'adam_wd0': 246}, target 32000 each; total 492/64000.
+Fixed LR=5e-5; 4096 environments per arm; updates per arm {'muon_wd0': 32000, 'adam_wd0': 32000}, target 32000 each; total 64000/64000.
 muon_wd0 preserves official grouping and removes Muon decay; adam_wd0 uses all-parameter Adam with zero decay.
 No wall-clock deadline or return-based early stop. Saves: initial/8k/16k/32k and actual final for each arm.
 Ancestor 63924 updates are provenance only. Failed/interrupted training is never restarted automatically.

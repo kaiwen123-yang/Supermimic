@@ -1,43 +1,54 @@
 {
   "campaign": "20261115-o5-official-optimizer-s0",
-  "updated_at": "2026-11-15T17:08:38.966169+08:00",
-  "status": "training",
+  "updated_at": "2026-11-15T23:02:39.866928+08:00",
+  "status": "training_completed_evaluation_pending",
   "plan_commit": "274fd47db842294c5acdf5d8bd5a7a8b3be80ae4",
   "implementation_status": "deployed_o5_isolated_optimizer_modes",
   "stage": {
-    "status": "training",
-    "at": "2026-11-15T17:04:47.312462+08:00",
+    "status": "training_completed_evaluation_pending",
+    "at": "2026-11-15T23:02:39.859533+08:00",
     "driver_pid": 99049,
     "training": {
-      "status": "running",
-      "child_exited": false,
-      "target_reached": false,
+      "status": "completed",
+      "child_exited": true,
+      "target_reached": true,
       "new_joint_updates": {
-        "muon_wd0": 0,
-        "adam_wd0": 0
+        "muon_wd0": 32000,
+        "adam_wd0": 32000
       },
-      "total_new_joint_updates": 0,
+      "total_new_joint_updates": 64000,
       "target_joint_updates_per_arm": 32000,
       "target_joint_updates_total": 64000,
       "arms": {
         "muon_wd0": {
-          "status": "not_started",
-          "new_joint_updates": 0,
+          "status": "completed",
+          "new_joint_updates": 32000,
           "target_joint_updates": 32000,
-          "child_exited": false,
-          "target_reached": false,
-          "training_seconds": null
+          "child_exited": true,
+          "target_reached": true,
+          "training_seconds": 21459.32522726059
         },
         "adam_wd0": {
-          "status": "not_started",
-          "new_joint_updates": 0,
+          "status": "completed",
+          "new_joint_updates": 32000,
           "target_joint_updates": 32000,
-          "child_exited": false,
-          "target_reached": false,
-          "training_seconds": null
+          "child_exited": true,
+          "target_reached": true,
+          "training_seconds": 21423.59308218956
         }
       },
-      "children_exit": {}
+      "children_exit": {
+        "adam_wd0": {
+          "pid": 99253,
+          "exit_code": 0,
+          "observed_exit_at": "2026-11-15T23:01:59.855412+08:00"
+        },
+        "muon_wd0": {
+          "pid": 99252,
+          "exit_code": 0,
+          "observed_exit_at": "2026-11-15T23:02:39.856996+08:00"
+        }
+      }
     }
   },
   "budget": {
@@ -49,7 +60,9 @@
     "deadline_epoch": null,
     "training_wall_seconds_limit": null,
     "automatic_restart_after_process_exit": false,
-    "scope": "two independent continuous optimizer/replay/sampler processes; ancestor updates are provenance only"
+    "scope": "two independent continuous optimizer/replay/sampler processes; ancestor updates are provenance only",
+    "training_finished_at": "2026-11-15T23:02:39.858045+08:00",
+    "campaign_training_wall_seconds": 21472.54623889923
   },
   "arms": {
     "muon_wd0": {
@@ -58,10 +71,10 @@
         "campaign": "20261115-o5-official-optimizer-s0",
         "arm": "muon_wd0",
         "run_name": "o5-bones-muon-wd0-s0",
-        "status": "running",
-        "updated_at": "2026-11-15T17:08:38.198130+08:00",
-        "training_seconds": 230.823828458786,
-        "campaign_training_wall_seconds": 230.88631772994995,
+        "status": "training_completed_evaluation_pending",
+        "updated_at": "2026-11-15T23:02:26.699533+08:00",
+        "training_seconds": 21459.32522726059,
+        "campaign_training_wall_seconds": 21459.387716770172,
         "wall_deadline_enabled": false,
         "deadline_epoch": null,
         "parent": {
@@ -100,14 +113,17 @@
           "active_normalizer_count": 654630912,
           "reuse_existing_formal_scores": true
         },
-        "lineage_joint_updates_for_provenance_only": 64170,
+        "lineage_joint_updates_for_provenance_only": 95924,
         "full_resume": false,
-        "collection_steps": 621,
-        "real_transitions": 2543616,
-        "learning_phases": 246,
-        "world_model_batch_updates": 2460,
-        "actor_updates": 246,
-        "critic_minibatch_updates": 4920
+        "collection_steps": 80006,
+        "real_transitions": 327704576,
+        "learning_phases": 32000,
+        "world_model_batch_updates": 320000,
+        "actor_updates": 32000,
+        "critic_minibatch_updates": 640000,
+        "stop_reason": "new_joint_update_limit",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+        "training_finished_at": "2026-11-15T23:02:26.699501+08:00"
       },
       "saved_nodes": {
         "initial": {
@@ -170,6 +186,250 @@
             "evaluation_label": "initial"
           },
           "evaluation_status": "parent_score_reused"
+        },
+        "update_08000": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000020006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "muon_wd0",
+            "run_name": "o5-bones-muon-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T18:35:01.905733+08:00",
+            "training_seconds": 5414.531430482864,
+            "campaign_training_wall_seconds": 5414.593919277191,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 71924,
+            "full_resume": false,
+            "collection_steps": 20006,
+            "real_transitions": 81944576,
+            "learning_phases": 8000,
+            "world_model_batch_updates": 80000,
+            "actor_updates": 8000,
+            "critic_minibatch_updates": 160000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000020006.pt",
+            "evaluation_label": "update_08000"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
+        },
+        "update_16000": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000040006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "muon_wd0",
+            "run_name": "o5-bones-muon-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T20:04:08.580718+08:00",
+            "training_seconds": 10761.206418514252,
+            "campaign_training_wall_seconds": 10761.268907546997,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 79924,
+            "full_resume": false,
+            "collection_steps": 40006,
+            "real_transitions": 163864576,
+            "learning_phases": 16000,
+            "world_model_batch_updates": 160000,
+            "actor_updates": 16000,
+            "critic_minibatch_updates": 320000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000040006.pt",
+            "evaluation_label": "update_16000"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
+        },
+        "update_32000": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "muon_wd0",
+            "run_name": "o5-bones-muon-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T23:02:26.433830+08:00",
+            "training_seconds": 21459.05952811241,
+            "campaign_training_wall_seconds": 21459.12201690674,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 95924,
+            "full_resume": false,
+            "collection_steps": 80006,
+            "real_transitions": 327704576,
+            "learning_phases": 32000,
+            "world_model_batch_updates": 320000,
+            "actor_updates": 32000,
+            "critic_minibatch_updates": 640000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+            "evaluation_label": "update_32000"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
+        },
+        "final": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "muon_wd0",
+            "run_name": "o5-bones-muon-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T23:02:26.617005+08:00",
+            "training_seconds": 21459.24269938469,
+            "campaign_training_wall_seconds": 21459.305188417435,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 95924,
+            "full_resume": false,
+            "collection_steps": 80006,
+            "real_transitions": 327704576,
+            "learning_phases": 32000,
+            "world_model_batch_updates": 320000,
+            "actor_updates": 32000,
+            "critic_minibatch_updates": 640000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+            "evaluation_label": "final"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
         }
       },
       "actual_config": {
@@ -2515,12 +2775,12 @@
         }
       },
       "training": {
-        "status": "running",
-        "new_joint_updates": 246,
+        "status": "completed",
+        "new_joint_updates": 32000,
         "target_joint_updates": 32000,
-        "child_exited": false,
-        "target_reached": false,
-        "training_seconds": 230.823828458786
+        "child_exited": true,
+        "target_reached": true,
+        "training_seconds": 21459.32522726059
       }
     },
     "adam_wd0": {
@@ -2529,10 +2789,10 @@
         "campaign": "20261115-o5-official-optimizer-s0",
         "arm": "adam_wd0",
         "run_name": "o5-bones-adam-wd0-s0",
-        "status": "running",
-        "updated_at": "2026-11-15T17:08:38.197303+08:00",
-        "training_seconds": 230.81624698638916,
-        "campaign_training_wall_seconds": 230.88548469543457,
+        "status": "training_completed_evaluation_pending",
+        "updated_at": "2026-11-15T23:01:50.974142+08:00",
+        "training_seconds": 21423.59308218956,
+        "campaign_training_wall_seconds": 21423.662320137024,
         "wall_deadline_enabled": false,
         "deadline_epoch": null,
         "parent": {
@@ -2571,14 +2831,17 @@
           "active_normalizer_count": 654630912,
           "reuse_existing_formal_scores": true
         },
-        "lineage_joint_updates_for_provenance_only": 64170,
+        "lineage_joint_updates_for_provenance_only": 95924,
         "full_resume": false,
-        "collection_steps": 621,
-        "real_transitions": 2543616,
-        "learning_phases": 246,
-        "world_model_batch_updates": 2460,
-        "actor_updates": 246,
-        "critic_minibatch_updates": 4920
+        "collection_steps": 80006,
+        "real_transitions": 327704576,
+        "learning_phases": 32000,
+        "world_model_batch_updates": 320000,
+        "actor_updates": 32000,
+        "critic_minibatch_updates": 640000,
+        "stop_reason": "new_joint_update_limit",
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+        "training_finished_at": "2026-11-15T23:01:50.974122+08:00"
       },
       "saved_nodes": {
         "initial": {
@@ -2641,6 +2904,250 @@
             "evaluation_label": "initial"
           },
           "evaluation_status": "parent_score_reused"
+        },
+        "update_08000": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000020006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "adam_wd0",
+            "run_name": "o5-bones-adam-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T18:34:57.213060+08:00",
+            "training_seconds": 5409.832012414932,
+            "campaign_training_wall_seconds": 5409.901250362396,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 71924,
+            "full_resume": false,
+            "collection_steps": 20006,
+            "real_transitions": 81944576,
+            "learning_phases": 8000,
+            "world_model_batch_updates": 80000,
+            "actor_updates": 8000,
+            "critic_minibatch_updates": 160000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000020006.pt",
+            "evaluation_label": "update_08000"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
+        },
+        "update_16000": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000040006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "adam_wd0",
+            "run_name": "o5-bones-adam-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T20:04:04.101713+08:00",
+            "training_seconds": 10756.720665931702,
+            "campaign_training_wall_seconds": 10756.789903640747,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 79924,
+            "full_resume": false,
+            "collection_steps": 40006,
+            "real_transitions": 163864576,
+            "learning_phases": 16000,
+            "world_model_batch_updates": 160000,
+            "actor_updates": 16000,
+            "critic_minibatch_updates": 320000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000040006.pt",
+            "evaluation_label": "update_16000"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
+        },
+        "update_32000": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "adam_wd0",
+            "run_name": "o5-bones-adam-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T23:01:50.562567+08:00",
+            "training_seconds": 21423.181517124176,
+            "campaign_training_wall_seconds": 21423.25075483322,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 95924,
+            "full_resume": false,
+            "collection_steps": 80006,
+            "real_transitions": 327704576,
+            "learning_phases": 32000,
+            "world_model_batch_updates": 320000,
+            "actor_updates": 32000,
+            "critic_minibatch_updates": 640000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+            "evaluation_label": "update_32000"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
+        },
+        "final": {
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+          "metadata": {
+            "campaign": "20261115-o5-official-optimizer-s0",
+            "arm": "adam_wd0",
+            "run_name": "o5-bones-adam-wd0-s0",
+            "status": "running",
+            "updated_at": "2026-11-15T23:01:50.887046+08:00",
+            "training_seconds": 21423.505986452103,
+            "campaign_training_wall_seconds": 21423.575224161148,
+            "wall_deadline_enabled": false,
+            "deadline_epoch": null,
+            "parent": {
+              "campaign": "20261112-o3-official-bones-lr-s0",
+              "arm": "quarter",
+              "node": "update_32000",
+              "aliases": [
+                "final"
+              ],
+              "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+              "segment_joint_updates": 32000,
+              "segment_collection_steps": 80006,
+              "segment_real_transitions": 327704576,
+              "segment_training_seconds": 22340.7045006752,
+              "ancestor": {
+                "campaign": "20261111-o2-official-bones-s0",
+                "node": "hour_03",
+                "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+                "training_seconds": 10800.263551399112,
+                "collection_steps": 79816,
+                "real_transitions": 326926336,
+                "joint_learning_phases": 31924,
+                "actor_updates": 31924,
+                "bones_R": 0.9350195502553713,
+                "bones_completed": 130215,
+                "bones_failed": 179,
+                "full_resume": false,
+                "reuse_existing_formal_scores": true
+              },
+              "lineage_joint_updates": 63924,
+              "lineage_collection_steps": 159822,
+              "lineage_real_transitions": 654630912,
+              "bones_R": 0.9443047501120772,
+              "bones_completed": 130307,
+              "bones_failed": 87,
+              "active_normalizer_count": 654630912,
+              "reuse_existing_formal_scores": true
+            },
+            "lineage_joint_updates_for_provenance_only": 95924,
+            "full_resume": false,
+            "collection_steps": 80006,
+            "real_transitions": 327704576,
+            "learning_phases": 32000,
+            "world_model_batch_updates": 320000,
+            "actor_updates": 32000,
+            "critic_minibatch_updates": 640000,
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+            "evaluation_label": "final"
+          },
+          "evaluation_status": "pending_after_all_training_exit"
         }
       },
       "actual_config": {
@@ -4905,17 +5412,429 @@
         }
       },
       "training": {
-        "status": "running",
-        "new_joint_updates": 246,
+        "status": "completed",
+        "new_joint_updates": 32000,
         "target_joint_updates": 32000,
-        "child_exited": false,
-        "target_reached": false,
-        "training_seconds": 230.81624698638916
+        "child_exited": true,
+        "target_reached": true,
+        "training_seconds": 21423.59308218956
       }
     }
   },
-  "actual_unique_nodes": {},
-  "evaluations": {},
+  "actual_unique_nodes": {
+    "muon_wd0/update_08000": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000020006.pt",
+      "metadata": {
+        "campaign": "20261115-o5-official-optimizer-s0",
+        "arm": "muon_wd0",
+        "run_name": "o5-bones-muon-wd0-s0",
+        "status": "running",
+        "updated_at": "2026-11-15T18:35:01.905733+08:00",
+        "training_seconds": 5414.531430482864,
+        "campaign_training_wall_seconds": 5414.593919277191,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "parent": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "quarter",
+          "node": "update_32000",
+          "aliases": [
+            "final"
+          ],
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+          "segment_joint_updates": 32000,
+          "segment_collection_steps": 80006,
+          "segment_real_transitions": 327704576,
+          "segment_training_seconds": 22340.7045006752,
+          "ancestor": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "lineage_joint_updates": 63924,
+          "lineage_collection_steps": 159822,
+          "lineage_real_transitions": 654630912,
+          "bones_R": 0.9443047501120772,
+          "bones_completed": 130307,
+          "bones_failed": 87,
+          "active_normalizer_count": 654630912,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates_for_provenance_only": 71924,
+        "full_resume": false,
+        "collection_steps": 20006,
+        "real_transitions": 81944576,
+        "learning_phases": 8000,
+        "world_model_batch_updates": 80000,
+        "actor_updates": 8000,
+        "critic_minibatch_updates": 160000,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000020006.pt",
+        "evaluation_label": "update_08000"
+      },
+      "evaluation_status": "pending_after_all_training_exit",
+      "arm": "muon_wd0",
+      "run_name": "o5-bones-muon-wd0-s0",
+      "label": "update_08000",
+      "aliases": [
+        "update_08000"
+      ]
+    },
+    "muon_wd0/update_16000": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000040006.pt",
+      "metadata": {
+        "campaign": "20261115-o5-official-optimizer-s0",
+        "arm": "muon_wd0",
+        "run_name": "o5-bones-muon-wd0-s0",
+        "status": "running",
+        "updated_at": "2026-11-15T20:04:08.580718+08:00",
+        "training_seconds": 10761.206418514252,
+        "campaign_training_wall_seconds": 10761.268907546997,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "parent": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "quarter",
+          "node": "update_32000",
+          "aliases": [
+            "final"
+          ],
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+          "segment_joint_updates": 32000,
+          "segment_collection_steps": 80006,
+          "segment_real_transitions": 327704576,
+          "segment_training_seconds": 22340.7045006752,
+          "ancestor": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "lineage_joint_updates": 63924,
+          "lineage_collection_steps": 159822,
+          "lineage_real_transitions": 654630912,
+          "bones_R": 0.9443047501120772,
+          "bones_completed": 130307,
+          "bones_failed": 87,
+          "active_normalizer_count": 654630912,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates_for_provenance_only": 79924,
+        "full_resume": false,
+        "collection_steps": 40006,
+        "real_transitions": 163864576,
+        "learning_phases": 16000,
+        "world_model_batch_updates": 160000,
+        "actor_updates": 16000,
+        "critic_minibatch_updates": 320000,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000040006.pt",
+        "evaluation_label": "update_16000"
+      },
+      "evaluation_status": "pending_after_all_training_exit",
+      "arm": "muon_wd0",
+      "run_name": "o5-bones-muon-wd0-s0",
+      "label": "update_16000",
+      "aliases": [
+        "update_16000"
+      ]
+    },
+    "muon_wd0/update_32000": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+      "metadata": {
+        "campaign": "20261115-o5-official-optimizer-s0",
+        "arm": "muon_wd0",
+        "run_name": "o5-bones-muon-wd0-s0",
+        "status": "running",
+        "updated_at": "2026-11-15T23:02:26.433830+08:00",
+        "training_seconds": 21459.05952811241,
+        "campaign_training_wall_seconds": 21459.12201690674,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "parent": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "quarter",
+          "node": "update_32000",
+          "aliases": [
+            "final"
+          ],
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+          "segment_joint_updates": 32000,
+          "segment_collection_steps": 80006,
+          "segment_real_transitions": 327704576,
+          "segment_training_seconds": 22340.7045006752,
+          "ancestor": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "lineage_joint_updates": 63924,
+          "lineage_collection_steps": 159822,
+          "lineage_real_transitions": 654630912,
+          "bones_R": 0.9443047501120772,
+          "bones_completed": 130307,
+          "bones_failed": 87,
+          "active_normalizer_count": 654630912,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates_for_provenance_only": 95924,
+        "full_resume": false,
+        "collection_steps": 80006,
+        "real_transitions": 327704576,
+        "learning_phases": 32000,
+        "world_model_batch_updates": 320000,
+        "actor_updates": 32000,
+        "critic_minibatch_updates": 640000,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-muon-wd0-s0/checkpoints/checkpoint_000080006.pt",
+        "evaluation_label": "update_32000"
+      },
+      "evaluation_status": "pending_after_all_training_exit",
+      "arm": "muon_wd0",
+      "run_name": "o5-bones-muon-wd0-s0",
+      "label": "update_32000",
+      "aliases": [
+        "update_32000",
+        "final"
+      ]
+    },
+    "adam_wd0/update_08000": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000020006.pt",
+      "metadata": {
+        "campaign": "20261115-o5-official-optimizer-s0",
+        "arm": "adam_wd0",
+        "run_name": "o5-bones-adam-wd0-s0",
+        "status": "running",
+        "updated_at": "2026-11-15T18:34:57.213060+08:00",
+        "training_seconds": 5409.832012414932,
+        "campaign_training_wall_seconds": 5409.901250362396,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "parent": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "quarter",
+          "node": "update_32000",
+          "aliases": [
+            "final"
+          ],
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+          "segment_joint_updates": 32000,
+          "segment_collection_steps": 80006,
+          "segment_real_transitions": 327704576,
+          "segment_training_seconds": 22340.7045006752,
+          "ancestor": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "lineage_joint_updates": 63924,
+          "lineage_collection_steps": 159822,
+          "lineage_real_transitions": 654630912,
+          "bones_R": 0.9443047501120772,
+          "bones_completed": 130307,
+          "bones_failed": 87,
+          "active_normalizer_count": 654630912,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates_for_provenance_only": 71924,
+        "full_resume": false,
+        "collection_steps": 20006,
+        "real_transitions": 81944576,
+        "learning_phases": 8000,
+        "world_model_batch_updates": 80000,
+        "actor_updates": 8000,
+        "critic_minibatch_updates": 160000,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000020006.pt",
+        "evaluation_label": "update_08000"
+      },
+      "evaluation_status": "pending_after_all_training_exit",
+      "arm": "adam_wd0",
+      "run_name": "o5-bones-adam-wd0-s0",
+      "label": "update_08000",
+      "aliases": [
+        "update_08000"
+      ]
+    },
+    "adam_wd0/update_16000": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000040006.pt",
+      "metadata": {
+        "campaign": "20261115-o5-official-optimizer-s0",
+        "arm": "adam_wd0",
+        "run_name": "o5-bones-adam-wd0-s0",
+        "status": "running",
+        "updated_at": "2026-11-15T20:04:04.101713+08:00",
+        "training_seconds": 10756.720665931702,
+        "campaign_training_wall_seconds": 10756.789903640747,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "parent": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "quarter",
+          "node": "update_32000",
+          "aliases": [
+            "final"
+          ],
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+          "segment_joint_updates": 32000,
+          "segment_collection_steps": 80006,
+          "segment_real_transitions": 327704576,
+          "segment_training_seconds": 22340.7045006752,
+          "ancestor": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "lineage_joint_updates": 63924,
+          "lineage_collection_steps": 159822,
+          "lineage_real_transitions": 654630912,
+          "bones_R": 0.9443047501120772,
+          "bones_completed": 130307,
+          "bones_failed": 87,
+          "active_normalizer_count": 654630912,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates_for_provenance_only": 79924,
+        "full_resume": false,
+        "collection_steps": 40006,
+        "real_transitions": 163864576,
+        "learning_phases": 16000,
+        "world_model_batch_updates": 160000,
+        "actor_updates": 16000,
+        "critic_minibatch_updates": 320000,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000040006.pt",
+        "evaluation_label": "update_16000"
+      },
+      "evaluation_status": "pending_after_all_training_exit",
+      "arm": "adam_wd0",
+      "run_name": "o5-bones-adam-wd0-s0",
+      "label": "update_16000",
+      "aliases": [
+        "update_16000"
+      ]
+    },
+    "adam_wd0/update_32000": {
+      "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+      "metadata": {
+        "campaign": "20261115-o5-official-optimizer-s0",
+        "arm": "adam_wd0",
+        "run_name": "o5-bones-adam-wd0-s0",
+        "status": "running",
+        "updated_at": "2026-11-15T23:01:50.562567+08:00",
+        "training_seconds": 21423.181517124176,
+        "campaign_training_wall_seconds": 21423.25075483322,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "parent": {
+          "campaign": "20261112-o3-official-bones-lr-s0",
+          "arm": "quarter",
+          "node": "update_32000",
+          "aliases": [
+            "final"
+          ],
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+          "segment_joint_updates": 32000,
+          "segment_collection_steps": 80006,
+          "segment_real_transitions": 327704576,
+          "segment_training_seconds": 22340.7045006752,
+          "ancestor": {
+            "campaign": "20261111-o2-official-bones-s0",
+            "node": "hour_03",
+            "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+            "training_seconds": 10800.263551399112,
+            "collection_steps": 79816,
+            "real_transitions": 326926336,
+            "joint_learning_phases": 31924,
+            "actor_updates": 31924,
+            "bones_R": 0.9350195502553713,
+            "bones_completed": 130215,
+            "bones_failed": 179,
+            "full_resume": false,
+            "reuse_existing_formal_scores": true
+          },
+          "lineage_joint_updates": 63924,
+          "lineage_collection_steps": 159822,
+          "lineage_real_transitions": 654630912,
+          "bones_R": 0.9443047501120772,
+          "bones_completed": 130307,
+          "bones_failed": 87,
+          "active_normalizer_count": 654630912,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates_for_provenance_only": 95924,
+        "full_resume": false,
+        "collection_steps": 80006,
+        "real_transitions": 327704576,
+        "learning_phases": 32000,
+        "world_model_batch_updates": 320000,
+        "actor_updates": 32000,
+        "critic_minibatch_updates": 640000,
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o5-bones-adam-wd0-s0/checkpoints/checkpoint_000080006.pt",
+        "evaluation_label": "update_32000"
+      },
+      "evaluation_status": "pending_after_all_training_exit",
+      "arm": "adam_wd0",
+      "run_name": "o5-bones-adam-wd0-s0",
+      "label": "update_32000",
+      "aliases": [
+        "update_32000",
+        "final"
+      ]
+    }
+  },
+  "evaluations": {
+    "muon_wd0/update_08000": {},
+    "muon_wd0/update_16000": {},
+    "muon_wd0/update_32000": {},
+    "adam_wd0/update_08000": {},
+    "adam_wd0/update_16000": {},
+    "adam_wd0/update_32000": {}
+  },
   "parent": {
     "campaign": "20261112-o3-official-bones-lr-s0",
     "arm": "quarter",
@@ -4955,48 +5874,70 @@
   "full_resume": false,
   "initialization": "weights_only_warm_start",
   "training_started": true,
-  "training_status": "running",
-  "training_finished": false,
-  "training_done": false,
+  "training_status": "completed",
+  "training_finished": true,
+  "training_done": true,
   "new_joint_updates": {
-    "muon_wd0": 246,
-    "adam_wd0": 246
+    "muon_wd0": 32000,
+    "adam_wd0": 32000
   },
   "target_new_joint_updates_per_arm": 32000,
-  "total_new_joint_updates": 492,
+  "total_new_joint_updates": 64000,
   "target_new_joint_updates_total": 64000,
   "training": {
-    "status": "running",
-    "child_exited": false,
-    "target_reached": false,
+    "status": "completed",
+    "child_exited": true,
+    "target_reached": true,
     "new_joint_updates": {
-      "muon_wd0": 246,
-      "adam_wd0": 246
+      "muon_wd0": 32000,
+      "adam_wd0": 32000
     },
-    "total_new_joint_updates": 492,
+    "total_new_joint_updates": 64000,
     "target_joint_updates_per_arm": 32000,
     "target_joint_updates_total": 64000,
     "arms": {
       "muon_wd0": {
-        "status": "running",
-        "new_joint_updates": 246,
+        "status": "completed",
+        "new_joint_updates": 32000,
         "target_joint_updates": 32000,
-        "child_exited": false,
-        "target_reached": false,
-        "training_seconds": 230.823828458786
+        "child_exited": true,
+        "target_reached": true,
+        "training_seconds": 21459.32522726059
       },
       "adam_wd0": {
-        "status": "running",
-        "new_joint_updates": 246,
+        "status": "completed",
+        "new_joint_updates": 32000,
         "target_joint_updates": 32000,
-        "child_exited": false,
-        "target_reached": false,
-        "training_seconds": 230.81624698638916
+        "child_exited": true,
+        "target_reached": true,
+        "training_seconds": 21423.59308218956
       }
     },
-    "children_exit": {}
+    "children_exit": {
+      "adam_wd0": {
+        "pid": 99253,
+        "exit_code": 0,
+        "observed_exit_at": "2026-11-15T23:01:59.855412+08:00"
+      },
+      "muon_wd0": {
+        "pid": 99252,
+        "exit_code": 0,
+        "observed_exit_at": "2026-11-15T23:02:39.856996+08:00"
+      }
+    }
   },
-  "training_children_exit": {},
+  "training_children_exit": {
+    "adam_wd0": {
+      "pid": 99253,
+      "exit_code": 0,
+      "observed_exit_at": "2026-11-15T23:01:59.855412+08:00"
+    },
+    "muon_wd0": {
+      "pid": 99252,
+      "exit_code": 0,
+      "observed_exit_at": "2026-11-15T23:02:39.856996+08:00"
+    }
+  },
   "formal_evaluation_started": false,
   "formal_evaluation_finished": false,
   "formal_evaluation_done": false,
