@@ -1,6 +1,6 @@
 # O5 official optimizer comparison
 
-Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-16T00:37:28.784707+08:00.
+Status: **completed**. Training: **completed**. Updated: 2026-11-16T00:37:47.222045+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments per arm; updates per arm {'muon_wd0': 32000, 'adam_wd0': 32000}, target 32000 each; total 64000/64000.

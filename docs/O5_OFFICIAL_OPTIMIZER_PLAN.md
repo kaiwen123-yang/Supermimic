@@ -1,6 +1,6 @@
 # O5：官方优化器配方的同父短段对照
 
-日期：2026-11-15。依据：O4 完成结果 `b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8`，以及[O4完整复核](O4_REVIEW_20261115.md)。运行适配已部署；当前状态 **全BONES评分已结束，正在LAFAN跨库评分**，见[执行交接](O5_EXECUTION_HANDOFF.md)与campaign summary。以下保留完整执行方案。机器可读约定见[协议](../configs/o5_official_optimizer_protocol.json)，执行入口见[Codex启动词](O5_CODEX_START_PROMPT.md)。
+日期：2026-11-15。依据：O4 完成结果 `b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8`，以及[O4完整复核](O4_REVIEW_20261115.md)。运行适配已部署；当前状态 **两路各32000连续更新、全部实际节点评分与轻量发布已完成**，见[执行交接](O5_EXECUTION_HANDOFF.md)与campaign summary。以下保留完整执行方案。机器可读约定见[协议](../configs/o5_official_optimizer_protocol.json)，执行入口见[Codex启动词](O5_CODEX_START_PROMPT.md)。
 
 ## 1. 本轮要回答的问题
 
