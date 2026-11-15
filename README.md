@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前新增主线：O5官方优化器对照，计划已发布、适配与训练尚未开始。** 从同一个O3 quarter32k父节点出发，两路各32000更新、固定5e-5：保留Muon仅去权重衰减，对照全Adam无衰减；8k/16k/32k节点，复用O4历史成绩。比较全库回报、同动作精度与能力保持，32k不等于长期稳定性结论。[计划](docs/O5_OFFICIAL_OPTIMIZER_PLAN.md)、[协议](configs/o5_official_optimizer_protocol.json)、[Codex启动词](docs/O5_CODEX_START_PROMPT.md)。
+> **当前新增主线：O5官方优化器对照。** 运行适配已部署，待正式启动（prepared）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、两路各4096环境，各新增32000连续联合更新，合计64000，无后台小时截止。Muon无衰减与全Adam无衰减对照。实际训练状态not_started，新增{'muon_wd0': 0, 'adam_wd0': 0}更新；状态见results/20261115-o5-official-optimizer-s0/summary.json，接续见docs/O5_EXECUTION_HANDOFF.md。tmux sm-o5-optimizer-s0；不重启活动训练。保护O3 quarter16k/32k、O4全部固定节点和O2/O1/P6成果，P12继续暂停，不自动开O6。
 
 > **O4已完成并复核：固定低LR没有解决长段退化。** +16k **R=.92672114、71失败**，是总覆盖参照，但同一完成集合XY已由父的7.19cm增至10.72cm；+32k **.90437763/93失败**，+64k **.80227512/7055失败**，+96k **.47643112/70303失败**，final **.62798132/47128失败**。96k→final部分恢复，仍明显低于父节点。保护O3 quarter16k/32k及O4全部固定节点，不从坏final默认续训。[完整复核](docs/O4_REVIEW_20261115.md)、[派生统计](results/20261113-o4-official-bones-long-s0/review_20261115.json)、[全部成绩](results/20261113-o4-official-bones-long-s0/README.md)。
 
@@ -32,7 +32,7 @@
 
 - 论文：[arXiv:2610.28480v1](https://arxiv.org/abs/2610.28480v1)
 - 作者项目：[supermimic.github.io](https://supermimic.github.io/)
-- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，O4单路低LR长段已完成并发生退化；O5同父优化器短对照计划已发布、执行待启动，P12及独立实现新实验暂缓。
+- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，O4单路低LR长段已完成并发生退化；O5同父优化器短对照已实施，实际状态见顶部summary，P12及独立实现新实验暂缓。
 - 本仓库属于用户复现项目，不是作者官方仓库。O1实际使用[官方核心源码](https://github.com/HybridRobotics/supermimic/tree/abc124c1bd5976341034668af3d12c087f2f1f55)及[作者研究环境](https://github.com/HybridRobotics/mjlab_research/tree/dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd)，在相邻独立工作区运行，未混入既有独立训练实现。初始5efbf114源码比较保留供溯源，研究依赖已取得，旧地址404不再阻塞。论文历史精确run配置和BONES筛选成员仍未取得，当前结果明确标为官方当前源码GenCoord/proprio/history10基线。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
 
 ## D57 环境
@@ -82,7 +82,7 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的O4；当前O5方案已发布但尚未启动，P12暂缓并保留计划。下文为独立实现历史，均不作为新启动指令。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
+**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的O4；当前O5已实施，实际状态见顶部summary，P12暂缓并保留计划。下文为独立实现历史，均不作为新启动指令。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
 
 | 版本 | 完整执行 | 完整时长归一化回报 | 平均完成比例 | 起身 | 跑步 |
 |---|---:|---:|---:|---:|---:|

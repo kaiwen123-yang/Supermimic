@@ -1,6 +1,6 @@
 # O5 Codex启动提示词
 
-状态：2026-11-15计划已准备，执行适配与训练尚未开始。以下提示词用于D57实际执行；当前发布不代表任务已经启动。[计划](O5_OFFICIAL_OPTIMIZER_PLAN.md)与[协议](../configs/o5_official_optimizer_protocol.json)给出完整参数和边界。
+状态：运行适配已部署，待正式启动。以下为原启动提示词；已存在活动O5时只观察接续，不重复启动。实时状态见[执行交接](O5_EXECUTION_HANDOFF.md)。
 
 ```text
 继续 kaiwen123-yang/Supermimic 的官方代码复现主线。同步最新main，保留现有未提交工作，先读：
