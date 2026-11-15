@@ -1,6 +1,6 @@
 # O5 official optimizer comparison
 
-Status: **evaluating_bones**. Training: **completed**. Updated: 2026-11-15T23:50:41.175832+08:00.
+Status: **evaluating_bones**. Training: **completed**. Updated: 2026-11-16T00:02:32.748186+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments per arm; updates per arm {'muon_wd0': 32000, 'adam_wd0': 32000}, target 32000 each; total 64000/64000.
@@ -14,6 +14,7 @@ Ancestor 63924 updates are provenance only. Failed/interrupted training is never
 | muon_wd0/update_16000 | bones_full | 16000 | 0.92026524 | 130314/130394 |
 | muon_wd0/update_32000 | bones_full | 32000 | 0.91915658 | 130344/130394 |
 | adam_wd0/update_08000 | bones_full | 8000 | 0.92371814 | 130254/130394 |
+| adam_wd0/update_16000 | bones_full | 16000 | 0.93826439 | 130268/130394 |
 
 Initial scores reuse O3 quarter32k: BONES R=.94430475, 130307/130394 complete, 87 failed. Final aliases are evaluated once.
 Quarter16k remains the quality anchor (R=.94757578). Historical O4: 16k R=.92672114/71 failed; 32k R=.90437763/93 failed; reuse without simulation. O2 remains a separate historical reference.
