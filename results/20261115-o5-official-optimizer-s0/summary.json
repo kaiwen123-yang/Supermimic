@@ -1,15 +1,15 @@
 {
   "campaign": "20261115-o5-official-optimizer-s0",
-  "updated_at": "2026-11-15T17:04:32.559118+08:00",
-  "status": "prepared",
+  "updated_at": "2026-11-15T17:04:47.316553+08:00",
+  "status": "training",
   "plan_commit": "274fd47db842294c5acdf5d8bd5a7a8b3be80ae4",
   "implementation_status": "deployed_o5_isolated_optimizer_modes",
   "stage": {
-    "status": "prepared",
-    "at": "2026-11-15T17:04:32.491708+08:00",
+    "status": "training",
+    "at": "2026-11-15T17:04:47.312462+08:00",
     "driver_pid": 99049,
     "training": {
-      "status": "not_started",
+      "status": "running",
       "child_exited": false,
       "target_reached": false,
       "new_joint_updates": {
@@ -40,7 +40,17 @@
       "children_exit": {}
     }
   },
-  "budget": null,
+  "budget": {
+    "start_epoch": 1794733487.311828,
+    "started_at": "2026-11-15T17:04:47.311842+08:00",
+    "new_joint_updates_per_arm": 32000,
+    "total_new_joint_updates": 64000,
+    "wall_deadline_enabled": false,
+    "deadline_epoch": null,
+    "training_wall_seconds_limit": null,
+    "automatic_restart_after_process_exit": false,
+    "scope": "two independent continuous optimizer/replay/sampler processes; ancestor updates are provenance only"
+  },
   "arms": {
     "muon_wd0": {
       "run_name": "o5-bones-muon-wd0-s0",
@@ -111,8 +121,8 @@
   },
   "full_resume": false,
   "initialization": "weights_only_warm_start",
-  "training_started": false,
-  "training_status": "not_started",
+  "training_started": true,
+  "training_status": "running",
   "training_finished": false,
   "training_done": false,
   "new_joint_updates": {
@@ -123,7 +133,7 @@
   "total_new_joint_updates": 0,
   "target_new_joint_updates_total": 64000,
   "training": {
-    "status": "not_started",
+    "status": "running",
     "child_exited": false,
     "target_reached": false,
     "new_joint_updates": {

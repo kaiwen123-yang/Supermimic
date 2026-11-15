@@ -1,6 +1,6 @@
 # O5 执行交接
 
-更新时间：2026-11-15T17:04:32.559118+08:00。当前实际状态：**prepared**。
+更新时间：2026-11-15T17:04:47.316553+08:00。当前实际状态：**training**。
 
 - tmux：`sm-o5-optimizer-s0`。若已有活动进程或budget.json，只观察接续，不重复启动训练。
 - 工作区：`/root/autodl-tmp/robot-repro/supermimic-official-workspace`；用户代码工作树：`/root/autodl-tmp/robot-repro/supermimic-o5-official-optimizer`。
