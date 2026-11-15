@@ -1,0 +1,195 @@
+{
+  "review_date": "2026-11-15",
+  "scope": "O4-to-O5 optimizer recipe source audit; no training launched",
+  "user_results_commit": "b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8",
+  "official_core_commit": "abc124c1bd5976341034668af3d12c087f2f1f55",
+  "paper": {
+    "url": "https://arxiv.org/pdf/2610.28480v2",
+    "table": "A.5",
+    "optimizer_family": "Adam",
+    "actor_betas": [
+      0.9,
+      0.95
+    ],
+    "weight_decay_explicitly_specified": false,
+    "single_gpu_base_lr": 0.0002,
+    "cosine_end_iterations": 250000,
+    "cosine_floor_multiplier": 0.03,
+    "training_iterations": 320000,
+    "historical_iteration_counter_mapping_confirmed": false
+  },
+  "current_official": {
+    "factory_url": "https://github.com/HybridRobotics/supermimic/blob/abc124c1bd5976341034668af3d12c087f2f1f55/src/supermimic/learners/learner_utils.py",
+    "factory_blob_sha": "5069a6a887f96c5d451be037d49fcaa00810286e",
+    "muon_selection": "For every nn.Sequential under each supplied module, Linear weights except first and last Linear; all other parameters assigned Adam.",
+    "muon_explicit_kwargs": [
+      "lr",
+      "adjust_lr_fn=match_rms_adamw"
+    ],
+    "muon_implicit_defaults_from_official_pytorch_2_14": {
+      "weight_decay": 0.1,
+      "momentum": 0.95,
+      "nesterov": true,
+      "ns_steps": 5,
+      "ns_coefficients": [
+        3.4445,
+        -4.775,
+        2.0315
+      ],
+      "eps": 1e-07
+    },
+    "adam_explicit_options": {
+      "fused": true,
+      "capturable": true,
+      "learning_rate_type": "device tensor"
+    },
+    "adam_default_weight_decay": 0.0,
+    "actor_betas": [
+      0.9,
+      0.95
+    ],
+    "wm_betas": [
+      0.9,
+      0.999
+    ],
+    "critic_betas": [
+      0.9,
+      0.999
+    ],
+    "optimizer_steps_per_joint_update": {
+      "actor": 1,
+      "wm": 10,
+      "critic": 20
+    },
+    "cosine_scheduler_in_selected_runner": false,
+    "runner_iteration_counter": "real collection loop; current configured joint-update/collection ratio=0.4",
+    "muon_lr_capture_semantics": "Python float fixed during CUDA graph capture",
+    "adam_lr_capture_semantics": "Device tensor supports in-place fill_ at same address",
+    "muon_introduction_commit_url": "https://github.com/HybridRobotics/supermimic/commit/0e5ff6bb00166fdbdb308ce23583f55948504fac",
+    "muon_introduction_validation_scope": "god-mode MaxCoord / LAFAN40 short training reward speed; not evidence of long BONES GenCoord/proprio stability"
+  },
+  "pytorch_source": {
+    "version": "v2.14.0",
+    "url": "https://github.com/pytorch/pytorch/blob/v2.14.0/torch/optim/_muon.py",
+    "blob_sha": "013f93b644b2badc37c73faa4b0dbceed6b9c206",
+    "documentation_url": "https://docs.pytorch.org/docs/stable/generated/torch.optim.Muon.html",
+    "decay_factor_per_optimizer_step": "1 - base_lr * weight_decay",
+    "orthogonalized_update_lr": "base_lr * 0.2 * sqrt(max(matrix_rows, matrix_columns))",
+    "shape_adjusted_lr_used_for_decay": false,
+    "installed_d57_source_independently_observed_by_this_audit": false,
+    "required_o5_runtime_metadata": [
+      "torch.__version__",
+      "installed Muon source path/signature",
+      "actual constructed optimizer param_groups including implicit defaults"
+    ]
+  },
+  "illustrative_decay_only_factors": [
+    {
+      "new_joint_updates": 16000,
+      "actor": 0.9231161617622857,
+      "wm": 0.44932806545484155,
+      "critic": 0.2018957104053904
+    },
+    {
+      "new_joint_updates": 32000,
+      "actor": 0.8521434481067345,
+      "wm": 0.2018957104053904,
+      "critic": 0.04076187788009726
+    },
+    {
+      "new_joint_updates": 64000,
+      "actor": 0.7261484561512349,
+      "wm": 0.04076187788009726,
+      "critic": 0.0016615306883119622
+    },
+    {
+      "new_joint_updates": 96000,
+      "actor": 0.6187826492620953,
+      "wm": 0.008229648292060004,
+      "critic": 6.772711101100614e-05
+    },
+    {
+      "new_joint_updates": 132000,
+      "actor": 0.5168504816826235,
+      "wm": 0.0013603455915268147,
+      "critic": 1.8505401283864397e-06
+    }
+  ],
+  "decay_factor_caveat": "Algebraic contribution of the decay term only; not measured parameter-norm ratios. Gradient updates remain active. No causal conclusion from these factors.",
+  "recommended_o5": {
+    "parent": "same O3 quarter/update_32000 checkpoint used by O4",
+    "full_resume": false,
+    "new_joint_updates_per_arm": 32000,
+    "milestones": [
+      8000,
+      16000,
+      32000
+    ],
+    "fixed_learning_rate_all_optimizers": 5e-05,
+    "arms": {
+      "muon_wd0": {
+        "optimizer_family": "official Muon-hidden / Adam-rest",
+        "muon_weight_decay": 0.0,
+        "adam_weight_decay": 0.0,
+        "other_parameters": "unchanged"
+      },
+      "adam_wd0": {
+        "optimizer_family": "all Adam",
+        "weight_decay": 0.0,
+        "actor_betas": [
+          0.9,
+          0.95
+        ],
+        "wm_betas": [
+          0.9,
+          0.999
+        ],
+        "critic_betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "amsgrad": false,
+        "fused": true,
+        "capturable": true
+      }
+    },
+    "historical_reference": "O4 same parent and LR, milestones16k/32k, implicit original Muon decay expected0.1",
+    "automatically_extend": false,
+    "claims_not_supported": [
+      "132k or paper-length stability",
+      "unique root cause",
+      "identical stochastic rollout trajectories",
+      "full original paper recipe reproduction"
+    ],
+    "primary_readout": [
+      "full-library macro R",
+      "common-complete macro R and XY/body orientation",
+      "per-clip R deltas",
+      "newly lost prior-complete motions",
+      "failures and fixed skill groups",
+      "LAFAN40 transfer"
+    ],
+    "bounded_extra_observation": {
+      "historical_checkpoint_files_max": 6,
+      "historical_nodes": [
+        "O3quarter32k parent",
+        "O4+16k",
+        "O4+32k",
+        "O4+64k",
+        "O4+96k",
+        "O4+132k/final alias once"
+      ],
+      "historical_method": "CPU-only named parameter norms from exact saved paths; no rollout or restore probe",
+      "new_nodes": [
+        "initial",
+        "8k",
+        "16k",
+        "32k"
+      ],
+      "new_method": "detached parameter summaries during existing saves; no additional forward pass",
+      "grouping": "actual factory-selected parameter IDs mapped to named parameters; distinguish hidden Linear weights, other weights, bias, LayerNorm affine; never infer Muon from ndim alone",
+      "temporary_requires_grad_flag_not_used_as_membership_filter": true
+    }
+  }
+}

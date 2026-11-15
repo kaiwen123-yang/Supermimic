@@ -17000,7 +17000,7 @@
       "status": "completed",
       "implementation_status": "deployed_o4_adapter_reusing_o3_statistics",
       "source_review_commit": "b79dfbaffc3175d907dbe94bed74175968b5f50d",
-      "review": "docs/O3_REVIEW_20261113.md",
+      "review": "docs/O4_REVIEW_20261115.md",
       "plan": "docs/O4_OFFICIAL_BONES_LONG_RUN_PLAN.md",
       "protocol": "configs/o4_official_bones_long_run_protocol.json",
       "start_prompt": "docs/O4_CODEX_START_PROMPT.md",
@@ -17058,7 +17058,7 @@
       "training_done": true,
       "formal_evaluation_done": true,
       "lightweight_results_published": true,
-      "publication_scope": "O4 execution snapshot and all currently available actual-node results",
+      "publication_scope": "training_all_actual_evaluations_and_lightweight_publication_completed_and_reviewed_20261115",
       "previous_lafan_acceptance_preserved": true,
       "protected_O3_anchors": [
         "quarter/update_16000",
@@ -19224,7 +19224,175 @@
         "automatic_restart_after_process_exit": false,
         "scope": "one continuous optimizer/replay/sampler process; ancestor updates are provenance only"
       },
-      "full_clip_evaluation_done": true
+      "full_clip_evaluation_done": true,
+      "planning_review": "docs/O3_REVIEW_20261113.md",
+      "review_data": "results/20261113-o4-official-bones-long-s0/review_20261115.json",
+      "completion_source_commit": "b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8",
+      "long_run_stability_established": false
+    },
+    "20261115-o5-official-optimizer-s0": {
+      "campaign": "20261115-o5-official-optimizer-s0",
+      "planned_date_beijing": "2026-11-15",
+      "status": "planned",
+      "implementation_status": "not_started",
+      "source_review_commit": "b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8",
+      "review": "docs/O4_REVIEW_20261115.md",
+      "plan": "docs/O5_OFFICIAL_OPTIMIZER_PLAN.md",
+      "protocol": "configs/o5_official_optimizer_protocol.json",
+      "start_prompt": "docs/O5_CODEX_START_PROMPT.md",
+      "parent": {
+        "campaign": "20261112-o3-official-bones-lr-s0",
+        "arm": "quarter",
+        "node": "update_32000",
+        "aliases": [
+          "final"
+        ],
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+        "segment_joint_updates": 32000,
+        "segment_collection_steps": 80006,
+        "segment_real_transitions": 327704576,
+        "segment_training_seconds": 22340.7045006752,
+        "ancestor": {
+          "campaign": "20261111-o2-official-bones-s0",
+          "node": "hour_03",
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+          "training_seconds": 10800.263551399112,
+          "collection_steps": 79816,
+          "real_transitions": 326926336,
+          "joint_learning_phases": 31924,
+          "actor_updates": 31924,
+          "bones_R": 0.9350195502553713,
+          "bones_completed": 130215,
+          "bones_failed": 179,
+          "full_resume": false,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates": 63924,
+        "lineage_collection_steps": 159822,
+        "lineage_real_transitions": 654630912,
+        "bones_R": 0.9443047501120772,
+        "bones_completed": 130307,
+        "bones_failed": 87,
+        "active_normalizer_count": 654630912,
+        "reuse_existing_formal_scores": true
+      },
+      "initialization": "matched_weights_only_warm_start",
+      "full_resume": false,
+      "planned_arms": [
+        {
+          "id": "muon_wd0",
+          "run_name": "o5-bones-muon-wd0-s0",
+          "optimizer_mode": "muon_wd0",
+          "hidden_linear_weights": {
+            "type": "torch.optim.Muon",
+            "lr": 5e-05,
+            "weight_decay": 0.0,
+            "momentum": 0.95,
+            "nesterov": true,
+            "ns_coefficients": [
+              3.4445,
+              -4.775,
+              2.0315
+            ],
+            "eps": 1e-07,
+            "ns_steps": 5,
+            "adjust_lr_fn": "match_rms_adamw",
+            "parameter_selection": "same official inner Linear weights in each nn.Sequential; not all 2D tensors",
+            "lr_python_float_constant_before_capture": true
+          },
+          "remaining_parameters": {
+            "type": "torch.optim.Adam",
+            "lr": 5e-05,
+            "weight_decay": 0.0,
+            "eps": 1e-08,
+            "amsgrad": false,
+            "fused": true,
+            "capturable": true,
+            "device_lr_tensor": true,
+            "betas": {
+              "actor": [
+                0.9,
+                0.95
+              ],
+              "world_model": [
+                0.9,
+                0.999
+              ],
+              "critic": [
+                0.9,
+                0.999
+              ]
+            }
+          },
+          "only_change_vs_historical_O4": "Muon weight_decay 0.1 -> explicit 0.0"
+        },
+        {
+          "id": "adam_wd0",
+          "run_name": "o5-bones-adam-wd0-s0",
+          "optimizer_mode": "adam_wd0",
+          "all_parameters": {
+            "type": "torch.optim.Adam",
+            "lr": 5e-05,
+            "weight_decay": 0.0,
+            "eps": 1e-08,
+            "amsgrad": false,
+            "fused": true,
+            "capturable": true,
+            "device_lr_tensor": true,
+            "betas": {
+              "actor": [
+                0.9,
+                0.95
+              ],
+              "world_model": [
+                0.9,
+                0.999
+              ],
+              "critic": [
+                0.9,
+                0.999
+              ]
+            }
+          },
+          "difference_vs_muon_wd0": "inner Linear weights now use Adam; zero decay and all other settings match"
+        }
+      ],
+      "planned_budget": {
+        "new_joint_updates_per_arm": 32000,
+        "total_new_joint_updates_across_two_arms": 64000,
+        "checkpoint_new_joint_updates": [
+          8000,
+          16000,
+          32000
+        ],
+        "expected_collection_steps_per_arm_if_uninterrupted": 80006,
+        "expected_real_transitions_per_arm_if_uninterrupted": 327704576,
+        "expected_active_normalizer_count_at_end": 982335488,
+        "expected_world_model_batch_updates_per_arm": 320000,
+        "expected_actor_updates_per_arm": 32000,
+        "expected_critic_minibatch_updates_per_arm": 640000,
+        "parent_lineage_joint_updates_for_provenance_only": 63924,
+        "expected_lineage_joint_updates_at_end": 95924,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "training_wall_seconds_limit": null,
+        "stop_rule": "Each arm stops at 32000 new joint updates, actual execution failure, or explicit user stop; no return-based early stop.",
+        "max_interaction_seconds": 14400,
+        "tmux_continues_across_interactions": true,
+        "automatic_extension": false,
+        "automatic_restart_after_process_exit": false,
+        "save_initial_and_actual_endpoint": true,
+        "deduplicate_final_aliases": true,
+        "record_per_arm_training_and_campaign_wall_seconds": true
+      },
+      "training_started": false,
+      "training_done": false,
+      "formal_evaluation_done": false,
+      "lightweight_results_published": false,
+      "results": null,
+      "previous_lafan_acceptance_preserved": true,
+      "P12": "paused",
+      "publication_scope": "O4 review and O5 plan only; no D57 deployment or training yet"
     }
   },
   "publications": {
@@ -20108,24 +20276,34 @@
       "protocol": "configs/o3_official_bones_stability_protocol.json",
       "start_prompt": "docs/O3_CODEX_START_PROMPT.md",
       "O3_training_started": false
+    },
+    "20261115-o4-review-o5-plan": {
+      "kind": "review_and_next_stage_plan",
+      "date": "2026-11-15",
+      "source_results_commit": "b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8",
+      "review": "docs/O4_REVIEW_20261115.md",
+      "review_data": "results/20261113-o4-official-bones-long-s0/review_20261115.json",
+      "next_plan": "docs/O5_OFFICIAL_OPTIMIZER_PLAN.md",
+      "protocol": "configs/o5_official_optimizer_protocol.json",
+      "prompt": "docs/O5_CODEX_START_PROMPT.md",
+      "D57_execution_performed": false
     }
   },
   "d57_storage_archive": "results/storage_cleanup/20261101/status.json",
   "next_stage": {
-    "protocol_id": "supermimic-o4-official-bones-long-run-v1",
-    "status": "completed",
-    "implementation_status": "deployed_o4_adapter_reusing_o3_statistics",
-    "planned_date_beijing": "2026-11-13",
-    "source_review_commit": "b79dfbaffc3175d907dbe94bed74175968b5f50d",
-    "review": "docs/O3_REVIEW_20261113.md",
-    "review_data": "results/20261112-o3-official-bones-lr-s0/review_20261113.json",
-    "document": "docs/O4_OFFICIAL_BONES_LONG_RUN_PLAN.md",
-    "protocol": "configs/o4_official_bones_long_run_protocol.json",
-    "start_prompt": "docs/O4_CODEX_START_PROMPT.md",
-    "campaign": "20261113-o4-official-bones-long-s0",
-    "previous_completed_campaign": "20261112-o3-official-bones-lr-s0",
-    "initialization": "weights_only_warm_start",
-    "full_resume": false,
+    "protocol_id": "supermimic-o5-official-optimizer-audit-v1",
+    "status": "planned",
+    "implementation_status": "not_started",
+    "planned_date_beijing": "2026-11-15",
+    "source_review_commit": "b3a3eac724fa4bc4dd8781dc7c8fb371e95efef8",
+    "review": "docs/O4_REVIEW_20261115.md",
+    "review_data": "results/20261113-o4-official-bones-long-s0/review_20261115.json",
+    "document": "docs/O5_OFFICIAL_OPTIMIZER_PLAN.md",
+    "start_prompt": "docs/O5_CODEX_START_PROMPT.md",
+    "campaign": "20261115-o5-official-optimizer-s0",
+    "tmux": "sm-o5-optimizer-s0",
+    "workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+    "code_worktree": "/root/autodl-tmp/robot-repro/supermimic-o5-official-optimizer",
     "parent": {
       "campaign": "20261112-o3-official-bones-lr-s0",
       "arm": "quarter",
@@ -20162,63 +20340,166 @@
       "active_normalizer_count": 654630912,
       "reuse_existing_formal_scores": true
     },
-    "run_name": "o4-bones-low-lr-long-s0",
+    "initialization": {
+      "kind": "weights_only_warm_start",
+      "full_resume": false,
+      "restore": [
+        "world_model_bundle_including_sim_context",
+        "actor_state_dict",
+        "critic_state_dict",
+        "all_active_normalizer_count_mean_var_std"
+      ],
+      "newly_initialized": [
+        "optimizers",
+        "replay",
+        "return_sampler",
+        "random_state"
+      ],
+      "set_lr_before_runner_optimizer_and_graph_construction": true,
+      "strict_load_into_existing_objects_before_collection": true,
+      "normalizers_reset": false,
+      "normalizers_freeze": false,
+      "replay_start_condition": "official num_transitions >= wm.horizon",
+      "separate_prefill_or_wm_only_updates": 0,
+      "seed": 0,
+      "set_optimizer_mode_before_runner_optimizer_and_graph_construction": true,
+      "same_parent_for_both_arms_and_historical_O4": true,
+      "seed_is_not_a_bitwise_common_random_numbers_claim": true
+    },
+    "arms": [
+      {
+        "id": "muon_wd0",
+        "run_name": "o5-bones-muon-wd0-s0",
+        "optimizer_mode": "muon_wd0",
+        "hidden_linear_weights": {
+          "type": "torch.optim.Muon",
+          "lr": 5e-05,
+          "weight_decay": 0.0,
+          "momentum": 0.95,
+          "nesterov": true,
+          "ns_coefficients": [
+            3.4445,
+            -4.775,
+            2.0315
+          ],
+          "eps": 1e-07,
+          "ns_steps": 5,
+          "adjust_lr_fn": "match_rms_adamw",
+          "parameter_selection": "same official inner Linear weights in each nn.Sequential; not all 2D tensors",
+          "lr_python_float_constant_before_capture": true
+        },
+        "remaining_parameters": {
+          "type": "torch.optim.Adam",
+          "lr": 5e-05,
+          "weight_decay": 0.0,
+          "eps": 1e-08,
+          "amsgrad": false,
+          "fused": true,
+          "capturable": true,
+          "device_lr_tensor": true,
+          "betas": {
+            "actor": [
+              0.9,
+              0.95
+            ],
+            "world_model": [
+              0.9,
+              0.999
+            ],
+            "critic": [
+              0.9,
+              0.999
+            ]
+          }
+        },
+        "only_change_vs_historical_O4": "Muon weight_decay 0.1 -> explicit 0.0"
+      },
+      {
+        "id": "adam_wd0",
+        "run_name": "o5-bones-adam-wd0-s0",
+        "optimizer_mode": "adam_wd0",
+        "all_parameters": {
+          "type": "torch.optim.Adam",
+          "lr": 5e-05,
+          "weight_decay": 0.0,
+          "eps": 1e-08,
+          "amsgrad": false,
+          "fused": true,
+          "capturable": true,
+          "device_lr_tensor": true,
+          "betas": {
+            "actor": [
+              0.9,
+              0.95
+            ],
+            "world_model": [
+              0.9,
+              0.999
+            ],
+            "critic": [
+              0.9,
+              0.999
+            ]
+          }
+        },
+        "difference_vs_muon_wd0": "inner Linear weights now use Adam; zero decay and all other settings match"
+      }
+    ],
     "budget": {
-      "new_joint_updates": 132000,
-      "old_o2_continuous_updates_reference": 130314,
-      "parent_lineage_updates_for_provenance_only": 63924,
-      "expected_lineage_joint_updates_at_end": 195924,
-      "expected_collection_steps_if_uninterrupted": 330006,
-      "expected_real_transitions_if_uninterrupted": 1351704576,
-      "expected_active_normalizer_count_at_end": 2006335488,
+      "new_joint_updates_per_arm": 32000,
+      "total_new_joint_updates_across_two_arms": 64000,
+      "checkpoint_new_joint_updates": [
+        8000,
+        16000,
+        32000
+      ],
+      "expected_collection_steps_per_arm_if_uninterrupted": 80006,
+      "expected_real_transitions_per_arm_if_uninterrupted": 327704576,
+      "expected_active_normalizer_count_at_end": 982335488,
+      "expected_world_model_batch_updates_per_arm": 320000,
+      "expected_actor_updates_per_arm": 32000,
+      "expected_critic_minibatch_updates_per_arm": 640000,
+      "parent_lineage_joint_updates_for_provenance_only": 63924,
+      "expected_lineage_joint_updates_at_end": 95924,
       "wall_deadline_enabled": false,
       "deadline_epoch": null,
       "training_wall_seconds_limit": null,
-      "stop_rule": "132000 new joint updates, explicit user stop, or actual execution failure; no wall-clock or return-based early stop",
-      "return_based_early_stop": null,
-      "checkpoint_new_joint_updates": [
-        16000,
-        32000,
-        64000,
-        96000,
-        132000
-      ],
-      "save_initial_and_actual_endpoint": true,
-      "deduplicate_final_aliases": true,
+      "stop_rule": "Each arm stops at 32000 new joint updates, actual execution failure, or explicit user stop; no return-based early stop.",
       "max_interaction_seconds": 14400,
       "tmux_continues_across_interactions": true,
       "automatic_extension": false,
       "automatic_restart_after_process_exit": false,
-      "never_merge_restarted_segments_as_continuous": true,
-      "record_actual_training_and_evaluation_seconds": true
+      "save_initial_and_actual_endpoint": true,
+      "deduplicate_final_aliases": true,
+      "record_per_arm_training_and_campaign_wall_seconds": true
     },
     "concurrency": {
-      "gpu_training_processes": 1,
-      "parallel_cpu_metadata_workers_max": 12,
-      "cpu_worker_threads": 1,
+      "gpu_training_processes": 2,
+      "preferred_mode": "parallel, each with unchanged 4096 environments",
+      "resource_fallback": "If existing other work prevents both fitting, keep one active and start the second when resources allow, with the same fixed update budget; no capacity benchmark or reduced batch.",
       "torch_threads_per_process": 2,
       "torch_interop_threads_per_process": 2,
-      "scoring_waits_for_training_child_exit": true,
+      "cpu_metadata_workers_max": 12,
+      "cpu_worker_threads": 1,
+      "historical_checkpoint_read_workers_max": 1,
+      "scoring_waits_for_all_training_children_exit": true,
       "gpu_scoring_processes": 1,
-      "allow_gpu_sharing": true,
+      "training_holds_publication_lock": false,
+      "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
       "stop_other_tasks": false,
-      "capacity_or_throughput_benchmark": false,
-      "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock"
+      "capacity_or_throughput_benchmark": false
     },
+    "protocol": "configs/o5_official_optimizer_protocol.json",
+    "previous_completed_campaign": "20261113-o4-official-bones-long-s0",
+    "full_resume": false,
     "plan_and_review_published": true,
-    "training_started": true,
-    "training_done": true,
-    "formal_evaluation_done": true,
-    "lightweight_results_published": true,
+    "training_started": false,
+    "training_done": false,
+    "formal_evaluation_done": false,
+    "lightweight_results_published": false,
     "previous_lafan_acceptance_preserved": true,
     "p12_status": "paused",
-    "execution_scope_at_publication": "O3 review and O4 plan/protocol/prompt only; O4 adapters and D57 execution pending.",
-    "training_finished": true,
-    "training_status": "completed",
-    "new_joint_updates": 132000,
-    "formal_evaluation_started": true,
-    "formal_evaluation_finished": true,
-    "execution_snapshot_published": true
+    "execution_scope_at_publication": "O4 review and O5 plan/protocol/prompt only; D57 implementation and execution follow the prompt."
   },
   "reproduction_acceptance": {
     "scope": "SuperMimic / G1 / LAFAN1 full40 evaluation",
@@ -20371,8 +20652,8 @@
       },
       "automatic_stage_cleanup": false,
       "authorization_scope_at_publication": "Publish P11 review and P12 plan; implementation/server launch follow the supplied Codex prompt. Publishing does not start training.",
-      "pause_reason": "Official reproduction selected; O1 completed and current next-stage task is O2",
-      "replacement_plan": "docs/O2_OFFICIAL_BONES_PLAN.md"
+      "pause_reason": "Official-code reproduction remains selected; O1/O2/O3/O4 completed; current new plan is O5 optimizer audit.",
+      "replacement_plan": "docs/O5_OFFICIAL_OPTIMIZER_PLAN.md"
     }
   },
   "completed_stage_plans": {
@@ -20599,6 +20880,118 @@
       "formal_evaluation_finished": true,
       "completion_review": "docs/O3_REVIEW_20261113.md",
       "completion_review_data": "results/20261112-o3-official-bones-lr-s0/review_20261113.json"
+    },
+    "O4": {
+      "protocol_id": "supermimic-o4-official-bones-long-run-v1",
+      "status": "completed",
+      "implementation_status": "deployed_o4_adapter_reusing_o3_statistics",
+      "planned_date_beijing": "2026-11-13",
+      "source_review_commit": "b79dfbaffc3175d907dbe94bed74175968b5f50d",
+      "review": "docs/O3_REVIEW_20261113.md",
+      "review_data": "results/20261112-o3-official-bones-lr-s0/review_20261113.json",
+      "document": "docs/O4_OFFICIAL_BONES_LONG_RUN_PLAN.md",
+      "protocol": "configs/o4_official_bones_long_run_protocol.json",
+      "start_prompt": "docs/O4_CODEX_START_PROMPT.md",
+      "campaign": "20261113-o4-official-bones-long-s0",
+      "previous_completed_campaign": "20261112-o3-official-bones-lr-s0",
+      "initialization": "weights_only_warm_start",
+      "full_resume": false,
+      "parent": {
+        "campaign": "20261112-o3-official-bones-lr-s0",
+        "arm": "quarter",
+        "node": "update_32000",
+        "aliases": [
+          "final"
+        ],
+        "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o3-bones-lr-quarter-s0/checkpoints/checkpoint_000080006.pt",
+        "segment_joint_updates": 32000,
+        "segment_collection_steps": 80006,
+        "segment_real_transitions": 327704576,
+        "segment_training_seconds": 22340.7045006752,
+        "ancestor": {
+          "campaign": "20261111-o2-official-bones-s0",
+          "node": "hour_03",
+          "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o2-official-bones-s0/checkpoints/checkpoint_000079816.pt",
+          "training_seconds": 10800.263551399112,
+          "collection_steps": 79816,
+          "real_transitions": 326926336,
+          "joint_learning_phases": 31924,
+          "actor_updates": 31924,
+          "bones_R": 0.9350195502553713,
+          "bones_completed": 130215,
+          "bones_failed": 179,
+          "full_resume": false,
+          "reuse_existing_formal_scores": true
+        },
+        "lineage_joint_updates": 63924,
+        "lineage_collection_steps": 159822,
+        "lineage_real_transitions": 654630912,
+        "bones_R": 0.9443047501120772,
+        "bones_completed": 130307,
+        "bones_failed": 87,
+        "active_normalizer_count": 654630912,
+        "reuse_existing_formal_scores": true
+      },
+      "run_name": "o4-bones-low-lr-long-s0",
+      "budget": {
+        "new_joint_updates": 132000,
+        "old_o2_continuous_updates_reference": 130314,
+        "parent_lineage_updates_for_provenance_only": 63924,
+        "expected_lineage_joint_updates_at_end": 195924,
+        "expected_collection_steps_if_uninterrupted": 330006,
+        "expected_real_transitions_if_uninterrupted": 1351704576,
+        "expected_active_normalizer_count_at_end": 2006335488,
+        "wall_deadline_enabled": false,
+        "deadline_epoch": null,
+        "training_wall_seconds_limit": null,
+        "stop_rule": "132000 new joint updates, explicit user stop, or actual execution failure; no wall-clock or return-based early stop",
+        "return_based_early_stop": null,
+        "checkpoint_new_joint_updates": [
+          16000,
+          32000,
+          64000,
+          96000,
+          132000
+        ],
+        "save_initial_and_actual_endpoint": true,
+        "deduplicate_final_aliases": true,
+        "max_interaction_seconds": 14400,
+        "tmux_continues_across_interactions": true,
+        "automatic_extension": false,
+        "automatic_restart_after_process_exit": false,
+        "never_merge_restarted_segments_as_continuous": true,
+        "record_actual_training_and_evaluation_seconds": true
+      },
+      "concurrency": {
+        "gpu_training_processes": 1,
+        "parallel_cpu_metadata_workers_max": 12,
+        "cpu_worker_threads": 1,
+        "torch_threads_per_process": 2,
+        "torch_interop_threads_per_process": 2,
+        "scoring_waits_for_training_child_exit": true,
+        "gpu_scoring_processes": 1,
+        "allow_gpu_sharing": true,
+        "stop_other_tasks": false,
+        "capacity_or_throughput_benchmark": false,
+        "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock"
+      },
+      "plan_and_review_published": true,
+      "training_started": true,
+      "training_done": true,
+      "formal_evaluation_done": true,
+      "lightweight_results_published": true,
+      "previous_lafan_acceptance_preserved": true,
+      "p12_status": "paused",
+      "execution_scope_at_publication": "O4 training132000, all evaluations and lightweight results completed; review20261115 published.",
+      "training_finished": true,
+      "training_status": "completed",
+      "new_joint_updates": 132000,
+      "formal_evaluation_started": true,
+      "formal_evaluation_finished": true,
+      "execution_snapshot_published": true,
+      "completion_review": "docs/O4_REVIEW_20261115.md",
+      "completion_review_data": "results/20261113-o4-official-bones-long-s0/review_20261115.json",
+      "long_run_stability_established": false
     }
   },
   "additional_reference_results": {
@@ -20632,6 +21025,21 @@
       "exact_paper_membership_aligned": false,
       "long_run_stability_established": false,
       "review": "docs/O3_REVIEW_20261113.md"
+    },
+    "O4_BONES_low_LR_long_run": {
+      "status": "completed_with_regression",
+      "campaign": "20261113-o4-official-bones-long-s0",
+      "new_joint_updates": 132000,
+      "best_coverage_node": "low_lr/update_16000",
+      "best_coverage_R": 0.9267211415145868,
+      "best_coverage_failed": 71,
+      "final_R": 0.6279813153267438,
+      "final_failed": 47128,
+      "partial_recovery_after_96k": true,
+      "long_run_stability_established": false,
+      "exact_paper_membership_aligned": false,
+      "review": "docs/O4_REVIEW_20261115.md",
+      "previous_success_preserved": true
     }
   }
 }

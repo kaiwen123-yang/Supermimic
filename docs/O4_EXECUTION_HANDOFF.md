@@ -1,5 +1,7 @@
 # O4 official BONES execution handoff
 
+> **历史已完成，不再作为启动指令。** O4已完成132000连续更新、全部评分与轻量发布，并于2026-11-15复核：固定低LR未避免长段退化。见[O4复核](O4_REVIEW_20261115.md)。当前新增任务为[O5计划](O5_OFFICIAL_OPTIMIZER_PLAN.md)及[O5启动词](O5_CODEX_START_PROMPT.md)，尚未部署/训练；不重启或追加O4。
+
 Plan commit: `97593b997dfadbdbd3603b24eec1e933a8138105`. Campaign: `20261113-o4-official-bones-long-s0`.
 
 O4 is running in tmux. The training child started on **2026-11-13 at 12:03:08.648 Beijing time**. Driver PID: **981884**; training PID: **982087**. At **12:07:35**, the same process had completed **622 new joint updates, 1561 collections and 6393856 real transitions**, with 6220 WM batch updates and 12440 Critic minibatch updates. The current phase is training; formal scores remain pending. See the published `launch_status.json` and live D57 `progress.json` for the observation and current progress.
@@ -27,3 +29,4 @@ The evaluator reuses O3's inference-mode rollout, full N−1 denominator, failed
 Evaluation and authenticated Git publication use the existing shared `p2-publication.lock`, with one scoring process. Training does not hold that lock. Publication starts from current remote main with a non-force update. It touches only O4 artifacts and current status/index entries; historical worktrees and uncommitted changes remain intact. `--start-at bones`, `--start-at lafan`, or `--start-at publish` are for an observed exited training process and incomplete downstream work, never for restarting training.
 
 No environment installation, data preparation, tests, recovery drills or benchmarks are part of this execution. GPU sharing remains allowed. Large artifacts stay on D57; no archive, Release, stage cleanup, O5 or P12 is started. This chat may end once tmux training is stable; the driver continues the authorized training/scoring/publication sequence independently.
+
