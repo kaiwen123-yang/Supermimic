@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前新增主线O5：** 训练已退出，正在全BONES评分（evaluating_bones）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、两路各4096环境，各新增32000连续联合更新，合计64000，无后台小时截止。Muon无衰减与全Adam无衰减对照。实际训练状态completed，新增{'muon_wd0': 32000, 'adam_wd0': 32000}更新；状态见results/20261115-o5-official-optimizer-s0/summary.json，接续见docs/O5_EXECUTION_HANDOFF.md。tmux sm-o5-optimizer-s0；不重启活动训练。保护O3 quarter16k/32k、O4全部固定节点和O2/O1/P6成果，P12继续暂停，不自动开O6。
+- **当前新增主线O5：** 全BONES评分已结束，正在LAFAN跨库评分（evaluating_lafan）。从O3 quarter32k权重与完整normalizer热启动，full_resume=false；三网络固定LR5e-5、两路各4096环境，各新增32000连续联合更新，合计64000，无后台小时截止。Muon无衰减与全Adam无衰减对照。实际训练状态completed，新增{'muon_wd0': 32000, 'adam_wd0': 32000}更新；状态见results/20261115-o5-official-optimizer-s0/summary.json，接续见docs/O5_EXECUTION_HANDOFF.md。tmux sm-o5-optimizer-s0；不重启活动训练。保护O3 quarter16k/32k、O4全部固定节点和O2/O1/P6成果，P12继续暂停，不自动开O6。
 - **O4已完成并复核：** 连续132000新更新与全部评分/发布完成；+16k R=.92672114/71失败、+32k .90437763/93失败、+64k .80227512/7055失败、+96k .47643112/70303失败、final .62798132/47128失败。质量先下降、覆盖后崩溃，96k→final部分恢复但未回到父水平；固定低LR不足以解决长段退化。保护O3 quarter16k质量锚/32k共同父、O4+16k覆盖锚与全部历史节点，不从退化final默认续训。详见docs/O4_REVIEW_20261115.md和results/20261113-o4-official-bones-long-s0/review_20261115.json。O4 tmux已结束，不重启/扩预算；O1/P6验收保留，P12暂停。
 - **O3已完成并复核：** 两路均新增32000更新；quarter5e-5的BONES R=.94430475、130307完整/87失败，control2e-4为.89208292、395失败。quarter16k R=.94757578为质量锚、32k为覆盖锚，两者及O2/O1/P6成果保护。最终87=父原失败残留32+父已成功新失55；hard42/non-hard45。16k→32k仍有小幅质量回撤，不能声称长段稳定已解决。O3历史tmux已结束，不重启或追加预算；实际完成状态见results/20261112-o3-official-bones-lr-s0/summary.json，latest_training.evaluation_pending为历史退出快照。
 - **O2已完成并复核。** BONES-only 130394条、seed0从零、4096环境；3h R=.93501955、130215条完整，6h R=.87472977、129997条完整，12h实际final R=.62929250、83910条完整。LAFAN跨库完整数25/26/0。3h作为良好主锚点，6h作为困难覆盖参照；后期回撤不撤销3h成绩。详见docs/O2_REVIEW_20261112.md及results/20261111-o2-official-bones-s0/summary.json。历史tmux sm-o2-official-bones-s0已结束，不重启、不追加O2预算；latest_training的evaluation_pending是训练退出快照，全部评分与轻量发布已完成。
@@ -44,7 +44,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O5官方优化器短段对照（训练已退出，正在全BONES评分）
+## O5官方优化器短段对照（全BONES评分已结束，正在LAFAN跨库评分）
 
 - campaign=20261115-o5-official-optimizer-s0，arms=muon_wd0/adam_wd0，tmux=sm-o5-optimizer-s0；用户代码工作树supermimic-o5-official-optimizer，隔离官方源码树supermimic-official-workspace/supermimic-o5-optimizer。复用现有环境/数据，既有O3统计补丁只应用一次；原O3/O4树不改，真实source HEAD/import/patch必须记录。
 - 同O3 quarter/checkpoint_000080006.pt恢复三网络与完整normalizer，optimizer/replay/sampler/RNG新建、seed0、full_resume=false。三网络固定5e-5，A仅Muon decay=0，B全部Adam decay=0；保留正确betas、fused/capturable、原参数覆盖和所有非优化器算法变量。显式模式在构造/capture前传到WM/Actor/Critic，不能导入后只重绑一个factory引用。
