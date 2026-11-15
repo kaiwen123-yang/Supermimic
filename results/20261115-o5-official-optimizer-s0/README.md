@@ -1,6 +1,6 @@
 # O5 official optimizer comparison
 
-Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-16T00:21:26.754869+08:00.
+Status: **evaluating_lafan**. Training: **completed**. Updated: 2026-11-16T00:24:33.564647+08:00.
 
 O3 quarter/update_32000 WM/Actor/Critic and full normalizers; new optimizer/replay/sampler/RNG. full_resume=false.
 Fixed LR=5e-5; 4096 environments per arm; updates per arm {'muon_wd0': 32000, 'adam_wd0': 32000}, target 32000 each; total 64000/64000.
@@ -13,6 +13,7 @@ Ancestor 63924 updates are provenance only. Failed/interrupted training is never
 | muon_wd0/update_08000 | bones_full | 8000 | 0.93653324 | 130274/130394 |
 | muon_wd0/update_08000 | lafan40_cross_library | 8000 | 0.65242988 | 27/40 |
 | muon_wd0/update_16000 | bones_full | 16000 | 0.92026524 | 130314/130394 |
+| muon_wd0/update_16000 | lafan40_cross_library | 16000 | 0.66535984 | 29/40 |
 | muon_wd0/update_32000 | bones_full | 32000 | 0.91915658 | 130344/130394 |
 | adam_wd0/update_08000 | bones_full | 8000 | 0.92371814 | 130254/130394 |
 | adam_wd0/update_16000 | bones_full | 16000 | 0.93826439 | 130268/130394 |
