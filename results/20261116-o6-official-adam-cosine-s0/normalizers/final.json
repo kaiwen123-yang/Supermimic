@@ -1,0 +1,756 @@
+{
+  "normalizers": {
+    "wm.state_normalizer": {
+      "count": 1310720000,
+      "mean_vector_norm": 2.1738500595092773,
+      "std_min_p50_p95_max": [
+        0.10439609736204147,
+        0.6568969488143921,
+        2.345677375793457,
+        2.533190965652466
+      ]
+    },
+    "wm.action_normalizer": {
+      "count": 1310720000,
+      "mean_vector_norm": 1.7777208089828491,
+      "std_min_p50_p95_max": [
+        0.1446617692708969,
+        0.3976239562034607,
+        0.737697958946228,
+        0.8513095378875732
+      ]
+    },
+    "actor.obs_normalizer": {
+      "count": 1310720000,
+      "mean_vector_norm": 4.108479976654053,
+      "std_min_p50_p95_max": [
+        0.10448742657899857,
+        0.8840032815933228,
+        2.3964157104492188,
+        4.021846294403076
+      ]
+    },
+    "actor.goal_normalizers.motion": {
+      "count": 1310720000,
+      "mean_vector_norm": 7.162385940551758,
+      "std_min_p50_p95_max": [
+        0.04629546031355858,
+        0.5251138210296631,
+        1.946482539176941,
+        2.6640098094940186
+      ]
+    },
+    "actor.goal_normalizers.velocity": {
+      "count": 0,
+      "mean_vector_norm": 0.0,
+      "std_min_p50_p95_max": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "optimizers": {
+    "wm": [
+      {
+        "type": "torch.optim.adam.Adam",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 6.000000212225132e-06,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0.0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": true,
+              "differentiable": false,
+              "fused": true,
+              "decoupled_weight_decay": false
+            },
+            "parameters": [
+              {
+                "name": "mlp.0.weight",
+                "shape": [
+                  2048,
+                  130
+                ],
+                "numel": 266240
+              },
+              {
+                "name": "mlp.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.3.weight",
+                "shape": [
+                  2048,
+                  2048
+                ],
+                "numel": 4194304
+              },
+              {
+                "name": "mlp.3.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.4.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.4.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.6.weight",
+                "shape": [
+                  2048,
+                  2048
+                ],
+                "numel": 4194304
+              },
+              {
+                "name": "mlp.6.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.7.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.7.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "mlp.9.weight",
+                "shape": [
+                  35,
+                  2048
+                ],
+                "numel": 71680
+              },
+              {
+                "name": "mlp.9.bias",
+                "shape": [
+                  35
+                ],
+                "numel": 35
+              }
+            ],
+            "parameter_count": 14,
+            "numel": 8744995,
+            "effective_lr": 6.000000212225132e-06,
+            "lr_storage": "device_tensor"
+          }
+        ]
+      }
+    ],
+    "actor": [
+      {
+        "type": "torch.optim.adam.Adam",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 6.000000212225132e-06,
+              "betas": [
+                0.9,
+                0.95
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0.0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": true,
+              "differentiable": false,
+              "fused": true,
+              "decoupled_weight_decay": false
+            },
+            "parameters": [
+              {
+                "name": "encoders.motion.0.weight",
+                "shape": [
+                  2048,
+                  640
+                ],
+                "numel": 1310720
+              },
+              {
+                "name": "encoders.motion.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.motion.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.motion.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.motion.3.weight",
+                "shape": [
+                  1024,
+                  2048
+                ],
+                "numel": 2097152
+              },
+              {
+                "name": "encoders.motion.3.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.motion.4.weight",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.motion.4.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.motion.6.weight",
+                "shape": [
+                  512,
+                  1024
+                ],
+                "numel": 524288
+              },
+              {
+                "name": "encoders.motion.6.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.motion.7.weight",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.motion.7.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.motion.9.weight",
+                "shape": [
+                  256,
+                  512
+                ],
+                "numel": 131072
+              },
+              {
+                "name": "encoders.motion.9.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.motion.10.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.motion.10.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.motion.12.weight",
+                "shape": [
+                  32,
+                  256
+                ],
+                "numel": 8192
+              },
+              {
+                "name": "encoders.motion.12.bias",
+                "shape": [
+                  32
+                ],
+                "numel": 32
+              },
+              {
+                "name": "encoders.velocity.0.weight",
+                "shape": [
+                  2048,
+                  3
+                ],
+                "numel": 6144
+              },
+              {
+                "name": "encoders.velocity.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.velocity.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.velocity.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "encoders.velocity.3.weight",
+                "shape": [
+                  1024,
+                  2048
+                ],
+                "numel": 2097152
+              },
+              {
+                "name": "encoders.velocity.3.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.velocity.4.weight",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.velocity.4.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "encoders.velocity.6.weight",
+                "shape": [
+                  512,
+                  1024
+                ],
+                "numel": 524288
+              },
+              {
+                "name": "encoders.velocity.6.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.velocity.7.weight",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.velocity.7.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "encoders.velocity.9.weight",
+                "shape": [
+                  256,
+                  512
+                ],
+                "numel": 131072
+              },
+              {
+                "name": "encoders.velocity.9.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.velocity.10.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.velocity.10.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "encoders.velocity.12.weight",
+                "shape": [
+                  32,
+                  256
+                ],
+                "numel": 8192
+              },
+              {
+                "name": "encoders.velocity.12.bias",
+                "shape": [
+                  32
+                ],
+                "numel": 32
+              },
+              {
+                "name": "decoder.0.weight",
+                "shape": [
+                  2048,
+                  962
+                ],
+                "numel": 1970176
+              },
+              {
+                "name": "decoder.0.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "decoder.1.weight",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "decoder.1.bias",
+                "shape": [
+                  2048
+                ],
+                "numel": 2048
+              },
+              {
+                "name": "decoder.3.weight",
+                "shape": [
+                  1024,
+                  2048
+                ],
+                "numel": 2097152
+              },
+              {
+                "name": "decoder.3.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "decoder.4.weight",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "decoder.4.bias",
+                "shape": [
+                  1024
+                ],
+                "numel": 1024
+              },
+              {
+                "name": "decoder.6.weight",
+                "shape": [
+                  512,
+                  1024
+                ],
+                "numel": 524288
+              },
+              {
+                "name": "decoder.6.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "decoder.7.weight",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "decoder.7.bias",
+                "shape": [
+                  512
+                ],
+                "numel": 512
+              },
+              {
+                "name": "decoder.9.weight",
+                "shape": [
+                  256,
+                  512
+                ],
+                "numel": 131072
+              },
+              {
+                "name": "decoder.9.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "decoder.10.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "decoder.10.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "decoder.12.weight",
+                "shape": [
+                  29,
+                  256
+                ],
+                "numel": 7424
+              },
+              {
+                "name": "decoder.12.bias",
+                "shape": [
+                  29
+                ],
+                "numel": 29
+              }
+            ],
+            "parameter_count": 54,
+            "numel": 11603037,
+            "effective_lr": 6.000000212225132e-06,
+            "lr_storage": "device_tensor"
+          }
+        ]
+      }
+    ],
+    "critic": [
+      {
+        "type": "torch.optim.adam.Adam",
+        "groups": [
+          {
+            "hyperparameters": {
+              "lr": 6.000000212225132e-06,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0.0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": true,
+              "differentiable": false,
+              "fused": true,
+              "decoupled_weight_decay": false
+            },
+            "parameters": [
+              {
+                "name": "0.weight",
+                "shape": [
+                  256,
+                  771
+                ],
+                "numel": 197376
+              },
+              {
+                "name": "0.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "1.weight",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "1.bias",
+                "shape": [
+                  256
+                ],
+                "numel": 256
+              },
+              {
+                "name": "3.weight",
+                "shape": [
+                  128,
+                  256
+                ],
+                "numel": 32768
+              },
+              {
+                "name": "3.bias",
+                "shape": [
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "4.weight",
+                "shape": [
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "4.bias",
+                "shape": [
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "6.weight",
+                "shape": [
+                  1,
+                  128
+                ],
+                "numel": 128
+              },
+              {
+                "name": "6.bias",
+                "shape": [
+                  1
+                ],
+                "numel": 1
+              }
+            ],
+            "parameter_count": 10,
+            "numel": 231425,
+            "effective_lr": 6.000000212225132e-06,
+            "lr_storage": "device_tensor"
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "campaign": "20261116-o6-official-adam-cosine-s0",
+    "run_name": "o6-bones-adam-cosine-s0",
+    "status": "running",
+    "updated_at": "2026-11-17T06:59:21.033588+08:00",
+    "training_seconds": 39623.17970466614,
+    "campaign_training_wall_seconds": 39623.24470925331,
+    "wall_deadline_enabled": false,
+    "deadline_epoch": null,
+    "parent": null,
+    "ancestral_joint_updates": 0,
+    "initialization": "from_scratch",
+    "actual_optimizer_group_lr": {
+      "wm": [
+        [
+          6.000000212225132e-06
+        ]
+      ],
+      "actor": [
+        [
+          6.000000212225132e-06
+        ]
+      ],
+      "critic": [
+        [
+          6.000000212225132e-06
+        ]
+      ]
+    },
+    "full_resume": false,
+    "collection_steps": 320000,
+    "real_transitions": 1310720000,
+    "learning_phases": 127997,
+    "world_model_batch_updates": 1279970,
+    "actor_updates": 127997,
+    "critic_minibatch_updates": 2559940,
+    "checkpoint": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o6-bones-adam-cosine-s0/checkpoints/checkpoint_000320000.pt",
+    "evaluation_label": "final"
+  }
+}

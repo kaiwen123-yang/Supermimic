@@ -1,8 +1,8 @@
 # O6 执行交接
 
-更新时间：2026-11-16T20:01:56.243858+08:00；实际状态：**training**。
+更新时间：2026-11-17T06:59:25.008512+08:00；实际状态：**training_completed_evaluation_pending**。
 
-- collection：961/320000；实际joint：382；真实transition：3936256。
+- collection：320000/320000；实际joint：127997；真实transition：1310720000。
 - tmux：`sm-o6-adam-cosine-s0`。已存在budget或活动进程时不重复启动训练。
 - 工作区：`/root/autodl-tmp/robot-repro/supermimic-official-workspace`；用户工作树：`/root/autodl-tmp/robot-repro/supermimic-o6-official-adam-cosine`。
 - 官方隔离源码：`supermimic-o6-adam-cosine`，abc124c＋O3统计patch＋O5优化器patch；研究库dd51a9f。
