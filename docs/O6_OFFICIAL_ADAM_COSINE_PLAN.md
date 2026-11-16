@@ -1,6 +1,6 @@
 # O6：从零完成官方 Adam＋cosine 训练路径
 
-日期：2026-11-16（北京时间）。状态：**320000次采集训练已完成，待评分**；见[执行交接](O6_EXECUTION_HANDOFF.md)。 本轮依据已完成 O5 的 [复核](O5_REVIEW_20261116.md) 与 [原始结果审阅](../results/20261115-o5-official-optimizer-s0/review_20261116.json) 制定；O5 不重启、不扩预算。执行入口：[Codex 启动提示词](O6_CODEX_START_PROMPT.md)；机器协议：[o6_official_adam_cosine_protocol.json](../configs/o6_official_adam_cosine_protocol.json)。
+日期：2026-11-16（北京时间）。状态：**训练已退出，正在全BONES评分**；见[执行交接](O6_EXECUTION_HANDOFF.md)。 本轮依据已完成 O5 的 [复核](O5_REVIEW_20261116.md) 与 [原始结果审阅](../results/20261115-o5-official-optimizer-s0/review_20261116.json) 制定；O5 不重启、不扩预算。执行入口：[Codex 启动提示词](O6_CODEX_START_PROMPT.md)；机器协议：[o6_official_adam_cosine_protocol.json](../configs/o6_official_adam_cosine_protocol.json)。
 
 ## 1. 本轮回答的问题
 
