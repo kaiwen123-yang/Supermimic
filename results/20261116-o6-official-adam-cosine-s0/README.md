@@ -1,8 +1,8 @@
 # O6 fresh official Adam + cosine
 
-Status: **training**; training **running**. Updated 2026-11-16T19:58:57.790488+08:00.
+Status: **training**; training **running**. Updated 2026-11-16T20:01:56.243858+08:00.
 
-Completed collections 0/320000; actual joint updates 0; real transitions 0.
+Completed collections 961/320000; actual joint updates 382; real transitions 3936256.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
 One BONES130394 run, GenCoord/proprio/history10, 4096 envs; all Adam WD0. Initial LR2e-4, collection-clock cosine to6e-6 at250k, then floor to320k.
 The collection budget determines completion; 127997 joint is an expectation, never an extra stopping requirement.
