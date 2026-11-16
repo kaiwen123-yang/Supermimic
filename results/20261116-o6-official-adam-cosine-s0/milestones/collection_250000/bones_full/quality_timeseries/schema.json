@@ -1,0 +1,174 @@
+{
+  "quality_columns": [
+    "root_position_error_m",
+    "root_xy_error_m",
+    "root_z_absolute_error_m",
+    "root_orientation_error_rad",
+    "relative_body_position_error_m",
+    "relative_body_orientation_error_rad"
+  ],
+  "native_reward_term_columns": [
+    "motion_global_root_pos",
+    "motion_global_root_ori",
+    "motion_body_pos",
+    "motion_body_ori",
+    "motion_body_lin_vel",
+    "motion_body_ang_vel",
+    "action_rate_l2",
+    "joint_limit"
+  ],
+  "step_dt_seconds": 0.02,
+  "xyz_units": "metres, world coordinates including env_origin",
+  "orientation_units": "radians",
+  "delta_definition": "robot anchor minus reference anchor",
+  "timing": "Preserve native reward/termination timing. Quality uses existing post-step refreshed state and advanced reference. Record which frame/time each array represents; no reclassification of failures from raw final errors.",
+  "reference_frame": "post-step motion.time_steps, advanced reference",
+  "executed_transition": "one-based scored transition, includes first hard failure",
+  "cumulative_values": "every active physical transition, not the stride5 samples",
+  "termination": "native flags at native timing; do not reclassify from post-step quality",
+  "prefix_only": true,
+  "padding": false,
+  "members": [
+    {
+      "source_clip_id": 63672,
+      "name": "jog_ff_loop_270_002__A181",
+      "category": "Basic Locomotion Neutral",
+      "reference_frames": 129,
+      "reference_transitions": 128,
+      "reference_duration_seconds": 2.56,
+      "diagnostic_group": "performance_divergence",
+      "reason": "Muon improved while Adam substantially regressed despite all three nodes completing.",
+      "historical_scores": {
+        "O3quarter_32000": {
+          "completed": true,
+          "normalized_return": 0.7720729769789614,
+          "root_xy_error_m": 0.26978110064465,
+          "relative_body_orientation_error_rad": 0.14343345534871332
+        },
+        "O5_muon_32000": {
+          "completed": true,
+          "normalized_return": 0.8505588144180365,
+          "root_xy_error_m": 0.16322022393251245,
+          "relative_body_orientation_error_rad": 0.13733179241535254
+        },
+        "O5_adam_32000": {
+          "completed": true,
+          "normalized_return": 0.34436935544363223,
+          "root_xy_error_m": 0.43813889223065416,
+          "relative_body_orientation_error_rad": 0.42411061222082935
+        }
+      }
+    },
+    {
+      "source_clip_id": 16,
+      "name": "body_stretch_V001_003__A272_M",
+      "category": "Sports",
+      "reference_frames": 363,
+      "reference_transitions": 362,
+      "reference_duration_seconds": 7.24,
+      "diagnostic_group": "stable_control",
+      "reason": "All three historical nodes complete with R above .985; a stable comparison.",
+      "historical_scores": {
+        "O3quarter_32000": {
+          "completed": true,
+          "normalized_return": 0.9886540694789991,
+          "root_xy_error_m": 0.013285285112440318,
+          "relative_body_orientation_error_rad": 0.06072184532489731
+        },
+        "O5_muon_32000": {
+          "completed": true,
+          "normalized_return": 0.9850427170814071,
+          "root_xy_error_m": 0.022857449863084144,
+          "relative_body_orientation_error_rad": 0.06548207775993242
+        },
+        "O5_adam_32000": {
+          "completed": true,
+          "normalized_return": 0.9856089136630132,
+          "root_xy_error_m": 0.03740412849744458,
+          "relative_body_orientation_error_rad": 0.06358839496867268
+        }
+      }
+    },
+    {
+      "source_clip_id": 101155,
+      "name": "Idle_Left_001__A017",
+      "category": "Basic Locomotion Neutral",
+      "reference_frames": 3827,
+      "reference_transitions": 3826,
+      "reference_duration_seconds": 76.52,
+      "diagnostic_group": "long_position_regression",
+      "reason": "76.52-second completed clip; Muon XY error grew substantially.",
+      "historical_scores": {
+        "O3quarter_32000": {
+          "completed": true,
+          "normalized_return": 0.9470269549784084,
+          "root_xy_error_m": 0.12353247113458805,
+          "relative_body_orientation_error_rad": 0.1324361873560834
+        },
+        "O5_muon_32000": {
+          "completed": true,
+          "normalized_return": 0.7914491993766054,
+          "root_xy_error_m": 4.30820659436835,
+          "relative_body_orientation_error_rad": 0.20028422092137713
+        },
+        "O5_adam_32000": {
+          "completed": true,
+          "normalized_return": 0.9029891966441446,
+          "root_xy_error_m": 0.21773010763880454,
+          "relative_body_orientation_error_rad": 0.1538288918344749
+        }
+      }
+    },
+    {
+      "source_clip_id": 124371,
+      "name": "Idle_Left_001__A019",
+      "category": "Basic Locomotion Neutral",
+      "reference_frames": 3827,
+      "reference_transitions": 3826,
+      "reference_duration_seconds": 76.52,
+      "diagnostic_group": "long_position_regression",
+      "reason": "76.52-second completed clip; Adam XY error grew substantially.",
+      "historical_scores": {
+        "O3quarter_32000": {
+          "completed": true,
+          "normalized_return": 0.9841376143447778,
+          "root_xy_error_m": 0.06546267761890065,
+          "relative_body_orientation_error_rad": 0.06933132805109367
+        },
+        "O5_muon_32000": {
+          "completed": true,
+          "normalized_return": 0.8329741501770777,
+          "root_xy_error_m": 0.15484953428333748,
+          "relative_body_orientation_error_rad": 0.28575576348468795
+        },
+        "O5_adam_32000": {
+          "completed": true,
+          "normalized_return": 0.8774724631325399,
+          "root_xy_error_m": 1.1870284205375714,
+          "relative_body_orientation_error_rad": 0.10505859414431994
+        }
+      }
+    }
+  ],
+  "npz_fields": [
+    "executed_transition",
+    "packed_reference_frame",
+    "active_before_step",
+    "terminated",
+    "truncated",
+    "end_of_executed_prefix",
+    "robot_anchor_pos_w",
+    "reference_anchor_pos_w",
+    "delta_xyz",
+    "quality",
+    "native_reward",
+    "native_reward_terms",
+    "cumulative_reward_sum",
+    "cumulative_term_sum",
+    "executed_time_seconds",
+    "clip_relative_reference_frame",
+    "reference_time_seconds",
+    "source_clip_id",
+    "env_origin"
+  ]
+}
