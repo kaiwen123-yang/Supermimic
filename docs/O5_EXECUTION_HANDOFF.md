@@ -26,4 +26,7 @@
 latest_training是子进程运行/退出快照；summary顶层与逐臂training字段为当前完成状态。
 判断以32k和16k→32k全库R、共同完整R/XY/body orientation及父成功保持为主；历史O4不作为同步随机对照。
 32k不等于132k长期稳定或完整论文配方复现。保留O3 quarter16k/32k、O4全部节点、O2/O1/P6及所有历史保护成果。
-P12暂停，不自动开O6。大产物留D57；不Release、不tar、不自动归档或阶段清理。
+O5已经复核完毕；O6计划和启动词见[O6计划](O6_OFFICIAL_ADAM_COSINE_PLAN.md)、[O6启动词](O6_CODEX_START_PROMPT.md)，当前planned_not_started。本次没有启动O6；收到该启动词后实施。P12暂停。大产物留D57；不Release、不tar、不自动归档或阶段清理。
+
+
+2026-11-16复核结论：Muon32k为50失败覆盖参照，Adam32k为90失败；两者平均跟踪质量仍低于O3父。全部原始成绩保留，下一轮不能从O5退化终点默认续训。详细依据见[O5复核](O5_REVIEW_20261116.md)。

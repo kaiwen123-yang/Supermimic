@@ -1,0 +1,786 @@
+{
+  "review_date_beijing": "2026-11-16",
+  "source_commit": "cf6f871284f503c8421180c23ccca3f1a7550dac",
+  "official_commit": "abc124c1bd5976341034668af3d12c087f2f1f55",
+  "research_commit": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd",
+  "status": "review_completed",
+  "next_stage": {
+    "stage": "O6",
+    "status": "planned_not_started",
+    "implementation_status": "not_deployed"
+  },
+  "coverage": {
+    "repository_tree_entries": 11524,
+    "repository_files": 10813,
+    "repository_blob_bytes": 3249496134,
+    "current_non_result_text_files_retrieved": 261,
+    "raw_BONES_score_nodes": 9,
+    "raw_BONES_score_shards": 594,
+    "raw_BONES_score_rows": 1173546,
+    "raw_LAFAN_score_tables": 9,
+    "raw_LAFAN_score_rows": 360,
+    "raw_O5_training_parts": 82,
+    "raw_O5_training_records": 16004,
+    "raw_O5_training_bytes": 79477219,
+    "same_formal_evaluation_failure_windows": 14,
+    "videos_in_repository_tree": 0,
+    "scope": "Full tree enumerated; all current non-result text retrieved; relevant code and history reviewed; all nine score nodes and all O5 training logs parsed. Not a claim that every historical result blob or server-only artifact was read."
+  },
+  "metric_definitions": {
+    "R": "Mean over clips of reward_sum / (max_step_reward * reference_transitions), with max_step_reward=0.1 and reference_transitions=frames-1.",
+    "C": "Mean over clips of executed_transitions/reference_transitions.",
+    "XY_all": "Mean of per-clip mean root_xy_error_m over the executed prefix; compare common-complete clips for fair quality comparisons.",
+    "paired": "Join by source_clip_id; require completed at both nodes.",
+    "shortfall_identity": "1-R = (1-C) + (C-R). Filling missing tails at maximum reward without changing executed prefixes is a conditional comparison, not a future policy upper bound.",
+    "LAFAN_scope": "Cross-library evaluation of BONES-only training; does not revoke O1/P6 LAFAN acceptance and is not proven disjoint generalization."
+  },
+  "source_roots": {
+    "O3quarter_32000": "results/20261112-o3-official-bones-lr-s0/milestones/quarter/update_32000",
+    "O4_16000": "results/20261113-o4-official-bones-long-s0/milestones/low_lr/update_16000",
+    "O4_32000": "results/20261113-o4-official-bones-long-s0/milestones/low_lr/update_32000",
+    "O5": "results/20261115-o5-official-optimizer-s0/milestones",
+    "training": "results/20261115-o5-official-optimizer-s0/arms/{adam_wd0,muon_wd0}/training_stats",
+    "optimizer_code": "scripts/o5/official_optimizer_modes.patch",
+    "trainer": "scripts/o5/train_official.py",
+    "formal_evaluator": "scripts/o5/evaluate_library.py",
+    "historical_norms": "results/20261115-o5-official-optimizer-s0/historical_o4_weight_norms.json"
+  },
+  "nodes": {
+    "O3quarter_32000": {
+      "n": 130394,
+      "R": 0.9443047501120772,
+      "completed": 130307,
+      "failed": 87,
+      "C": 0.9996538119291173,
+      "XY": 0.07204119950941855,
+      "bodyOri": 0.10033848537945596,
+      "reason_counts": {
+        "natural_end": 130307,
+        "anchor_pos": 69,
+        "anchor_ori": 17,
+        "anchor_pos;anchor_ori": 1
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 42
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 114
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 148
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 21
+        }
+      },
+      "LAFAN": {
+        "R": 0.6403647214570766,
+        "completed": 23,
+        "XY": 1.3037434203302047
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.05569524988792285,
+        "1-C": 0.00034618807088271364,
+        "C-R": 0.055349061817040135,
+        "missing_tail_fraction_of_total_gap": 0.006215755770543409,
+        "executed_quality_fraction_of_total_gap": 0.9937842442294565
+      }
+    },
+    "O4_16000": {
+      "n": 130394,
+      "R": 0.9267211415145868,
+      "completed": 130323,
+      "failed": 71,
+      "C": 0.9997028035596233,
+      "XY": 0.10738578584677733,
+      "bodyOri": 0.11334822197704579,
+      "reason_counts": {
+        "natural_end": 130323,
+        "anchor_pos": 57,
+        "anchor_ori": 14
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 31
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 118
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 155
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 19
+        }
+      },
+      "LAFAN": {
+        "R": 0.635242709379293,
+        "completed": 25,
+        "XY": 1.6125136151550106
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.07327885848541316,
+        "1-C": 0.00029719644037673465,
+        "C-R": 0.07298166204503642,
+        "missing_tail_fraction_of_total_gap": 0.004055691457528564,
+        "executed_quality_fraction_of_total_gap": 0.9959443085424714
+      }
+    },
+    "O4_32000": {
+      "n": 130394,
+      "R": 0.9043776278843526,
+      "completed": 130301,
+      "failed": 93,
+      "C": 0.9995615098935845,
+      "XY": 0.16203457302499683,
+      "bodyOri": 0.13165442462384894,
+      "reason_counts": {
+        "natural_end": 130301,
+        "anchor_pos": 76,
+        "anchor_ori": 17
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 39
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 118
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 121
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 16
+        }
+      },
+      "LAFAN": {
+        "R": 0.6489580175895315,
+        "completed": 24,
+        "XY": 1.2796694262703068
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.09562237211564739,
+        "1-C": 0.0004384901064155011,
+        "C-R": 0.09518388200923189,
+        "missing_tail_fraction_of_total_gap": 0.004585643471437661,
+        "executed_quality_fraction_of_total_gap": 0.9954143565285624
+      }
+    },
+    "O5_muon_8000": {
+      "n": 130394,
+      "R": 0.9365332375010331,
+      "completed": 130274,
+      "failed": 120,
+      "C": 0.9995007967070147,
+      "XY": 0.08910537259802455,
+      "bodyOri": 0.10952748258745347,
+      "reason_counts": {
+        "natural_end": 130274,
+        "anchor_pos": 88,
+        "anchor_ori": 31,
+        "anchor_pos;anchor_ori": 1
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 31
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 117
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 150
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 20
+        }
+      },
+      "LAFAN": {
+        "R": 0.6524298776664056,
+        "completed": 27,
+        "XY": 1.4896212616701738
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.06346676249896688,
+        "1-C": 0.0004992032929852508,
+        "C-R": 0.06296755920598163,
+        "missing_tail_fraction_of_total_gap": 0.007865586227017283,
+        "executed_quality_fraction_of_total_gap": 0.9921344137729827
+      }
+    },
+    "O5_muon_16000": {
+      "n": 130394,
+      "R": 0.9202652442217383,
+      "completed": 130314,
+      "failed": 80,
+      "C": 0.9996724809074954,
+      "XY": 0.12860797715635597,
+      "bodyOri": 0.11858967054831898,
+      "reason_counts": {
+        "natural_end": 130314,
+        "anchor_pos": 65,
+        "anchor_ori": 14,
+        "anchor_pos;anchor_ori": 1
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 38
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 115
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 152
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 22
+        }
+      },
+      "LAFAN": {
+        "R": 0.6653598375250291,
+        "completed": 29,
+        "XY": 1.544912120172853
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.07973475577826172,
+        "1-C": 0.0003275190925046134,
+        "C-R": 0.07940723668575711,
+        "missing_tail_fraction_of_total_gap": 0.00410760764622428,
+        "executed_quality_fraction_of_total_gap": 0.9958923923537757
+      }
+    },
+    "O5_muon_32000": {
+      "n": 130394,
+      "R": 0.9191565790266177,
+      "completed": 130344,
+      "failed": 50,
+      "C": 0.9997908373941798,
+      "XY": 0.1223636296010848,
+      "bodyOri": 0.12265337637423895,
+      "reason_counts": {
+        "natural_end": 130344,
+        "anchor_pos": 41,
+        "anchor_ori": 9
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 44
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 120
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 159
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 21
+        }
+      },
+      "LAFAN": {
+        "R": 0.6587870533334322,
+        "completed": 26,
+        "XY": 1.411655673352832
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.08084342097338226,
+        "1-C": 0.00020916260582015678,
+        "C-R": 0.0806342583675621,
+        "missing_tail_fraction_of_total_gap": 0.0025872557507063396,
+        "executed_quality_fraction_of_total_gap": 0.9974127442492937
+      }
+    },
+    "O5_adam_8000": {
+      "n": 130394,
+      "R": 0.9237181436730442,
+      "completed": 130254,
+      "failed": 140,
+      "C": 0.9994607403704471,
+      "XY": 0.13630349262441652,
+      "bodyOri": 0.11772298129981279,
+      "reason_counts": {
+        "natural_end": 130254,
+        "anchor_pos": 102,
+        "anchor_ori": 37,
+        "anchor_pos;anchor_ori": 1
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 35
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 118
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 155
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 21
+        }
+      },
+      "LAFAN": {
+        "R": 0.6205526092614424,
+        "completed": 25,
+        "XY": 1.8435128127510296
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.07628185632695583,
+        "1-C": 0.000539259629552924,
+        "C-R": 0.07574259669740291,
+        "missing_tail_fraction_of_total_gap": 0.007069303967139627,
+        "executed_quality_fraction_of_total_gap": 0.9929306960328603
+      }
+    },
+    "O5_adam_16000": {
+      "n": 130394,
+      "R": 0.9382643857142065,
+      "completed": 130268,
+      "failed": 126,
+      "C": 0.9994909472192692,
+      "XY": 0.09029389967568761,
+      "bodyOri": 0.1057601106147996,
+      "reason_counts": {
+        "natural_end": 130268,
+        "anchor_pos": 101,
+        "anchor_ori": 24,
+        "anchor_pos;anchor_ori": 1
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 25
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 116
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 154
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 20
+        }
+      },
+      "LAFAN": {
+        "R": 0.6316349347648933,
+        "completed": 25,
+        "XY": 1.31398180416797
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.06173561428579355,
+        "1-C": 0.0005090527807307677,
+        "C-R": 0.06122656150506278,
+        "missing_tail_fraction_of_total_gap": 0.00824569070252063,
+        "executed_quality_fraction_of_total_gap": 0.9917543092974793
+      }
+    },
+    "O5_adam_32000": {
+      "n": 130394,
+      "R": 0.9283863382847569,
+      "completed": 130304,
+      "failed": 90,
+      "C": 0.9996552492007127,
+      "XY": 0.10981014733987786,
+      "bodyOri": 0.11764215475524457,
+      "reason_counts": {
+        "natural_end": 130304,
+        "anchor_pos": 63,
+        "anchor_ori": 25,
+        "anchor_pos;anchor_ori": 2
+      },
+      "skills": {
+        "flip": {
+          "n": 44,
+          "completed": 38
+        },
+        "cartwheel": {
+          "n": 120,
+          "completed": 117
+        },
+        "handstand": {
+          "n": 160,
+          "completed": 154
+        },
+        "side_roll": {
+          "n": 22,
+          "completed": 18
+        }
+      },
+      "LAFAN": {
+        "R": 0.6328224364911796,
+        "completed": 24,
+        "XY": 1.5618403077114986
+      },
+      "shortfall_decomposition": {
+        "1-R": 0.07161366171524308,
+        "1-C": 0.0003447507992873078,
+        "C-R": 0.07126891091595577,
+        "missing_tail_fraction_of_total_gap": 0.004814036749833266,
+        "executed_quality_fraction_of_total_gap": 0.9951859632501667
+      }
+    }
+  },
+  "paired": {
+    "O5_muon_8000": {
+      "parent_failure_repaired": 48,
+      "parent_success_lost": 81,
+      "persistent_failures": 39,
+      "common_n": 130226,
+      "common_R_parent": 0.9449013229704788,
+      "common_R_new": 0.9372205405713584,
+      "common_XY_parent": 0.07181330856344749,
+      "common_XY_new": 0.08896845131505854,
+      "common_R_improved": 38816,
+      "common_R_worsened": 91410,
+      "common_R_delta_quantiles": {
+        "0.05": -0.04107490405050454,
+        "0.5": -0.005440455984100756,
+        "0.95": 0.018496418127787295
+      },
+      "reward_term_delta": {
+        "reward_motion_global_root_pos": -0.002977597401282404,
+        "reward_motion_global_root_ori": 0.00011106459845215177,
+        "reward_motion_body_pos": -0.00042328508867084597,
+        "reward_motion_body_ori": -0.003195608685966223,
+        "reward_motion_body_lin_vel": -0.0005445576035596145,
+        "reward_motion_body_ang_vel": -0.00039747870689688206,
+        "reward_action_rate_l2": -0.0002464722158841183,
+        "reward_joint_limit": -6.847281474726907e-06
+      }
+    },
+    "O5_muon_16000": {
+      "parent_failure_repaired": 65,
+      "parent_success_lost": 58,
+      "persistent_failures": 22,
+      "common_n": 130249,
+      "common_R_parent": 0.9448551936232589,
+      "common_R_new": 0.9207704897714833,
+      "common_XY_parent": 0.0718450458680041,
+      "common_XY_new": 0.12848972758992885,
+      "common_R_improved": 22781,
+      "common_R_worsened": 107468,
+      "common_R_delta_quantiles": {
+        "0.05": -0.08468933171014989,
+        "0.5": -0.017415450461078175,
+        "0.95": 0.013932901212878714
+      },
+      "reward_term_delta": {
+        "reward_motion_global_root_pos": -0.009596196076775162,
+        "reward_motion_global_root_ori": -0.00031149180234721797,
+        "reward_motion_body_pos": -0.0007871859423700815,
+        "reward_motion_body_ori": -0.0064801618813044365,
+        "reward_motion_body_lin_vel": -0.002573128624988081,
+        "reward_motion_body_ang_vel": -0.0021528671650672916,
+        "reward_action_rate_l2": -0.001283870763901636,
+        "reward_joint_limit": -0.0008998015838037468
+      }
+    },
+    "O5_muon_32000": {
+      "parent_failure_repaired": 80,
+      "parent_success_lost": 43,
+      "persistent_failures": 7,
+      "common_n": 130264,
+      "common_R_parent": 0.944802216614971,
+      "common_R_new": 0.9195178311483879,
+      "common_XY_parent": 0.07191790897838014,
+      "common_XY_new": 0.12226200414635333,
+      "common_R_improved": 27230,
+      "common_R_worsened": 103034,
+      "common_R_delta_quantiles": {
+        "0.05": -0.094923340177054,
+        "0.5": -0.016943191610581998,
+        "0.95": 0.017302191823531123
+      },
+      "reward_term_delta": {
+        "reward_motion_global_root_pos": -0.008636720053410662,
+        "reward_motion_global_root_ori": -0.0003852442404361264,
+        "reward_motion_body_pos": -0.0010754498870724995,
+        "reward_motion_body_ori": -0.007975257515937523,
+        "reward_motion_body_lin_vel": -0.0026871272537958885,
+        "reward_motion_body_ang_vel": -0.0017981639844273465,
+        "reward_action_rate_l2": -0.0013206947143994377,
+        "reward_joint_limit": -0.0014057277539774292
+      }
+    },
+    "O5_adam_8000": {
+      "parent_failure_repaired": 51,
+      "parent_success_lost": 104,
+      "persistent_failures": 36,
+      "common_n": 130203,
+      "common_R_parent": 0.9449242817022406,
+      "common_R_new": 0.924466771787957,
+      "common_XY_parent": 0.07176833369585325,
+      "common_XY_new": 0.13611454907428697,
+      "common_R_improved": 13949,
+      "common_R_worsened": 116254,
+      "common_R_delta_quantiles": {
+        "0.05": -0.060005962943030566,
+        "0.5": -0.01639123337391102,
+        "0.95": 0.006961320166793058
+      },
+      "reward_term_delta": {
+        "reward_motion_global_root_pos": -0.011758196699092106,
+        "reward_motion_global_root_ori": -1.555343832690959e-05,
+        "reward_motion_body_pos": -0.0008628858182193156,
+        "reward_motion_body_ori": -0.005778000088932059,
+        "reward_motion_body_lin_vel": -0.0011139528429641222,
+        "reward_motion_body_ang_vel": -0.0008214884105126219,
+        "reward_action_rate_l2": -0.000212667102889681,
+        "reward_joint_limit": 0.00010523455806706375
+      }
+    },
+    "O5_adam_16000": {
+      "parent_failure_repaired": 57,
+      "parent_success_lost": 96,
+      "persistent_failures": 30,
+      "common_n": 130211,
+      "common_R_parent": 0.9449107850194264,
+      "common_R_new": 0.9389770816503384,
+      "common_XY_parent": 0.07179675763837752,
+      "common_XY_new": 0.09010031366912234,
+      "common_R_improved": 41120,
+      "common_R_worsened": 89091,
+      "common_R_delta_quantiles": {
+        "0.05": -0.036431915644084156,
+        "0.5": -0.0041372385197158135,
+        "0.95": 0.01760764237949819
+      },
+      "reward_term_delta": {
+        "reward_motion_global_root_pos": -0.003367471802850836,
+        "reward_motion_global_root_ori": 0.00012716270647907622,
+        "reward_motion_body_pos": -0.00018954684400475063,
+        "reward_motion_body_ori": -0.0018499059737331351,
+        "reward_motion_body_lin_vel": -0.0004868495771908854,
+        "reward_motion_body_ang_vel": -0.00028157133923863647,
+        "reward_action_rate_l2": -0.00023909194541883974,
+        "reward_joint_limit": 0.0003535714258340971
+      }
+    },
+    "O5_adam_32000": {
+      "parent_failure_repaired": 56,
+      "parent_success_lost": 59,
+      "persistent_failures": 31,
+      "common_n": 130248,
+      "common_R_parent": 0.9448571065673552,
+      "common_R_new": 0.9289041444654844,
+      "common_XY_parent": 0.07183712684045343,
+      "common_XY_new": 0.10965781024160243,
+      "common_R_improved": 18181,
+      "common_R_worsened": 112067,
+      "common_R_delta_quantiles": {
+        "0.05": -0.051458678306534,
+        "0.5": -0.013633623402122708,
+        "0.95": 0.011631942189605086
+      },
+      "reward_term_delta": {
+        "reward_motion_global_root_pos": -0.007258872383299593,
+        "reward_motion_global_root_ori": -5.468870511475173e-05,
+        "reward_motion_body_pos": -0.0004730910170733858,
+        "reward_motion_body_ori": -0.005965052284530108,
+        "reward_motion_body_lin_vel": -0.00096137893121179,
+        "reward_motion_body_ang_vel": -0.0006341162179675945,
+        "reward_action_rate_l2": -0.0004420028621147437,
+        "reward_joint_limit": -0.00016375969116971635
+      }
+    }
+  },
+  "training": {
+    "source_commit": "cf6f871284f503c8421180c23ccca3f1a7550dac",
+    "parts": 82,
+    "rows": 16004,
+    "errors": [],
+    "semantics": "Window totals are collection data; losses are last joint snapshots. Half partitions follow each row's last completed joint count.",
+    "arms": {
+      "adam_wd0": {
+        "rows": 8002,
+        "first_collection": 1,
+        "last_collection": 80006,
+        "last_joint": 32000,
+        "last_training_seconds": 21423.505011558533,
+        "segments": {
+          "all": {
+            "rows": 8002,
+            "snapshots": 8001,
+            "transitions": 327704576,
+            "reward_sum": 27785824.756456185,
+            "collected_reward_normalized": 0.847892485836273,
+            "reset_total": 2057691,
+            "episode_count": 2053595,
+            "hard639_reset_count": 918610,
+            "hard639_reset_fraction": 0.4464275734306074,
+            "handstand_reset_count": 49494,
+            "handstand_reset_fraction": 0.02405317416463405,
+            "wm_loss_median": 0.008568228222429752,
+            "critic_loss_median": 0.006178140174597502,
+            "grad_norm_max": 306.04541015625,
+            "bootstrap_raw_max": 10.136340141296387,
+            "bootstrap_clamped_max": 10,
+            "bootstrap_fraction_median": 0.7308884275815395
+          },
+          "joint_le_16000": {
+            "rows": 4001,
+            "snapshots": 4000,
+            "transitions": 163844096,
+            "reward_sum": 13780244.128842713,
+            "collected_reward_normalized": 0.8410583271088823,
+            "reset_total": 961066,
+            "episode_count": 956970,
+            "hard639_reset_count": 384216,
+            "hard639_reset_fraction": 0.3997810764297145,
+            "handstand_reset_count": 29684,
+            "handstand_reset_fraction": 0.030886536408529695,
+            "wm_loss_median": 0.009840670507401228,
+            "critic_loss_median": 0.007398886140435934,
+            "grad_norm_max": 38.37993621826172,
+            "bootstrap_raw_max": 10.136340141296387,
+            "bootstrap_clamped_max": 10,
+            "bootstrap_fraction_median": 0.7316168811870699
+          },
+          "joint_gt_16000": {
+            "rows": 4001,
+            "snapshots": 4001,
+            "transitions": 163860480,
+            "reward_sum": 14005580.627613552,
+            "collected_reward_normalized": 0.8547259612332121,
+            "reset_total": 1096625,
+            "episode_count": 1096625,
+            "hard639_reset_count": 534394,
+            "hard639_reset_fraction": 0.4873078764390744,
+            "handstand_reset_count": 19810,
+            "handstand_reset_fraction": 0.01806451612903226,
+            "wm_loss_median": 0.007107334677129984,
+            "critic_loss_median": 0.005398634355515242,
+            "grad_norm_max": 306.04541015625,
+            "bootstrap_raw_max": 10.114354133605957,
+            "bootstrap_clamped_max": 10,
+            "bootstrap_fraction_median": 0.73039313998418
+          }
+        }
+      },
+      "muon_wd0": {
+        "rows": 8002,
+        "first_collection": 1,
+        "last_collection": 80006,
+        "last_joint": 32000,
+        "last_training_seconds": 21459.241141080856,
+        "segments": {
+          "all": {
+            "rows": 8002,
+            "snapshots": 8001,
+            "transitions": 327704576,
+            "reward_sum": 27460048.74744642,
+            "collected_reward_normalized": 0.8379513366162583,
+            "reset_total": 1856112,
+            "episode_count": 1852016,
+            "hard639_reset_count": 684707,
+            "hard639_reset_fraction": 0.36889314868930323,
+            "handstand_reset_count": 80384,
+            "handstand_reset_fraction": 0.04330773142999991,
+            "wm_loss_median": 0.0069181728176772594,
+            "critic_loss_median": 0.00667094811797142,
+            "grad_norm_max": 147.02047729492188,
+            "bootstrap_raw_max": 10.192805290222168,
+            "bootstrap_clamped_max": 10,
+            "bootstrap_fraction_median": 0.7333159067211847
+          },
+          "joint_le_16000": {
+            "rows": 4001,
+            "snapshots": 4000,
+            "transitions": 163844096,
+            "reward_sum": 14011966.576767374,
+            "collected_reward_normalized": 0.8552011893530403,
+            "reset_total": 1000729,
+            "episode_count": 996633,
+            "hard639_reset_count": 372870,
+            "hard639_reset_fraction": 0.3725983757840534,
+            "handstand_reset_count": 17636,
+            "handstand_reset_fraction": 0.017623152721665907,
+            "wm_loss_median": 0.0062803057953715324,
+            "critic_loss_median": 0.006238411413505673,
+            "grad_norm_max": 147.02047729492188,
+            "bootstrap_raw_max": 10.192805290222168,
+            "bootstrap_clamped_max": 10,
+            "bootstrap_fraction_median": 0.7307201894099987
+          },
+          "joint_gt_16000": {
+            "rows": 4001,
+            "snapshots": 4001,
+            "transitions": 163860480,
+            "reward_sum": 13448082.170679154,
+            "collected_reward_normalized": 0.8207032086491601,
+            "reset_total": 855383,
+            "episode_count": 855383,
+            "hard639_reset_count": 311837,
+            "hard639_reset_fraction": 0.36455833234936863,
+            "handstand_reset_count": 62748,
+            "handstand_reset_fraction": 0.07335661335331659,
+            "wm_loss_median": 0.007291933987289667,
+            "critic_loss_median": 0.007047207560390234,
+            "grad_norm_max": 73.34415435791016,
+            "bootstrap_raw_max": 10.165072441101074,
+            "bootstrap_clamped_max": 10,
+            "bootstrap_fraction_median": 0.7340721572722658
+          }
+        }
+      }
+    }
+  },
+  "failure_overlap": {
+    "muon_adam_common_failed": 11,
+    "parent_muon_adam_common_failed": 2,
+    "muon_final_failed_but_parent_or_adam_completed": 48
+  },
+  "confirmed_execution": {
+    "joint_updates_per_arm": 32000,
+    "collection_steps_per_arm": 80006,
+    "real_transitions_per_arm": 327704576,
+    "world_model_updates_per_arm": 320000,
+    "actor_updates_per_arm": 32000,
+    "critic_minibatch_updates_per_arm": 640000,
+    "optimizer_weight_decay": 0,
+    "parameter_tensor_count": {
+      "WM": 14,
+      "Actor": 54,
+      "Critic": 10
+    },
+    "active_normalizer_count_start": 654630912,
+    "active_normalizer_count_end": 982335488,
+    "full_resume": false
+  },
+  "causal_limits": [
+    "WD0 is not sufficient to preserve parent quality; O5 does not test 132k-update long-term stability.",
+    "A bootstrap share near 73 percent is not by itself anomalous: 0.99**32 is about 72.5 percent.",
+    "O5 real failure windows contain no matched world-model prediction, so model exploitation or critic causality is not established.",
+    "Project 130394 and paper 129514 motion membership is not aligned; 50 versus 25 is not a strict same-benchmark ratio.",
+    "The proposed fresh Adam+cosine path changes both initialization history and schedule; its success would not isolate cosine causality."
+  ]
+}
