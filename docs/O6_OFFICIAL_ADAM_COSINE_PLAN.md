@@ -1,6 +1,6 @@
 # O6：从零完成官方 Adam＋cosine 训练路径
 
-日期：2026-11-16（北京时间）。状态：**计划，尚未在 D57 部署或启动任何 O6 进程。** 本轮依据已完成 O5 的 [复核](O5_REVIEW_20261116.md) 与 [原始结果审阅](../results/20261115-o5-official-optimizer-s0/review_20261116.json) 制定；O5 不重启、不扩预算。执行入口：[Codex 启动提示词](O6_CODEX_START_PROMPT.md)；机器协议：[o6_official_adam_cosine_protocol.json](../configs/o6_official_adam_cosine_protocol.json)。
+日期：2026-11-16（北京时间）。状态：**运行适配已部署，待启动**；见[执行交接](O6_EXECUTION_HANDOFF.md)。 本轮依据已完成 O5 的 [复核](O5_REVIEW_20261116.md) 与 [原始结果审阅](../results/20261115-o5-official-optimizer-s0/review_20261116.json) 制定；O5 不重启、不扩预算。执行入口：[Codex 启动提示词](O6_CODEX_START_PROMPT.md)；机器协议：[o6_official_adam_cosine_protocol.json](../configs/o6_official_adam_cosine_protocol.json)。
 
 ## 1. 本轮回答的问题
 
@@ -104,4 +104,4 @@ final仍可保留最多8条真实失败各32步尾窗，来自同次评分；两
 
 轻量推送实际代码/patch/配置、全部逐clip、紧凑日志与时序、真实结论，并同步AGENTS/README/index/handoff。保护O3/O4/O5全部既定节点及O2/O1/P6历史成果；O6固定、final和被评分节点保留，普通最近20个checkpoint滚动规则不变。
 
-大checkpoint、完整日志/视频/轨迹留D57；不Release、不tar、不用户电脑归档、不自动阶段清理。不新增单元/mock/冒烟/导入/形状/哈希测试、恢复演练、benchmark、全盘扫描或通用防御框架。**本文件发布仅表示计划交付，服务器部署、训练、评分状态由后续实际执行更新。**
+大checkpoint、完整日志/视频/轨迹留D57；不Release、不tar、不用户电脑归档、不自动阶段清理。不新增单元/mock/冒烟/导入/形状/哈希测试、恢复演练、benchmark、全盘扫描或通用防御框架。**当前部署、训练、评分状态见执行交接与campaign summary。**

@@ -1,6 +1,6 @@
 # O6 Codex 启动提示词
 
-状态：**planned_not_started，尚未部署或启动 D57 O6。** O5 已完成。以下用于下一次正式执行；若已有活动O6，只接续观察。
+状态：**运行适配已部署，待启动**。以下保留启动约定；已有活动O6只观察接续，不重复启动。见[执行交接](O6_EXECUTION_HANDOFF.md)。
 
 ```text
 继续 kaiwen123-yang/Supermimic 官方复现主线。同步最新main并保留未提交工作，先读：

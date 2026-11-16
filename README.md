@@ -2,7 +2,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前下一阶段O6（仅计划已发布，尚未部署/启动）：** 从零seed0、BONES-only130394、官方GenCoord/proprio/history10，三网络全Adam WD0；初始LR2e-4按已完成collection在250000步余弦降到6e-6、保持到320000步结束，预计127997 joint。单路4096环境，80k/160k/250k/320k四正式collection节点，无小时截止；CPU并行核对作者数据/配置对应和既有精度回撤证据。方案docs/O6_OFFICIAL_ADAM_COSINE_PLAN.md、协议configs/o6_official_adam_cosine_protocol.json、启动词docs/O6_CODEX_START_PROMPT.md。收到O6启动词后实施；本次文档发布没有启动D57任务。O1/P6验收保留，P12暂停。
+> **当前新增主线O6：** 运行适配已部署，待启动（prepared）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=0/320000，实际joint=0。无小时截止；tmux sm-o6-adam-cosine-s0，活动任务不重启。状态results/20261116-o6-official-adam-cosine-s0/summary.json，接续docs/O6_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布。O5不重启；O1/P6验收保留，P12暂停，不开O7。
 
 > **O5已完成并复核：** 两路各32000连续joint、全BONES与LAFAN评分及轻量发布完成。Muon WD0终点R=.91915658/50失败/XY12.24cm，Adam WD0终点R=.92838634/90失败/XY10.98cm；均未保住O3父.94430475/7.20cm。Muon50=父失败残留7+父成功新失43；共同完整动作中79.1%回报下降，Adam对应86.0%。已核对全部82份训练日志与逐动作原件，WD0/参数覆盖/计数正确；实际范数不支持网络近乎归零。详见docs/O5_REVIEW_20261116.md与results/20261115-o5-official-optimizer-s0/review_20261116.json。保护所有O5节点，不重启或扩预算。
 

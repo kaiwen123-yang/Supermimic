@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前下一阶段O6（仅计划已发布，尚未部署/启动）：** 从零seed0、BONES-only130394、官方GenCoord/proprio/history10，三网络全Adam WD0；初始LR2e-4按已完成collection在250000步余弦降到6e-6、保持到320000步结束，预计127997 joint。单路4096环境，80k/160k/250k/320k四正式collection节点，无小时截止；CPU并行核对作者数据/配置对应和既有精度回撤证据。方案docs/O6_OFFICIAL_ADAM_COSINE_PLAN.md、协议configs/o6_official_adam_cosine_protocol.json、启动词docs/O6_CODEX_START_PROMPT.md。收到O6启动词后实施；本次文档发布没有启动D57任务。O1/P6验收保留，P12暂停。
+- **当前新增主线O6：** 运行适配已部署，待启动（prepared）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=0/320000，实际joint=0。无小时截止；tmux sm-o6-adam-cosine-s0，活动任务不重启。状态results/20261116-o6-official-adam-cosine-s0/summary.json，接续docs/O6_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布。O5不重启；O1/P6验收保留，P12暂停，不开O7。
 - **O5已完成并复核：** 两路各32000连续joint、全BONES与LAFAN评分及轻量发布完成。Muon WD0终点R=.91915658/50失败/XY12.24cm，Adam WD0终点R=.92838634/90失败/XY10.98cm；均未保住O3父.94430475/7.20cm。Muon50=父失败残留7+父成功新失43；共同完整动作中79.1%回报下降，Adam对应86.0%。已核对全部82份训练日志与逐动作原件，WD0/参数覆盖/计数正确；实际范数不支持网络近乎归零。详见docs/O5_REVIEW_20261116.md与results/20261115-o5-official-optimizer-s0/review_20261116.json。保护所有O5节点，不重启或扩预算。
 - **O4已完成并复核：** 连续132000新更新与全部评分/发布完成；+16k R=.92672114/71失败、+32k .90437763/93失败、+64k .80227512/7055失败、+96k .47643112/70303失败、final .62798132/47128失败。质量先下降、覆盖后崩溃，96k→final部分恢复但未回到父水平；固定低LR不足以解决长段退化。保护O3 quarter16k质量锚/32k共同父、O4+16k覆盖锚与全部历史节点，不从退化final默认续训。详见docs/O4_REVIEW_20261115.md和results/20261113-o4-official-bones-long-s0/review_20261115.json。O4 tmux已结束，不重启/扩预算；O1/P6验收保留，P12暂停。
 - **O3已完成并复核：** 两路均新增32000更新；quarter5e-5的BONES R=.94430475、130307完整/87失败，control2e-4为.89208292、395失败。quarter16k R=.94757578为质量锚、32k为覆盖锚，两者及O2/O1/P6成果保护。最终87=父原失败残留32+父已成功新失55；hard42/non-hard45。16k→32k仍有小幅质量回撤，不能声称长段稳定已解决。O3历史tmux已结束，不重启或追加预算；实际完成状态见results/20261112-o3-official-bones-lr-s0/summary.json，latest_training.evaluation_pending为历史退出快照。
@@ -45,9 +45,9 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O6下一轮实施（planned_not_started，仅计划与启动入口）
+## O6下一轮实施（运行适配已部署，待启动）
 
-- 以docs/O6_OFFICIAL_ADAM_COSINE_PLAN.md和configs/o6_official_adam_cosine_protocol.json为完整约定；本次未部署、未运行。使用现有环境、隔离工作树，scripts/o6统一部署到supermimic-official-workspace/work/o6；不再执行O5适配器。
+- 以docs/O6_OFFICIAL_ADAM_COSINE_PLAN.md和configs/o6_official_adam_cosine_protocol.json为完整约定；当前真实状态见O6_EXECUTION_HANDOFF.md。使用现有环境、隔离工作树，scripts/o6统一部署到supermimic-official-workspace/work/o6；不再执行O5适配器。
 - 从零三网络/normalizer/optimizer/replay/sampler，parent=null、wandb_run_path=None；data_lineage从已有数据manifest取得。历史模型只作评分参照。
 - 三网络实际device LR tensor原位更新，collection为唯一时钟。完成判定全链改成正常退出且collection==320000，不保留O5仅new_joint_update_limit才completed的判定；joint预期值只作解释，不补步凑数。
 - 一路GPU正式配方与有明确目的的CPU只读分析并行；无小时截止，tmux跨交互窗口连续。真实进程异常保留状态与实际节点，不用weights-only拼成完整resume；评分/发布异常只续该阶段。

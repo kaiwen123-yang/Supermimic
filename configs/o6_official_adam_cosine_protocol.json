@@ -1,7 +1,7 @@
 {
   "protocol_id": "supermimic-o6-official-adam-cosine-v2",
-  "status": "planned_not_started",
-  "implementation_status": "not_deployed",
+  "status": "prepared",
+  "implementation_status": "deployed_o6_fresh_adam_collection_cosine",
   "planned_date_beijing": "2026-11-16",
   "source_review_commit": "cf6f871284f503c8421180c23ccca3f1a7550dac",
   "review": "docs/O5_REVIEW_20261116.md",
@@ -41,7 +41,7 @@
     "record_actual_import_path_and_patch": true,
     "statistics_patch_application": "In a clean abc124c isolated tree apply scripts/o3/official_diagnostics.patch once and scripts/o5/official_optimizer_modes.patch once; if reusing already patched files do not apply again. Preserve self.o3_diagnostics and all historical source trees.",
     "optimizer_mode": "adam_wd0",
-    "new_schedule_adapter": "scripts/o6/train_official.py (not yet implemented or deployed)",
+    "new_schedule_adapter": "scripts/o6/train_official.py",
     "modify_existing_o5_source_tree": false,
     "configuration_reference": "results/20261115-o5-official-optimizer-s0/arms/adam_wd0/actual_config.json",
     "configuration_reference_role": "reuse the actual non-optimizer algorithm/environment/data settings, not weights or normalization state",
@@ -143,7 +143,7 @@
     "initial": 0.0002,
     "decay_collection_iterations": 250000,
     "floor_multiplier": 0.03,
-    "floor_lr": 0.000006,
+    "floor_lr": 6e-06,
     "apply_to": [
       "world_model",
       "actor",
@@ -452,13 +452,14 @@
   },
   "completion": {
     "plan_published": true,
-    "implementation_deployed": false,
+    "implementation_deployed": true,
     "training_started": false,
     "training_done": false,
     "formal_evaluation_done": false,
     "lightweight_results_published": false,
-    "scope_at_publication": "Execution plan only. No D57 deployment, O6 training, formal scoring, or new trajectory capture performed while preparing this plan.",
-    "plan_prepared": true
+    "scope_at_publication": "Actual O6 execution. Completion requires320000 collections and observed normal child exit; scoring separately recorded.",
+    "plan_prepared": true,
+    "execution_snapshot_published": true
   },
   "fixed_quality_timeseries": {
     "status": "members_frozen_before_O6_training",
@@ -624,5 +625,21 @@
     "batch_video_rendering": false,
     "current_turn_capture_done": false,
     "formal_return_unchanged": "Formal R uses the existing cumulative reward over every scored physical transition, never an approximation from the stride5 diagnostic samples."
+  },
+  "current_execution": {
+    "status": "prepared",
+    "implementation_status": "deployed_o6_fresh_adam_collection_cosine",
+    "training_started": false,
+    "training_finished": false,
+    "training_done": false,
+    "training_status": "not_started",
+    "completed_collection_iterations": 0,
+    "actual_joint_updates": 0,
+    "real_transitions": 0,
+    "formal_evaluation_started": false,
+    "formal_evaluation_finished": false,
+    "formal_evaluation_done": false,
+    "lightweight_results_published": false,
+    "execution_snapshot_published": true
   }
 }
