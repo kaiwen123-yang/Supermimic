@@ -1,18 +1,29 @@
 {
   "campaign": "20261116-o6-official-adam-cosine-s0",
   "run_name": "o6-bones-adam-cosine-s0",
-  "updated_at": "2026-11-16T19:58:42.571123+08:00",
-  "status": "prepared",
+  "updated_at": "2026-11-16T19:58:57.790488+08:00",
+  "status": "training",
   "plan_commit": "b86cb9abdfce21fbc9b53195024da2042b8f6a26",
   "implementation_status": "deployed_o6_fresh_adam_collection_cosine",
   "stage": {
-    "status": "prepared",
-    "at": "2026-11-16T19:58:42.513320+08:00",
+    "status": "training",
+    "at": "2026-11-16T19:58:57.789993+08:00",
     "driver_pid": 167853,
     "training": {
-      "status": "not_started",
+      "status": "running",
       "child_exited": false,
-      "child": null,
+      "child": {
+        "pid": 168042,
+        "started_at": "2026-11-16T19:58:57.789788+08:00",
+        "command": [
+          "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/.venv/bin/python",
+          "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o6-adam-cosine/../work/o6/train_official.py",
+          "--workspace",
+          "/root/autodl-tmp/robot-repro/supermimic-official-workspace"
+        ],
+        "cwd": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o6-adam-cosine",
+        "PYTHONPATH": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o6-adam-cosine/src:/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research/src"
+      },
       "child_exit": null,
       "target_reached": false,
       "completed_collection_iterations": 0,
@@ -22,11 +33,33 @@
       "training_seconds": null
     }
   },
-  "budget": null,
+  "budget": {
+    "start_epoch": 1794830337.7888887,
+    "started_at": "2026-11-16T19:58:57.788895+08:00",
+    "target_completed_collection_iterations": 320000,
+    "expected_joint_updates_not_a_stop_condition": 127997,
+    "wall_deadline_enabled": false,
+    "deadline_epoch": null,
+    "training_wall_seconds_limit": null,
+    "automatic_restart": false,
+    "initialization": "from_scratch",
+    "parent": null
+  },
   "training": {
-    "status": "not_started",
+    "status": "running",
     "child_exited": false,
-    "child": null,
+    "child": {
+      "pid": 168042,
+      "started_at": "2026-11-16T19:58:57.789788+08:00",
+      "command": [
+        "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/.venv/bin/python",
+        "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o6-adam-cosine/../work/o6/train_official.py",
+        "--workspace",
+        "/root/autodl-tmp/robot-repro/supermimic-official-workspace"
+      ],
+      "cwd": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o6-adam-cosine",
+      "PYTHONPATH": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic-o6-adam-cosine/src:/root/autodl-tmp/robot-repro/supermimic-official-workspace/mjlab_research/src"
+    },
     "child_exit": null,
     "target_reached": false,
     "completed_collection_iterations": 0,
@@ -44,8 +77,8 @@
   "initialization": "from_scratch",
   "full_resume": false,
   "ancestral_joint_updates": 0,
-  "training_started": false,
-  "training_status": "not_started",
+  "training_started": true,
+  "training_status": "running",
   "training_finished": false,
   "training_done": false,
   "completed_collection_iterations": 0,
