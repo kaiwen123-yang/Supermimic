@@ -1,6 +1,6 @@
 # O6 fresh official Adam + cosine
 
-Status: **evaluating_bones**; training **completed**. Updated 2026-11-17T07:49:30.704772+08:00.
+Status: **evaluating_lafan**; training **completed**. Updated 2026-11-17T07:53:07.147215+08:00.
 
 Completed collections 320000/320000; actual joint updates 127997; real transitions 1310720000.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
