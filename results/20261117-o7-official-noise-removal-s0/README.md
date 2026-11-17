@@ -1,8 +1,8 @@
 # O7 fresh Adam + cosine with collection action noise removed
 
-Status: **training**; training **running**. Updated 2026-11-17T11:14:32.970270+08:00.
+Status: **training**; training **running**. Updated 2026-11-17T11:18:14.886151+08:00.
 
-Completed collections 0/320000; actual joint updates 0; real transitions 0.
+Completed collections 1291/320000; actual joint updates 514; real transitions 5287936.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
 One BONES130394 run, GenCoord/proprio/history10, 4096 envs; all Adam WD0. Initial LR2e-4, collection-clock cosine to6e-6 at250k, then floor to320k.
 Official7e94b0 deletes the extra collection randn_like call. Sensor/reset/DR noise and the clean evaluator are unchanged.

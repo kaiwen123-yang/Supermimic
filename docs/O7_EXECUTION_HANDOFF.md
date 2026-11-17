@@ -1,8 +1,8 @@
 # O7 执行交接
 
-更新时间：2026-11-17T11:14:32.970270+08:00；实际状态：**training**。
+更新时间：2026-11-17T11:18:14.886151+08:00；实际状态：**training**。
 
-- collection：0/320000；实际joint：0；真实transition：0。
+- collection：1291/320000；实际joint：514；真实transition：5287936。
 - tmux：`sm-o7-adam-noise0-s0`。已存在budget或活动进程时不重复启动训练。
 - 工作区：`/root/autodl-tmp/robot-repro/supermimic-official-workspace`；用户工作树：`/root/autodl-tmp/robot-repro/supermimic-o7-official-noise-removal`。
 - 官方隔离源码：`supermimic-o7-noise0`，7e94b073940b7a19b9a82ff01e191cfb35c4ba91；研究库dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd。
