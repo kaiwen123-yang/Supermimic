@@ -1,6 +1,6 @@
 # O7 fresh Adam + cosine with collection action noise removed
 
-Status: **evaluating_bones**; training **completed**. Updated 2026-11-17T22:45:23.645516+08:00.
+Status: **evaluating_bones**; training **completed**. Updated 2026-11-17T22:56:43.277654+08:00.
 
 Completed collections 320000/320000; actual joint updates 127997; real transitions 1310720000.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
@@ -13,6 +13,7 @@ No wall deadline or return early stop; real failure is retained without automati
 |---|---|---:|---:|---:|---:|
 | collection_080000 | bones_full | 80000 | 31997 | 0.93039632 | 130237/130394 |
 | collection_160000 | bones_full | 160000 | 63997 | 0.94725309 | 130317/130394 |
+| collection_250000 | bones_full | 250000 | 99997 | 0.95270039 | 130375/130394 |
 
 Collection80k/160k/250k/320k and the unique actual endpoint are scored after child exit: one BONES worker, then one LAFAN40 worker.
 Final aliases are deduplicated. Initial random-model scores are not scheduled.
