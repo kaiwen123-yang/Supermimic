@@ -1,7 +1,7 @@
 {
   "protocol_id": "supermimic-o7-official-noise-removal-v1",
   "planned_date_beijing": "2026-11-17",
-  "status": "planned_not_deployed_not_started",
+  "status": "prepared",
   "purpose": "On the frozen O6 recipe and motion set, determine whether the author's post-paper removal of collection action noise improves clean tracking and skill retention.",
   "not_claimed": [
     "Exact reproduction of the original paper action-noise recipe",
@@ -42,6 +42,10 @@
       "Keep optional historical_score_roots as references only. O7 does not need to rerun read_existing_evidence or fetch author/demo artifacts at launch.",
       "The new three reset groups require an O7-owned extension or copy of CollectionDiagnostics; do not change the historical scripts/o3/diagnostics.py used by O3/O6. Its wrapper must keep returning the exact original selected frames.",
       "Publish the actual O7 patch adapted for the removed policy.noise context under scripts/o7 and record its path in actual_config; do not present the unchanged O5 patch as if it directly applied to 7e or overwrite historical source trees."
+    ],
+    "deployed_patches": [
+      "scripts/o7/official_diagnostics.patch",
+      "scripts/o7/official_optimizer_modes.patch"
     ]
   },
   "initialization": {
@@ -352,17 +356,17 @@
   "accepted_LAFAN_preserved": true,
   "P12": "paused",
   "automatic_O8": false,
-  "implementation_status": "not_deployed",
+  "implementation_status": "deployed_o7_fresh_adam_cosine_no_collection_noise",
   "completion": {
     "plan_prepared": true,
     "plan_published": true,
-    "implementation_deployed": false,
+    "implementation_deployed": true,
     "training_started": false,
     "training_done": false,
     "formal_evaluation_done": false,
     "lightweight_results_published": false,
-    "execution_snapshot_published": false,
-    "scope_at_publication": "O7 plan only. No O7 server deployment, training, formal scoring, or trajectory capture has been performed while preparing this plan."
+    "execution_snapshot_published": true,
+    "scope_at_publication": "Actual O7 execution. Normal child exit at320000 collections completes training; formal scoring and publication are recorded separately."
   },
   "fixed_quality_timeseries": {
     "status": "members_frozen_before_O7_training",
@@ -471,5 +475,22 @@
       "O5_muon_32000": "results/20261115-o5-official-optimizer-s0/milestones/muon_wd0/update_32000/bones_full"
     },
     "historical_score_roots_role": "Optional read-only reference mapping retained for old helper compatibility. Do not schedule the old read_existing_evidence script merely because this key exists; the 2026-11-17 review already completed that provenance task."
+  },
+  "current_execution": {
+    "status": "prepared",
+    "implementation_status": "deployed_o7_fresh_adam_cosine_no_collection_noise",
+    "implementation_deployed": true,
+    "training_started": false,
+    "training_finished": false,
+    "training_done": false,
+    "training_status": "not_started",
+    "completed_collection_iterations": 0,
+    "actual_joint_updates": 0,
+    "real_transitions": 0,
+    "formal_evaluation_started": false,
+    "formal_evaluation_finished": false,
+    "formal_evaluation_done": false,
+    "lightweight_results_published": false,
+    "execution_snapshot_published": true
   }
 }
