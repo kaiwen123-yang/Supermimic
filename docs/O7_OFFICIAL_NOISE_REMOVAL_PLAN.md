@@ -1,6 +1,6 @@
 # O7：在 O6 配方上纳入官方去除采样动作噪声的修正
 
-日期：2026-11-17（北京时间）。状态：**训练已退出，正在全BONES评分**；见[执行交接](O7_EXECUTION_HANDOFF.md)。
+日期：2026-11-17（北京时间）。状态：**正在LAFAN跨库评分**；见[执行交接](O7_EXECUTION_HANDOFF.md)。
 
 协议：`configs/o7_official_noise_removal_protocol.json`；执行提示词：`docs/O7_CODEX_START_PROMPT.md`。本轮依据是 [O6 复核](O6_REVIEW_20261117.md) 和 [原始 O6 结果](../results/20261116-o6-official-adam-cosine-s0/README.md)。
 
