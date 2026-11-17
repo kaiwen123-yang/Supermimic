@@ -4,7 +4,7 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前新增主线O7：** 320000次采集训练已完成，待评分（training_completed_evaluation_pending）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；官方7e94b0实际删除collection Gaussian采样，保留其余噪声；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=320000/320000，实际joint=127997。无小时截止；tmux sm-o7-adam-noise0-s0，活动任务不重启。状态results/20261117-o7-official-noise-removal-s0/summary.json，接续docs/O7_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布，复用O6同节点成绩。O1–O6不重启；O1/P6验收保留，P12暂停，不开O8。
+> **当前新增主线O7：** 训练已退出，正在全BONES评分（evaluating_bones）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；官方7e94b0实际删除collection Gaussian采样，保留其余噪声；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=320000/320000，实际joint=127997。无小时截止；tmux sm-o7-adam-noise0-s0，活动任务不重启。状态results/20261117-o7-official-noise-removal-s0/summary.json，接续docs/O7_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布，复用O6同节点成绩。O1–O6不重启；O1/P6验收保留，P12暂停，不开O8。
 
 > **O6已完成并全量复核：** 320000 collection、127997 joint、1310720000真实transition；终点R=.953665488/39失败/XY5.180cm，250k为.953232182/36/5.229cm。最后70k修复11、丢失14，共同完整130344条精度仍改善；hard639失败25→28、monkey18仅完整1条，全部494长动作完整但尾段小幅回撤。39条终点失败均有历史成功先例，不能整体归为坏数据。已读268份CSV、161份统计、45份小证据及全部142220条筛选记录，fresh/Adam/LR/计数/结束逻辑正确，无O4式广泛崩溃。见docs/O6_REVIEW_20261117.md与results/20261116-o6-official-adam-cosine-s0/review_20261117.json；结果commit8f23f4b。O6不重启、不扩预算，保护250k/320k与O5Muon32k。
 
