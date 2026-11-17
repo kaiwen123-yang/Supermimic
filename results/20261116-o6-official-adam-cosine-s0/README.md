@@ -1,6 +1,6 @@
 # O6 fresh official Adam + cosine
 
-Status: **evaluating_lafan**; training **completed**. Updated 2026-11-17T08:02:49.866036+08:00.
+Status: **evaluating_lafan**; training **completed**. Updated 2026-11-17T08:05:52.149222+08:00.
 
 Completed collections 320000/320000; actual joint updates 127997; real transitions 1310720000.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
@@ -17,6 +17,7 @@ No wall deadline or return early stop; real failure is retained without automati
 | collection_250000 | bones_full | 250000 | 99997 | 0.95323218 | 130358/130394 |
 | collection_250000 | lafan40_cross_library | 250000 | 99997 | 0.64936696 | 25/40 |
 | collection_320000 | bones_full | 320000 | 127997 | 0.95366549 | 130355/130394 |
+| collection_320000 | lafan40_cross_library | 320000 | 127997 | 0.65519185 | 26/40 |
 
 Collection80k/160k/250k/320k and the unique actual endpoint are scored after child exit: one BONES worker, then one LAFAN40 worker.
 Final aliases are deduplicated. Initial random-model scores are not scheduled.
