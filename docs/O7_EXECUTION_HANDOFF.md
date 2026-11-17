@@ -1,6 +1,6 @@
 # O7 执行交接
 
-更新时间：2026-11-17T22:25:36.069226+08:00；实际状态：**evaluating_bones**。
+更新时间：2026-11-17T22:34:05.789088+08:00；实际状态：**evaluating_bones**。
 
 - collection：320000/320000；实际joint：127997；真实transition：1310720000。
 - tmux：`sm-o7-adam-noise0-s0`。已存在budget或活动进程时不重复启动训练。
