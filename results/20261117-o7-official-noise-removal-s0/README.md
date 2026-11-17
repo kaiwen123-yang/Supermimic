@@ -1,6 +1,6 @@
 # O7 fresh Adam + cosine with collection action noise removed
 
-Status: **evaluating_lafan**; training **completed**. Updated 2026-11-17T23:16:04.331295+08:00.
+Status: **evaluating_lafan**; training **completed**. Updated 2026-11-17T23:19:14.395091+08:00.
 
 Completed collections 320000/320000; actual joint updates 127997; real transitions 1310720000.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
@@ -14,6 +14,7 @@ No wall deadline or return early stop; real failure is retained without automati
 | collection_080000 | bones_full | 80000 | 31997 | 0.93039632 | 130237/130394 |
 | collection_080000 | lafan40_cross_library | 80000 | 31997 | 0.59823624 | 23/40 |
 | collection_160000 | bones_full | 160000 | 63997 | 0.94725309 | 130317/130394 |
+| collection_160000 | lafan40_cross_library | 160000 | 63997 | 0.65359857 | 25/40 |
 | collection_250000 | bones_full | 250000 | 99997 | 0.95270039 | 130375/130394 |
 | collection_320000 | bones_full | 320000 | 127997 | 0.95331105 | 130375/130394 |
 
