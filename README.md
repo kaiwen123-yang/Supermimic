@@ -2,7 +2,9 @@
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
-> **当前新增主线O6：** 训练、全部实际节点评分与轻量发布已完成（completed）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=320000/320000，实际joint=127997。无小时截止；tmux sm-o6-adam-cosine-s0，活动任务不重启。状态results/20261116-o6-official-adam-cosine-s0/summary.json，接续docs/O6_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布。O5不重启；O1/P6验收保留，P12暂停，不开O7。
+> **当前下一阶段O7：** 方案、完整O6复核与可复制提示词已发布；尚未部署、尚未启动训练或评分。沿用O6 fresh seed0全Adam WD0＋collection-clock cosine及130394原库，仅纳入官方7e94b0删除collection Gaussian动作噪声；固定研究库dd51与现有环境，不sync新lock。320000 collection同预算，80k/160k/250k/320k正式节点，无小时截止。计划docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md、提示词docs/O7_CODEX_START_PROMPT.md、协议configs/o7_official_noise_removal_protocol.json。只在明确调用O7执行任务时部署启动；本次复核发布不自动训练。O1/P6验收保留，P12暂停，不自动O8。
+
+> **O6已完成并全量复核：** 320000 collection、127997 joint、1310720000真实transition；终点R=.953665488/39失败/XY5.180cm，250k为.953232182/36/5.229cm。最后70k修复11、丢失14，共同完整130344条精度仍改善；hard639失败25→28、monkey18仅完整1条，全部494长动作完整但尾段小幅回撤。39条终点失败均有历史成功先例，不能整体归为坏数据。已读268份CSV、161份统计、45份小证据及全部142220条筛选记录，fresh/Adam/LR/计数/结束逻辑正确，无O4式广泛崩溃。见docs/O6_REVIEW_20261117.md与results/20261116-o6-official-adam-cosine-s0/review_20261117.json；结果commit8f23f4b。O6不重启、不扩预算，保护250k/320k与O5Muon32k。
 
 > **O5已完成并复核：** 两路各32000连续joint、全BONES与LAFAN评分及轻量发布完成。Muon WD0终点R=.91915658/50失败/XY12.24cm，Adam WD0终点R=.92838634/90失败/XY10.98cm；均未保住O3父.94430475/7.20cm。Muon50=父失败残留7+父成功新失43；共同完整动作中79.1%回报下降，Adam对应86.0%。已核对全部82份训练日志与逐动作原件，WD0/参数覆盖/计数正确；实际范数不支持网络近乎归零。详见docs/O5_REVIEW_20261116.md与results/20261115-o5-official-optimizer-s0/review_20261116.json。保护所有O5节点，不重启或扩预算。
 
@@ -12,7 +14,7 @@
 
 > **O2官方完整BONES已完成并复核。** 3h **R=.93501955、130215/130394完整**；6h **R=.87472977、129997完整**；12h实际final **R=.62929250、83910完整**。3h作为良好主锚点，6h作为困难覆盖参照：hard完整数552→597/639，但普通动作质量回撤，最终发生大范围退化。LAFAN跨库完整数25/26/0。3h超过论文SONIC的.90回报参照，作者单卡25失败及精确成员对齐仍另行区分。[本轮复核](docs/O2_REVIEW_20261112.md)、[全部结果](results/20261111-o2-official-bones-s0/summary.json)、[逐动作入口](results/20261111-o2-official-bones-s0/README.md)。历史tmux sm-o2-official-bones-s0已结束，不重启或追加O2预算。
 
-> **O1官方LAFAN40首段已完成并复核。** seed0从零训练，首个约3h正式节点 **R=0.85882311、39/40**；约3h8m17s实际终点 **R=0.87443989、40/40**，已达到0.82目标并正常停止。全40根XY时间均值0.765250m，完成率与跟踪精度分别报告。[完整复核](docs/O1_REVIEW_20261111.md)、[派生统计](results/20261111-o1-official-lafan40-s0/review_20261111.json)、[全部正式节点](results/20261111-o1-official-lafan40-s0/summary.json)、[逐动作成绩](results/20261111-o1-official-lafan40-s0/README.md)、[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。O1不补6h/12h或追加预算；O2/O3/O4亦已完成，当前新增方案为顶部O6。
+> **O1官方LAFAN40首段已完成并复核。** seed0从零训练，首个约3h正式节点 **R=0.85882311、39/40**；约3h8m17s实际终点 **R=0.87443989、40/40**，已达到0.82目标并正常停止。全40根XY时间均值0.765250m，完成率与跟踪精度分别报告。[完整复核](docs/O1_REVIEW_20261111.md)、[派生统计](results/20261111-o1-official-lafan40-s0/review_20261111.json)、[全部正式节点](results/20261111-o1-official-lafan40-s0/summary.json)、[逐动作成绩](results/20261111-o1-official-lafan40-s0/README.md)、[接续说明](docs/O1_OFFICIAL_RUN_20261111.md)。O1不补6h/12h或追加预算；O2/O3/O4亦已完成，当前新增方案为顶部O7。
 
 > **P11已全部完成并复核。** 原残差终点全BONES **R=.86375135、129152/130394完整、hard312/639**；高度约束 **R=.85693786、129598完整、hard305/639**。候选多完成446条，但普通质量和同输入WM预测较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点/LAFAN跨节点保持有优势，不能概括成全面退化。原WM在有效存活前缀就有误差积累；P12据此研究拟合窗口，不将预测误差等同于已证明梯度错误。[完整复核与论文逐项指标](docs/P11_REVIEW_20261111.md)、[派生数据](results/20261110-p11-root-height-consistency-s0/review_20261111.json)、[已完成结果](results/20261110-p11-root-height-consistency-s0/summary.json)。
 
@@ -34,10 +36,10 @@
 
 - 论文：[arXiv:2610.28480v2](https://arxiv.org/abs/2610.28480v2)
 - 作者项目：[supermimic.github.io](https://supermimic.github.io/)
-- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，O4单路低LR长段已完成并发生退化；O5同父优化器对照已完成并复核；O6从零Adam+cosine方案已发布但尚未启动，P12及独立实现新实验暂缓。
+- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，O4单路低LR长段已完成并发生退化；O5同父优化器对照已完成并复核；O6从零Adam+cosine已完成并全量复核；O7沿用该配方只删除官方collection动作噪声的方案已发布，尚未部署或启动，P12及独立实现新实验暂缓。
 - 本仓库属于用户复现项目，不是作者官方仓库。O1实际使用[官方核心源码](https://github.com/HybridRobotics/supermimic/tree/abc124c1bd5976341034668af3d12c087f2f1f55)及[作者研究环境](https://github.com/HybridRobotics/mjlab_research/tree/dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd)，在相邻独立工作区运行，未混入既有独立训练实现。初始5efbf114源码比较保留供溯源，研究依赖已取得，旧地址404不再阻塞。论文历史精确run配置和BONES筛选成员仍未取得，当前结果明确标为官方当前源码GenCoord/proprio/history10基线。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
 
-下一步：[O5原件复核](docs/O5_REVIEW_20261116.md) · [O6完整计划](docs/O6_OFFICIAL_ADAM_COSINE_PLAN.md) · [O6启动提示词](docs/O6_CODEX_START_PROMPT.md)。
+下一步：[O6全量复核](docs/O6_REVIEW_20261117.md) · [O7完整计划](docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md) · [O7执行提示词](docs/O7_CODEX_START_PROMPT.md) · [O7协议](configs/o7_official_noise_removal_protocol.json)。
 
 ## D57 环境
 
@@ -64,11 +66,13 @@ bash scripts/setup_d57.sh
 ## 现有内容
 
 - [论文配置](configs/paper_reference.toml)：按论文标注来源的算法/网络/训练参数，不是已经可执行的训练配置。
-- [当前O5优化器方案](docs/O5_OFFICIAL_OPTIMIZER_PLAN.md)、[O5协议](configs/o5_official_optimizer_protocol.json)、[O5 Codex启动词](docs/O5_CODEX_START_PROMPT.md)：同O3父节点、两路各32000更新，Muon去衰减与全Adam对照；计划已发布，适配和训练尚未开始。
+- [O7去采样噪声计划](docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md)、[协议](configs/o7_official_noise_removal_protocol.json)、[Codex提示词](docs/O7_CODEX_START_PROMPT.md)：沿用O6 fresh Adam＋cosine，仅纳入官方7e94b0修正；计划已发布，尚未部署或启动。
+- [O6完整复核](docs/O6_REVIEW_20261117.md)、[派生统计](results/20261116-o6-official-adam-cosine-s0/review_20261117.json)、[执行交接](docs/O6_EXECUTION_HANDOFF.md)：320k训练与四节点全库评分完成；精度明显改善，困难技能保持和作者数据对齐仍待解决。
+- [O5历史优化器方案](docs/O5_OFFICIAL_OPTIMIZER_PLAN.md)、[O5复核](docs/O5_REVIEW_20261116.md)：同O3父节点、两路各32000更新，已完成，不重复执行。
 - [O4完成复核](docs/O4_REVIEW_20261115.md)、[已执行O4长段方案](docs/O4_OFFICIAL_BONES_LONG_RUN_PLAN.md)、[历史协议](configs/o4_official_bones_long_run_protocol.json)、[历史启动词](docs/O4_CODEX_START_PROMPT.md)：132000连续更新及全部评分已完成；完整执行不能掩盖长段质量退化，旧启动词不重复执行。
 - [O3完成复核](docs/O3_REVIEW_20261113.md)、[已执行O3方案](docs/O3_OFFICIAL_BONES_STABILITY_PLAN.md)、[O3历史协议](configs/o3_official_bones_stability_protocol.json)、[O3历史启动词](docs/O3_CODEX_START_PROMPT.md)：同父两路LR对照已完成，quarter16k/32k两锚点保留。
 - [O2完成复核](docs/O2_REVIEW_20261112.md)、[已执行O2方案](docs/O2_OFFICIAL_BONES_PLAN.md)、[O2历史协议](configs/o2_official_bones_protocol.json)、[O2历史启动词](docs/O2_CODEX_START_PROMPT.md)：完整训练和评分已结束。P9 qpos/qvel已按源offset441140转换成47727908帧的官方packed格式；六字段静态参考约12.624GiB。旧O2提示词仅作溯源，不再作为重跑指令。
-- [O1完成复核](docs/O1_REVIEW_20261111.md)、[官方源码比较](docs/OFFICIAL_COMPARISON_20261111.md)、[已执行O1计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1完成交接](docs/O1_CODEX_START_PROMPT.md)：官方LAFAN40已完成，旧O1启动提示词不再作为重跑指令；当前BONES新增执行范围由独立O5启动词给出。
+- [O1完成复核](docs/O1_REVIEW_20261111.md)、[官方源码比较](docs/OFFICIAL_COMPARISON_20261111.md)、[已执行O1计划](docs/O1_OFFICIAL_REPRODUCTION_PLAN.md)、[O1完成交接](docs/O1_CODEX_START_PROMPT.md)：官方LAFAN40已完成，旧O1启动提示词不再作为重跑指令；当前BONES新增执行范围由顶部O7计划与提示词给出。
 - [备选P12分析与计划](docs/P12_WORLD_WINDOW_PLAN.md)：两路8192完整库以同父k8/k16比较WM拟合窗口，保留H32及原残差；[P12协议](configs/next_stage_world_window_protocol.json)、[P12启动词](docs/P12_CODEX_START_PROMPT.md)、[P11完整复核](docs/P11_REVIEW_20261111.md)。本次不执行P12。
 - [已完成P10分析与计划](docs/P10_8K_HARD_PRACTICE_PLAN.md)：两路8192完整库并行，固定639条hard增加练习，兼顾普通姿态质量和LAFAN保持；[P10协议](configs/next_stage_8k_hard_practice_protocol.json)、[P10启动词](docs/P10_CODEX_START_PROMPT.md)、[冻结hard名单](configs/p10_hard_motion_set.json)、[P9深读复核](docs/P9_REVIEW_20261108.md)。[已完成P9方案](docs/P9_CRITIC_AND_FULL_SCALE_PLAN.md)、[P8深读复核](docs/P8_REVIEW_20261107.md)。[已完成P8方案](docs/P8_STABILITY_AND_SCALE_PLAN.md)、[已完成P7方案](docs/P7_CONTINUATION_AND_FRESH_PLAN.md)、[已完成P6方案](docs/P6_POSITION_FEEDBACK_PLAN.md)、[历史复现记录](docs/REPRODUCTION_PLAN.md)。
 - [来源锁](configs/sources.lock.json)：LAFAN1、机器人资产和 BeyondMimic 参数的确切版本。
@@ -86,7 +90,7 @@ bash scripts/setup_d57.sh
 
 ## 运行与学习
 
-**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成训练阶段为顶部的O5；O6为已发布但尚未启动的下一轮计划，P12暂缓并保留计划。下文为独立实现历史，均不作为新启动指令。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
+**P3历史完成记录：20261102-h32-bce-s0。** 最新已完成并复核的训练阶段为O6；O7为已发布但尚未部署或启动的下一轮计划，P12暂缓并保留计划。下文为独立实现历史，均不作为新启动指令。以下两组从同一B6000完整模型/优化器/sampler/RNG状态继续，各新增3000次联合更新，到9000。物理现场/replay重新建立，不声称逐样本轨迹完全一致。
 
 | 版本 | 完整执行 | 完整时长归一化回报 | 平均完成比例 | 起身 | 跑步 |
 |---|---:|---:|---:|---:|---:|
@@ -107,7 +111,7 @@ P4/P5/P6/P7/P8的训练、正式评估与关键发布均已完成。P6位置反�
 - [正式训练区间统计](results/20261102-h32-bce-s0/training.json)
 - [历史审阅与P4计划](docs/REPRODUCTION_PLAN.md#p4-next-stage)
 - [P4机器可读协议](configs/next_stage_continuation_protocol.json)（不是train.py配置）
-- [当前O6启动词](docs/O6_CODEX_START_PROMPT.md)、[O5历史启动词](docs/O5_CODEX_START_PROMPT.md)、[O4历史启动词](docs/O4_CODEX_START_PROMPT.md)、[O3历史启动词](docs/O3_CODEX_START_PROMPT.md)、[O2历史启动词](docs/O2_CODEX_START_PROMPT.md)、[O1历史完成交接](docs/O1_CODEX_START_PROMPT.md)
+- [当前O7启动词](docs/O7_CODEX_START_PROMPT.md)、[O6历史启动词](docs/O6_CODEX_START_PROMPT.md)、[O5历史启动词](docs/O5_CODEX_START_PROMPT.md)、[O4历史启动词](docs/O4_CODEX_START_PROMPT.md)、[O3历史启动词](docs/O3_CODEX_START_PROMPT.md)、[O2历史启动词](docs/O2_CODEX_START_PROMPT.md)、[O1历史完成交接](docs/O1_CODEX_START_PROMPT.md)
 - [备选P12启动提示词](docs/P12_CODEX_START_PROMPT.md)
 - [P4父版本C0-9000](https://github.com/kaiwen123-yang/Supermimic/releases/tag/sm-20261102-h32-bce-s0-h32_aux_bce-i0009000)
 
@@ -115,7 +119,7 @@ P3已status=completed、unpublished=[]，记录删除496个明确实验文件、
 
 ### 已完成阶段与历史记录
 
-P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以顶部O6方案和启动词为准。
+P2实际入口为 `bash scripts/run_goal_feedback_d57.sh 20261101-goal-feedback-s0`：先B后A，各seed 0从头初始化，最终均6000轮；每1000轮完整评估与发布。目标编码贯穿真实采样、想象每步、末端价值和评估，不计算数据文件摘要。P2的运行协议保留在 [next_stage_correction_protocol.json](configs/next_stage_correction_protocol.json)，当前新增任务以顶部O7方案和启动词为准。
 
 2026-11-01：首轮 `20261031-learning-s0` 已在北京时间 01:25 正常完成：SuperMimic 与 PPO-Sim 各 3 h，均完成 40 条动作的完整评估。SuperMimic 最终第 2874 轮为 0/40 完整执行、平均 3.052 s、完成比例 1.351%、归一化回报 0.003570；PPO-Sim 最终第 5614 轮为 12/40、109.566 s、46.912%、0.213527。PPO-Sim 第 5000 轮为 16/40，优于最终版本，所有节点保留。完整执行按原高度/倾斜终止规则判定，并不代表精确轨迹跟踪；PPO 最终完成的 12 条动作仍有 1.41–11.05 m 的逐动作平均根位置误差。
 
@@ -176,11 +180,12 @@ P5沿用每1000新增轮完整评估40条动作，先推完整评分JSON、每10
 
 P3 v2历史执行入口（已完成，不重复运行）：`bash scripts/run_tracking_continuation_d57.sh 20261102-h32-bce-s0`。独立源码工作树 `/root/autodl-tmp/robot-repro/supermimic-p3-h32` 复用主项目原位 `.venv` 和 G1 资产；主目录的 P2 未提交文件保持原位。实际配置为 `configs/lafan40_h32_state_only.json` 和 `configs/lafan40_h32_aux_bce.json`。从同一 B6000 恢复全部网络、优化器、sampler 和已保存的 Torch/CUDA RNG；NumPy 保持 seed 0。恢复完成后重新计本段预算，6001 轮接续全局 LR；父版本不重复评估。保留原 70 维逐维 mean，C1 的 BCE 记录为 null（未计算），不记作零误差。
 
-P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本清理。历史tmux为sm-p3-h32-bce-s0，实际执行记录保存在results/index.json的对应campaign；P4/P5/P6/P7/P8/P9/P10/P11及O1/O2亦已完成；当前新增任务为顶部O6方案，不重复启动旧阶段。
+P3 v2已完成两组9000轮训练、全部完整评估、发布和精确副本清理。历史tmux为sm-p3-h32-bce-s0，实际执行记录保存在results/index.json的对应campaign；P4/P5/P6/P7/P8/P9/P10/P11及O1/O2亦已完成；当前新增任务为顶部O7方案，不重复启动旧阶段。
 
 P3 v2 实际阶段结果：h32_aux_bce 第9000轮，29/40，归一化回报0.61540441，新增3000轮/3.225h；h32_state_only 第9000轮，15/40，归一化回报0.48260317，新增3000轮/3.236h。结果和实际失败窗口见 results/20261102-h32-bce-s0/summary.json、comparison.json；该阶段不能作为充分收敛证据。
 
 P4最终判断：18000轮达到本阶段最高完整回报0.706754，较9000提高14.84%，完整执行由29增至32；15000–17000的回撤后出现恢复，不能据此宣布收敛或持续停滞。保留C0-18000作为后续续训起点，保留全部里程碑用于检查动作保持。起身成功集合仍会变化，且真实失败尾窗存在状态预测/解析终止失配；若继续研究，优先沿同配置观察这些能力能否稳定保持。本段已结束，没有自动追加训练预算或新分支。 详细逐动作变化与三条真实起身失败尾窗见 [P4结论](docs/REPRODUCTION_PLAN.md#p4-next-stage)。
+
 
 
 

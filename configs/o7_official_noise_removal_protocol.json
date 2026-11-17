@@ -1,0 +1,475 @@
+{
+  "protocol_id": "supermimic-o7-official-noise-removal-v1",
+  "planned_date_beijing": "2026-11-17",
+  "status": "planned_not_deployed_not_started",
+  "purpose": "On the frozen O6 recipe and motion set, determine whether the author's post-paper removal of collection action noise improves clean tracking and skill retention.",
+  "not_claimed": [
+    "Exact reproduction of the original paper action-noise recipe",
+    "Exact author 129514-member benchmark",
+    "Unique causal explanation of all O2-O6 errors",
+    "Multi-seed significance",
+    "Reproduction of the author Muon 2315-to-1 experiment"
+  ],
+  "campaign": "20261117-o7-official-noise-removal-s0",
+  "run": "o7-bones-adam-cosine-noise0-s0",
+  "tmux": "sm-o7-adam-noise0-s0",
+  "workspace": "/root/autodl-tmp/robot-repro/supermimic-official-workspace",
+  "code_worktree": "/root/autodl-tmp/robot-repro/supermimic-o7-official-noise-removal",
+  "official_worktree_name": "supermimic-o7-noise0",
+  "adapter_directory": "work/o7",
+  "python": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/supermimic/.venv/bin/python",
+  "source": {
+    "user_result_commit": "8f23f4b26fc84598dc19429963ddb8cd18cd37ee",
+    "configuration_reference": "results/20261116-o6-official-adam-cosine-s0/actual_config.json",
+    "official_commit": "7e94b073940b7a19b9a82ff01e191cfb35c4ba91",
+    "research_commit": "dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd",
+    "o6_official_commit": "abc124c1bd5976341034668af3d12c087f2f1f55",
+    "official_noise_commit_url": "https://github.com/HybridRobotics/supermimic/commit/7e94b073940b7a19b9a82ff01e191cfb35c4ba91",
+    "actual_runtime_environment": "Reuse O6 existing Python, PyTorch 2.14.0+cu130 and installed simulator/asset environment; record actual versions, do not sync new uv.lock.",
+    "necessary_patches": [
+      "Port scripts/o3/official_diagnostics.patch without changing learning behavior",
+      "Port the all-Adam WD0 branch from scripts/o5/official_optimizer_modes.patch; update its obsolete noise-line context without restoring the removed field",
+      "Reuse O6 collection-clock LR adapter and collection-budget completion lifecycle under new O7 identities"
+    ],
+    "source_comparison_note": "Old abc and new 7e histories diverge; direct tree comparison found two runtime Python deletions plus CI/uv.lock changes. No blind merge-base diff interpretation or full dependency upgrade.",
+    "newer_floating_main": "Do not silently change the frozen commits if upstream moves during execution.",
+    "new_schedule_adapter": "scripts/o7/train_official.py",
+    "adapter_migration_requirements": [
+      "scripts/o7/common.py.PROTOCOL_PATH must reference the O7 protocol. train_official, quality_series and publisher import this O7 common module through work/o7, not an O6 directory.",
+      "scripts/o7/quality_series.py continues to consume fixed_quality_timeseries.members/timing. Publish the exact six-member metadata in its schema; remove hard-coded labels saying four examples, while retaining bounded six-member behavior and unchanged stride5.",
+      "scripts/o7/publish_results.py writes the O7 protocol path, O7 docs/handoff and status markers; updates completion/current_execution; synchronizes any retained duplicate top-level execution flags.",
+      "No schema test/probe is requested: these are direct source adaptation requirements reviewed before ordinary authorized execution.",
+      "Keep optional historical_score_roots as references only. O7 does not need to rerun read_existing_evidence or fetch author/demo artifacts at launch.",
+      "The new three reset groups require an O7-owned extension or copy of CollectionDiagnostics; do not change the historical scripts/o3/diagnostics.py used by O3/O6. Its wrapper must keep returning the exact original selected frames.",
+      "Publish the actual O7 patch adapted for the removed policy.noise context under scripts/o7 and record its path in actual_config; do not present the unchanged O5 patch as if it directly applied to 7e or overwrite historical source trees."
+    ]
+  },
+  "initialization": {
+    "mode": "from_scratch",
+    "seed": 0,
+    "parent": null,
+    "wandb_run_path": null,
+    "full_resume": false,
+    "ancestral_joint_updates": 0,
+    "fresh": [
+      "world_model",
+      "actor",
+      "critic",
+      "normalizers",
+      "all_optimizers",
+      "replay",
+      "reset_sampler",
+      "RNG"
+    ],
+    "data_lineage_source": "Existing packed motion manifest directly; no parent checkpoint is loaded for metadata.",
+    "historical_checkpoints": "References only. No O6 warm-start, no O5/Muon teacher/distillation or checkpoint mixture.",
+    "default_replay_fill_and_Ratio": "Unchanged from O6; no additional WM-only updates or setup probes."
+  },
+  "only_algorithm_change": {
+    "collection_action": "Apply actor(actor_td) directly to simulator and replay.",
+    "collection_action_noise_std": 0.0,
+    "extra_collection_randn_like_call": false,
+    "zero_times_randn_is_not_the_selected_implementation": true,
+    "removed_config_field": "policy.noise",
+    "old_reference_unknown_key": "The official load_runner_cfg ignores unknown fields; do not restore noise for compatibility. Effective serialized O7 config must not misleadingly report active noise=0.1.",
+    "unchanged_noise": [
+      "proprio sensor corruption",
+      "reset pose/velocity/joint perturbations",
+      "domain randomization",
+      "encoder bias behavior"
+    ],
+    "evaluation": "Same clean deterministic O6 evaluator, never add noise to improve the formal score.",
+    "RNG_interpretation": "Deleting the Gaussian call intentionally changes subsequent random-number consumption. Same seed does not imply identical trajectories after this intervention."
+  },
+  "training": {
+    "task": "SuperMimic-GenCoord-G1",
+    "actor_obs": "proprio",
+    "history_length": 10,
+    "real_envs": 4096,
+    "dataset_clips": 130394,
+    "world_model": {
+      "num_batches": 10,
+      "batch_size": 2048,
+      "horizon": 8,
+      "stored_states": 8,
+      "supervised_transitions": 7
+    },
+    "policy": {
+      "batch_size": 4096,
+      "num_batches": 1,
+      "horizon": 32,
+      "gamma": 0.99,
+      "lambda": 0.95,
+      "survival_masking": true
+    },
+    "critic": {
+      "epochs": 5,
+      "minibatches_per_epoch": 4
+    },
+    "optimizer": {
+      "all_networks": "Adam",
+      "weight_decay": 0.0,
+      "eps": 1e-08,
+      "amsgrad": false,
+      "fused": true,
+      "capturable": true,
+      "actor_betas": [
+        0.9,
+        0.95
+      ],
+      "world_model_critic_betas": [
+        0.9,
+        0.999
+      ]
+    },
+    "replay_buffer_steps_per_env": 1000,
+    "replay_ratio": 16,
+    "joint_updates_per_collection_nominal": 0.4,
+    "reset_sampler": "Unchanged O6 return sampler with research dd51; bin_count=floor(total_frames/(0.2/step_dt))+1, approximately 0.2s at 50Hz. Do not replace with paper text 1s or a new hard quota.",
+    "frozen_other_behavior": [
+      "network architecture",
+      "goal and history definitions",
+      "normalization algorithm",
+      "rewards",
+      "termination",
+      "actuator gains and scaling",
+      "physical dt",
+      "friction and COM randomization",
+      "reference resampling",
+      "dataset membership",
+      "joint order",
+      "active task mixture"
+    ]
+  },
+  "learning_rate": {
+    "clock": "c = number of completed collection calls in this fresh run; c=step+1 for the public zero-based runner loop",
+    "formula": "lr(c)=2e-4*(0.03+0.97*0.5*(1+cos(pi*min(c,250000)/250000)))",
+    "initial": 0.0002,
+    "decay_collection_iterations": 250000,
+    "floor_multiplier": 0.03,
+    "floor_lr": 6e-06,
+    "apply_to": [
+      "world_model",
+      "actor",
+      "critic"
+    ],
+    "apply_when": "After each self.step() increments completed collections, and before any joint learner update at that collection.",
+    "device_lr_tensor_constructed_before_CUDA_capture": true,
+    "update_existing_group_lr_tensor_in_place": true,
+    "replace_group_lr_tensor_or_Python_float_after_capture": false,
+    "per_optimizer_step_scheduler": false,
+    "clock_reset_at_checkpoint_or_handoff": false,
+    "metadata": "Record actual optimizer group LR from the running learner, with collection and actual joint counters, in ordinary logs and at every saved milestone. No separate scheduler probe or extra training update.",
+    "actual_optimizer_collections": [
+      "world_model_learner.optimizers",
+      "policy_learner.actor_optimizers",
+      "policy_learner.critic_optimizers"
+    ],
+    "config_initial_lr_and_runtime_group_lr_separate": true
+  },
+  "budget": {
+    "stop_counter": "completed_collection_iterations",
+    "target_completed_collection_iterations": 320000,
+    "milestone_completed_collections": [
+      80000,
+      160000,
+      250000,
+      320000
+    ],
+    "expected_joint_updates": [
+      31997,
+      63997,
+      99997,
+      127997
+    ],
+    "expected_final_real_transitions": 1310720000,
+    "expected_optimizer_steps": {
+      "world_model": 1279970,
+      "actor": 127997,
+      "critic": 2559940
+    },
+    "expectations_not_completion_gates": true,
+    "normal_completion": "Child exits with code 0, progress says collection_iteration_limit and exactly 320000 completed collections; training/scoring/publication status kept separate.",
+    "wall_deadline_enabled": false,
+    "training_wall_seconds_limit": null,
+    "return_early_stop": false,
+    "automatic_extension": false,
+    "automatic_restart": false,
+    "codex_interaction_max_hours": 4,
+    "background_continues_across_interactions": true,
+    "reference_wall_time_only": "O6 training 39623.227971 seconds on RTX PRO 6000 Blackwell Server Edition; not an O7 deadline or throughput promise.",
+    "interruption": "Existing checkpoint does not contain complete optimizer/replay/sampler/RNG. Record a real interruption, retain actual nodes, no weights-only stitched continuous-run claim.",
+    "checkpoint_policy": "Formal milestones80k/160k/250k/320k plus actual unique terminal; retain O6 initial and ordinary rolling20 saves. No scoring during training."
+  },
+  "data": {
+    "packed_directory": "/root/autodl-tmp/robot-repro/supermimic-official-workspace/data/bones130394_official_packed",
+    "reuse_existing_data": true,
+    "reconvert_or_filter": false,
+    "membership_gap": {
+      "paper_raw": 142220,
+      "paper_name_pass": 129667,
+      "paper_final": 129514,
+      "project_raw": 142220,
+      "project_name_pass": 130655,
+      "project_final": 130394,
+      "project_minus_paper_final_count": 880,
+      "set_inclusion_proven": false
+    },
+    "diagnostic_source": "results/20261116-o6-official-adam-cosine-s0/review_20261117.json",
+    "name_overlap": "24 of O6 final39 names match at least one public SONIC exclusion keyword. This is lexical provenance, not verified SuperMimic exclusions; formal denominator remains 130394.",
+    "author_artifact_gap": "Exact 129514 manifest plus full configuration/checkpoint binding is not recovered. Existing review already audited public tree/releases/project; do not repeat speculative filtering or download demo weights.",
+    "if_author_artifacts_become_public": "Record source/version and member mapping read-only; do not mutate active O7 inputs. An exact-benchmark task remains a separately declared comparison."
+  },
+  "concurrency": {
+    "gpu_training_processes": 1,
+    "gpu_scoring_processes": 1,
+    "torch_threads_per_process": 2,
+    "torch_interop_threads_per_process": 2,
+    "cpu_analysis_workers_max": 12,
+    "cpu_worker_threads": 1,
+    "cpu_work": "Reuse the now-published O6 identity/filter diagnostics; prepare fixed group joins and score comparisons, no repeat full old checkpoint rollout or reference conversion.",
+    "evaluation_after_training_child_exit": true,
+    "publication_lock": "/root/autodl-tmp/robot-repro/supermimic-p6-position-feedback/work/p2-publication.lock",
+    "training_holds_publication_lock": false,
+    "stop_other_projects": false,
+    "when_resource_conflict": "Wait for available existing capacity; keep the frozen 4096/batch recipe, no capacity benchmark or automatic second arm."
+  },
+  "evaluation": {
+    "baseline_result_commit": "8f23f4b26fc84598dc19429963ddb8cd18cd37ee",
+    "baseline_campaign": "20261116-o6-official-adam-cosine-s0",
+    "baseline_nodes": [
+      "collection_080000",
+      "collection_160000",
+      "collection_250000",
+      "collection_320000"
+    ],
+    "reuse_baseline_scores_without_rerun": true,
+    "scoring_order": [
+      "all unique BONES checkpoints",
+      "all unique LAFAN40 checkpoints"
+    ],
+    "BONES_batch_size": 4096,
+    "BONES_batches": 32,
+    "last_batch_active": 3418,
+    "last_batch_padding": 678,
+    "batch_sort": "(frames-1, source_clip_id)",
+    "LAFAN_batch_size": 40,
+    "reset": "Each clip once from its first frame, reference initial state, zero reset noise, no time_out cap, same hard termination.",
+    "physics": "Foot friction 1, COM offset 0, encoder bias 0, observation corruption disabled; deterministic actor and unchanged O6 simulator environment.",
+    "return": "Mean_i(sum of active native rewards / (0.1*(reference_frames_i-1))); include first failure transition, missing tails score0, padding excluded.",
+    "quality": "Retain whole-library values, compare O6/O7 same-node common-complete set and O7 250k/320k common set; post-step state and advanced reference alignment unchanged.",
+    "outputs": [
+      "all per-clip CSV shards and schema/index",
+      "R, failure count and completion fraction",
+      "recovered/lost/persistent identities",
+      "R, XY and body-orientation on common-complete sets",
+      "fixed hard639 and nonhard",
+      "all 18 monkey_jump, 12 hook_jump_off_wall, 432 crutches",
+      "four fixed skills",
+      "all 494 motions at least60s",
+      "LAFAN40 cross-library result without reclassifying O1/P6 acceptance"
+    ],
+    "no_best_clip_mixture": true,
+    "final_alias_deduplicated": true,
+    "minimum_followup_on_result": "Report actual results, no automatic O8 or additional tail training."
+  },
+  "passive_diagnostics": {
+    "quality_series": {
+      "source_clip_ids": [
+        16,
+        63672,
+        101155,
+        124371,
+        1216,
+        9457
+      ],
+      "additional_members": [
+        {
+          "source_clip_id": 1216,
+          "name": "monkey_jump_006__A416",
+          "reference_transitions": 199,
+          "purpose": "O6 persistent failed monkey; O5 Muon historical success"
+        },
+        {
+          "source_clip_id": 9457,
+          "name": "monkey_jump_003__A304",
+          "reference_transitions": 238,
+          "purpose": "Only O6 late successful monkey; O5 Muon historical failure"
+        }
+      ],
+      "sample_stride": 5,
+      "include_first_and_actual_last_or_failure": true,
+      "source": "Same scheduled formal scoring rollout; reuse already-computed tensors, existing quality_series adapter and schema.",
+      "cumulative_rewards": "Full active physical steps, never stride approximations.",
+      "old_O6_trace_availability": "Original four have full sampled O6 series.1216 has an O6 failure tail,9457 only scalars; no replay to manufacture missing old traces.",
+      "runtime_configuration_source": "fixed_quality_timeseries",
+      "member_list_role": "Descriptive mirror only; runtime selection and schema metadata come from the canonical fixed_quality_timeseries.members/timing."
+    },
+    "extra_reset_groups": [
+      "name/monkey_jump",
+      "name/hook_jump_off_wall",
+      "name/crutches"
+    ],
+    "reset_group_implementation": "Append three frozen boolean-membership columns to existing detached reset_counts accumulation using the already chosen frames/IDs; no new sampler, RNG draw, forward or per-step host synchronization.",
+    "reset_group_semantics": "Reset counts/shares only, not real transition exposure, WM-window coverage or success rate. O6 did not log these exact three groups.",
+    "failure_windows": "Same existing bounded final rollout recorder, at most8 windows×32steps with state/action/context/termination provenance.",
+    "extra_physics_model_forward_gradient_scans": false,
+    "claim_boundary": "Real versus reference errors are not world-model prediction errors; no claim of WM exploitation or value miscalibration without corresponding predictions/targets."
+  },
+  "decision": {
+    "main": "Compare all four matched collection nodes, emphasize 250k-to320k retention and fixed final, show coverage and common-complete quality together.",
+    "favorable": "A lower clean failure count with retained common-set R/XY and recovery of the named skill gap supports benefit of this noise-removal intervention in this seed/recipe.",
+    "mixed": "If failure count and quality move differently, report tradeoff, keep both O6/O7 checkpoints and do not declare comprehensive superiority.",
+    "little_change": "Consistent with the author's small Adam effect; do not respond with blind budget extension or deny the author's separate Muon result. Prioritize member alignment and targeted diagnosis of the persistent subgroup using the saved evidence.",
+    "paper_claim": "No exact129514/author0failure/3h efficiency claim without same-member and configuration provenance; preserve already accepted LAFAN result."
+  },
+  "publication": {
+    "GitHub_lightweight": true,
+    "files": [
+      "actual code and configuration",
+      "complete compact per-clip results",
+      "compact ordinary training statistics",
+      "fixed small evidence arrays",
+      "conclusion and status/index/handoff"
+    ],
+    "large_artifacts_remain_on_server": true,
+    "github_release": false,
+    "tar_archive": false,
+    "local_computer_archive": false,
+    "stage_cleanup": false,
+    "backup_status": "not_confirmed_by_user",
+    "rolling_checkpoint_policy": "Keep existing rolling20 and protected milestone/needed checkpoints; no stage-end bulk deletion.",
+    "failed_scores_or_publish": "Resume the interrupted scoring or publishing phase only, do not retrain successful completed training."
+  },
+  "restrictions": [
+    "No setup/install/upgrade/rebuild or Conda-base changes",
+    "No smoke/unit/mock/import/shape/hash tests, restore drills, capacity benchmarks or full disk scans",
+    "No reward/termination loosening or policy-failure filtering",
+    "No simultaneous Muon, reset-bin, encoder-bias/history-reset PR, H/k or hard-quota changes",
+    "No messages to authors or others without separate explicit authorization",
+    "No interference with MPC-RL/pi0/pi0.5 or other projects"
+  ],
+  "accepted_LAFAN_preserved": true,
+  "P12": "paused",
+  "automatic_O8": false,
+  "implementation_status": "not_deployed",
+  "completion": {
+    "plan_prepared": true,
+    "plan_published": true,
+    "implementation_deployed": false,
+    "training_started": false,
+    "training_done": false,
+    "formal_evaluation_done": false,
+    "lightweight_results_published": false,
+    "execution_snapshot_published": false,
+    "scope_at_publication": "O7 plan only. No O7 server deployment, training, formal scoring, or trajectory capture has been performed while preparing this plan."
+  },
+  "fixed_quality_timeseries": {
+    "status": "members_frozen_before_O7_training",
+    "members_source_commit": "8f23f4b26fc84598dc19429963ddb8cd18cd37ee",
+    "member_count": 6,
+    "member_selection": "Purposeful fixed diagnostic cases, not a random sample or a distribution estimate; preserve IDs even if a future node fails.",
+    "members": [
+      {
+        "source_clip_id": 16,
+        "name": "body_stretch_V001_003__A272_M",
+        "reference_frames": 363,
+        "reference_transitions": 362,
+        "reference_duration_seconds": 7.24,
+        "diagnostic_group": "stable_control",
+        "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+        "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+      },
+      {
+        "source_clip_id": 63672,
+        "name": "jog_ff_loop_270_002__A181",
+        "reference_frames": 129,
+        "reference_transitions": 128,
+        "reference_duration_seconds": 2.56,
+        "diagnostic_group": "performance_divergence",
+        "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+        "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+      },
+      {
+        "source_clip_id": 101155,
+        "name": "Idle_Left_001__A017",
+        "reference_frames": 3827,
+        "reference_transitions": 3826,
+        "reference_duration_seconds": 76.52,
+        "diagnostic_group": "long_position_regression",
+        "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+        "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+      },
+      {
+        "source_clip_id": 124371,
+        "name": "Idle_Left_001__A019",
+        "reference_frames": 3827,
+        "reference_transitions": 3826,
+        "reference_duration_seconds": 76.52,
+        "diagnostic_group": "long_position_regression",
+        "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+        "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+      },
+      {
+        "source_clip_id": 1216,
+        "name": "monkey_jump_006__A416",
+        "reference_frames": 200,
+        "reference_transitions": 199,
+        "reference_duration_seconds": 3.98,
+        "diagnostic_group": "persistent_difficult_skill_failure",
+        "selection_origin": "Fixed before O7 using the completed O6/O5 score evidence in the 2026-11-17 review.",
+        "reason": "O6 persistent failed monkey; O5 Muon historical success",
+        "O6_trace_availability": "Final failure tail only; no old replay authorized."
+      },
+      {
+        "source_clip_id": 9457,
+        "name": "monkey_jump_003__A304",
+        "reference_frames": 239,
+        "reference_transitions": 238,
+        "reference_duration_seconds": 4.76,
+        "diagnostic_group": "difficult_skill_success_control",
+        "selection_origin": "Fixed before O7 using the completed O6/O5 score evidence in the 2026-11-17 review.",
+        "reason": "Only O6 late successful monkey; O5 Muon historical failure",
+        "O6_trace_availability": "Published scalar scores only; no old replay authorized."
+      }
+    ],
+    "timing": "Preserve native reward/termination timing. Quality uses existing post-step refreshed state and advanced reference. Record which frame/time each array represents; no reclassification of failures from raw final errors.",
+    "sample_every_scoring_transitions": 5,
+    "include_first_scored_transition_and_last_or_failure_transition": true,
+    "capture_at": "All actual scheduled O7 formal BONES scoring nodes, during their existing physical scoring rollout only.",
+    "capture_initial_reset_geometry_with_new_calls": false,
+    "fields_from_existing_tensors": [
+      "source_clip_id",
+      "relative executed step/time",
+      "packed and clip-relative reference frame",
+      "active_before_step",
+      "terminated",
+      "truncated",
+      "existing robot_anchor_pos_w and reference anchor_pos_w with env_origin recorded",
+      "existing root delta_xyz",
+      "root_position_error_m",
+      "root_xy_error_m",
+      "root_z_absolute_error_m",
+      "root_orientation_error_rad",
+      "relative_body_position_error_m",
+      "relative_body_orientation_error_rad",
+      "native reward",
+      "native reward term values",
+      "cumulative reward_sum and term_sum"
+    ],
+    "storage": "Cache only selected small tensors on device, transfer after the scoring batch, and save compact per-node NPZ plus field/units/timing/source/env_origin schema. Include these evidence files in lightweight Git publication.",
+    "when_member_fails": "Keep the same member, record the actual executed prefix and terminal sample. No replacement, padding, additional model/physics/RNG call, or old-checkpoint replay.",
+    "formal_return_unchanged": "Formal R uses the existing cumulative reward over every scored physical transition, never an approximation from the stride5 diagnostic samples.",
+    "extra_forward_backward_physics_or_rng_sampling": false,
+    "old_checkpoint_replay": false,
+    "batch_video_rendering": false,
+    "historical_score_roots": {
+      "O6_080000": "results/20261116-o6-official-adam-cosine-s0/milestones/collection_080000/bones_full",
+      "O6_160000": "results/20261116-o6-official-adam-cosine-s0/milestones/collection_160000/bones_full",
+      "O6_250000": "results/20261116-o6-official-adam-cosine-s0/milestones/collection_250000/bones_full",
+      "O6_320000": "results/20261116-o6-official-adam-cosine-s0/milestones/collection_320000/bones_full",
+      "O5_muon_32000": "results/20261115-o5-official-optimizer-s0/milestones/muon_wd0/update_32000/bones_full"
+    },
+    "historical_score_roots_role": "Optional read-only reference mapping retained for old helper compatibility. Do not schedule the old read_existing_evidence script merely because this key exists; the 2026-11-17 review already completed that provenance task."
+  }
+}

@@ -20,4 +20,14 @@
 若仅评分失败，在确认没有活动评分后从run_d57.sh --start-at bones或lafan接续；已完成批次自动复用。
 若仅发布失败，执行work/o6/publish_results.py --workspace WORKSPACE --label publication-retry；不得重训或重评。
 真实训练异常不自动重启；checkpoint未保存完整optimizer/replay/sampler/RNG，不拼接成连续run。
-保留O1/P6验收及O2/O3/O4/O5历史节点，P12暂停，不开O7。大产物留服务器，不Release/tar/本机归档或阶段清理。
+保留O1/P6验收及O2/O3/O4/O5历史节点，P12暂停；O6收尾不自动开新训练。大产物留服务器，不Release/tar/本机归档或阶段清理。
+
+## 2026-11-17 完成复核与后续计划
+
+四节点训练、正式评分和轻量发布均完成；上面的失败接续说明仅供真实故障恢复，不是重新执行已完成阶段的指令。saved_nodes中的pending是保存时历史快照。
+
+终点R=.953665488、39失败、XY5.180cm；250k为.953232182、36失败、5.229cm。最后70k修复11、丢失14，共同完整集合质量仍改善；monkey18仅完整1条，全部494长动作尾段小幅回撤。39个终点失败均在某个历史节点完成过。
+
+完整复核：[O6_REVIEW_20261117.md](O6_REVIEW_20261117.md)；派生数据：[review_20261117.json](../results/20261116-o6-official-adam-cosine-s0/review_20261117.json)。保护O6 250k/320k与O5 Muon32k及既有验收节点，不重启或扩O6预算。
+
+后续[O7计划](O7_OFFICIAL_NOISE_REMOVAL_PLAN.md)、[提示词](O7_CODEX_START_PROMPT.md)和[协议](../configs/o7_official_noise_removal_protocol.json)仅已发布，**尚未部署或启动**。O7将沿用O6配方，只删除官方collection Gaussian；在用户明确调用执行时才按独立身份启动。本次复核发布不启动训练。

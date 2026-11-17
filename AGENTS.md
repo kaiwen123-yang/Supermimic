@@ -8,15 +8,16 @@
 
 ## 当前任务与证据
 
-- **当前新增主线O6：** 训练、全部实际节点评分与轻量发布已完成（completed）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=320000/320000，实际joint=127997。无小时截止；tmux sm-o6-adam-cosine-s0，活动任务不重启。状态results/20261116-o6-official-adam-cosine-s0/summary.json，接续docs/O6_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布。O5不重启；O1/P6验收保留，P12暂停，不开O7。
+- **当前下一阶段O7：** 方案、完整O6复核与可复制提示词已发布；尚未部署、尚未启动训练或评分。沿用O6 fresh seed0全Adam WD0＋collection-clock cosine及130394原库，仅纳入官方7e94b0删除collection Gaussian动作噪声；固定研究库dd51与现有环境，不sync新lock。320000 collection同预算，80k/160k/250k/320k正式节点，无小时截止。计划docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md、提示词docs/O7_CODEX_START_PROMPT.md、协议configs/o7_official_noise_removal_protocol.json。只在明确调用O7执行任务时部署启动；本次复核发布不自动训练。O1/P6验收保留，P12暂停，不自动O8。
+- **O6已完成并全量复核：** 320000 collection、127997 joint、1310720000真实transition；终点R=.953665488/39失败/XY5.180cm，250k为.953232182/36/5.229cm。最后70k修复11、丢失14，共同完整130344条精度仍改善；hard639失败25→28、monkey18仅完整1条，全部494长动作完整但尾段小幅回撤。39条终点失败均有历史成功先例，不能整体归为坏数据。已读268份CSV、161份统计、45份小证据及全部142220条筛选记录，fresh/Adam/LR/计数/结束逻辑正确，无O4式广泛崩溃。见docs/O6_REVIEW_20261117.md与results/20261116-o6-official-adam-cosine-s0/review_20261117.json；结果commit8f23f4b。O6不重启、不扩预算，保护250k/320k与O5Muon32k。
 - **O5已完成并复核：** 两路各32000连续joint、全BONES与LAFAN评分及轻量发布完成。Muon WD0终点R=.91915658/50失败/XY12.24cm，Adam WD0终点R=.92838634/90失败/XY10.98cm；均未保住O3父.94430475/7.20cm。Muon50=父失败残留7+父成功新失43；共同完整动作中79.1%回报下降，Adam对应86.0%。已核对全部82份训练日志与逐动作原件，WD0/参数覆盖/计数正确；实际范数不支持网络近乎归零。详见docs/O5_REVIEW_20261116.md与results/20261115-o5-official-optimizer-s0/review_20261116.json。保护所有O5节点，不重启或扩预算。
 - **O4已完成并复核：** 连续132000新更新与全部评分/发布完成；+16k R=.92672114/71失败、+32k .90437763/93失败、+64k .80227512/7055失败、+96k .47643112/70303失败、final .62798132/47128失败。质量先下降、覆盖后崩溃，96k→final部分恢复但未回到父水平；固定低LR不足以解决长段退化。保护O3 quarter16k质量锚/32k共同父、O4+16k覆盖锚与全部历史节点，不从退化final默认续训。详见docs/O4_REVIEW_20261115.md和results/20261113-o4-official-bones-long-s0/review_20261115.json。O4 tmux已结束，不重启/扩预算；O1/P6验收保留，P12暂停。
 - **O3已完成并复核：** 两路均新增32000更新；quarter5e-5的BONES R=.94430475、130307完整/87失败，control2e-4为.89208292、395失败。quarter16k R=.94757578为质量锚、32k为覆盖锚，两者及O2/O1/P6成果保护。最终87=父原失败残留32+父已成功新失55；hard42/non-hard45。16k→32k仍有小幅质量回撤，不能声称长段稳定已解决。O3历史tmux已结束，不重启或追加预算；实际完成状态见results/20261112-o3-official-bones-lr-s0/summary.json，latest_training.evaluation_pending为历史退出快照。
 - **O2已完成并复核。** BONES-only 130394条、seed0从零、4096环境；3h R=.93501955、130215条完整，6h R=.87472977、129997条完整，12h实际final R=.62929250、83910条完整。LAFAN跨库完整数25/26/0。3h作为良好主锚点，6h作为困难覆盖参照；后期回撤不撤销3h成绩。详见docs/O2_REVIEW_20261112.md及results/20261111-o2-official-bones-s0/summary.json。历史tmux sm-o2-official-bones-s0已结束，不重启、不追加O2预算；latest_training的evaluation_pending是训练退出快照，全部评分与轻量发布已完成。
-- **O1历史首段已完成并复核。** seed0从零训练，首个正式3h节点R=0.85882311、39/40；实际终点约3h8m17s，R=0.87443989、40/40，因formal_return_target_reached停止。全40的XY时间均值0.765250m、9条>=1m，完整执行与精确全局跟踪分开报告。复核见docs/O1_REVIEW_20261111.md及results/20261111-o1-official-lafan40-s0/review_20261111.json，当前完成状态见summary.json。D57工作区supermimic-official-workspace，历史tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。latest_training的evaluation_pending是退出快照，final已完成。不重跑O1、不补6h/12h或追加O1预算。O2亦已完成，新阶段按顶部O6独立方案接续；既有LAFAN验收成果和其他任务保留。
+- **O1历史首段已完成并复核。** seed0从零训练，首个正式3h节点R=0.85882311、39/40；实际终点约3h8m17s，R=0.87443989、40/40，因formal_return_target_reached停止。全40的XY时间均值0.765250m、9条>=1m，完整执行与精确全局跟踪分开报告。复核见docs/O1_REVIEW_20261111.md及results/20261111-o1-official-lafan40-s0/review_20261111.json，当前完成状态见summary.json。D57工作区supermimic-official-workspace，历史tmux sm-o1-official-lafan40-s0；官方源码abc124c、作者研究库dd51a9f。latest_training的evaluation_pending是退出快照，final已完成。不重跑O1、不补6h/12h或追加O1预算。O2亦已完成，新阶段按顶部O7独立方案接续；既有LAFAN验收成果和其他任务保留。
 - **P11最新结论：** 两路均36000，原残差全BONES R=.86375135、129152/130394完整、hard312/639；高度约束R=.85693786、129598完整、hard305/639。候选多446条完整主要来自普通动作，回报及同输入WM误差较差；两路flip0/44、handstand0/160，LAFAN终点均29/40。候选在部分中间节点与LAFAN跨节点保持有优势，不称全面退化。当前原WM在仍存活的倒立第16步高度已低估.100342m（S=.997672），与旧P9飘高诊断不同。合法k8起点bin全部得到WM曝光，66个零起点bin均为参考自然末尾不足8步，不能说关键开头未进learner。来源见本轮复核及review_20261111.json。
 - **P11两路训练、评分、固定证据与轻量发布已完成。** 启动核实时间 2026-11-10T11:23:31.198241+08:00；实际状态见results/20261110-p11-root-height-consistency-s0/summary.json。两路已按各自真实预算终点完成，不重复启动P10/P11或自动追加预算。两路同P10 hard27000完整resume，仅比较root-z残差与同次预测速度梯形高度；各8192/8192/WM10×4096，原hard配额，新增9000联合更新或累计20h，到36000；全BONES/LAFAN节点30000/33000/36000及实际终点。父七窗224步预测已完成，终点两WM各同输入一次。
-- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11也已完成；当前新增工作以顶部O6方案及启动词为准。
+- P10两路已于2026-11-10完成训练、全部正式评分、指定证据与轻量发布，均27000、各新增18000联合更新。control全BONES R=0.86659060、129579/130394、hard193/639、LAFAN0.81479628/36完整/起身5；candidate全BONES R=0.85921480、129516/130394、hard298/639、LAFAN0.78821171/33完整/起身3。candidate侧滚21/22、侧手翻85/120，但flip0/44、handstand0/160。结果见results/20261108-p10-8k-hard-practice-s0/summary.json、conclusion.md和paired_comparison.json。两个训练tmux正常结束；不重复启动或追加P10预算。P11也已完成；当前新增工作以顶部O7方案及启动词为准。
 - P9三路训练、全部正式评分与轻量发布均已完成。LAFAN原Critic60000为0.89043870/38完整，加权为0.84312458/36；全库9000为0.84379710、129220/130394，264.430633h，LAFAN保持29/40且起身0/6。复核见docs/P9_REVIEW_20261108.md及results/20261107-p9-critic-full-scale-s0/review_20261108.json，实际完成状态见该campaign的summary.json。
 - P8已经全部完成：results/20261106-p8-stability-scale-s0/summary.json、conclusion.md。H32/H16均51000，分别0.86980516/37成功、0.73023952/31成功；BONES9000为0.78952191、16631/17301，LAFAN保持10/40、0.35465644。三个训练tmux正常退出，不重复启动或延长P8。
 - P7已完成训练、正式评分、关键证据和轻量发布。continuation C42000为0.85912099、36/40、完成96.6163%、起身4/6、末三均值0.84328782与共同成功33；fresh F9000为0.52562120、20/40、起身0/6，约10h内未达0.82。源状态与比较见results/20261105-p7-feedback-reproduction-s0。续训33/40动作回报提高，主要新增损失集中两条起身；不能概括成整体精度持续退化。
@@ -25,7 +26,7 @@
 - P3 20261102-h32-bce-s0 已完成，status=completed、unpublished=[]。C0-9000保留辅助BCE达到29/40、回报0.615404、起身3/6；C1删除BCE为15/40、0.482603。父B6000为13/40、0.409124。继续有效C0，不重跑P3。
 - P4本段已完成：9000→18000，新增9000次联合更新/10.198小时；最终32/40、回报0.706754、起身3/6、跑步4/4。2026-11-04 02:55轻量发布完成，原tmux正常退出；不重复启动或自动追加训练。大产物留服务器待用户备份，不授权阶段自动清理。
 - 原文Eq.(1)没有要求BCE对预测状态detach；k8/H32是默认。不能把BCE回传直接称为错误，也不能称C1是作者原版。
-- 独立实现历史研究问题包括困难动作与能力保持；O2官方BONES-only从零训练已完成，O3同父权重固定学习率比较已完成，O4单路低LR长段已完成且退化，O5同父优化器对照已完成，当前新增方案为O6从零Adam+cosine，LAFAN仍只作跨库评分。P7从零学习暴露的问题保留，P9不机械再跑相同fresh9000。51000轮不是收敛证据。Table A.5为320000轮、LR衰减250000轮，但LAFAN达到0.82的迭代数未公开，不盲跑320000。迭代比例不是复现完成百分比。
+- 独立实现历史研究问题包括困难动作与能力保持；O2官方BONES-only从零训练已完成，O3同父权重固定学习率比较已完成，O4单路低LR长段已完成且退化，O5同父优化器对照已完成，O6从零Adam+cosine已完成并复核，当前新增方案为O7同配方去除collection动作噪声，LAFAN仍只作跨库评分。P7从零学习暴露的问题保留，P9不机械再跑相同fresh9000。51000轮不是收敛证据。Table A.5为320000轮、LR衰减250000轮，但LAFAN达到0.82的迭代数未公开，不盲跑320000。迭代比例不是复现完成百分比。
 
 ## 2026-11-11 专项存储迁移（仅明确调用本任务时执行）
 
@@ -45,7 +46,22 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O6下一轮实施（训练、全部实际节点评分与轻量发布已完成）
+## O7下一轮实施（方案已发布，尚未部署或启动）
+
+- 完整约定为docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md、docs/O7_CODEX_START_PROMPT.md和configs/o7_official_noise_removal_protocol.json。O6训练与评分已结束，不执行O6旧启动词；历史“不自动开O7”不覆盖用户后来明确调用O7执行的授权。本次仅发布计划，不启动服务器任务。
+- 从scripts/o6移植为scripts/o7，部署到现有官方工作区work/o7；官方隔离源码固定7e94b073940b7a19b9a82ff01e191cfb35c4ba91，研究库固定dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd。现有Python/资产/依赖继续使用，禁止uv sync/install/upgrade/rebuild。
+- 唯一训练算法变化是删除actor输出上的额外collection Gaussian及randn_like调用；不能noise=0仍消耗该次RNG。其余sensor/reset/DR noise不变。针对删除的noise上下文移植O3统计和O5全Adam分支，实际新patch放scripts/o7，不恢复noise字段、不改历史工作树。
+- 三网络、normalizer、三套Adam、replay、sampler、RNG全部fresh seed0；parent=null、wandb_run_path=None，data_lineage直接读现有manifest。保持O6全Adam WD0、2e-4余弦到250k的6e-6并保持到320k、4096env、proprio/history10、WM8状态/7转移、ActorH32等全部配方。
+- 320000 completed collection为唯一训练预算；joint127997仅预期。无后台小时截止、无回报早停、无自动追加；tmux跨≤4小时交互窗口连续。保留initial/rolling20/四个正式里程碑，训练child退出后评正式唯一节点，结束/评分/发布状态分开。
+- 协议fixed_quality_timeseries.members/timing是评分器运行源，completion/current_execution是执行状态源。移植common.PROTOCOL_PATH、publisher目标/文档状态与O7 handoff；不要漏completion或用重复顶层false标志造成状态矛盾。
+- 保持130394完整数据与原clean evaluator，不重筛/转码/pack、不扣SONIC关键词命中失败。现已发现token crutch漏crutches，但SONIC表不是作者精确成员表；最终净多880不证明包含关系。作者精确manifest/config/checkpoint仍待闭合，不以此阻塞这次定义清楚的实验。
+- 同节点配对O6已有评分，报告全库与共同完整集合、恢复/新增/持续失败、hard639、四技能、monkey18、wall12、crutches432、全部长动作494及LAFAN跨库；不重放旧checkpoint，不逐动作混用模型。
+- 同次正式评分固定时序16/63672/101155/124371/1216/9457；最多8条32步失败窗。只保存已有张量。三名称reset组在O7自己的diagnostics扩展中积累，返回原sampler同一frames，不改历史scripts/o3、不新增模型/仿真/RNG；reset share不冒充transition曝光。
+- 一路GPU训练，正式GPU评分/发布共用原p2-publication.lock，总并发1，训练不持锁；CPU必要分析≤12个单线程worker，各训练/评分Torch2线程。资源冲突等可用容量，不停其他项目、不做容量benchmark。
+- 按真实结果发布，不承诺39→1；作者Muon新报告为bones_full/300k iterations/2 GPUs/history10，Adam仅10→7，我方不同配置/数据/单seed。持平或混合也如实交付，不自动O8或扩预算。P12暂停、O1/P6验收保留。
+- 大产物留服务器，不Release/tar/本机归档或阶段清理，保留既有rolling20和保护节点；不新增单元/mock/冒烟/导入/形状/哈希测试、恢复演练、全盘扫描或通用防御框架。只修实际运行问题。
+
+## O6历史实施（训练、全部实际节点评分、轻量发布与复核已完成）
 
 - 以docs/O6_OFFICIAL_ADAM_COSINE_PLAN.md和configs/o6_official_adam_cosine_protocol.json为完整约定；当前真实状态见O6_EXECUTION_HANDOFF.md。使用现有环境、隔离工作树，scripts/o6统一部署到supermimic-official-workspace/work/o6；不再执行O5适配器。
 - 从零三网络/normalizer/optimizer/replay/sampler，parent=null、wandb_run_path=None；data_lineage从已有数据manifest取得。历史模型只作评分参照。
@@ -209,7 +225,7 @@
 
 ## P5实施（历史已完成，不重复执行）
 
-P5两支均已完成到24000；本节保留原方案供溯源，当前新增执行入口为顶部O6启动词。
+P5两支均已完成到24000；本节保留原方案供溯源，当前新增执行入口为顶部O7启动词。
 
 - 从同一C0-18000恢复两支完整联合训练：A c0_control保持原设置；B actor_half_lr只给Actor学习率乘0.5。两组各新增6000次更新到24000，各自新训练阶段上限16小时，含一次64步replay填充；正式评估和轻量发布另计，不自动追加预算。
 - 在每轮set_schedule应用actor_learning_rate_scale=1.0/0.5；WM/Critic保持原基础LR和全局余弦日程，恢复Adam/sampler/RNG，不重置迭代。不能只改初始化LR，也不能把公共learning_rate减半。完整执行真实采样→WM拟合→Actor/Critic。
@@ -255,6 +271,7 @@ P5两支均已完成到24000；本节保留原方案供溯源，当前新增执�
 - 保留产物留服务器待用户备份是正常结果，不把它们列为必须补传才能完成研究的失败项。阶段收尾报告真实成绩、轻量GitHub链接和本地产物位置，不自动删除或重新归档。
 - 永久保护源码、scripts/configs/docs、.git/stash、.venv、依赖锁、激活脚本、G1 XML/网格、开发工作树、仍在使用的输入/父模型、其他项目和共享依赖。
 - 禁止删除项目根、整个outputs/.cache/work，禁止旧finish或20261101整体清理入口删除保留实验原件。P3已完成的历史清理不重做。
+
 
 
 
