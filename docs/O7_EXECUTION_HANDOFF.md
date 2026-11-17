@@ -1,6 +1,6 @@
 # O7 执行交接
 
-更新时间：2026-11-17T23:22:21.299410+08:00；实际状态：**evaluating_lafan**。
+更新时间：2026-11-17T23:25:30.066913+08:00；实际状态：**evaluating_lafan**。
 
 - collection：320000/320000；实际joint：127997；真实transition：1310720000。
 - tmux：`sm-o7-adam-noise0-s0`。已存在budget或活动进程时不重复启动训练。
@@ -13,7 +13,7 @@
 - 320000 collection是完成条件；127997 joint仅为预期。无后台小时截止、无回报早停。
 - 固定80k/160k/250k/320k只保存；训练child退出后依次全BONES和LAFAN评分、逐节点轻量发布。
 - 同次正式评分保存协议固定六条时序和final最多8失败尾窗。O6同节点分数复用，不重跑旧模型。
-- 训练完成：True；正式评分完成：False；轻量结果发布：False。completion/current_execution是当前状态源。
+- 训练完成：True；正式评分完成：True；轻量结果发布：True。completion/current_execution是当前状态源。
 - driver日志：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261117-o7-official-noise-removal-s0/driver.log`；训练日志：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o7-bones-adam-cosine-noise0-s0/train_official.log`。
 - PID/退出：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261117-o7-official-noise-removal-s0/training_child.json`、`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/20261117-o7-official-noise-removal-s0/training_child_exit.json`。
 - 实时训练：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o7-bones-adam-cosine-noise0-s0/progress.json`；节点：`/root/autodl-tmp/robot-repro/supermimic-official-workspace/outputs/o7-bones-adam-cosine-noise0-s0/nodes.json`。
