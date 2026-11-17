@@ -8,7 +8,7 @@
 
 ## 当前任务与证据
 
-- **当前新增主线O7：** 运行适配已部署，待启动（prepared）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；官方7e94b0实际删除collection Gaussian采样，保留其余噪声；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=0/320000，实际joint=0。无小时截止；tmux sm-o7-adam-noise0-s0，活动任务不重启。状态results/20261117-o7-official-noise-removal-s0/summary.json，接续docs/O7_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布，复用O6同节点成绩。O1–O6不重启；O1/P6验收保留，P12暂停，不开O8。
+- **当前新增主线O7：** 单路从零正式训练运行中（training）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；官方7e94b0实际删除collection Gaussian采样，保留其余噪声；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=0/320000，实际joint=0。无小时截止；tmux sm-o7-adam-noise0-s0，活动任务不重启。状态results/20261117-o7-official-noise-removal-s0/summary.json，接续docs/O7_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布，复用O6同节点成绩。O1–O6不重启；O1/P6验收保留，P12暂停，不开O8。
 - **O6已完成并全量复核：** 320000 collection、127997 joint、1310720000真实transition；终点R=.953665488/39失败/XY5.180cm，250k为.953232182/36/5.229cm。最后70k修复11、丢失14，共同完整130344条精度仍改善；hard639失败25→28、monkey18仅完整1条，全部494长动作完整但尾段小幅回撤。39条终点失败均有历史成功先例，不能整体归为坏数据。已读268份CSV、161份统计、45份小证据及全部142220条筛选记录，fresh/Adam/LR/计数/结束逻辑正确，无O4式广泛崩溃。见docs/O6_REVIEW_20261117.md与results/20261116-o6-official-adam-cosine-s0/review_20261117.json；结果commit8f23f4b。O6不重启、不扩预算，保护250k/320k与O5Muon32k。
 - **O5已完成并复核：** 两路各32000连续joint、全BONES与LAFAN评分及轻量发布完成。Muon WD0终点R=.91915658/50失败/XY12.24cm，Adam WD0终点R=.92838634/90失败/XY10.98cm；均未保住O3父.94430475/7.20cm。Muon50=父失败残留7+父成功新失43；共同完整动作中79.1%回报下降，Adam对应86.0%。已核对全部82份训练日志与逐动作原件，WD0/参数覆盖/计数正确；实际范数不支持网络近乎归零。详见docs/O5_REVIEW_20261116.md与results/20261115-o5-official-optimizer-s0/review_20261116.json。保护所有O5节点，不重启或扩预算。
 - **O4已完成并复核：** 连续132000新更新与全部评分/发布完成；+16k R=.92672114/71失败、+32k .90437763/93失败、+64k .80227512/7055失败、+96k .47643112/70303失败、final .62798132/47128失败。质量先下降、覆盖后崩溃，96k→final部分恢复但未回到父水平；固定低LR不足以解决长段退化。保护O3 quarter16k质量锚/32k共同父、O4+16k覆盖锚与全部历史节点，不从退化final默认续训。详见docs/O4_REVIEW_20261115.md和results/20261113-o4-official-bones-long-s0/review_20261115.json。O4 tmux已结束，不重启/扩预算；O1/P6验收保留，P12暂停。
@@ -46,7 +46,7 @@
 - 使用独立tmux。单个Codex交互窗口≤4小时，后台可跨窗口连续运行，交接不停止/重启训练、不重建replay、不重置LR。
 - 允许共享现有GPU，不另设12GiB限制、不要求独占、不停止其他任务；记录实际共享条件和耗时。
 
-## O7下一轮实施（运行适配已部署，待启动）
+## O7下一轮实施（单路从零正式训练运行中）
 
 - 完整约定为docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md、docs/O7_CODEX_START_PROMPT.md和configs/o7_official_noise_removal_protocol.json。O6训练与评分已结束，不执行O6旧启动词；历史“不自动开O7”不覆盖用户后来明确调用O7执行的授权。用户已明确授权执行O7；当前真实状态见O7_EXECUTION_HANDOFF.md与campaign summary。
 - 从scripts/o6移植为scripts/o7，部署到现有官方工作区work/o7；官方隔离源码固定7e94b073940b7a19b9a82ff01e191cfb35c4ba91，研究库固定dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd。现有Python/资产/依赖继续使用，禁止uv sync/install/upgrade/rebuild。

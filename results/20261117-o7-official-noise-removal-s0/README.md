@@ -1,6 +1,6 @@
 # O7 fresh Adam + cosine with collection action noise removed
 
-Status: **prepared**; training **not_started**. Updated 2026-11-17T11:14:17.051615+08:00.
+Status: **training**; training **running**. Updated 2026-11-17T11:14:32.970270+08:00.
 
 Completed collections 0/320000; actual joint updates 0; real transitions 0.
 Fresh seed0 WM/Actor/Critic/normalizers/optimizer/replay/sampler. parent=null; no historical weights or statistics loaded.
