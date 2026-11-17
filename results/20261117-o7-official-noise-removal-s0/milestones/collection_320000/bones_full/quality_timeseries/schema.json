@@ -1,0 +1,118 @@
+{
+  "quality_columns": [
+    "root_position_error_m",
+    "root_xy_error_m",
+    "root_z_absolute_error_m",
+    "root_orientation_error_rad",
+    "relative_body_position_error_m",
+    "relative_body_orientation_error_rad"
+  ],
+  "native_reward_term_columns": [
+    "motion_global_root_pos",
+    "motion_global_root_ori",
+    "motion_body_pos",
+    "motion_body_ori",
+    "motion_body_lin_vel",
+    "motion_body_ang_vel",
+    "action_rate_l2",
+    "joint_limit"
+  ],
+  "step_dt_seconds": 0.02,
+  "xyz_units": "metres, world coordinates including env_origin",
+  "orientation_units": "radians",
+  "delta_definition": "robot anchor minus reference anchor",
+  "timing": "Preserve native reward/termination timing. Quality uses existing post-step refreshed state and advanced reference. Record which frame/time each array represents; no reclassification of failures from raw final errors.",
+  "reference_frame": "post-step motion.time_steps, advanced reference",
+  "executed_transition": "one-based scored transition, includes first hard failure",
+  "cumulative_values": "every active physical transition, not the stride5 samples",
+  "termination": "native flags at native timing; do not reclassify from post-step quality",
+  "prefix_only": true,
+  "padding": false,
+  "members": [
+    {
+      "source_clip_id": 16,
+      "name": "body_stretch_V001_003__A272_M",
+      "reference_frames": 363,
+      "reference_transitions": 362,
+      "reference_duration_seconds": 7.24,
+      "diagnostic_group": "stable_control",
+      "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+      "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+    },
+    {
+      "source_clip_id": 63672,
+      "name": "jog_ff_loop_270_002__A181",
+      "reference_frames": 129,
+      "reference_transitions": 128,
+      "reference_duration_seconds": 2.56,
+      "diagnostic_group": "performance_divergence",
+      "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+      "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+    },
+    {
+      "source_clip_id": 101155,
+      "name": "Idle_Left_001__A017",
+      "reference_frames": 3827,
+      "reference_transitions": 3826,
+      "reference_duration_seconds": 76.52,
+      "diagnostic_group": "long_position_regression",
+      "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+      "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+    },
+    {
+      "source_clip_id": 124371,
+      "name": "Idle_Left_001__A019",
+      "reference_frames": 3827,
+      "reference_transitions": 3826,
+      "reference_duration_seconds": 76.52,
+      "diagnostic_group": "long_position_regression",
+      "selection_origin": "One of the four fixed-before-O6 examples; retained without reselection for O7.",
+      "O6_trace_availability": "Full sampled quality series from each O6 scheduled formal BONES evaluation."
+    },
+    {
+      "source_clip_id": 1216,
+      "name": "monkey_jump_006__A416",
+      "reference_frames": 200,
+      "reference_transitions": 199,
+      "reference_duration_seconds": 3.98,
+      "diagnostic_group": "persistent_difficult_skill_failure",
+      "selection_origin": "Fixed before O7 using the completed O6/O5 score evidence in the 2026-11-17 review.",
+      "reason": "O6 persistent failed monkey; O5 Muon historical success",
+      "O6_trace_availability": "Final failure tail only; no old replay authorized."
+    },
+    {
+      "source_clip_id": 9457,
+      "name": "monkey_jump_003__A304",
+      "reference_frames": 239,
+      "reference_transitions": 238,
+      "reference_duration_seconds": 4.76,
+      "diagnostic_group": "difficult_skill_success_control",
+      "selection_origin": "Fixed before O7 using the completed O6/O5 score evidence in the 2026-11-17 review.",
+      "reason": "Only O6 late successful monkey; O5 Muon historical failure",
+      "O6_trace_availability": "Published scalar scores only; no old replay authorized."
+    }
+  ],
+  "member_count": 6,
+  "sample_every_scoring_transitions": 5,
+  "npz_fields": [
+    "executed_transition",
+    "packed_reference_frame",
+    "active_before_step",
+    "terminated",
+    "truncated",
+    "end_of_executed_prefix",
+    "robot_anchor_pos_w",
+    "reference_anchor_pos_w",
+    "delta_xyz",
+    "quality",
+    "native_reward",
+    "native_reward_terms",
+    "cumulative_reward_sum",
+    "cumulative_term_sum",
+    "executed_time_seconds",
+    "clip_relative_reference_frame",
+    "reference_time_seconds",
+    "source_clip_id",
+    "env_origin"
+  ]
+}
