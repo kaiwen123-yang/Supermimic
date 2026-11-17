@@ -1,5 +1,7 @@
 # SuperMimic 独立复现
 
+> **2026-11-17 阶段决定：当前O7为最后一轮复现。** 完成原定训练、正式评分、轻量发布与O6/O7总结后，结束SuperMimic复现，转入学习所得和可微动力学模型整理。此决定不取决于O7是否进一步改善，不再追加O8、seed/超参扫描或恢复P12；已获得的LAFAN验收与O6基线保留。迁移到其他项目先做方法与接口分析，不自动启动新实验。见[复现收尾与学习计划](docs/REPRODUCTION_CLOSEOUT_AND_DYNAMICS_STUDY_20261117.md)。
+
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 
 > **当前新增主线O7：** 单路从零正式训练运行中（training）。seed0从零、parent=null，官方GenCoord/proprio/history10，BONES130394、4096环境；官方7e94b0实际删除collection Gaussian采样，保留其余噪声；三网全Adam WD0，LR2e-4按完成collection余弦衰减到250k的6e-6，保持到320k。当前collection=1291/320000，实际joint=514。无小时截止；tmux sm-o7-adam-noise0-s0，活动任务不重启。状态results/20261117-o7-official-noise-removal-s0/summary.json，接续docs/O7_EXECUTION_HANDOFF.md。训练退出后四节点评分与轻量发布，复用O6同节点成绩。O1–O6不重启；O1/P6验收保留，P12暂停，不开O8。
@@ -36,10 +38,10 @@
 
 - 论文：[arXiv:2610.28480v2](https://arxiv.org/abs/2610.28480v2)
 - 作者项目：[supermimic.github.io](https://supermimic.github.io/)
-- 当前路线：保留G1 + MuJoCo Warp独立实现及已达到的LAFAN1效果；O1官方LAFAN40和O2官方完整BONES均已完成，O3同父固定LR对照已完成，O4单路低LR长段已完成并发生退化；O5同父优化器对照已完成并复核；O6从零Adam+cosine已完成并全量复核；O7沿用该配方只删除官方collection动作噪声的方案已发布，尚未部署或启动，P12及独立实现新实验暂缓。
+- 当前路线：LAFAN对应指标已达标，O6已建立有效大规模仿真基线；当前O7完成既定训练/评分/发布后结束复现，转入学习总结与可微动力学方法整理。P12不恢复，其他项目的迁移先独立分析接口与适用条件，不自动启动实验。
 - 本仓库属于用户复现项目，不是作者官方仓库。O1实际使用[官方核心源码](https://github.com/HybridRobotics/supermimic/tree/abc124c1bd5976341034668af3d12c087f2f1f55)及[作者研究环境](https://github.com/HybridRobotics/mjlab_research/tree/dd51a9fcc98791a2f0b018b3c7f71a3eefd5ecdd)，在相邻独立工作区运行，未混入既有独立训练实现。初始5efbf114源码比较保留供溯源，研究依赖已取得，旧地址404不再阻塞。论文历史精确run配置和BONES筛选成员仍未取得，当前结果明确标为官方当前源码GenCoord/proprio/history10基线。论文最新[v2](https://arxiv.org/pdf/2610.28480v2)的核心方法与实验附录已核对，未实质改变原v1配方。
 
-下一步：[O6全量复核](docs/O6_REVIEW_20261117.md) · [O7完整计划](docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md) · [O7执行提示词](docs/O7_CODEX_START_PROMPT.md) · [O7协议](configs/o7_official_noise_removal_protocol.json)。
+O7收尾后：[复现所得与可微动力学学习](docs/REPRODUCTION_CLOSEOUT_AND_DYNAMICS_STUDY_20261117.md)。当前最后一轮资料：[O6全量复核](docs/O6_REVIEW_20261117.md) · [O7完整计划](docs/O7_OFFICIAL_NOISE_REMOVAL_PLAN.md) · [O7执行提示词](docs/O7_CODEX_START_PROMPT.md) · [O7协议](configs/o7_official_noise_removal_protocol.json)。
 
 ## D57 环境
 
