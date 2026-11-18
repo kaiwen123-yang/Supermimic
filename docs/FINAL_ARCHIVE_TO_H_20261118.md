@@ -1,5 +1,7 @@
 # SuperMimic 最终迁出 AutoDL 并归档到 H 盘
 
+> **本次迁出已执行完成。** 下文保留制定方案时的现场信息。实际迁出范围、核查结果和归档索引见[完成回执](../results/storage_export/20261118/final_evacuation_result.json)。
+
 日期：2026-11-18（北京时间）。目标仓库：`kaiwen123-yang/Supermimic`。本文件是可交给本机执行端的最终迁出任务，**不是迁出完成记录**。
 
 ## 1. 当前结论、授权与访问边界

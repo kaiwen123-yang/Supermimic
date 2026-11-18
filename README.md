@@ -4,7 +4,7 @@
 
 > **本轮专属迁出授权优先：最终迁入现有H:\Supermimic。** 用户明确授权将AutoDL系统盘、数据盘上全部SuperMimic专属源码/Git/stash/工作树、环境、模型、数据、资产、产物和缓存迁出；逐批本机确认完整读取、按主方案完成内容一致性确认、大小清单一致、服务器源未变化后，删除该批服务器专属原件。此授权覆盖旧日常“不在本机归档/源码环境及大产物保留服务器”默认；共享依赖与其他项目不删；共享Conda的根/base/共享pkgs受保护，envs下确为SuperMimic独占且无他用的环境仍纳入迁出。[最终迁出计划](docs/FINAL_ARCHIVE_TO_H_20261118.md) · [执行端提示词](docs/FINAL_ARCHIVE_CODEX_PROMPT_20261118.md) · [迁出状态](results/storage_export/20261118/final_evacuation_plan.json)。
 
-> **迁出当前状态：planned_access_blocked。** 本会话无法访问实际H盘或D57，现场存量未知；尚未执行迁移、逐批本地确认或服务器删除，不声称迁出成功。历史H盘归档记录不替代本轮确认。
+> **D57 上的 SuperMimic 专属内容已迁入 H 盘。** 共 133 批通过本机完整读取和内容核对。已按回执移除服务器上的 520,194 个专属普通文件，逻辑大小 274,520,260,898 字节。数据盘、系统盘和迁移临时目录的最终复查均已完成。 逐路径索引及回执保存在 `H:\Supermimic\00_inventory\20261118_184311_final`。[完成记录](results/storage_export/20261118/final_evacuation_result.json)
 
 > **验收结论：LAFAN1指标复现成功。** 用户确认以达到作者对应实验指标为准；P6 B33000全40正式评估回报0.86624655，超过论文0.82。P7及后续研究不撤销该项已达标结论，整篇论文的规模与效率证据另行区分。[依据](results/20261105-p6-position-feedback-s0/review_20261105.json)。
 

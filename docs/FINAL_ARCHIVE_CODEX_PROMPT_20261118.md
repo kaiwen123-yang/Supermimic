@@ -1,5 +1,7 @@
 # 本机 Codex：最终迁出 AutoDL SuperMimic 到 H 盘
 
+> **本次迁出已执行完成。** 下文保留制定方案时的现场信息。实际迁出范围、核查结果和归档索引见[完成回执](../results/storage_export/20261118/final_evacuation_result.json)。
+
 适用环境：能够同时访问用户真实 `H:\Supermimic` 和既有 SSH 别名 `autodl-d57` 的本机 Windows/WSL。只有 AutoDL 终端或聊天沙箱不能完成双端归档。先读取本机实际路径；不假定 WSL 已挂载 `/mnt/h`。
 
 以下提示词可直接交给本机执行端。用户已明确授权确认本地归档后删除服务器 SuperMimic 专属原件，无需再次请求同样的许可。

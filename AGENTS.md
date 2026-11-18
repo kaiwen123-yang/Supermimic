@@ -7,8 +7,8 @@
 - **O7训练、全部实际节点评分和轻量发布均已completed；SuperMimic复现阶段为closed，不再启动训练。** 已发布终点为320000 collection、127997 joint；完成证据见results/20261117-o7-official-noise-removal-s0/summary.json与docs/O7_EXECUTION_HANDOFF.md。不开O8、不恢复P12、不追加seed/超参扫描、仿真或实机复现实验。
 - 用户本轮明确授权将AutoDL系统盘、数据盘上**全部SuperMimic专属内容**最终迁入现有H:\Supermimic，包括源码/Git/stash/工作树与未提交改动、独立环境与依赖记录、模型、数据、机器人资产、运行产物和专属缓存。逐批在本机确认归档完整读取、按最终迁出主方案完成内容一致性确认、大小与冻结清单一致、服务器源未变化后，删除该批已确认的服务器专属原件。
 - 本轮专项授权覆盖下文及旧计划中“不在本机归档”“大产物留服务器”“环境/源码永久保留”等日常默认，范围仅限SuperMimic专属内容。历史保护节点和验收证据通过完整归档保留，不再要求其服务器副本永久常驻。其他项目、Conda根/base/共享pkgs、共享工具/依赖/缓存及仍被其他项目使用的真实底层文件不删；Conda envs下确为SuperMimic独占且无他用的环境仍须迁出。先辨明链接目标、共同Git目录与实际使用关系。
-- **本会话尚未执行迁移或删除，状态为planned_access_blocked。** 当前执行环境无法访问实际H盘或D57，现场存量、空间和依赖关系尚未核查；历史归档记录不等于本轮本地确认，不标记已迁出/已备份/已删除。不索取或公开密码、私钥等凭据内容。
-- 当前执行入口：[最终迁出计划](docs/FINAL_ARCHIVE_TO_H_20261118.md)、[执行端提示词](docs/FINAL_ARCHIVE_CODEX_PROMPT_20261118.md)、[迁出状态与范围](results/storage_export/20261118/final_evacuation_plan.json)。能够访问两端后按已授权范围继续，无需再次请求同一迁出授权；本次不新增训练、复现测试、哈希/冒烟/恢复演练或无关扫描。
+- **最终迁出已完成。** 共 133 批通过本机完整读取和内容核对。已按回执移除服务器上的 520,194 个专属普通文件，逻辑大小 274,520,260,898 字节。数据盘、系统盘和迁移临时目录的最终复查均已完成。 共享 Python、Conda、CUDA 及其他项目继续使用其原路径。[执行结果](results/storage_export/20261118/final_evacuation_result.json)
+- 归档索引为 `H:\Supermimic\00_inventory\20261118_184311_final\manifest.sqlite`，视图 `archive_lookup` 可按原路径定位归档包与成员。11 月 11 日的 278 个历史包和旧回执已原样保留。[迁出方案](docs/FINAL_ARCHIVE_TO_H_20261118.md)
 
 ## 2026-11-17 用户阶段决定（2026-11-18已落实：复现closed）
 
